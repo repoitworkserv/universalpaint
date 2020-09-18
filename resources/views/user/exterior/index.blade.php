@@ -4,7 +4,7 @@
 
 <div id="product-page">
 	<div class="container">
-		<div class="sub-navigation">Interior Products</div>
+		<div class="sub-navigation">Exterior Products</div>
 		<div class="product-tile">
 			<div class="heading-cat">Door Paint</div>
 			<div class="block">
