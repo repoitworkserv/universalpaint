@@ -751,7 +751,7 @@ class ProductPageController extends Controller
     }
 
     public function exterior()
-    {        
+    {
         $searchKey = '1';
                         
         $exterior_door;

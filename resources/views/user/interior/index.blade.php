@@ -17,6 +17,7 @@
 						<div class="prod-img" style="background-image:  url({!! asset('img/products') !!}/{{$list->featured_image}}); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 						<a href="/product/{{ $list->slug_name }}"></a></div>
 						<a href="/product/{{ $list->slug_name }}"><div class="title">{{ $list->name }}</div></a>
+
 					</div>    
 					@if($ctr == 4)
 						@break;
@@ -25,6 +26,7 @@
 			</div>
 			<div class="align-cntr-btn"><a href="/product-category/interior/door" target="_blank"><u>View all door paint &gt;</u></a></div>
 		</div>
+
 		<div class="product-tile">
 			<div class="heading-cat">Wall Paint</div>
 
@@ -42,10 +44,11 @@
 					@if($ctr == 4)
 						@break;
 					@endif	                 
-                @endforeach				
+        @endforeach				
 			</div>			
 			<div class="align-cntr-btn"><a href="/product-category/interior/wall" target="_blank"><u>View all wall paint &gt;</u></a></div>
 		</div>
+
 
 		<div class="product-tile">
 			<div class="heading-cat">Floor Paint</div>
@@ -130,6 +133,7 @@
 			</div>
 			<div class="align-cntr-btn"><a href="/product-category/interior/door" target="_blank"><u>View all automative paint &gt;</u></a></div>
 		</div>
+
 	</div>
 </div>
 

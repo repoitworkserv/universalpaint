@@ -150,6 +150,7 @@
                 @endforeach				
 			</div>
 			<div class="align-cntr-btn"><a href="/product-category/interior/door" target="_blank"><u>View all roof paint &gt;</u></a></div>
+
 		</div>
 	</div>
 </div>
