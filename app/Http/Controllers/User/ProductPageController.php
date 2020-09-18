@@ -729,7 +729,7 @@ class ProductPageController extends Controller
         }
         
         //automative
-        $param = 'automotive';
+        $param = 'automative';
         $cat = Category::where(function($q)use($param){            
             $q->where('name','=', $param);
         })->get();                
@@ -850,7 +850,7 @@ class ProductPageController extends Controller
         }
         
         //automative
-        $param = 'automotive';
+        $param = 'automative';
         $cat = Category::where(function($q)use($param){            
             $q->where('name','=', $param);
         })->get();                
