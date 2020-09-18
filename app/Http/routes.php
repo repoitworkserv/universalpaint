@@ -30,9 +30,11 @@ Route::get('/product-category/industrial', 'User\ProductPageController@industria
 //
 Route::get('/product-category/surface-preparation', 'User\ProductPageController@surfacePreparation');
 
-Route::get('/product-category/interior/door', function () {
-	return view('user.interior-door.index');
-});
+Route::get('/product-category/interior/door', 'User\ProductPageController@interior_door');
+
+// Route::get('/product-category/interior/door', function () {
+// 	return view('user.interior-door.index');
+// });
 
 Route::get('/product-category/exterior/door', function () {
 	return view('user.exterior-door.index');
