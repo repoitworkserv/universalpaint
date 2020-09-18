@@ -894,26 +894,67 @@ class ProductPageController extends Controller
     {
         $searchKey = '1';
         
-        $industrial_door = Product::where(function($q) use($searchKey){
-        if($searchKey != ''){
-                $q->where('industrial','=', $searchKey);
-            }
-        })->with(['ProductCategoryData'=>function($q) {            
-            $q->where('category_id',5);// exterior Door
-        }])->orderBy('id')
-        ->get();
+                         
+        $industrial_door;
+        $industrial_road_and_sidewalk;
+        $industrial_floor;        
+
+        //door
+        $param = 'door';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();          
+
+        if($cat){
+            
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();                    
+            $industrial_door = Product::where(function($q) use($producCategory){
+                $q->where('industrial','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
         
-        $industrial_wall = Product::where(function($q) use($searchKey){
-            if($searchKey != ''){
-                    $q->where('industrial','=', $searchKey);
-                }
-            })->with(['ProductCategoryData'=>function($q) {            
-                $q->where('category_id',5);// exterior Door
-            }])->orderBy('id')
-            ->get();
+        //Road and Sidewalk
+        $param = 'Road and Sidewalk';        
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $industrial_road_and_sidewalk = Product::where(function($q) use($producCategory){
+                $q->where('industrial','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+        
+        //floor
+        $param = 'floor';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();  
+                              
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $industrial_floor = Product::where(function($q) use($producCategory){
+                $q->where('industrial','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+        
 
 		$uid = Auth::id();
-        return view('user.industrial.index', compact('industrial_door','industrial_wall','uid'));
+        return view('user.industrial.index', compact('industrial_door','industrial_floor','industrial_road_and_sidewalk','uid'));        
     }
     public function surfacePreparation()
     {
