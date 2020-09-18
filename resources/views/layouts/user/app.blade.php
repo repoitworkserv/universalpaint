@@ -64,8 +64,15 @@
                         </div>
                         <div id="main-nav">
                             <a href="/">Home</a>
-                            <a href="#">About Us</a>
-                            <a href="#">Products</a>
+                            <div class="subnav">
+                                <button class="subnavbtn">Products <i class="fa fa-caret-down"></i></button>
+                                <div class="subnav-content">
+                                  <a href="/product-category/interior">Interior</a>
+                                  <a href="/product-category/exterior">Exterior</a>
+                                  <a href="/product-category/surface-preparation">Surface Preaparation</a>
+                                  <a href="/product-category/industrial">Industrial</a>
+                                </div>
+                              </div>                             
                             <a href="#">Request a Quote</i> </a>
                             <a href="#">Contact Us</a>       
                         </div>
