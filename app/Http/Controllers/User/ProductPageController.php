@@ -900,9 +900,7 @@ class ProductPageController extends Controller
     }
 
     public function industrial()
-    {
-        $searchKey = '1';
-        
+    { 
         $param = 'door';
         $cat = Category::where(function($q)use($param){            
             $q->where('name','=', $param);
@@ -958,28 +956,58 @@ class ProductPageController extends Controller
     }
     public function surfacePreparation()
     {
-        $searchKey = '1';
-        
-        $surface_preparation_door = Product::where(function($q) use($searchKey){
-        if($searchKey != ''){
-                $q->where('surface_preparation','=', $searchKey);
-            }
-        })->with(['ProductCategoryData'=>function($q) {            
-            $q->where('category_id',5);// exterior Door
-        }])->orderBy('id')
-        ->get();
+        $param = 'door';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
 
-        $surface_preparation_wall = Product::where(function($q) use($searchKey){
-            if($searchKey != ''){
-                    $q->where('surface_preparation','=', $searchKey);
-                }
-            })->with(['ProductCategoryData'=>function($q) {            
-                $q->where('category_id',5);// exterior Door
-            }])->orderBy('id')
-            ->get();
-        
+            $surface_preparation_door = Product::where(function($q) use($producCategory){
+                $q->where('surface_preparation','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
+
+        $param = 'floor';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $surface_preparation_floor = Product::where(function($q) use($producCategory){
+                $q->where('surface_preparation','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
+
+        $param = 'wall';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $surface_preparation_wall = Product::where(function($q) use($producCategory){
+                $q->where('surface_preparation','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
 		$uid = Auth::id();
-        return view('user.surface-preparation.index', compact('surface_preparation_door','surface_preparation_wall','uid'));
+        return view('user.surface-preparation.index', compact('surface_preparation_door','surface_preparation_wall','surface_preparation_floor','uid'));
     }
 
     public function interior_door()
