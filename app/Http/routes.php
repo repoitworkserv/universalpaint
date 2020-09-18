@@ -52,9 +52,7 @@ Route::get('/product-category/exterior/wall', function () {
 // 	return view('user.exterior.index');
 // });
 
-Route::get('/product-category/brands', function () {
-	return view('user.brands.index');
-});
+Route::get('/product-category/brands', 'User\BrandController@index');
 
 Route::get('/color-swatches', function () {
 	return view('user.color-swatches.index');
