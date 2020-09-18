@@ -639,14 +639,15 @@ class ProductPageController extends Controller
 
     public function interior()
     {        
-        $searchKey = '1';
+        $searchKey = 
+        '1';
         
         $interior_door;
         $interior_wall;
         $interior_floor;
         $interior_ceiling;
         $interior_furniture;
-        $interior_automotive;
+        $interior_automative;
 
         //door
         $param = 'door';
@@ -737,7 +738,7 @@ class ProductPageController extends Controller
         }
         
         //automative
-        $param = 'automotive';
+        $param = 'automative';
         $cat = Category::where(function($q)use($param){            
             $q->where('name','=', $param);
         })->get();                
@@ -767,7 +768,7 @@ class ProductPageController extends Controller
         $exterior_floor;
         $exterior_ceiling;
         $exterior_furniture;
-        $exterior_automotive;
+        $exterior_automative;
         $exterior_roof;
 
         //door
@@ -858,7 +859,7 @@ class ProductPageController extends Controller
         }
         
         //automative
-        $param = 'automotive';
+        $param = 'automative';
         $cat = Category::where(function($q)use($param){            
             $q->where('name','=', $param);
         })->get();                
