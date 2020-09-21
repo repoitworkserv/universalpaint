@@ -235,7 +235,15 @@ class ProductPageController extends Controller
         $user_condition = UserBrands::where('user_id', $uid)->where('brand_id', Product::with('BrandData')->findOrFail($product_id)->BrandData['id'])->get()->isEmpty();
         $query = ProductReviewsandRating::where('product_id', $product_id)->count();
         //dd($product[0]->ProductCategoryData[rand(0,(count($product[0]->ProductCategoryData) - 1))]['SameCategoryProduct']);
-        return view('user.product.details', compact('uid','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+        $category;        
+        if($product[0]->interior == 1) {
+            $category = 'interior';
+        }
+        if($product[0]->exterior == 1 ) {
+            $category .=  ' & exterior';
+        }
+
+        return view('user.product.details', compact('uid','category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
     }
 
     public function removeFilters(Request $request, $type, $filter, $name){
@@ -631,126 +639,428 @@ class ProductPageController extends Controller
 
     public function interior()
     {        
-        $searchKey = '1';
+        $searchKey = 
+        '1';
         
-        $category = Product::where(function($q) use($searchKey){
-        if($searchKey != ''){
-                $q->where('interior','=', $searchKey);
-            }
-        })->orderBy('id')
-        ->get();
+        $interior_door;
+        $interior_wall;
+        $interior_floor;
+        $interior_ceiling;
+        $interior_furniture;
+        $interior_automative;
+
+        //door
+        $param = 'door';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();          
+
+        if($cat){
+            
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();        
+            // $interior_door = Product::whereIn('id',$producCategory)->get();
+            $interior_door = Product::where(function($q) use($producCategory){
+                $q->where('interior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
         
+        //wall
+        $param = 'wall';        
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
 
-        $interior_door = Product::where(function($q) use($searchKey){
-            if($searchKey != ''){
-                    $q->where('interior','=', $searchKey);
-                }
-        })->with(['ProductCategoryData'=>function($q) {            
-            $q->where('category_id',4);// Interior Door
-        }])->orderBy('id')
-        ->get();
+            $interior_wall = Product::where(function($q) use($producCategory){
+                $q->where('interior','=',1);
+                $q->wherein('id',$producCategory);
 
-        $interior_wall = Product::where(function($q) use($searchKey){
-            if($searchKey != ''){
-                    $q->where('interior','=', $searchKey);
-                }
-        })->with(['ProductCategoryData'=>function($q) {            
-            $q->where('category_id',5);// Interior Wall
-        }])->orderBy('id')
-        ->get();
+            })->get();
+        }
+        
+        //floor
+        $param = 'floor';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();  
+                              
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $interior_floor = Product::where(function($q) use($producCategory){
+                $q->where('interior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+        
+        //ceiling
+        $param = 'ceiling';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+    
+            $interior_ceiling  = Product::where(function($q) use($producCategory){
+                $q->where('interior','=',1);
+                $q->wherein('id',$producCategory);
+            })->get();
+        }
+        
+        //furniture
+        $param = 'furniture';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $interior_furniture = Product::where(function($q) use($producCategory){
+                $q->where('interior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+        
+        //automative
+        $param = 'automative';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        
+        if($cat != null){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $interior_automative = Product::where(function($q) use($producCategory){
+                $q->where('interior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }               
 
 		$uid = Auth::id();
-        return view('user.interior.index', compact('category', 'interior_door','interior_wall','uid'));
+        return view('user.interior.index', compact('interior_door','interior_wall', 'interior_floor','interior_ceiling','interior_furniture','interior_automative','uid'));
     }
 
     public function exterior()
-    {        
-        // $searchKey = '1';
+    {
+        $searchKey = '1';
                         
-        // $exterior_door = Product::where(function($q) use($searchKey){
-        //     if($searchKey != ''){
-        //         $q->where('exterior','=', $searchKey);
-        //     }
-        // })->with(['ProductCategoryData'=>function($q) {            
-        //     $q->where('category_id',6);// exterior Door
-        // }])->orderBy('id')
-        // ->get();
+        $exterior_door;
+        $exterior_wall;
+        $exterior_floor;
+        $exterior_ceiling;
+        $exterior_furniture;
+        $exterior_automative;
+        $exterior_roof;
 
+        //door
+        $param = 'door';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();          
 
-        $cat_id = 6;
-        $exterior_door = Product::with(['ProductCategoryData'=>function($q) use($cat_id){
-            $q->where('category_id',$cat_id);
-        }])->orderBy('id')
-        ->get();
+        if($cat){
+            
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();                    
+            $exterior_door = Product::where(function($q) use($producCategory){
+                $q->where('exterior','=',1);
+                $q->wherein('id',$producCategory);
 
-        $catid = 7;
-        $exterior_wall = Product::with(['ProductCategoryData'=>function($q) use($catid){
-            $q->where('category_id',$catid);
-        }])->orderBy('id')
-        ->get();
+            })->get();
+        }
+        
+        //wall
+        $param = 'wall';        
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
 
+            $exterior_wall = Product::where(function($q) use($producCategory){
+                $q->where('exterior','=',1);
+                $q->wherein('id',$producCategory);
 
-        // $exterior_wall = Product::where(function($q) use($searchKey){
-        //     if($searchKey != ''){
-        //             $q->where('exterior','=', $searchKey);
-        //         }
-        // })->with(['ProductCategoryData'=>function($q) {            
-        //     $q->where('category_id',7);// exterior Wall
-        // }])->orderBy('id')
-        // ->get();
+            })->get();
+        }
+        
+        //floor
+        $param = 'floor';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();  
+                              
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $exterior_floor = Product::where(function($q) use($producCategory){
+                $q->where('exterior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+        
+        //ceiling
+        $param = 'ceiling';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+    
+            $exterior_ceiling  = Product::where(function($q) use($producCategory){
+                $q->where('exterior','=',1);
+                $q->wherein('id',$producCategory);
+            })->get();
+        }
+        
+        //furniture
+        $param = 'furniture';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $exterior_furniture = Product::where(function($q) use($producCategory){
+                $q->where('exterior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+        
+        //automative
+        $param = 'automative';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        
+        if($cat != null){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $exterior_automative = Product::where(function($q) use($producCategory){
+                $q->where('exterior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }         
+
+        //roof
+        $param = 'roof';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        
+        if($cat != null){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $exterior_roof = Product::where(function($q) use($producCategory){
+                $q->where('exterior','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }         
+
 
 		$uid = Auth::id();
-        return view('user.exterior.index', compact('exterior_door','exterior_wall', 'uid'));
+        return view('user.exterior.index', compact('exterior_door','exterior_wall', 'exterior_floor','exterior_ceiling','exterior_furniture','exterior_automative','exterior_roof','uid'));        
     }
 
     public function industrial()
-    {
-        $searchKey = '1';
-        
-        $industrial_door = Product::where(function($q) use($searchKey){
-        if($searchKey != ''){
-                $q->where('industrial','=', $searchKey);
-            }
-        })->with(['ProductCategoryData'=>function($q) {            
-            $q->where('category_id',5);// exterior Door
-        }])->orderBy('id')
-        ->get();
-        
-        $industrial_wall = Product::where(function($q) use($searchKey){
-            if($searchKey != ''){
-                    $q->where('industrial','=', $searchKey);
-                }
-            })->with(['ProductCategoryData'=>function($q) {            
-                $q->where('category_id',5);// exterior Door
-            }])->orderBy('id')
-            ->get();
+    { 
+        $param = 'door';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $industrial_door = Product::where(function($q) use($producCategory){
+                $q->where('industrial','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
+
+        $param = 'floor';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $industrial_floor = Product::where(function($q) use($producCategory){
+                $q->where('industrial','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
+
+        $param = 'Road and sidewalk';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $industrial_road_and_sidewalk = Product::where(function($q) use($producCategory){
+                $q->where('industrial','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
 
 		$uid = Auth::id();
-        return view('user.industrial.index', compact('industrial_door','industrial_wall','uid'));
+        return view('user.industrial.index', compact('industrial_door','industrial_floor','industrial_road_and_sidewalk','uid'));
     }
     public function surfacePreparation()
     {
-        $searchKey = '1';
-        
-        $surface_preparation_door = Product::where(function($q) use($searchKey){
-        if($searchKey != ''){
-                $q->where('surface_preparation','=', $searchKey);
-            }
-        })->with(['ProductCategoryData'=>function($q) {            
-            $q->where('category_id',5);// exterior Door
-        }])->orderBy('id')
-        ->get();
+        $param = 'door';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
 
-        $surface_preparation_wall = Product::where(function($q) use($searchKey){
-            if($searchKey != ''){
-                    $q->where('surface_preparation','=', $searchKey);
-                }
-            })->with(['ProductCategoryData'=>function($q) {            
-                $q->where('category_id',5);// exterior Door
-            }])->orderBy('id')
-            ->get();
-        
+            $surface_preparation_door = Product::where(function($q) use($producCategory){
+                $q->where('surface_preparation','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
+
+        $param = 'floor';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $surface_preparation_floor = Product::where(function($q) use($producCategory){
+                $q->where('surface_preparation','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
+
+        $param = 'wall';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();                
+        if($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray();
+
+            $surface_preparation_wall = Product::where(function($q) use($producCategory){
+                $q->where('surface_preparation','=',1);
+                $q->wherein('id',$producCategory);
+
+            })->get();
+        }
+
 		$uid = Auth::id();
-        return view('user.surface-preparation.index', compact('surface_preparation_door','surface_preparation_wall','uid'));
+        return view('user.surface-preparation.index', compact('surface_preparation_door','surface_preparation_wall','surface_preparation_floor','uid'));
+    }
+
+    public function interior_door()
+    {
+        $param = 'door';
+        $cat = Category::where(function($q)use($param){            
+            $q->where('name','=', $param);
+        })->get();          
+        $producCategory;
+        if($cat){
+            
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray(); 
+        }
+        $product = Product::with(['BrandData'=>function($query){
+            $query->with('ProductByBrand');
+        }])
+        ->with(['UsedVariables'=>function($query){
+            $query->with('VariableData');
+        }])
+        ->with(['UsedAttribute'=>function($query){
+            $query->with('AttributeData');
+        }])
+        ->with(['ParentData'=>function($query){
+            $query->with('BrandData');
+        }])
+        ->with(['ChildData'=>function($query){
+            $query->groupBy('featured_image');
+        }])
+        ->with(['ProductCategoryData'=>function($query){            
+            $query->with(['SameCategoryProduct'=>function($querytwo){
+                $querytwo->with(['ProductDetails'=>function($querythree){
+                    $querythree->where('parent_id',0);
+                }]);
+            }]);
+        }])
+        ->with('ProductOverview')
+        ->with(['ProductWishlist'=>function($query){
+            $query->where('user_id', Auth::id());
+        }])        
+        ->where('parent_id','=',0)
+        ->where('interior','=',1)
+        ->wherein('id',$producCategory)
+        ->get();        
+        $uid = Auth::id();             
+        $category;        
+        if($product[0]->interior == 1) {
+            $category = 'interior';
+        }
+        if($product[0]->exterior == 1 ) {
+            $category .=  ' & exterior';
+        }
+        return view('user.interior-door.index', compact('uid','category','product'));
     }
 }

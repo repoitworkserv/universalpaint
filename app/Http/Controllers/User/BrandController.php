@@ -19,22 +19,10 @@ class BrandController extends Controller
     public function index(Request $request)
     {
         $searchKey = trim($request->search);    
-        if(empty($searchKey)){
-            $brands  = Brand::where('hide_brand', '=', 0)->orderBy('name', 'asc')->get();
-        }
-        else {
-            $brands = Brand::where(function($q) use($searchKey){
-            if($searchKey != ''){
-                    $q->where('name','like', $searchKey. '%');
-                }
-            })->orderBy('name')->get();
-        }
-        $brandGroup = $brands->groupBy(function ($item, $key) {
-            return ucfirst($item->name[0]);
-        });
-		$uid = Auth::id();
-    	$userBrands = UserBrands::where('user_id',$uid)->pluck('brand_id')->all();
-        return view('user/brand/index', compact('brands', 'brandGroup', 'uid', 'userBrands'));
+        $brands = Brand::has('ProductByBrand')->get();
+        $uid = Auth::id();
+        $userBrands = UserBrands::where('user_id',$uid)->pluck('brand_id')->all();
+        return view('user.brands.index', compact('brands', 'brandGroup', 'uid', 'userBrands'));
     }
 
     public function detail($slug = '')
