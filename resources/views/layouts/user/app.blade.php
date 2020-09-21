@@ -55,32 +55,6 @@
     <div class="wrapper" id="loading-container">
         <header id="theme-header" class="theme-header fixed-half">
             <div class="header-content">
-                <!-- <div class="logo">
-                    <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
-                </div>
-                <div class="nav-container">
-                    <div class="navigation-social">
-                        <div id="header-contact">
-                            <p class="smll-text">follow and like us on</p>
-                            <a href="https://www.facebook.com/"><img src="{{ url('img/FB.png') }}"></a>
-                            <a href="https://www.facebook.com/"><img src="{{ url('img/IG.png') }}"></a>
-                        </div>
-                        <div id="main-nav">
-                            <a href="/">Home</a>
-                            <div class="subnav">
-                                <button class="subnavbtn">Products <i class="fa fa-caret-down"></i></button>
-                                <div class="subnav-content">
-                                  <a href="/product-category/interior">Interior</a>
-                                  <a href="/product-category/exterior">Exterior</a>
-                                  <a href="/product-category/surface-preparation">Surface Preaparation</a>
-                                  <a href="/product-category/industrial">Industrial</a>
-                                </div>
-                              </div>                             
-                            <a href="#">Request a Quote</i> </a>
-                            <a href="#">Contact Us</a>       
-                        </div> 
-                    </div>
-                </div> -->
                 <div class="logo">
                     <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
                 </div>
