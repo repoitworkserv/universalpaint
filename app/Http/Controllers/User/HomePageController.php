@@ -14,6 +14,7 @@ use App\Post;
 use App\PostMetaData;
 use App\Product;
 use App\UserBrands;
+use App\Brand;
 class HomePageController extends Controller
 {
     /**
@@ -43,8 +44,9 @@ class HomePageController extends Controller
         $uid = Auth::id();
         $user_type = Auth::user()['users_type_id'];
         $userBrands = UserBrands::where('user_id',$uid)->pluck('brand_id')->all();
+        $brands = Brand::get();
 // print_r( Auth::user()['users_type_id']); exit();
-        return view('user.home.index', compact('Page', 'Post', 'Product','uid', 'user_type','userBrands'));
+        return view('user.home.index', compact('Page', 'Post', 'Product','uid', 'user_type','userBrands','brands'));
     }
 
 }

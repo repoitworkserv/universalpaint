@@ -105,15 +105,28 @@
                                     <a class="nav-link" href="#">Home</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="nav-link " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Products
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                                    <div class="col-sm-6" >
                                         <a class="dropdown-item" href="/product-category/interior">Interior</a>
                                         <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
                                         <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
                                         <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
                                     </div>
+                                    <div class="col-sm-6" >
+                                        <a href="/product-category/brands">All Brands</a>
+                                        <div class="row">
+                                            @foreach($brands as $item)
+                                                @if($item->name == 'Other')
+                                                @else<a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}">{{$item->name}}</a>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    </div>
+
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Request a qoute</a>
