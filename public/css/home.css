@@ -125,35 +125,9 @@ p {
     /* display: flex !important; */
     margin-left: -60px;
     background-color: #dedede;
-    border: 0px solid transparent;
-    border-radius: 10px;
-
+    border: 0px solid white;
+    border-radius: 0px;
 }
-
-
-.dropdown-menu:after {
-    bottom: 100%;
-    left: 86%;
-    border: solid transparent;
-    content: " ";
-    height: 0%;
-    width: 0%;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(255, 255, 255, 0);
-    border-bottom-color: #dedede;
-    border-width: 12px;
-    margin-left: -12px;
-}
-
-.dropdown-item {
-    font-size: 13px;
-    letter-spacing: 2.4px;
-    color: rgba(0,0,0,.5) !important;
-    /* padding-left: 30px; */
-    padding: 14px 16px!important;
-}
-
 .nav-item {
     padding-left: 30px;
     text-transform: uppercase;
@@ -169,21 +143,33 @@ p {
     letter-spacing: 2.4px;
     text-transform: uppercase;
     padding-left: 30px;
-    border: solid 0px;
-}
-.nav-item a:nth-child(1) {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-.nav-item a:nth-child(4) {
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
 }
 .dropdown-menu {
     padding: 0px !important;
 }
 
+.dropdown-item {
+    font-size: 13px;
+    letter-spacing: 2.4px;
+    color: rgba(0,0,0,.5) !important;
+    /* padding-left: 30px; */
+    padding: 14px 16px!important;
+}
 
+.dropdown-menu.product-after:after {
+    bottom: 100%;
+    left: 85%;
+    border: solid transparent;
+    content: " ";
+    height: 0%;
+    width: 0%;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #dedede;
+    border-width: 12px;
+    margin-left: -12px;
+}
 
 .dropdown-item:focus, .dropdown-item:hover {
     background-color: #eee !important;
@@ -1419,6 +1405,11 @@ a.btn.white {
     line-height: 1.9;
 }
 
+/* dropdown content */
+
+.dropdown-menu {
+    /* width: 30rem !important; */
+}
 
 
 /**
@@ -1566,7 +1557,7 @@ a.btn.white {
 /* 990px */
 
 @media only screen and (max-width: 990px){
-    .dropdown-menu:after  {
+    .dropdown-menu.product-after:after {
         display: none;
     }
     .nav-wrapper {
