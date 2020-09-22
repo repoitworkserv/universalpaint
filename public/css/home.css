@@ -1419,6 +1419,11 @@ a.btn.white {
     line-height: 1.9;
 }
 
+/* dropdown content */
+
+.dropdown-menu {
+    width: 30rem !important;
+}
 
 
 /**
