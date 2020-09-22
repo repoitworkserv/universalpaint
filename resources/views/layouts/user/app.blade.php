@@ -55,6 +55,32 @@
     <div class="wrapper" id="loading-container">
         <header id="theme-header" class="theme-header fixed-half">
             <div class="header-content">
+                <!-- <div class="logo">
+                    <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
+                </div>
+                <div class="nav-container">
+                    <div class="navigation-social">
+                        <div id="header-contact">
+                            <p class="smll-text">follow and like us on</p>
+                            <a href="https://www.facebook.com/"><img src="{{ url('img/FB.png') }}"></a>
+                            <a href="https://www.facebook.com/"><img src="{{ url('img/IG.png') }}"></a>
+                        </div>
+                        <div id="main-nav">
+                            <a href="/">Home</a>
+                            <div class="subnav">
+                                <button class="subnavbtn">Products <i class="fa fa-caret-down"></i></button>
+                                <div class="subnav-content">
+                                  <a href="/product-category/interior">Interior</a>
+                                  <a href="/product-category/exterior">Exterior</a>
+                                  <a href="/product-category/surface-preparation">Surface Preaparation</a>
+                                  <a href="/product-category/industrial">Industrial</a>
+                                </div>
+                              </div>                             
+                            <a href="#">Request a Quote</i> </a>
+                            <a href="#">Contact Us</a>       
+                        </div> 
+                    </div>
+                </div> -->
                 <div class="logo">
                     <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
                 </div>
@@ -78,18 +104,20 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Home</a>
                                 </li>
-                                <li class="nav-item dropdown">
+                                <li class="nav-item dropdown product-after">
                                     <a class="nav-link " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Products
+                                        Products <i class="fa fa-caret-down"></i>
                                     </a>
-                                    <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
-                                    <div class="col-sm-6" >
+                                    <div class="row dropdown-menu product-after" aria-labelledby="navbarDropdownMenuLink">
+                                    <div  style="padding-left: 0px!important;">
                                         <a class="dropdown-item" href="/product-category/interior">Interior</a>
                                         <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
                                         <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
                                         <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
+                                        <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
                                     </div>
-                                    <div class="col-sm-6" >
+                                    </div>
+                                    <div>
                                         <a href="/product-category/brands">All Brands</a>
                                         <div class="row">
                                             @foreach($brands as $item)
