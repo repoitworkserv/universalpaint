@@ -45,7 +45,6 @@ class HomePageController extends Controller
         $user_type = Auth::user()['users_type_id'];
         $userBrands = UserBrands::where('user_id',$uid)->pluck('brand_id')->all();
         $brands = Brand::get();
-// print_r( Auth::user()['users_type_id']); exit();
         return view('user.home.index', compact('Page', 'Post', 'Product','uid', 'user_type','userBrands','brands'));
     }
 
