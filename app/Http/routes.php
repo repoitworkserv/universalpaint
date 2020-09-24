@@ -54,10 +54,9 @@ Route::get('/product-category/exterior/wall', function () {
 
 Route::get('/product-category/brands', 'User\BrandController@index');
 
-Route::get('/color-swatches', 'User\ProductPageController@color_swatches');
-// Route::get('/color-swatches', function () {
-// 	return view('user.color-swatches.index');
-// });
+Route::get('/color-swatches', function () {
+	return view('user.color-swatches.index');
+});
 
 Route::get('/contact-us', function () {
 	return view('user.contact-us.index');
@@ -98,11 +97,10 @@ Route::post('/add-cart', 'User\CartController@addcart');
 Route::post('/remove-cart', 'User\CartController@removecart');
 Route::post('/check-cart', 'User\CartController@checkcart');
 Route::get('/get-shipping-rate', 'User\CartController@get_shipping');
-Route::get('/checkout', 'User\CheckoutController@index');
 Route::group(['middleware' => ['auth']], function () {  
 	Route::get('logout', 'Admin\AuthController@getSignOut');
 	Route::get('/cart', 'User\CartController@index');
-	// Route::get('/checkout', 'User\CheckoutController@index');
+	Route::get('/checkout', 'User\CheckoutController@index');
 }); 
 Route::post('/checkout-dragonpay','User\CheckoutController@payment_dragonpay');
 Route::post('/checkout-dragonpaypostback','User\CheckoutController@payment_dragonpay_postback');

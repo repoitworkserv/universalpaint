@@ -3,11 +3,7 @@
 @section('content')
 	 <!-- Content Wrapper. Contains page content -->
 	
-	<style>
-		.color_attrib {
-			display: none;
-		}
-	</style>
+	
 	
 	  <section class="content-header">
 	    <h1>
@@ -46,7 +42,7 @@
             						<option >Select Variable</option>
             						@php
             						$str_id = '';
-            						$str_name = '';									
+            						$str_name = '';
             						@endphp
             						@foreach($variablelist as $vl)
             							<option value="{{$vl->id}}">{{$vl->name}}</option>
@@ -63,23 +59,6 @@
             					<label for="attrb_name">Name</label>
             					<input id="attrb_name" name="attrb_name" class="form-control" type="text"  value="">
 				            </div>
-							<div class="form-group color_attrib">
-            					<label for="attrb_catcolor">Cat Color</label>
-            					<input id="attrb_catcolor" name="attrb_catcolor" class="form-control" type="text"  value="">
-				            </div>
-							<div class="form-group color_attrib">
-            					<label for="attrb_red">Red</label>
-            					<input id="attrb_red" name="attrb_red" class="form-control" type="text"  value="">
-				            </div>
-							<div class="form-group color_attrib">
-            					<label for="attrb_green">Green</label>
-            					<input id="attrb_green" name="attrb_green" class="form-control" type="text"  value="">
-				            </div>
-							<div class="form-group color_attrib">
-            					<label for="attrb_blue">Blue</label>
-            					<input id="attrb_blue" name="attrb_blue" class="form-control" type="text"  value="">
-				            </div>
-
 				            <div class="form-group">
             					<label for="attrb_description">Description</label>
             					<textarea name="attrb_description" class="form-control" rows="5" id="attrb_description"></textarea>
@@ -108,7 +87,6 @@
                     <table id="example1" class="table table-striped" role="grid" aria-describedby="example1_info">
                     <thead>
                     <tr role="row">
-						<th>Cat Color</th>
                       <th>Name</th>
                       <th>Desciption</th>
                       <th>Variable</th>
@@ -120,21 +98,11 @@
 					@if(!empty($attributelist))
                      @foreach( $attributelist as $att )
 						<tr role="row" class="odd">
-							<td>{{ $att->cat_color }}</td>
                         	<td>{{ $att->name }}</td>
                         	<td>{{ $att->description }}</td>
                         	<td>{{ $att->VariableData['name'] }}</td>
                         	<td>
-                        		<a class="badge bg-orange edit-attrb" 
-								data-attrb_varid="{{ $att->variable_id }}" 
-								data-attrbid="{{ $att->id }}" 
-								data-attrbname="{{ $att->name }}" 
-								data-catcolor="{{ $att->cat_color}}" 
-								data-rattr="{{ $att->r_attr }}" 
-								data-gattr="{{ $att->g_attr }}" 
-								data-battr="{{ $att->b_attr }}" 
-								data-attrbdesc = "{{ $att->description }}" 
-								data-variabletype="{{ $att->VariableData['name'] }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
+                        		<a class="badge bg-orange edit-attrb" data-attrb_varid="{{ $att->variable_id }}" data-attrbid="{{ $att->id }}" data-attrbname="{{ $att->name }}" data-attrbdesc = "{{ $att->description }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
                         	</td>
                         </tr>
                         <tr>
@@ -151,6 +119,8 @@
         <!-- /.box-body -->
           <div class="pagination"> {{ $attributelist->links() }} </div>
         </div>
+
+
 
       </div>
     
@@ -176,24 +146,7 @@
                 			<div class="form-group">
             					<label for="edit_attrb_name">Name</label>
             					<input id="edit_attrb_name" name="edit_attrb_name" class="form-control" type="text"  value="">
-				            </div>							
-							<div class="form-group color_attrib">
-            					<label for="edit_attrb_catcolor">Cat Color</label>
-            					<input id="edit_attrb_catcolor" name="edit_attrb_catcolor" class="form-control" type="text"  value="">
 				            </div>
-							<div class="form-group color_attrib">
-            					<label for="edit_attrb_red">Red</label>
-            					<input id="edit_attrb_red" name="edit_attrb_red" class="form-control" type="text"  value="">
-				            </div>
-							<div class="form-group color_attrib">
-            					<label for="edit_attrb_green">Green</label>
-            					<input id="edit_attrb_green" name="edit_attrb_green" class="form-control" type="text"  value="">
-				            </div>
-							<div class="form-group color_attrib">
-            					<label for="edit_attrb_blue">Blue</label>
-            					<input id="edit_attrb_blue" name="edit_attrb_blue" class="form-control" type="text"  value="">
-				            </div>
-
 				            <div class="form-group">
             					<label for="edit_attrb_description">Description</label>
             					<textarea id="edit_attrb_description" name="edit_attrb_description" class="form-control" rows="5"></textarea>
@@ -225,15 +178,6 @@
             $(this).parent('form').submit();
         }
         
-	});
-	
-	$("#attrb_variable_name").on('change',function(){
-	attr = $(this).children('option:selected').html();
-		if(attr == 'Color') {
-			$(".color_attrib").css("display","block");
-		}else{
-			$(".color_attrib").css("display","none");
-		}
-	});
+    });
 </script>
 @stop

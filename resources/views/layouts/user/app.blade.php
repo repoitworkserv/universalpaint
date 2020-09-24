@@ -25,8 +25,8 @@
 
     <!--End Use for sharing-->
     <title>Universal Paint</title>
-    <link rel="stylesheet" href="/css/slick.css">
-    <link rel="stylesheet" href="/css/slick-theme.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/slick-theme.css">
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
@@ -109,13 +109,13 @@
                                         Products <i class="fa fa-caret-down"></i>
                                     </a>
                                     <div class="row dropdown-menu product-after" aria-labelledby="navbarDropdownMenuLink">
-                                        <div  style="padding-left: 0px!important;">
-                                            <a class="dropdown-item" href="/product-category/interior">Interior</a>
-                                            <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
-                                            <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
-                                            <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
-                                            <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
-                                        </div>
+                                    <div  style="padding-left: 0px!important;">
+                                        <a class="dropdown-item" href="/product-category/interior">Interior</a>
+                                        <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
+                                        <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
+                                        <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
+                                        <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                                    </div>
                                     </div>
                                     <div>
                                         <a href="/product-category/brands">All Brands</a>
@@ -131,10 +131,10 @@
 
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/request-a-quote">Request a qoute</a>
+                                    <a class="nav-link" href="#">Request a qoute</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/contact-us">Contact us</a>
+                                    <a class="nav-link" href="#">Contact us</a>
                                 </li>
                             </ul>
                         </div>
@@ -227,7 +227,6 @@
 <script src="js/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
 @yield('scripts')
 
 <script type="text/javascript">

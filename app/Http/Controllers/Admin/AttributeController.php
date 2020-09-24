@@ -79,11 +79,7 @@ class AttributeController extends Controller
         } else { 
 			$attrb = new Attribute;
 			$attrb->variable_id  = $request->attrb_variable_name;
-            $attrb->name  = $request->attrb_name;
-            $attrb->cat_color  = $request->attrb_catcolor;
-            $attrb->r_attr  = $request->attrb_red;
-            $attrb->g_attr  = $request->attrb_green;
-            $attrb->b_attr  = $request->attrb_blue;
+			$attrb->name  = $request->attrb_name;
 			$attrb->description  = $request->attrb_description;
 			$attrb->created_at = date('Y-m-d h:i:s');
 			if($attrb->save()){
@@ -140,11 +136,7 @@ class AttributeController extends Controller
 			$attribute = Attribute::where('id',$id)->get(); 
 			$n_attribute = $attribute[0];
 			$n_attribute->variable_id  = $request->edit_variable_name;
-            $n_attribute->name  = $request->edit_attrb_name;
-            $n_attribute->cat_color  = $request->edit_attrb_catcolor;
-            $n_attribute->r_attr  = $request->edit_attrb_red;
-            $n_attribute->g_attr  = $request->edit_attrb_green;
-            $n_attribute->b_attr  = $request->edit_attrb_blue;
+			$n_attribute->name  = $request->edit_attrb_name;
 			$n_attribute->description  = $request->edit_attrb_description;
 			$n_attribute->updated_at = date('Y-m-d h:i:s');
 			if($n_attribute->save()){
