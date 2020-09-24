@@ -356,6 +356,54 @@
 					            					</select>
 									            </div>
 	                						</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="where_to_use">Where to use</label>
+													<input id="where_to_use" name="parent_where_to_use" required class="form-control" type="text"  value="{{$productdetails->where_to_use}}">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="area">Area</label>
+													<input id="area" name="parent_area" required class="form-control" type="text"  value="{{$productdetails->area}}">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="best_used_for">Best Used For</label>
+													<input id="best_used_for" name="parent_best_used_for" required class="form-control" type="text"  value="{{$productdetails->best_used_for}}">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="features">Features</label>
+													<input id="features" name="parent_features" required class="form-control" type="text"  value="{{$productdetails->features}}">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="coverage">Coverage per 4L</label>
+													<input id="coverage" name="parent_coverage" required class="form-control" type="text"  value="{{$productdetails->coverage}}">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="finish">Finish</label>
+													<input id="finish" name="parent_finish" required class="form-control" type="text"  value="{{$productdetails->finish}}">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="application">Application</label>
+													<input id="application" name="parent_application" required class="form-control" type="text"  value="{{$productdetails->application}}">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-3 col-sm-12">
+												<div class="form-group">
+													<label for="packaging">Packaging</label>
+													<input id="packaging" name="parent_packaging" required class="form-control" type="text"  value="{{$productdetails->packaging}}">
+												</div>
+											</div>
 	                						<div class="col-md-3 col-sm-3 col-sm-12 saleprice_div">
 	                							<div class="form-group">
 					            					<label for="prodsaleprice">Sale Price</label>

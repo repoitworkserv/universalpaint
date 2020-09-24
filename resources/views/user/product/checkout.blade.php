@@ -83,6 +83,70 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="panel-body">
+                        <div id="cart">
+                            <div class="wrap-container">
+                                <div class="cart-page">
+                                    <div class="review-header">
+                                        <div class="brand"></div> <div class="shipping-details-header">CART</div>
+                                    </div>
+                                    <div class="products">
+                                        @if($cart)
+                                            @php $x=0; @endphp
+                                            @foreach($cart as $item)
+                                        <div class="items-lists">
+                                            <div class="col1"><img src="{{ URL::asset('img/products') }}/{{$item['product_data']['featured_image']}}"></div>
+                                            <div class="col2">
+                                                <div class="item-code">{{$item['name']}}</div>
+                                                <div class="item-desc">
+                                                    <div class="edit-btn"><i class="fas fa-pen"></i></div>
+                                                    <div class="item">
+                                                        <div class="name">Quantity</div>
+                                                        <div class="cart-qty-cntn">
+                                                                <div class="qty-plus"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                                                                <input class="form-control cart-qty" type="number" min="1" step="1" value="{{$item['qty']}}" data-index="{{$x}}">
+                                                                <div class="qty-minus"><i class="fa fa-minus" aria-hidden="true"></i></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="name"></div>
+                                                        <div class="color"></div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="name"></div>
+                                                        <div class="color"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col3">
+                                                <div class="item-delivery">{!!$item['description']!!}</div>
+                                            </div>
+                                            <div class="col4">
+                                                <div class="item">
+                                                        <div class="latest-price">&#8369; {{number_format($item['sale_price'] == 0 ? $item['price'] : $item['sale_price'], 2)}}</div>
+                                                        <div class="orig-price">{{$item['sale_price'] == 0 ? '' : '&#8369; ' . number_format($item['price'], 2)}}</div>
+                                                        {{-- @if($item['is_sale'] == 1)
+                                                        <div class="latest-price">&#8369; {{number_format($item['sale_price'] == 0 ? $item['price'] : $item['sale_price'], 2)}}</div>
+                                                        <div class="orig-price">{{$item['sale_price'] == 0 ? '' : '&#8369; ' . number_format($item['price'], 2)}}</div>
+                                                        @else
+                                                        <div class="latest-price">&#8369; {{number_format($item['price'], 2)}}</div>
+                                                        @endif --}}
+                                                        <div class="total-items">TOTAL : &#8369; {{number_format(($item['sale_price'] == 0 ? $item['price'] : $item['sale_price']) * $item['qty'], 2)}}</div>
+                                                </div>
+                                                <div class="item-delete"><button class="btn btn-xs btn-danger remove-cart" data-index="{{$x}}"><span class="glyphicon glyphicon-remove"></span></button></div>
+                                            </div>
+                                        </div>
+                                            @php $x++; @endphp
+                                        @endforeach
+                                    @endif
+                                    </div>                                                                
+                                </div>                                                                
+                                <a href="#" style="margin-left: auto;margin-right: auto;"><div type="button" class="btn btn-orange customer_order_btn" >ORDER NOW</div></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-12 shipping-details">
                     <div class="panel panel-default">
                         <div class="panel-body">
