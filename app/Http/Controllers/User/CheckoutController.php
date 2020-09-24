@@ -42,17 +42,21 @@ class CheckoutController extends Controller
     public function index(Request $request)
     {
 
+
+        
         $uid = Auth::id();
         $usermail = User::where('id', $uid)->get();
         $useraddress = UserAddress::where('user_id', $uid)->get(); 
         $shipping = ShippingGngRates::all();
         $cart = $request->session()->get('cart');
+        
         // print_r($cart);die();
         $message = 'Shop now';
         if(empty($cart)){
             return redirect('products')->with('error', $message);
         }
         else {
+            
             $sub_total = 0;
             for ($i=0; $i < count($cart); $i++) {
                 $cart[$i]['product_data'] = Product::where('id', $cart[$i]['id'])->first();
@@ -63,17 +67,20 @@ class CheckoutController extends Controller
                     $sub_total += $cart[$i]['qty'] * $cart[$i]['price'];
                 }
             }
-            for ($n=0; $n < count($shipping); $n++) {
-                if(stripos($shipping[$n]['location'], $useraddress[0]['province']) !== FALSE){
-                    $userhomeaddress = $shipping[$n]['location'];
-                    $useridaddress = $shipping[$n]['id'];
-                }
-                //dd($userhomeaddress);
-            }
-        }
+            //removed temporary 20200924
+            // for ($n=0; $n < count($shipping); $n++) {
+            //     if(stripos($shipping[$n]['location'], $useraddress[0]['province']) !== FALSE){
+            //         $userhomeaddress = $shipping[$n]['location'];
+            //         $useridaddress = $shipping[$n]['id'];
+            //     }
+            //     //dd($userhomeaddress);
+            // }
+            // dd($cart);
+        }        
+        
         // die();
         $uid = Auth::id();
-        return view('user/product/checkout', compact('sub_total', 'shipping', 'uid', 'useraddress','usermail','userhomeaddress', 'useridaddress'));
+        return view('user/product/checkout', compact('sub_total', 'shipping', 'uid', 'useraddress','usermail','userhomeaddress', 'useridaddress','cart'));
     }
 
     public function payment_dragonpay(Request $request) 
