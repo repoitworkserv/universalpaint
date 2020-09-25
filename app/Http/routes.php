@@ -53,6 +53,7 @@ Route::get('/product-category/exterior/wall', function () {
 // });
 
 Route::get('/product-category/brands', 'User\BrandController@index');
+Route::get('//product-category/brands/{id}', 'User\BrandController@slugName');
 
 Route::get('/color-swatches', function () {
 	return view('user.color-swatches.index');

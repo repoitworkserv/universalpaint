@@ -54,4 +54,10 @@ class BrandController extends Controller
 		 $slugname = array_key_exists('0', $brandsimggr) ? $brandsimggr[0]['slug_name'] : '';
         return view('user/brand/detail', compact('brand', 'selectedBrand', 'productCount', 'sampleProducts', 'uid','featuredimg','slugname','userBrands'));
     }
+
+    public function slugName($id){
+        //dd($id);
+        $brands = Brand::get();
+        return view('user.brands.details', compact('brands'));
+    }
 }
