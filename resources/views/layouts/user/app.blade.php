@@ -109,24 +109,26 @@
                                         Products <i class="fa fa-caret-down"></i>
                                     </a>
                                     <div class="row dropdown-menu product-after" aria-labelledby="navbarDropdownMenuLink">
-                                    <div  style="padding-left: 0px!important;">
-                                        <a class="dropdown-item" href="/product-category/interior">Interior</a>
-                                        <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
-                                        <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
-                                        <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
-                                        <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
-                                    </div>
-                                    </div>
-                                    <div>
-                                        <a href="/product-category/brands">All Brands</a>
-                                        <div class="row">
-                                            @foreach($brands as $item)
+                                        <div style="padding-left: 0px!important;">
+                                            <a class="dropdown-item" href="/product-category/interior">Interior</a>
+                                            <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
+                                            <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
+                                            <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
+                                            <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <a href="/product-category/brands">All Brands</a>
+                                            @if(!empty($brands))
+                                            <div class="row">
+                                                @foreach($brands as $item)
                                                 @if($item->name == 'Other')
                                                 @else<a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}">{{$item->name}}</a>
                                                 @endif
-                                            @endforeach
+                                                @endforeach
+                                            </div>
+                                            @endif
                                         </div>
-                                    </div>
                                     </div>
 
                                 </li>
@@ -189,7 +191,7 @@
                 </div>
             </div>
         </div>
-        <div id="footer">
+        <!-- <div id="footer">
             <div class="container">
                 <div class="top-con">
                     <div class="thumbnail-logo"><img src="{{ url('img/logo_nav.png') }}"></div>
@@ -214,7 +216,84 @@
                     <div class="thumbnail-logo"> <img src="{{ url('img/itworksm.png') }}"></div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <!-- Footer -->
+        <footer class="font-small pt-4">
+
+            <!-- Footer Links -->
+            <div class="container-fluid text-center text-md-left">
+
+                <!-- Grid row -->
+                <div class="row">
+
+                    <!-- Grid column -->
+                    <div class="col-md-6 mt-md-0 mt-3" style="display: flex; align-items: center; justify-content: center;">
+
+                        <!-- Content -->
+                        <img src="{{ url('img/logo_nav.png') }}">
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <hr class="clearfix w-100 d-md-none pb-3">
+
+                    <!-- Grid column -->
+                    <div class="col-md-3 mb-md-0 mb-3">
+
+                        <!-- Links -->
+                        <h5 class="text-uppercase">Head Office</h5>
+
+                        <ul class="list-unstyled">
+                            <li>
+                                <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippine</div </li> </ul> </div> <!-- Grid column -->
+
+                                <!-- Grid column -->
+                                <div class="col-md-3 mb-md-0 mb-3">
+
+                                    <!-- Links -->
+                                    <h5 class="text-uppercase">Contact Us</h5>
+
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <span>(632) 8646 8701</span>
+                                        </li>
+                                        <li>
+                                            <span>(632) 8646 3571</span>
+                                        </li>
+                                        <li>
+                                            <span>(632) 8646 8967</span>
+                                        </li>
+                                        <li>
+                                            <span>(63) 917 106 4579</span>
+                                        </li>
+                                        <li>
+                                            <span>Fax no. (632) 8646 8329</span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <!-- Grid column -->
+
+                    </div>
+                    <!-- Grid row -->
+
+                </div>
+                <!-- Footer Links -->
+
+                <!-- Copyright -->
+                <div class="footer-copyright text-center py-3">
+                    © 2020 www.universalpaint.net. All rights reserved. &nbsp;&nbsp;
+                    <a href="#">Site Map</a>
+                    &nbsp;|&nbsp;
+                    <a href="#">Terms of Use</a>
+                    &nbsp;|&nbsp;
+                    <a href="#">Privacy Policy</a>
+                    <div class="thumbnail-logo"> <img src="{{ url('img/itworksm.png') }}"></div>
+                </div>
+                <!-- Copyright -->
+
+        </footer>
+        <!-- Footer -->
     </div>
 </body>
 

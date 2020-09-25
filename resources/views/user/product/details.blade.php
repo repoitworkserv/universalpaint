@@ -9,12 +9,12 @@
         <div class="col-lg-12">
             {{ csrf_field() }}
             <div class="row">
-                <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">            
+                <div class="col-lg-12" style="padding-right: 0;">            
                     <div id ="product-page-list">
                         <div class="banner-img" style="background-image: url({{ url('img/p2.png') }}); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                         <div class="container">
                             <div class="sub-navigation">                                
-                                <div class="nav-right">{{ $category }} Products | Wall Paint</div>
+                                <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products | Wall Paint</div>
                             </div>
                             <div class="product-tile">
                                 <div class="block">
@@ -55,17 +55,17 @@
                                                 @section('ogdescription'){!! $proddesc !!}@stop
                                                 @section('ogurl',''){!!$url!!}@stop
                                                 @section('ogimg'){!! $img !!}@stop
-                                                <div class="left-bx">                
-                                                    <div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $product[0]->featured_image }}) ; background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
+                                                <div class="left-bx col-md-5 col-sm-12 col-12">                
+                                                    <div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $product[0]->featured_image }}); background-size: cover; background-repeat: no-repeat; background-position: center center; position: relative; left: 15px;"></div>
                                                     <div class="prod-btn">
                                                         <img src="{{ url('img/buttons/button.png') }}">
                                                         <a href="" class="yellow-btn">Download Product Brochure Pdf</a>
                                                         <a href="" class="yellow-btn">Safety data Sheets (SDS)</a>
                                                         <a href="" class="yellow-btn">Technical Data Sheet</a>
-                                                        <a href="" class="yellow-btn">Color Calculators</a>	
+                                                        <a href="" class="yellow-btn">Color Calculators</a>
                                                     </div>				
                                                 </div>
-                                                <div class="right-bx">
+                                                <div class="right-bx col-md-7 col-sm-12 col-12">
                                                     <div class="title">{{$key->ParentData ? $key->ParentData['name'] :$key->name}}</div>
                                                     <input type="hidden" id="productid" value="{{$key->id}}">
                                                     <input type="hidden" id="parentid" value="{{$key->ParentData ? $key->ParentData['id'] : $key->id}}">
@@ -129,7 +129,7 @@
                                                         <div class="sml-desc">{{ $key->packaging}}</div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                        <div class="option-list col-lg-11 col-xs-10">
                                                         <div class="row">
                                                             <div class="option-list col-lg-3 col-md-10 col-sm-10 col-xs-10">                                                                
                                                                 @if($key['product_type'] == 'multiple')                                                                
@@ -155,12 +155,12 @@
                                                             <input type="hidden" id="var-count" value="{{count($key->UsedVariables)}}">                                                               
                                                             <input type="hidden" id="avail-qty" value="{{$key->product_type == 'multiple' ? 0 : $key->quantity}}">
                                                             <!-- <div class="row option-field"> -->
-                                                                <div class="color-area col-lg-3 col-md-4 col-sm-4 col-xs-4">
+                                                                <div class="color-area col-lg-12 col-sm-12">
                                                                     <div class="row">
                                                                         <div class="quantity col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                             <div id="quantity_id" class="quantity-select">
                                                                                 <div class="qty-tally minus-qty"><i class="fa fa-minus" aria-hidden="true"></i></div>
-                                                                                <input style="width: 70px; position: relative;" class="prod_qty numbers-only" data-cartid="cart_id" value="0" id="prod_qty" name="prod_qty">
+                                                                                <input style="width: 35px; position: relative; margin: 0 10px;" class="prod_qty numbers-only" data-cartid="cart_id" value="0" id="prod_qty" name="prod_qty">
                                                                                 <div class="qty-tally plus-qty"><i class="fa fa-plus" aria-hidden="true"></i></div>
                                                                             </div>
                                                                         </div>                                                                        
@@ -168,7 +168,7 @@
                                                                 </div>
                                                                 
                                                             <!-- </div> -->
-                                                            <form action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data">
+                                                            <form class="col-sm-12" action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data">
                                                                 {!! csrf_field() !!}
                                                                 <input type="hidden" name="shipping_width" id="shipping_width" value="{{$key->product_type == 'single' ? $key->shipping_width : $key->ParentData['shipping_width']}}">
                                                                 <input type="hidden" name="shipping_length" id="shipping_length" value="{{$key->product_type == 'single' ? $key->shipping_length : $key->ParentData['shipping_length']}}">
@@ -197,9 +197,9 @@
                                                                 <input type="hidden" name="item_discount_type" id="item_discount_type" value="{{$key->product_type == 'single' ? $key->discount_type : $key->discount_type}}">
                                                                 <input type="hidden" name="item_description" id="item_description" value="{{$key->product_type == 'single' ? $key->description : $key->description}}">
                                                                 @if (empty($uid))
-                                                                    <a href="#" data-toggle="modal" data-target="#register_new_account"><button class="button button--aylen"tabindex="-1" id="add-cart"  disabled="true">ADD TO CART<i class="fas fa-shopping-bag"></i></button></a>
+                                                                    <a href="#" data-toggle="modal" data-target="#register_new_account"><button class="button button--aylen button-add-to-cart" tabindex="-1" id="add-cart" disabled="true">ADD TO CART<i class="fas fa-shopping-bag"></i></button></a>
                                                                 @else
-                                                                <a><button class="button" tabindex="-1" id="add-cart" disabled="true">ADD TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button></a>                                                            
+                                                                    <a><button class="button" tabindex="-1" id="add-cart" disabled="true">ADD TO CART &nbsp;<i class="fas fa-shopping-bag button-add-to-cart"></i></button></a>                                                            
                                                                 @endif
                                                             </form>
                                                         </div>
