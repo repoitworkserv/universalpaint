@@ -235,7 +235,7 @@ class ProductPageController extends Controller
         $user_condition = UserBrands::where('user_id', $uid)->where('brand_id', Product::with('BrandData')->findOrFail($product_id)->BrandData['id'])->get()->isEmpty();
         $query = ProductReviewsandRating::where('product_id', $product_id)->count();
         //dd($product[0]->ProductCategoryData[rand(0,(count($product[0]->ProductCategoryData) - 1))]['SameCategoryProduct']);
-        $category = '';        
+        $category;        
         if($product[0]->interior == 1) {
             $category = 'interior';
         }
@@ -243,22 +243,7 @@ class ProductPageController extends Controller
             $category .=  ' & exterior';
         }
 
-        if($product[0]->industrial == 1) {
-            $category = 'Industrial';
-        }
-
-        if($product[0]->surface_preparation == 1 ) {
-            $category .=  'Surface Preparation';
-        }
-
-        $color_count = $product[0]->UsedAttribute->count();
-        if($color_count >5 )
-        {
-                        
-            return view('user.color-swatches.index');
-        }else{
-            return view('user.product.details', compact('uid','category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
-        }                
+        return view('user.product.details', compact('uid','category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
     }
 
     public function removeFilters(Request $request, $type, $filter, $name){
@@ -517,7 +502,7 @@ class ProductPageController extends Controller
             	"product_child" => $product,
             	"user_type_id" =>  $user_type_id,
             	"pricetype" => $userprice,
-            );        
+        	);
         echo json_encode($value);
         // print_r($product);
     }
@@ -654,7 +639,8 @@ class ProductPageController extends Controller
 
     public function interior()
     {        
-        $searchKey = '1';
+        $searchKey = 
+        '1';
         
         $interior_door;
         $interior_wall;
@@ -1076,78 +1062,5 @@ class ProductPageController extends Controller
             $category .=  ' & exterior';
         }
         return view('user.interior-door.index', compact('uid','category','product'));
-    }
-
-    public function color_swatches() 
-    {
-        $param = 'blue';
-        $cat_blue = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();                                    
-    
-        $param = 'ACCENTS';
-        $cat_accents = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'BROWN';
-        $cat_brown = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'Gray';
-        $cat_gray = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'Green';
-        $cat_green = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'Indigo';
-        $cat_indigo = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();    
-           
-        $param = 'OFF WHITES';
-        $cat_off_whites = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'Orange';
-        $cat_orange = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'Red';
-        $cat_red = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'Violet';
-        $cat_violet = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
-        
-        $param = 'Yellow';
-        $cat_yellow = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();    
-
-
-        return view('user.color-swatches.index', compact('uid',
-        'cat_blue',
-        'cat_accents',
-        'cat_brown',
-        'cat_gray',
-        'cat_green',
-        'cat_indigo',
-        'cat_off_whites',
-        'cat_orange',
-        'cat_red',
-        'cat_violet',
-        'cat_yellow'
-        ));
     }
 }

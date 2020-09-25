@@ -66,119 +66,776 @@
 		<div class="color-section">
 			<div id="White" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-						@if(!empty($cat_off_whites))
-							@foreach($cat_off_whites as $color)
-							<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-								<div class="title">{{ $color->name }}</div>
-							</div>						
-							@endforeach
-						@endif               
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>		          
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>   		            
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>               
+		          </div>
 				</div>
 			</div>
 			<div id="Grey" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-							@if(!empty($cat_gray))
-								@foreach($cat_gray as $color)
-								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-									<div class="title">{{ $color->name }}</div>
-								</div>						
-								@endforeach
-							@endif
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D3D3D3;">
+		            	<div class="title">LightGray</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DCDCDC">
+		            	<div class="title">Gainsboro</div>
+		            </div>
+		            <div class="color-box" style="background-color:#b7b7b7;">
+		            	<div class="title">Whitesmoke</div>
+		            </div>
+		            <div class="color-box" style="background-color:#C0C0C0;">
+		            	<div class="title">Silver</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#BEBEBE;">
+		            	<div class="title">X11 Gray</div>
+		            </div>
+		          </div>
 				</div>
 			</div>
 			<div id="Brown" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-							@if(!empty($cat_brown))
-								@foreach($cat_brown as $color)
-								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-									<div class="title">{{ $color->name }}</div>
-								</div>						
-								@endforeach
-							@endif
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFE4C4;">
+		            	<div class="title">bisque</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFDEAD;">
+		            	<div class="title">Navajowhite</div>  
+		            </div>        
+		            <div class="color-box" style="background-color:#F5DEB3;">
+		            	<div class="title">Wheat</div>
+		            </div>      
+		            <div class="color-box" style="background-color:#DEB887;">
+		            	<div class="title">Burlywood</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F4A460;">
+		            	<div class="title">sandybrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFE4C4;">
+		            	<div class="title">bisque</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFDEAD;">
+		            	<div class="title">Navajowhite</div>  
+		            </div>        
+		            <div class="color-box" style="background-color:#F5DEB3;">
+		            	<div class="title">Wheat</div>
+		            </div>      
+		            <div class="color-box" style="background-color:#DEB887;">
+		            	<div class="title">Burlywood</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F4A460;">
+		            	<div class="title">sandybrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFE4C4;">
+		            	<div class="title">bisque</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFDEAD;">
+		            	<div class="title">Navajowhite</div>  
+		            </div>        
+		            <div class="color-box" style="background-color:#F5DEB3;">
+		            	<div class="title">Wheat</div>
+		            </div>      
+		            <div class="color-box" style="background-color:#DEB887;">
+		            	<div class="title">Burlywood</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F4A460;">
+		            	<div class="title">sandybrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>	            
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFE4C4;">
+		            	<div class="title">bisque</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFDEAD;">
+		            	<div class="title">Navajowhite</div>  
+		            </div>        
+		            <div class="color-box" style="background-color:#F5DEB3;">
+		            	<div class="title">Wheat</div>
+		            </div>      
+		            <div class="color-box" style="background-color:#DEB887;">
+		            	<div class="title">Burlywood</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F4A460;">
+		            	<div class="title">sandybrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFE4C4;">
+		            	<div class="title">bisque</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFDEAD;">
+		            	<div class="title">Navajowhite</div>  
+		            </div>        
+		            <div class="color-box" style="background-color:#F5DEB3;">
+		            	<div class="title">Wheat</div>
+		            </div>      
+		            <div class="color-box" style="background-color:#DEB887;">
+		            	<div class="title">Burlywood</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F4A460;">
+		            	<div class="title">sandybrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#8B4513;">
+		            	<div class="title">Saddlebrown</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFE4C4;">
+		            	<div class="title">bisque</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFDEAD;">
+		            	<div class="title">Navajowhite</div>  
+		            </div>        
+		            <div class="color-box" style="background-color:#F5DEB3;">
+		            	<div class="title">Wheat</div>
+		            </div>      
+		            <div class="color-box" style="background-color:#DEB887;">
+		            	<div class="title">Burlywood</div>
+		            </div>
+		          </div>
 				</div>
 			</div>
 			<div id="Purple" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-							@if(!empty($cat_violet))
-								@foreach($cat_violet as $color)
-								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-									<div class="title">{{ $color->name }}</div>
-								</div>						
-								@endforeach
-							@endif
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#E6E6FA;">
+		            	<div class="title">lavender</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Thistle</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Plum</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Violet</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#DA70D6;">
+		            	<div class="title">Orchid</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF00FF;">
+		            	<div class="title">Fuchsia</div>
+		            </div>
+		            <div class="color-box" style="background-color:#E6E6FA;">
+		            	<div class="title">lavender</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Thistle</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Plum</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Violet</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#DA70D6;">
+		            	<div class="title">Orchid</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF00FF;">
+		            	<div class="title">Fuchsia</div>
+		            </div>
+		            <div class="color-box" style="background-color:#E6E6FA;">
+		            	<div class="title">lavender</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Thistle</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Plum</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Violet</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#DA70D6;">
+		            	<div class="title">Orchid</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF00FF;">
+		            	<div class="title">Fuchsia</div>
+		            </div>
+		            <div class="color-box" style="background-color:#E6E6FA;">
+		            	<div class="title">lavender</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Thistle</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Plum</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Violet</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#DA70D6;">
+		            	<div class="title">Orchid</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF00FF;">
+		            	<div class="title">Fuchsia</div>
+		            </div>
+		            <div class="color-box" style="background-color:#E6E6FA;">
+		            	<div class="title">lavender</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Thistle</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Plum</div>
+		            </div>
+		            <div class="color-box" style="background-color:#D8BFD8;">
+		            	<div class="title">Violet</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#DA70D6;">
+		            	<div class="title">Orchid</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF00FF;">
+		            	<div class="title">Fuchsia</div>
+		            </div>
+		          </div>
 				</div>
 			</div>
 			<div id="Blue" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-						@if(!empty($cat_blue))					
-							@foreach($cat_blue as $color)
-							<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-								<div class="title">{{ $color->name }}</div>
-							</div>						
-							@endforeach
-						@endif		            
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#ADD8E6;">
+		            	<div class="title">lightblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#87CEFA;">
+		            	<div class="title">Deepblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#1E90FF;">
+		            	<div class="title">steelblue</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#4169E1;">
+		            	<div class="title">Royalblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B0E0E6;">
+		            	<div class="title">powderblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADD8E6;">
+		            	<div class="title">lightblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#87CEFA;">
+		            	<div class="title">Deepblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B0E0E6;">
+		            	<div class="title">powderblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADD8E6;">
+		            	<div class="title">lightblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#87CEFA;">
+		            	<div class="title">Deepblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#1E90FF;">
+		            	<div class="title">steelblue</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#4169E1;">
+		            	<div class="title">Royalblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B0E0E6;">
+		            	<div class="title">powderblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#1E90FF;">
+		            	<div class="title">steelblue</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#4169E1;">
+		            	<div class="title">Royalblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B0E0E6;">
+		            	<div class="title">powderblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADD8E6;">
+		            	<div class="title">lightblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#87CEFA;">
+		            	<div class="title">Deepblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#1E90FF;">
+		            	<div class="title">steelblue</div>    
+		            </div>
+		            <div class="color-box" style="background-color:#87CEFA;">
+		            	<div class="title">Deepblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#1E90FF;">
+		            	<div class="title">steelblue</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#4169E1;">
+		            	<div class="title">Royalblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B0E0E6;">
+		            	<div class="title">powderblue</div>
+		            </div>        
+		            <div class="color-box" style="background-color:#4169E1;">
+		            	<div class="title">Royalblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B0E0E6;">
+		            	<div class="title">powderblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADD8E6;">
+		            	<div class="title">lightblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADD8E6;">
+		            	<div class="title">lightblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#87CEFA;">
+		            	<div class="title">Deepblue</div>
+		            </div>
+		            <div class="color-box" style="background-color:#1E90FF;">
+		            	<div class="title">steelblue</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#4169E1;">
+		            	<div class="title">Royalblue</div>
+		            </div>  
+		          </div>
 				</div>
 			</div>
 			<div id="Green" class="tabcontent">
 				<div class="box-widget">
 		          <div class="color-picker">
-						@if(!empty($cat_green))							
-							@foreach($cat_green as $color)
-							<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-								<div class="title">{{ $color->name }}</div>
-							</div>						
-							@endforeach
-						@endif		                
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">green</div>
+		            </div>
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">darkgreen</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">greenyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">lawngreen</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#9ACD32;">
+		            	<div class="title">yellowgreen</div>
+		            </div>
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">green</div>
+		            </div>
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">darkgreen</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">greenyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">lawngreen</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#9ACD32;">
+		            	<div class="title">yellowgreen</div>
+		            </div>
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">green</div>
+		            </div>
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">darkgreen</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">greenyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">lawngreen</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#9ACD32;">
+		            	<div class="title">yellowgreen</div>
+		            </div>
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">green</div>
+		            </div>
+		            <div class="color-box" style="background-color:#008000;">
+		            	<div class="title">darkgreen</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">greenyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#ADFF2F;">
+		            	<div class="title">lawngreen</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#9ACD32;">
+		            	<div class="title">yellowgreen</div>
+		            </div>     
 		          </div>
 				</div>
 			</div>
 			<div id="Yellow" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-							@if(!empty($cat_yellow))
-								@foreach($cat_yellow as $color)
-								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-									<div class="title">{{ $color->name }}</div>
-								</div>						
-								@endforeach
-							@endif 
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#FFFFE0;">
+		            	<div class="title">lightyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFFACD;">
+		            	<div class="title">lemonchiffon</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FAFAD2;">
+		            	<div class="title">goldyell</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F0E68C;">
+		            	<div class="title">darki</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FFFF00;">
+		            	<div class="title">yellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFFFE0;">
+		            	<div class="title">lightyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFFACD;">
+		            	<div class="title">lemonchiffon</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FAFAD2;">
+		            	<div class="title">goldyell</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F0E68C;">
+		            	<div class="title">darki</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FFFF00;">
+		            	<div class="title">yellow</div>
+		            </div> 
+		            <div class="color-box" style="background-color:#FFFFE0;">
+		            	<div class="title">lightyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFFACD;">
+		            	<div class="title">lemonchiffon</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FAFAD2;">
+		            	<div class="title">goldyell</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F0E68C;">
+		            	<div class="title">darki</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FFFF00;">
+		            	<div class="title">yellow</div>
+		            </div>  
+		            <div class="color-box" style="background-color:#FFFFE0;">
+		            	<div class="title">lightyellow</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFFACD;">
+		            	<div class="title">lemonchiffon</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FAFAD2;">
+		            	<div class="title">goldyell</div>
+		            </div>
+		            <div class="color-box" style="background-color:#F0E68C;">
+		            	<div class="title">darki</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FFFF00;">
+		            	<div class="title">yellow</div>
+		            </div>  
+		          </div>
 		        </div>
 			</div>
 			<div id="Orange" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-							@if(!empty($cat_orange))
-								@foreach($cat_orange as $color)
-								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-									<div class="title">{{ $color->name }}</div>
-								</div>						
-								@endforeach
-							@endif 
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#FF7F50;">
+		            	<div class="title">coral</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF6347;">
+		            	<div class="title">tomato</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF4500;">
+		            	<div class="title">orange</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFA500;">
+		            	<div class="title">ornge</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FF8C00;">
+		            	<div class="title">darkorange</div>
+		            </div> 
+		            <div class="color-box" style="background-color:#FF7F50;">
+		            	<div class="title">coral</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF6347;">
+		            	<div class="title">tomato</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF4500;">
+		            	<div class="title">orange</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFA500;">
+		            	<div class="title">ornge</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FF8C00;">
+		            	<div class="title">darkorange</div>
+		            </div> 
+		            <div class="color-box" style="background-color:#FF7F50;">
+		            	<div class="title">coral</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF6347;">
+		            	<div class="title">tomato</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF4500;">
+		            	<div class="title">orange</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFA500;">
+		            	<div class="title">ornge</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FF8C00;">
+		            	<div class="title">darkorange</div>
+		            </div> 
+		            <div class="color-box" style="background-color:#FF7F50;">
+		            	<div class="title">coral</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF6347;">
+		            	<div class="title">tomato</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF4502;">
+		            	<div class="title">orange</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FFA500;">
+		            	<div class="title">ornge</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#FF8C00;">
+		            	<div class="title">darkorange</div>
+		            </div> 
+		          </div>
 		        </div>
 			</div>
 			<div id="Red" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
-							@if(!empty($cat_red))
-								@foreach($cat_red as $color)
-								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
-									<div class="title">{{ $color->name }}</div>
-								</div>						
-								@endforeach
-							@endif 
-					</div>
+		          <div class="color-picker">
+		            <div class="color-box" style="background-color:#CD5C5C;">
+		            	<div class="title">indianred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DC143C;">
+		            	<div class="title">crimson</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B22222;">
+		            	<div class="title">firebrick</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF0000;">
+		            	<div class="title">red</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#8B0000;">
+		            	<div class="title">darkred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#CD5C5C;">
+		            	<div class="title">indianred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DC143C;">
+		            	<div class="title">crimson</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B22222;">
+		            	<div class="title">firebrick</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF0000;">
+		            	<div class="title">red</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#8B0000;">
+		            	<div class="title">darkred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#CD5C5C;">
+		            	<div class="title">indianred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DC143C;">
+		            	<div class="title">crimson</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B22222;">
+		            	<div class="title">firebrick</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF0000;">
+		            	<div class="title">red</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#8B0000;">
+		            	<div class="title">darkred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#CD5C5C;">
+		            	<div class="title">indianred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DC143C;">
+		            	<div class="title">crimson</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B22222;">
+		            	<div class="title">firebrick</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF0000;">
+		            	<div class="title">red</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#8B0000;">
+		            	<div class="title">darkred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#CD5C5C;">
+		            	<div class="title">indianred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DC143C;">
+		            	<div class="title">crimson</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B22222;">
+		            	<div class="title">firebrick</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF0000;">
+		            	<div class="title">red</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#8B0000;">
+		            	<div class="title">darkred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#CD5C5C;">
+		            	<div class="title">indianred</div>
+		            </div>
+		            <div class="color-box" style="background-color:#DC143C;">
+		            	<div class="title">crimson</div>
+		            </div>
+		            <div class="color-box" style="background-color:#B22222;">
+		            	<div class="title">firebrick</div>
+		            </div>
+		            <div class="color-box" style="background-color:#FF0000;">
+		            	<div class="title">red</div>    
+		            </div>        
+		            <div class="color-box" style="background-color:#8B0000;">
+		            	<div class="title">darkred</div>
+		            </div>
+		          </div>
 		        </div>
 			</div>
 		</div>

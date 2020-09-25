@@ -201,17 +201,6 @@ class ProductController extends Controller
 				$newproduct->shipping_weight = $request->single_shipping_weight;
 				$newproduct->shipping_height = $request->single_shipping_height;
 				$newproduct->keywords		 = $request->single_keywords;
-
-				//new fields
-				$newproduct->where_to_use	= $request->single_where_to_use;
-				$newproduct->area		 	= $request->single_area;
-				$newproduct->best_used_for	= $request->single_best_used_for;
-				$newproduct->features		= $request->single_features;
-				$newproduct->coverage		= $request->single_coverage;
-				$newproduct->finish			= $request->single_finish;
-				$newproduct->application	= $request->single_application;
-				$newproduct->packaging		= $request->single_packaging;
-
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
 				}
@@ -282,17 +271,6 @@ class ProductController extends Controller
 				$newproduct->shipping_weight = $request->parent_shipping_weight;
 				$newproduct->shipping_height = $request->parent_shipping_height;
 				$newproduct->keywords		 = $request->parent_keywords;
-				
-				//new fields
-				$newproduct->where_to_use	= $request->parent_where_to_use;
-				$newproduct->area		 	= $request->parent_area;
-				$newproduct->best_used_for	= $request->parent_best_used_for;
-				$newproduct->features		= $request->parent_features;
-				$newproduct->coverage		= $request->parent_coverage;
-				$newproduct->finish			= $request->parent_finish;
-				$newproduct->application	= $request->parent_application;
-				$newproduct->packaging		= $request->parent_packaging;
-
 				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
@@ -708,17 +686,6 @@ class ProductController extends Controller
 				$newproduct->shipping_weight = $request->parent_shipping_weight;
 				$newproduct->shipping_height = $request->parent_shipping_height;
 				$newproduct->keywords		 = $request->parent_keywords;
-
-				//new fields
-				$newproduct->where_to_use	= $request->parent_where_to_use;
-				$newproduct->area		 	= $request->parent_area;
-				$newproduct->best_used_for	= $request->parent_best_used_for;
-				$newproduct->features		= $request->parent_features;
-				$newproduct->coverage		= $request->parent_coverage;
-				$newproduct->finish			= $request->parent_finish;
-				$newproduct->application	= $request->parent_application;
-				$newproduct->packaging		= $request->parent_packaging;
-				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
 				}
