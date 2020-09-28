@@ -108,27 +108,40 @@
                                     <a class="nav-link " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Products <i class="fa fa-caret-down"></i>
                                     </a>
-                                    <div class="row dropdown-menu product-after" aria-labelledby="navbarDropdownMenuLink">
-                                        <div style="padding-left: 0px!important;">
-                                            <a class="dropdown-item" href="/product-category/interior">Interior</a>
-                                            <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
-                                            <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
-                                            <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
-                                            <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                                    <div class="row dropdown-menu product-after"  aria-labelledby="navbarDropdownMenuLink">
+                              
+
+                                    <div class="container">
+                                        <div class="row">
+                                                <div class="col">
+                                                    <h2><a href="">All Products</a></h2>
+                                                    <hr>
+                                                    <a class="dropdown-item" href="/product-category/interior">Interior</a>
+                                                    <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
+                                                    <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
+                                                    <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
+                                                    <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <a href="/product-category/brands">All Brands</a>
-                                            @if(!empty($brands))
-                                            <div class="row">
-                                                @foreach($brands as $item)
-                                                @if($item->name == 'Other')
-                                                @else<a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}">{{$item->name}}</a>
+                                            <div class="col" >
+                                                <h2><a href="/product-category/brands">All Brands</a></h2>
+                                                <hr>
+                                                @if(!empty($brands))
+                                                <div class="row  responsive-item"  >
+            
+                            
+                                                    @foreach($brands as $item)
+                                                        @if($item->name == 'Other')
+                                                        @else<a class="dropdown-item" style="overflow-wrap: break-word; white-space: initial;" href="/product-category/brands/{{$item->slug_name}}">{{$item->name}}</a>
+                                                        @endif
+                                                        @endforeach
+                                                </div>
                                                 @endif
-                                                @endforeach
-                                            </div>
-                                            @endif
+                                            </div> 
                                         </div>
+                                        </div>                         
+                                     
+                                    
                                     </div>
 
                                 </li>

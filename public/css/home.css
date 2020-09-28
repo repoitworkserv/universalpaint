@@ -133,8 +133,7 @@ p {
 }
 
 .navbar .nav-item:hover .dropdown-menu {
-    /* display: flex !important; */
-    margin-left: -60px;
+    /* display: flex !important; */ 
     background-color: #dedede;
     border: 0px solid white;
     border-radius: 0px;
@@ -188,11 +187,21 @@ p {
 .dropdown-item:focus, .dropdown-item:hover {
     background-color: #eee !important;
 }
-
+.dropdown { 
+    position: static !important; 
+} 
+  
+.dropdown-menu { 
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)!important; 
+    margin-top: 0px !important; 
+    width: 100% !important; 
+} 
 .navbar .nav-item:hover .dropdown-menu {
     display: block;
 }
-
+.responsive-item{
+    overflow-y: auto; height: 75vh; 
+}
 .subnav-content {
     display: none !important;
     position: absolute;
@@ -1725,6 +1734,9 @@ a.btn.white {
 /* 770px */
 
 @media only screen and (max-width: 770px) {
+    .responsive-item{
+        overflow-y: auto; height: 60vh; 
+    }
     #fifth-section .block .color-desc:after {
         width: 222px;
         height: 224px;
@@ -1734,6 +1746,9 @@ a.btn.white {
 /* 700px */
 
 @media only screen and (max-width: 700px) {
+    .responsive-item{
+        overflow-y: auto; height: 30vh; 
+    }
     #main-nav .subnav .subnavbtn {
         padding-left: 10px;
     }
@@ -1746,6 +1761,7 @@ a.btn.white {
 /* 670px */
 
 @media only screen and (max-width: 670px) {
+
     #main-nav a, #main-nav .subnav .subnavbtn {
         font-size: 8px;
     }
@@ -1780,6 +1796,7 @@ a.btn.white {
 /* 575px */
 
 @media only screen and (max-width: 575px) {
+
     .button-add-to-cart {
         left: 0;
         width: 100%;
@@ -1789,6 +1806,7 @@ a.btn.white {
 /* 500px */
 
 @media only screen and (max-width: 500px) {
+
     .nav-container {
         width: 100%;
     }
