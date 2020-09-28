@@ -55,32 +55,6 @@
     <div class="wrapper" id="loading-container">
         <header id="theme-header" class="theme-header fixed-half">
             <div class="header-content">
-                <!-- <div class="logo">
-                    <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
-                </div>
-                <div class="nav-container">
-                    <div class="navigation-social">
-                        <div id="header-contact">
-                            <p class="smll-text">follow and like us on</p>
-                            <a href="https://www.facebook.com/"><img src="{{ url('img/FB.png') }}"></a>
-                            <a href="https://www.facebook.com/"><img src="{{ url('img/IG.png') }}"></a>
-                        </div>
-                        <div id="main-nav">
-                            <a href="/">Home</a>
-                            <div class="subnav">
-                                <button class="subnavbtn">Products <i class="fa fa-caret-down"></i></button>
-                                <div class="subnav-content">
-                                  <a href="/product-category/interior">Interior</a>
-                                  <a href="/product-category/exterior">Exterior</a>
-                                  <a href="/product-category/surface-preparation">Surface Preaparation</a>
-                                  <a href="/product-category/industrial">Industrial</a>
-                                </div>
-                              </div>                             
-                            <a href="#">Request a Quote</i> </a>
-                            <a href="#">Contact Us</a>       
-                        </div> 
-                    </div>
-                </div> -->
                 <div class="logo">
                     <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
                 </div>
@@ -113,7 +87,7 @@
 
                                     <div class="container">
                                         <div class="row">
-                                                <div class="col">
+                                                <div class="col-lg-4">
                                                     <h2><a href="">All Products</a></h2>
                                                     <hr>
                                                     <a class="dropdown-item" href="/product-category/interior">Interior</a>
@@ -123,23 +97,45 @@
                                                     <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
                                                 </div>
                                             </div>
-                                            <div class="col" >
+                                            <div class="col-lg-4" style="padding-bottom: 20px">
                                                 <h2><a href="/product-category/brands">All Brands</a></h2>
                                                 <hr>
-                                                @if(!empty($brands))
+                                                <!-- @if(!empty($brands))
                                                 <div class="row  responsive-item"  >
-            
-                            
                                                     @foreach($brands as $item)
                                                         @if($item->name == 'Other')
                                                         @else<a class="dropdown-item" style="overflow-wrap: break-word; white-space: initial;" href="/product-category/brands/{{$item->slug_name}}">{{$item->name}}</a>
                                                         @endif
                                                         @endforeach
                                                 </div>
+                                                @endif -->
+                                                @if(!empty($brands))
+                                                <div class="row">
+                                                <hr>
+                                                @for ($i = 0; $i < sizeof($brands); $i++)
+                                                    @if ($i < 9)
+                                                    @if($brands[$i]->name != 'Other')  
+                                                         <a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}"> {{$brands[$i]->name}}</a>     
+                                                    @endif
+                                                    @endif
+                                                @endfor
+                                                </div>
                                                 @endif
                                             </div> 
+                                            <div class="col-lg-4 seventh-column-dropdown">
+                                                @if(!empty($brands))
+                                                <div class="row">
+                                                @for ($i = 0; $i < sizeof($brands); $i++)
+                                                    @if ($i > 8)        
+                                                    <a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}"> {{$brands[$i]->name}}</a>     
+                                                    @endif
+                                                @endfor
+                                                </div>
+                                                @endif
+                                            </div> 
+                                          
                                         </div>
-                                        </div>                         
+                                     </div>                         
                                      
                                     
                                     </div>
