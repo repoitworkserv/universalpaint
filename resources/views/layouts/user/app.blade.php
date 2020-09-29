@@ -115,7 +115,7 @@
                                                 @for ($i = 0; $i < sizeof($brands); $i++)
                                                     @if ($i < 9)
                                                     @if($brands[$i]->name != 'Other')  
-                                                         <a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}"> {{$brands[$i]->name}}</a>     
+                                                         <a class="dropdown-item" href="/product-category/brands/{{$brands[$i]->slug_name}}"> {{$brands[$i]->name}}</a>     
                                                     @endif
                                                     @endif
                                                 @endfor
@@ -127,7 +127,7 @@
                                                 <div class="row">
                                                 @for ($i = 0; $i < sizeof($brands); $i++)
                                                     @if ($i > 8)        
-                                                    <a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}"> {{$brands[$i]->name}}</a>     
+                                                    <a class="dropdown-item" href="/product-category/brands/{{$brands[$i]->slug_name}}"> {{$brands[$i]->name}}</a>     
                                                     @endif
                                                 @endfor
                                                 </div>
