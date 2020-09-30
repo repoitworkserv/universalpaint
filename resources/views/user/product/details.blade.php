@@ -68,6 +68,8 @@
                                         </div>
                                         <div class="right-bx col-md-7 col-sm-12 col-12">
                                             <div class="title">{{$key->ParentData ? $key->ParentData['name'] :$key->name}}</div>
+                                            <input type="hidden" id="productid" value="{{$key->id}}">
+                                            <input type="hidden" id="parentid" value="{{$key->ParentData ? $key->ParentData['id'] : $key->id}}">
                                             <div class="sub-title"></div>
                                             <div class="desc">{!! $key->description !!}</div>
                                             <div class="feat-ttl">BEST FEATURES</div>

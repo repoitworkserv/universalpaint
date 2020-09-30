@@ -184,6 +184,7 @@ class ProductPageController extends Controller
     
     public function details($slug_name)
     { 
+        // $productAttributes = array();
         $product = Product::with(['BrandData'=>function($query){
                 $query->with('ProductByBrand');
             }])
@@ -235,6 +236,7 @@ class ProductPageController extends Controller
         $user_condition = UserBrands::where('user_id', $uid)->where('brand_id', Product::with('BrandData')->findOrFail($product_id)->BrandData['id'])->get()->isEmpty();
         $query = ProductReviewsandRating::where('product_id', $product_id)->count();
         //dd($product[0]->ProductCategoryData[rand(0,(count($product[0]->ProductCategoryData) - 1))]['SameCategoryProduct']);
+        $productAttributes = $product[0]->UsedAttribute;
         $category='';        
         if($product[0]->interior == 1) {
             $category = 'interior';
@@ -255,7 +257,7 @@ class ProductPageController extends Controller
         if($color_count >5 )
         {
                         
-            return view('user.color-swatches.index');
+            return view('user.color-swatches.index',compact('productAttributes'));
         }else{
             return view('user.product.details', compact('uid','category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }           
@@ -499,8 +501,9 @@ class ProductPageController extends Controller
 
 
 	public function productvariance(Request $request)
-    {
-    	$uid = Auth::id();
+    {        
+        
+        $uid = Auth::id();              
         $product = Product::where('parent_id', $request->parent_id)
             ->with('ParentData')
             ->withCount(['ProductAttributeData' => function ($query) use($request){
@@ -511,13 +514,14 @@ class ProductPageController extends Controller
             ->get();
             $userprice = ProductUserPrice::where('product_id', $product[0]['id'])->get();
         	$user_type_id = User::where('id', $uid)->first()['users_type_id'];
-    		$url =  url('/img/products/');
+            $url =  url('/img/products/');            
         	$value = array(
             	"url" =>  $url,
             	"product_child" => $product,
             	"user_type_id" =>  $user_type_id,
             	"pricetype" => $userprice,
-        	);
+            );            
+            
         echo json_encode($value);
         // print_r($product);
     }
