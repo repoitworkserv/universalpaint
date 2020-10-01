@@ -14,13 +14,20 @@ use App\ShippingGngRates;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Session;
 
 class CartController extends Controller
 {
     public function index(Request $request)
     { 
         $shipping = ShippingGngRates::all();
-        $cart = $request->session()->get('cart');
+        $cart = $request->session()->get('cart'); 
+        // Forget a single key...
+        $request->session()->forget('cart');
+        $request->session()->flush();
+        // dd($cart);   
+        // $request->session()->remove('cart');    
+        // dd($cart);
         $uid = Auth::id();
         $sub_total = 0;
         $total = 0;
@@ -51,47 +58,89 @@ class CartController extends Controller
     }
 
     public function addcart(Request $request)
-    {
-        $return_arr = array();
-        if($user = Auth::user()) {
-            $item = [
-                'id' => $request->item_id,
-                'name' => $request->item_name,
-                'qty' => $request->item_quantity,
-                'price' => $request->item_price,
-                'discount' => $request->item_discount,
-                'discount_type' => $request->item_discount_type,
-                'sale_price' => $request->item_sale_price,
-                'description' => $request->item_description,
-                'shipping_weight' => $request->shipping_weight,
-                'shipping_height' => $request->shipping_height,
-                'shipping_length' => $request->shipping_length,
-                'shipping_width' => $request->shipping_width,
-                'is_sale' => $request->item_is_sale,
-            	'product_attribute' => $request['prod-attri'], 
-            ];
-            if ($request->session()->has('cart')) {
-                $cart = $request->session()->get('cart');
-                $key = array_search($request->item_id, array_column($cart, 'id'));
-                $ids = array_column($cart, 'id', 'id');
-                if(isset($ids[$request->item_id])) {
-                    $cart[$key]['qty'] += $request->item_quantity;
-                    $request->session()->put('cart', $cart);
-                } else {
+    {        
+        $return_arr = array();        
+        //Submit Multiple Items Here
+        $multi = isset($request->multiple) ? $request->multiple : false;
+        $productid = $request->productid;
+        if($multi != false){                                      
+            $product = Product::whereIn('id',$productid)->get();
+            foreach($product as $prod){
+                $item = [
+                    'id' => $prod->id,    
+                    'name' => '',
+                    'qty' => 1,                    
+                    'price' => 1,
+                    'discount' => 0,
+                    'discount_type' => 0,
+                    'sale_price' => 0,
+                    'description' => 0,
+                    'shipping_weight' => 0,
+                    'shipping_height' => 0,
+                    'shipping_length' => 0,
+                    'shipping_width' => 0,
+                    'is_sale' => 0,
+                ];
+                
+                 if($request->session()->has('cart')) {                     
+                    $cart = $request->session()->get('cart');
+                    $key = array_search($prod->id, array_column($cart, 'id'));
+                    $ids = array_column($cart, 'id', 'id');
+                    if(isset($ids[$prod->id])) {
+                        $cart[$key]['qty'] += 1;
+                        $request->session()->push('cart', $cart);
+                    } else {
+                        $request->session()->push('cart', $item);
+                    }
+                }else{
                     $request->session()->push('cart', $item);
                 }
+            }   
+            $cart = $request->session()->get('cart');                       
+            $message = "Item is successfully added to cart";            
+            return redirect()->back()->with('success', $message);            
+        }else{
+                
+            if($user = Auth::user()) {
+                $item = [
+                    'id' => $request->item_id,
+                    'name' => $request->item_name,
+                    'qty' => $request->item_quantity,
+                    'price' => $request->item_price,
+                    'discount' => $request->item_discount,
+                    'discount_type' => $request->item_discount_type,
+                    'sale_price' => $request->item_sale_price,
+                    'description' => $request->item_description,
+                    'shipping_weight' => $request->shipping_weight,
+                    'shipping_height' => $request->shipping_height,
+                    'shipping_length' => $request->shipping_length,
+                    'shipping_width' => $request->shipping_width,
+                    'is_sale' => $request->item_is_sale,
+                	'product_attribute' => $request['prod-attri'], 
+                ];
+                if ($request->session()->has('cart')) {
+                    $cart = $request->session()->get('cart');
+                    $key = array_search($request->item_id, array_column($cart, 'id'));
+                    $ids = array_column($cart, 'id', 'id');
+                    if(isset($ids[$request->item_id])) {
+                        $cart[$key]['qty'] += $request->item_quantity;
+                        $request->session()->put('cart', $cart);
+                    } else {
+                        $request->session()->push('cart', $item);
+                    }
+                }
+                else {
+                    $request->session()->push('cart', $item);
+                }
+                $message = "Item is successfully added to cart";
+            	$return_arr = array('msg'=>$message,'status'=>"success");
+            } else {
+                $message = "Please Login first before adding to cart.";
+            	$return_arr = array('msg'=>$message,'modalshow'=>'show','status'=>'error','addcart'=>'');
             }
-            else {
-                $request->session()->push('cart', $item);
-            }
-            $message = "Item is successfully added to cart";
-			$return_arr = array('msg'=>$message,'status'=>"success");
-        } else {
-            $message = "Please Login first before adding to cart.";
-			$return_arr = array('msg'=>$message,'modalshow'=>'show','status'=>'error','addcart'=>'');
+    
+            return redirect()->back()->with('success', $message);
         }
-
-        return redirect()->back()->with('success', $message);
     }
 
     public function getdimension(Request $request)

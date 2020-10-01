@@ -198,7 +198,8 @@
                                                             <input type="hidden" name="item_discount_type" id="item_discount_type" value="{{$key->product_type == 'single' ? $key->discount_type : $key->discount_type}}">
                                                             <input type="hidden" name="item_description" id="item_description" value="{{$key->product_type == 'single' ? $key->description : $key->description}}">
                                                             @if (empty($uid))
-                                                                <a href="#" data-toggle="modal" data-target="#register_new_account"><button class="button button--aylen"tabindex="-1" id="add-cart"  disabled="true">ADD TO CART<i class="fas fa-shopping-bag"></i></button></a>
+                                                            <a><button class="button" tabindex="-1" id="add-cart" disabled="true">ADD TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button></a>                                                            
+                                                                <!-- <a href="#" data-toggle="modal" data-target="#register_new_account"><button class="button button--aylen"tabindex="-1" id="add-cart"  disabled="true">ADD TO CART<i class="fas fa-shopping-bag"></i></button></a> -->
                                                             @else
                                                             <a><button class="button" tabindex="-1" id="add-cart" disabled="true">ADD TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button></a>                                                            
                                                             @endif
@@ -222,7 +223,7 @@
 @endsection
 @section('scripts')
 <script>
-    $(window).load(function() {
+    $(window).on('load',function() {
         setTimeout(function() {
             $('.alert').fadeOut()
         }, 3000);

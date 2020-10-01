@@ -181,8 +181,8 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
                 },
 
                 success: function (data) {
-                    console.log(data);
 
+                    console.log(data);
                     if (data.product_child[0]) {
 
                         $('.quantity-text').html('&nbsp;');
@@ -1154,9 +1154,8 @@ $('.sharebtn').on('click',function(){
     });
 
     $(document).ready(function(){
-        
-        $('.tablinks').on('click',function(e){
-            
+        //Color Swatches
+        $('.tablinks').on('click',function(e){            
             tab = $('.tabcontent');
             $.each(tab,function(){
                 $(this).css({'display':'none'});
@@ -1178,5 +1177,20 @@ $('.sharebtn').on('click',function(){
             $(this).addClass('color-selected');
         });
 
+        $('#proceed').on('click',function(e){
+            productid = $(".box-widget .color-selected").map(function(){
+             return $(this).data('product-id');
+            }).get();            
+            Token = $('input[name="_token"]').val();
+            $.ajax({
+                url: base_url+'/add-cart',
+                method: 'post',
+                dataType: 'json',
+                data: {_token: Token, productid:productid, multiple: true },        
+                success: function(data) {
+                      console.log(data);         
+                }
+            });
+        });
 
     });

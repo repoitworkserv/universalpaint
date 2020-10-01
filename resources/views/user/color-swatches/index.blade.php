@@ -119,10 +119,12 @@
 			<div id="Blue" class="tabcontent">
 				<div class="box-widget">
 					<div class="color-picker">
+						@php 						
+						@endphp
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)								
 								@if($color->attributeData->cat_color == 'Blue')																
-									<div class="color-box" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+									<div class="color-box" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>			
 								@else
@@ -194,9 +196,13 @@
 			</div>
 		</div>
 		<div>
-		<button id="proceed" class="btn btn-default">Proceed</button>	
+		<!-- <form action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> -->
+			{!! csrf_field() !!}
+			<!-- <input type="hidden" name="item_quantity" id="item_quantity"> -->
+
+			<button id="proceed" class="btn btn-default">Select and Proceed</button>	
+		<!-- </form> -->
 		</div>
 	</div>
 </div>
-
 @endsection
