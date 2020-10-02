@@ -14,6 +14,7 @@ use App\ShippingGngRates;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Session;
 
 class CartController extends Controller
@@ -22,7 +23,7 @@ class CartController extends Controller
     { 
         $shipping = ShippingGngRates::all();
         $cart = $request->session()->get('cart'); 
-                
+
         $uid = Auth::id();
         $sub_total = 0;
         $total = 0;
@@ -53,13 +54,14 @@ class CartController extends Controller
     }
 
     public function addcart(Request $request)
-    {        
+    {                
         $return_arr = array();        
         //Submit Multiple Items Here
         $multi = isset($request->multiple) ? $request->multiple : false;
-        $productid = $request->productid;
+        $productid = $request->productid;        
+
         if($multi != false){                                      
-            $product = Product::whereIn('id',$productid)->get();
+            $product = Product::whereIn('id',$productid)->get();            
             foreach($product as $prod){
                 $item = [
                     'id' => $prod->id,    
@@ -75,15 +77,16 @@ class CartController extends Controller
                     'shipping_length' => 0,
                     'shipping_width' => 0,
                     'is_sale' => 0,
+                    'product_attribute' => $request['prod-attri'], 
                 ];
                 
-                 if($request->session()->has('cart')) {                     
+                 if($request->session()->has('cart')) {
                     $cart = $request->session()->get('cart');
                     $key = array_search($prod->id, array_column($cart, 'id'));
                     $ids = array_column($cart, 'id', 'id');
                     if(isset($ids[$prod->id])) {
                         $cart[$key]['qty'] += 1;
-                        $request->session()->push('cart', $cart);
+                        $request->session()->put('cart', $cart);                        
                     } else {
                         $request->session()->push('cart', $item);
                     }
@@ -91,12 +94,27 @@ class CartController extends Controller
                     $request->session()->push('cart', $item);
                 }
             }   
-            $cart = $request->session()->get('cart');                       
+            // $cart = $request->session()->get('cart');  
+            // echo json_encode($cart);
+            // exit;
+
+            
             // $message = "Item is successfully added to cart";            
             // return redirect()->back()->with('success', $message);      
-            $product = Product::where('id',1)->get();
-            dd($product);
-            return redirect()->route('product', ['id' => $product[0]->slug_name]);      
+            $product = Product::where('id',$request->parent_id)->get();
+            // echo json_encode($product[0]->slug_name);
+            
+            // return redirect()->route('product', ['id' => $product[0]->slug_name]);     
+            // return redirect()->route('product', ['id' => $product[0]->slug_name]); 
+            // return redirect('/product'.'/'. $product[0]->slug_name);
+            $url = '/product/'. $product[0]->slug_name.'?color_swatches=true&parent_id='. $product[0]->id;
+            // $url = '/product/'. $product[0]->slug_name.'?color_swatches=true&';
+            $data = array(
+                'msg' => 'success',
+                'url' => $url
+            );
+            echo json_encode($data); 
+            exit;
         }else{
                 
             if(!Auth::user()) {

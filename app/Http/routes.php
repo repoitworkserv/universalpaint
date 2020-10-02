@@ -73,6 +73,9 @@ Route::get('/product-category/brands/aquaGuard-elastomeric-paint ', function () 
 });
 
 Route::get('products/checkout', 'User\CheckoutController@index');
+Route::get('/under-maintenance', function () {
+	return view('user.under-maintenance.index');
+});
 
 //login
 Route::get('/', 'User\HomePageController@index');
