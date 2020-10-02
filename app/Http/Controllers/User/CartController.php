@@ -117,7 +117,7 @@ class CartController extends Controller
             exit;
         }else{
                 
-            if($user = Auth::user()) {
+            if(!Auth::user()) {
                 $item = [
                     'id' => $request->item_id,
                     'name' => $request->item_name,
@@ -132,7 +132,7 @@ class CartController extends Controller
                     'shipping_length' => $request->shipping_length,
                     'shipping_width' => $request->shipping_width,
                     'is_sale' => $request->item_is_sale,
-                	'product_attribute' => $request['prod-attri'], 
+                	'product_attribute' => $request->prodattri, 
                 ];
                 if ($request->session()->has('cart')) {
                     $cart = $request->session()->get('cart');
@@ -154,7 +154,6 @@ class CartController extends Controller
                 $message = "Please Login first before adding to cart.";
             	$return_arr = array('msg'=>$message,'modalshow'=>'show','status'=>'error','addcart'=>'');
             }
-    
             return redirect()->back()->with('success', $message);
         }
     }

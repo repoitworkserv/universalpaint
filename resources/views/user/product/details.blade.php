@@ -159,11 +159,11 @@
                                             <div class="row">
                                                 <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                                     <div class="row">
-                                                        <div class="option-list col-lg-3 col-md-10 col-sm-10 col-xs-10">                                                                
+                                                        <div class="option-list col-lg-3 col-md-10 col-sm-10 col-xs-10">                                                            
                                                             @if($key['product_type'] == 'multiple')                                                                
                                                                 @foreach($key->UsedVariables as $list)
                                                                     <div class="row option-field">
-                                                                        <select class="atrribute-list form-control" name="prod-attri[]">
+                                                                        <select id="productattri" class="atrribute-list form-control" name="prod-attri[]">
                                                                             <option value="">Select </option>
                                                                             @foreach($key->UsedAttribute as $attri)
                                                                                 @if($attri->AttributeData['variable_id'] == $list->VariableData['id'])
@@ -204,6 +204,7 @@
                                                             <input type="hidden" name="shipping_height" id="shipping_height" value="{{$key->product_type == 'single' ? $key->shipping_height : $key->ParentData['shipping_height']}}">
                                                             <input type="hidden" name="item_id" id="item_id" value="{{$key->product_type == 'single' ? $key->id : 0}}">
                                                             <input type="hidden" name="item_quantity" id="item_quantity">
+                                                            <input type="hidden" name="prodattri" id="prodattri">
                                                             {{-- <input type="hidden" name="item_is_sale" id="is_sale" value="{{$key->is_sale}}"> --}}
                                                             <input type="hidden" name="is_sale" id="is_sale" value="{{$key->product_type == 'single' ? $key->is_sale : $key->ParentData['is_sale']}}">
                                                             <input type="hidden" name="item_name" id="item_name" value="{{$key->ParentData ? $key->ParentData['name'] :$key->name}}">
@@ -259,7 +260,6 @@
     $(document).ready(function() {
         $('.plus-qty').trigger('click');
     });
-
     function onchange_img(e, umg) {
         html_appender = $(umg).parents('.upl_img').find('.preview_image');
         var files = e.target.files,
@@ -286,6 +286,11 @@
     $(".upload_image").on("change", function(e) {
         umg = this;
         onchange_img(e, umg);
+    });
+
+    $("#productattri").on("keyup change", function(){
+        $('#prodattri').val($(this).val());
+        console.log($(this).val(), $('#prodattri').val());
     });
 </script>
 @endsection

@@ -41,13 +41,8 @@ class CheckoutController extends Controller
 
     public function index(Request $request)
     {
-
-        $uid = Auth::id();
-        $usermail = User::where('id', $uid)->get();
-        $useraddress = UserAddress::where('user_id', $uid)->get(); 
         $shipping = ShippingGngRates::all();
         $cart = $request->session()->get('cart');
-        // print_r($cart);die();
         $message = 'Shop now';
         if(empty($cart)){
             return redirect('products')->with('error', $message);
@@ -63,17 +58,95 @@ class CheckoutController extends Controller
                     $sub_total += $cart[$i]['qty'] * $cart[$i]['price'];
                 }
             }
-            for ($n=0; $n < count($shipping); $n++) {
-                if(stripos($shipping[$n]['location'], $useraddress[0]['province']) !== FALSE){
-                    $userhomeaddress = $shipping[$n]['location'];
-                    $useridaddress = $shipping[$n]['id'];
-                }
-                //dd($userhomeaddress);
-            }
         }
-        // die();
-        $uid = Auth::id();
-        return view('user/product/checkout', compact('sub_total', 'shipping', 'uid', 'useraddress','usermail','userhomeaddress', 'useridaddress'));
+        return view('user.product.checkout', compact('sub_total', 'shipping' ));
+    }
+
+    public function send_checkoutDetails(Request $request)
+    {
+        //dd($request->all());
+        $validator = Validator::make($request->all(), [
+			'billing_first_name'  => 'required',						
+			'billing_last_name'   => 'required',
+			'billing_address'            => 'required',
+			'billing_email'         => 'required',
+			'billing_mobile'		  => 'required',
+            'billing_city'	=> 'required',
+            'billing_note' => 'required',
+
+		]);
+        $message = '';
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."<br />";
+            }
+            $status = false;
+        } else {
+            $order_id = date("Y-m-d").'-'.str_random(12);
+            $cart = $request->session()->get('cart');
+            $order = new Order;
+            $order->order_code              = $order_id; 
+            $order->customer_id             = '';
+            $order->payment_type            = 'queue'; 
+            $order->invoice_no              = '';
+        	$order->ref_no					= '';
+            $order->status                  = 'pending';
+            $order->amount                  = '';
+            $order->amount_shipping         = '';
+            $order->amount_total            = '';
+            $order->amount_discount         = '';
+            if($order->save()) {
+                $cart = $request->session()->get('cart');
+                foreach ($cart as $item) {
+                    $order_item = new OrderItem;
+                    $order_item->order_id           = $order->id;
+                    $order_item->seller_id          = '1';
+                    $order_item->product_name       = $item['name'];
+                    if(!empty($item['product_attribute'])){
+                        $order_item->product_details = Attribute::where('id', $item['product_attribute'])->first()['name'];
+                    } else {
+                        $order_item->product_details    = $item['description'];
+                    }
+                    $order_item->quantity           = $item['qty'];
+                    $order_item->price              = $item['price'];
+                    $order_item->discount           = $item['discount'];
+                    $order_item->save();
+                }
+                $order_checkout_detail = new OrderCheckoutDetails;
+                $order_checkout_detail->order_id            = $order->id;
+                $order_checkout_detail->reference           = 'billing';
+                $order_checkout_detail->lot_house_no        = $request->billing_address;
+                $order_checkout_detail->city                = $request->billing_city;
+                $order_checkout_detail->lname               = $request->billing_last_name;
+                $order_checkout_detail->fname               = $request->billing_first_name;
+                $order_checkout_detail->contact_no          = $request->billing_mobile;
+                $order_checkout_detail->note                = $request->billing_note;
+                $order_checkout_detail->save();
+                $status = true;
+                $data = array(
+                    'fullname' 	 => $request->billing_first_name,
+                    'email' => $request->billing_email,
+                    'titlesubject' => $order->order_code,
+                    'status' => $order->status,
+                    'payment_type' => $order->payment_type,
+                    'order_code' => $order->order_code,
+                );
+                $settings =  Settings::get();
+                $order_details = Order::where('order_code',$order_id)->with('OrderItemData')->get();
+                Mail::send('user.emailorder', compact('data', 'user_content', 'order_details'), function ($message) use($data, $settings, $order_details) {
+                    dd($settings);
+                            $message->sender($settings[0]['email_address']);
+                            $message->to($data['email'])->subject($data['titlesubject']);
+                            //$message->embed(public_path() . '/img/banner-email.png');
+                        });
+                    
+                        if (Mail::failures()) {
+                            print_r("asd"); exit();
+                        }
+                    }
+                }
+            Session::forget('cart');
+            echo json_encode(array('status' => $status, 'message' => $message));
     }
 
     public function payment_dragonpay(Request $request) 

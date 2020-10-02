@@ -11,6 +11,7 @@
 <div id="first-content" class="cart-content">
 	<div class="container">
 		<div id="cart">
+		<br><br><br><br><br><br><br><br><br><br>
 		    <div class="page-header">
 		        <h5>Shopping Cart</h5>
 		    </div>
@@ -39,9 +40,8 @@
 											<div class="product-name">{{$item['name']}}</div>
 											<div>{!!$item['description']!!}</div>
 											@if(!empty($item['product_attribute']))
-													<div>@foreach($item['product_attribute'] as $attr)
-													{!! App\Attribute::where('id',$attr)->first()['name'] !!} &nbsp;
-													@endforeach
+													<div>
+													{!! App\Attribute::where('id',$item['product_attribute'])->first()['name'] !!} &nbsp;
 													</div>
 											@else
 												<div></div>
@@ -65,10 +65,13 @@
 		        </div>
 		        <div class="col-lg-6 text-center">
 		        	<a href="{{URL::to('/products')}}">
-		        		<div class="btn btn-orange" style="margin: 20px 0;">CONTINUE SHOPPING</div>
+		        		<div class="btn btn-secondary" style="margin: 20px 0;">CONTINUE SHOPPING</div>
+		        	</a>
+					<a href="{{URL::to('/products/checkout')}}">
+		        		<div class="btn btn-primary" style="margin: 20px 0;">PROCEED TO CHECKOUT</div>
 		        	</a>
 		        </div>
-		        <div class="col-lg-6 cart-checkout">
+		        <!-- <div class="col-lg-6 cart-checkout">
 		            <div class="panel panel-default">
 		                <div id="price-body" class="panel-body">
 		                    <h2>Cart Totals</h2>
@@ -130,7 +133,7 @@
 		                    <a type="button" class="btn btn-gold btn-block" href="/checkout">PROCEED TO CHECKOUT</a>
 		                </div>
 		            </div>
-		        </div>
+		        </div> -->
 		    </div>
 		</div>
 	</div>
