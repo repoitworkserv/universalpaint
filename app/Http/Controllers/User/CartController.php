@@ -22,12 +22,7 @@ class CartController extends Controller
     { 
         $shipping = ShippingGngRates::all();
         $cart = $request->session()->get('cart'); 
-        // Forget a single key...
-        $request->session()->forget('cart');
-        $request->session()->flush();
-        // dd($cart);   
-        // $request->session()->remove('cart');    
-        // dd($cart);
+                
         $uid = Auth::id();
         $sub_total = 0;
         $total = 0;
@@ -97,8 +92,11 @@ class CartController extends Controller
                 }
             }   
             $cart = $request->session()->get('cart');                       
-            $message = "Item is successfully added to cart";            
-            return redirect()->back()->with('success', $message);            
+            // $message = "Item is successfully added to cart";            
+            // return redirect()->back()->with('success', $message);      
+            $product = Product::where('id',1)->get();
+            dd($product);
+            return redirect()->route('product', ['id' => $product[0]->slug_name]);      
         }else{
                 
             if($user = Auth::user()) {

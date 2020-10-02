@@ -124,7 +124,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)								
 								@if($color->attributeData->cat_color == 'Blue')																
-									<div class="color-box" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+									<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>			
 								@else

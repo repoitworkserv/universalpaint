@@ -1178,6 +1178,7 @@ $('.sharebtn').on('click',function(){
         });
 
         $('#proceed').on('click',function(e){
+            parent_id = $(".box-widget .color-box").data('parent-id');
             productid = $(".box-widget .color-selected").map(function(){
              return $(this).data('product-id');
             }).get();            
@@ -1186,7 +1187,7 @@ $('.sharebtn').on('click',function(){
                 url: base_url+'/add-cart',
                 method: 'post',
                 dataType: 'json',
-                data: {_token: Token, productid:productid, multiple: true },        
+                data: {_token: Token, productid:productid, parent_id:parent_id, multiple: true },        
                 success: function(data) {
                       console.log(data);         
                 }
