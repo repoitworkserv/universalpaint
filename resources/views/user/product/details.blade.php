@@ -129,6 +129,33 @@
                                                 <div class="sml-ttl">Packaging Size</div>
                                                 <div class="sml-desc">{{ $key->packaging}}</div>
                                             </div>
+                                            @if(!empty($prod_attrib))
+                                                <div class="row">
+                                                    <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">  
+                                                        <div class="flex-txt">                                                      
+                                                            <div class="sml-ttl">Colors Selected</div>
+                                                        </div>    
+                                                        <div class="sml-desc">
+                                                        @if(!empty($color_selected))                                                                                                                        
+                                                            @foreach($color_selected as $item)                                                                
+                                                                @php var_dump($item) @endphp
+                                                            @endforeach
+                                                        @endif       
+                                                        @if(!empty($cart))
+                                                            
+                                                            @php dd($cart) @endphp
+                                                        @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">  
+                                                        <div class="flex-txt">                                                      
+                                                        <a href="/cart"><button class="button" tabindex="-1" id="gotocart" >PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button></a>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                            @else
                                             <div class="row">
                                                 <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                                     <div class="row">
@@ -207,7 +234,8 @@
                                                     </div>
                                                 <!-- form here -->                                                        
                                                 </div>
-                                            </div>                                            
+                                            </div> 
+                                            @endif                                             
                                         </div>
                                     @endforeach
                                 </div>
