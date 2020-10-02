@@ -259,27 +259,7 @@ class ProductPageController extends Controller
                 'product_name' => $request->prod_name,
             );            
 
-            $cart = $request->session()->get('cart');
-            // $color_selected = array(
-            //     'name' => 'Blue Buble' ,
-            //     'color' => array(
-            //             0 => array(
-            //                 'r' => 180,
-            //                 'g' => 216,
-            //                 'b'=> 224
-            //             ),
-            //             1 => array(
-            //                 'r' => 180,
-            //                 'g' => 216,
-            //                 'b'=> 224
-            //             ),
-            //             2 => array(
-            //                 'r' => 180,
-            //                 'g' => 216,
-            //                 'b'=> 224
-            //             )                                    
-            //     )
-            // );            
+            $cart = $request->session()->get('cart');         
 
             return view('user.product.details', compact('uid','category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }
