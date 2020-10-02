@@ -1190,7 +1190,7 @@ $('.sharebtn').on('click',function(){
                 data: data,        
                 success: function(data) {
                     // console.log('asd');
-                    //   console.log(data);         
+                    console.log(data);         
                     window.location.href = data.url;
                     // console.log(data);
                 },error: function(event,request,settings, thrownError){
