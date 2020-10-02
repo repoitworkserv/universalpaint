@@ -114,7 +114,7 @@
                                                 <hr>
                                                 @for ($i = 0; $i < sizeof($brands); $i++)
                                                     @if ($i < 9)
-                                                    @if($brands[$i]->name != 'Other')  
+                                                    @if($brands[$i]->name != 'Other' && $brands[$i]->name != 'Universal Paint')
                                                          <a class="dropdown-item" href="/product-category/brands/{{$brands[$i]->slug_name}}"> {{$brands[$i]->name}}</a>     
                                                     @endif
                                                     @endif

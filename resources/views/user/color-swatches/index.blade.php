@@ -66,7 +66,18 @@
 		<div class="color-section">
 			<div id="White" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">						
+					<div class="color-picker">
+						@if(!empty($productAttributes))
+							@foreach($productAttributes as $color)								
+								@if($color->attributeData->cat_color == 'White')																
+									<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+										<div class="title">{{ $color->attributeData->name }}</div>
+									</div>			
+								@else
+									@break									
+								@endif
+							@endforeach
+						@endif						
 						@if(!empty($cat_off_whites))
 							@foreach($cat_off_whites as $color)
 							<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -80,6 +91,17 @@
 			<div id="Grey" class="tabcontent">
 				<div class="box-widget">
 					<div class="color-picker">
+							@if(!empty($productAttributes))
+								@foreach($productAttributes as $color)								
+									@if($color->attributeData->cat_color == 'Gray')																
+										<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+											<div class="title">{{ $color->attributeData->name }}</div>
+										</div>			
+									@else
+										@break									
+									@endif
+								@endforeach
+							@endif
 							@if(!empty($cat_gray))
 								@foreach($cat_gray as $color)
 								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -93,6 +115,17 @@
 			<div id="Brown" class="tabcontent">
 				<div class="box-widget">
 					<div class="color-picker">
+							@if(!empty($productAttributes))
+								@foreach($productAttributes as $color)								
+									@if($color->attributeData->cat_color == 'Brown')																
+										<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+											<div class="title">{{ $color->attributeData->name }}</div>
+										</div>			
+									@else
+										@break									
+									@endif
+								@endforeach
+							@endif
 							@if(!empty($cat_brown))
 								@foreach($cat_brown as $color)
 								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -105,7 +138,18 @@
 			</div>
 			<div id="Purple" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
+					<div class="color-picker">							
+							@if(!empty($productAttributes))
+								@foreach($productAttributes as $color)								
+									@if($color->attributeData->cat_color == 'Violet')																
+										<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+											<div class="title">{{ $color->attributeData->name }}</div>
+										</div>			
+									@else
+										@break									
+									@endif
+								@endforeach
+							@endif
 							@if(!empty($cat_violet))
 								@foreach($cat_violet as $color)
 								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -118,11 +162,11 @@
 			</div>
 			<div id="Blue" class="tabcontent">
 				<div class="box-widget">
-					<div class="color-picker">
+					<div class="color-picker">						
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)								
 								@if($color->attributeData->cat_color == 'Blue')																
-									<div class="color-box" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+									<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>			
 								@else
@@ -143,6 +187,17 @@
 			<div id="Green" class="tabcontent">
 				<div class="box-widget">
 		          <div class="color-picker">
+				 		@if(!empty($productAttributes))
+							@foreach($productAttributes as $color)								
+								@if($color->attributeData->cat_color == 'Green')																
+									<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+										<div class="title">{{ $color->attributeData->name }}</div>
+									</div>			
+								@else
+									@break									
+								@endif
+							@endforeach
+						@endif
 						@if(!empty($cat_green))							
 							@foreach($cat_green as $color)
 							<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -156,6 +211,17 @@
 			<div id="Yellow" class="tabcontent">
 				<div class="box-widget">
 					<div class="color-picker">
+							@if(!empty($productAttributes))
+							@foreach($productAttributes as $color)								
+								@if($color->attributeData->cat_color == 'Yellow')
+									<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+										<div class="title">{{ $color->attributeData->name }}</div>
+									</div>			
+								@else
+									@break									
+								@endif
+							@endforeach
+							@endif
 							@if(!empty($cat_yellow))
 								@foreach($cat_yellow as $color)
 								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -169,6 +235,17 @@
 			<div id="Orange" class="tabcontent">
 				<div class="box-widget">
 					<div class="color-picker">
+							@if(!empty($productAttributes))
+								@foreach($productAttributes as $color)								
+									@if($color->attributeData->cat_color == 'Orange')
+										<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+											<div class="title">{{ $color->attributeData->name }}</div>
+										</div>			
+									@else
+										@break									
+									@endif
+								@endforeach
+							@endif
 							@if(!empty($cat_orange))
 								@foreach($cat_orange as $color)
 								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -182,6 +259,17 @@
 			<div id="Red" class="tabcontent">
 				<div class="box-widget">
 					<div class="color-picker">
+							@if(!empty($productAttributes))
+								@foreach($productAttributes as $color)								
+									@if($color->attributeData->cat_color == 'Red')
+										<div class="color-box" data-parent-id="{{ $color->parent_id }}"data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">							
+											<div class="title">{{ $color->attributeData->name }}</div>
+										</div>			
+									@else
+										@break									
+									@endif
+								@endforeach
+							@endif
 							@if(!empty($cat_red))
 								@foreach($cat_red as $color)
 								<div class="color-box" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">							
@@ -194,9 +282,13 @@
 			</div>
 		</div>
 		<div>
-		<button id="proceed" class="btn btn-default">Proceed</button>	
+		<!-- <form action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> -->
+			{!! csrf_field() !!}
+			<!-- <input type="hidden" name="item_quantity" id="item_quantity"> -->
+
+			<button id="proceed" class="btn btn-default">Select and Proceed</button>	
+		<!-- </form> -->
 		</div>
 	</div>
 </div>
-
 @endsection
