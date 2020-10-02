@@ -76,7 +76,7 @@
                             </div>
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Home</a>
+                                    <a class="nav-link" href="/">Home</a>
                                 </li>
                                 <li class="nav-item dropdown product-after">
                                     <a class="nav-link " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -142,10 +142,10 @@
 
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Request a qoute</a>
+                                    <a class="nav-link" href="/request-a-quote/">Request a qoute</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact us</a>
+                                    <a class="nav-link" href="/contact-us/">Contact us</a>
                                 </li>
                             </ul>
                         </div>
@@ -167,7 +167,7 @@
                             <div class="desc">click to request a brochure</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">
@@ -176,7 +176,7 @@
                             <div class="desc">See the proper way to paint</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">
@@ -185,7 +185,7 @@
                             <div class="desc">click here to see online color charts</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">
@@ -194,13 +194,13 @@
                             <div class="desc">click to compute how much paint you will need for your project</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div id="footer">
+        <div id="footer">
             <div class="container">
                 <div class="top-con">
                     <div class="thumbnail-logo"><img src="{{ url('img/logo_nav.png') }}"></div>
@@ -225,84 +225,7 @@
                     <div class="thumbnail-logo"> <img src="{{ url('img/itworksm.png') }}"></div>
                 </div>
             </div>
-        </div> -->
-        <!-- Footer -->
-        <footer class="font-small pt-4">
-
-            <!-- Footer Links -->
-            <div class="container-fluid text-center text-md-left">
-
-                <!-- Grid row -->
-                <div class="row">
-
-                    <!-- Grid column -->
-                    <div class="col-md-6 mt-md-0 mt-3" style="display: flex; align-items: center; justify-content: center;">
-
-                        <!-- Content -->
-                        <img src="{{ url('img/logo_nav.png') }}">
-
-                    </div>
-                    <!-- Grid column -->
-
-                    <hr class="clearfix w-100 d-md-none pb-3">
-
-                    <!-- Grid column -->
-                    <div class="col-md-3 mb-md-0 mb-3">
-
-                        <!-- Links -->
-                        <h5 class="text-uppercase">Head Office</h5>
-
-                        <ul class="list-unstyled">
-                            <li>
-                                <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippine</div </li> </ul> </div> <!-- Grid column -->
-
-                                <!-- Grid column -->
-                                <div class="col-md-3 mb-md-0 mb-3">
-
-                                    <!-- Links -->
-                                    <h5 class="text-uppercase">Contact Us</h5>
-
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <span>(632) 8646 8701</span>
-                                        </li>
-                                        <li>
-                                            <span>(632) 8646 3571</span>
-                                        </li>
-                                        <li>
-                                            <span>(632) 8646 8967</span>
-                                        </li>
-                                        <li>
-                                            <span>(63) 917 106 4579</span>
-                                        </li>
-                                        <li>
-                                            <span>Fax no. (632) 8646 8329</span>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                                <!-- Grid column -->
-
-                    </div>
-                    <!-- Grid row -->
-
-                </div>
-                <!-- Footer Links -->
-
-                <!-- Copyright -->
-                <div class="footer-copyright text-center py-3">
-                    © 2020 www.universalpaint.net. All rights reserved. &nbsp;&nbsp;
-                    <a href="#">Site Map</a>
-                    &nbsp;|&nbsp;
-                    <a href="#">Terms of Use</a>
-                    &nbsp;|&nbsp;
-                    <a href="#">Privacy Policy</a>
-                    <div class="thumbnail-logo"> <img src="{{ url('img/itworksm.png') }}"></div>
-                </div>
-                <!-- Copyright -->
-
-        </footer>
-        <!-- Footer -->
+        </div>
     </div>
 </body>
 
