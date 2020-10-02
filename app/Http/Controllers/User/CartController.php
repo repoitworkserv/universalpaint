@@ -80,7 +80,7 @@ class CartController extends Controller
                     'product_attribute' => $request['prod-attri'], 
                 ];
                 
-                 if($request->session()->has('cart')) {                     
+                 if($request->session()->has('cart')) {
                     $cart = $request->session()->get('cart');
                     $key = array_search($prod->id, array_column($cart, 'id'));
                     $ids = array_column($cart, 'id', 'id');
@@ -94,7 +94,9 @@ class CartController extends Controller
                     $request->session()->push('cart', $item);
                 }
             }   
-            $cart = $request->session()->get('cart');  
+            // $cart = $request->session()->get('cart');  
+            // echo json_encode($cart);
+            // exit;
 
             
             // $message = "Item is successfully added to cart";            
@@ -105,7 +107,7 @@ class CartController extends Controller
             // return redirect()->route('product', ['id' => $product[0]->slug_name]);     
             // return redirect()->route('product', ['id' => $product[0]->slug_name]); 
             // return redirect('/product'.'/'. $product[0]->slug_name);
-            $url = '/product/'. $product[0]->slug_name.'?color_swatches=true&prod_name='.$product[0]->name.'&parent_id='.$product[0]->parent_id;
+            $url = '/product/'. $product[0]->slug_name.'?color_swatches=true&parent_id='. $product[0]->id;
             // $url = '/product/'. $product[0]->slug_name.'?color_swatches=true&';
             $data = array(
                 'msg' => 'success',
