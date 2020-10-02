@@ -1207,6 +1207,11 @@ a.btn.white {
     margin-right: 0;
 }
 
+.color-selected {
+    border: 3px solid black;
+}
+
+
 /* Contact Us*/
 
 #contact-us {
