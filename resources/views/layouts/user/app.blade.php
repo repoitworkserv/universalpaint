@@ -172,7 +172,7 @@
                     </div>
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">HOW TO PAINT? GUIDE & TIPS FOR PAINTING COLOR CHARTS</div>
+                            <div class="ttl">HOW TO PAINT? <br> GUIDE & TIPS FOR PAINTING</div>
                             <div class="desc">See the proper way to paint</div>
                         </div>
                         <div class="btn-con">
@@ -181,7 +181,7 @@
                     </div>
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">COLOR CHARTS</div>
+                            <div class="ttl">COLOR DEPOT</div>
                             <div class="desc">click here to see online color charts</div>
                         </div>
                         <div class="btn-con">
@@ -190,7 +190,7 @@
                     </div>
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">COLOR DEPOT PAINT CALCULATOR</div>
+                            <div class="ttl">PAINT CALCULATOR</div>
                             <div class="desc">click to compute how much paint you will need for your project</div>
                         </div>
                         <div class="btn-con">

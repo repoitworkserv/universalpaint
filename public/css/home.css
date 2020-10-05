@@ -759,7 +759,7 @@ a.btn.white {
 }
 
 #sixth-section .block {
-    width: 80%;
+    width: 90%;
     display: flex;
     justify-content: flex-start;
 }
@@ -782,7 +782,7 @@ a.btn.white {
 #sixth-section .block .widget-box .ttl {
     min-height: 85px;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 #sixth-section a.btns {
