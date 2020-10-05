@@ -74,18 +74,73 @@
              </div>
         </header>
         @yield('content')
+<!-- Sixth Section -->
+ <div id="sixth-section" style="background-image: url('{{ url('img/footer_bgs.png') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
+    <div class="container">
+        <div class="heading-bx">
+            <div class="thumbnail-desc">get expert help</div>
+        </div>
+        <div class="block">
+            <div class="widget-box">
+                <div class="top-con">
+                    <div class="ttl">REQUEST COLOR BROCHURES</div>
+                    <div class="desc">click to request a brochure</div>
+                </div>
+                <div class="btn-con">
+                    <a href="#" class="btns">REQUEST NOW</a>
+                </div>
+            </div>
+            <div class="widget-box">
+                <div class="top-con">
+                    <div class="ttl">HOW TO PAINT? </br> GUIDE & TIPS FOR PAINTING</div>
+                    <div class="desc">See the proper way to paint</div>
+                </div>
+                <div class="btn-con">
+                    <a href="#" class="btns">READ MORE</a>
+                </div>
+            </div>
+            <div class="widget-box">
+                <div class="top-con">
+                    <div class="ttl">COLOR DEPOT</div>
+                    <div class="desc">click here to see online color charts</div>
+                </div>
+                <div class="btn-con">
+                    <a href="#" class="btns">CLICK HERE</a>
+                </div>
+            </div>
+            <div class="widget-box">
+                <div class="top-con">
+                    <div class="ttl">PAINT CALCULATOR</div>
+                    <div class="desc">click to compute how much paint you will need for your project</div>
+                </div>
+                <div class="btn-con">
+                    <a href="#" class="btns">CALCULATE NOW</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <div id="footer">
             <div class="container">
                 <div class="top-con">
-                    <div class="thumbnail-logo"><img src="img/logo_nav.png"></div>
+                    <div class="thumbnail-logo"><img src="{{ url('img/logo_nav.png') }}"></div>
                     <div class="text-con">
-                        <img src="img/001-placeholder.png">
-                        <div class="sml-txt">53 F. Pasco Ave, Pasig, 1610 Metro Manila, Philippines
-pin</div>
+                        <img src="{{ url('img/001-placeholder.png') }}">
+                        <div class="sml-txt">53 F. Pasco Ave, Santolan,  Pasig, 1610 Metro Manila, Philippines</div>
                     </div>
-                    <div class="text-con">
-                        <img src="img/002-phone-call.png">
-                        <div class="sml-txt">(02) 8997 8777</div>
+                    <div class="last-con">
+                        <div class="flx-btn">
+                            <img src="{{ url('img/002-phone-call.png') }}">
+                            <div class="sml-txt">(+632) 8997 8777, (+632) 8646 8801 </br> (+632) 8646 8701, (+632) 8646 3571</div>
+                        </div>
+                        <div class="flx-btn">
+                            <img src="{{ url('img/002-phone-call.png') }}">
+                            <div class="sml-txt">(+632) 8646 8967, +63917 106 4579</div>
+                        </div>
+                        <div class="flx-btn">
+                            <img src="{{ url('img/buttons/fax.png') }}">
+                            <div class="sml-txt">+632 8646 8329</div>
+                        </div>
                     </div>
                 </div>
                 <div class="bot-con">
@@ -97,7 +152,7 @@ pin</div>
                       &nbsp;|&nbsp;
                       <a href="#">Privacy Policy</a>
                     </div>
-                    <div class="thumbnail-logo"> <img src="img/itworksm.png"></div>
+                    <div class="thumbnail-logo"> <img src="{{ url('img/itworksm.png') }}"></div>
                 </div>
             </div>
         </div>

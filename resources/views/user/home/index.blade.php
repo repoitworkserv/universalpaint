@@ -60,15 +60,14 @@
             </div>
         </div>
         <div>
-            <div class="banner-slide fourth" style="background-image: url('img/4.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                <div class="container">
-                    <div class="widget-box">
-                        <div class="heading">for<br>INTERIOR<br>PAINT<br>products</div>
-                        <div class="desc">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        </div>
-                        <a href="/product/aquaguard-elastomeric-paint-aquaguard-elastomeric-paint" class="btn white">READ MORE</a>
+        <div class="banner-slide fourth" style="background-image: url('img/4.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+            <div class="container">
+                <div class="widget-box">
+                    <div class="heading">The Ultimate weather<br> paint protection</div>
+                    <div class="desc">
+                    Click here to see paint & coatings that will PROTECT and make your home or project-ALL Weather.
                     </div>
+                    <a href="/product/aquaguard-elastomeric-paint-aquaguard-elastomeric-paint" class="btn white">READ MORE</a>
                 </div>
             </div>
         </div>
@@ -76,9 +75,17 @@
 </div>
 <!-- Third Section -->
 <div id="third-section">
-    <div class="container">
-        <div class="heading">Our thousands of colors, Your Choice</div>
-        <div class="thumbnail-logo"><img src="img/bluelogo.png"></div>
+    <div class="container">        
+        <div class="thumbnail-logo">
+            <div class="row"> 
+                <div class="col col-md-2">
+                    <img src="img/bluelogo.png">
+                </div>
+                <div class="col col-md-10">
+                    <div class="heading">Our thousands of colors, Your Choice</div>
+                </div>
+            </div>            
+        </div>
         <!-- color picker -->
         <div class="color-row">
             <div class="color-picker">

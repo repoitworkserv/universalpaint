@@ -20,10 +20,11 @@
 			</div>
 			<div class="desc-list">
 				<div class="heading">VALUES</div>
-				<div class="description">Perseverance – despite difficulty there’s a determination</div>
-				<div class="description">Above and beyond – to do much better than necessary or expected</div>
-				<div class="description">Integrity – being honest and fair; doing the right thing even no one is watching Nurture – encourage growth</div>
-				<div class="description">Trustworthiness – able to relied on as honest and always truthful</div>
+				<div class="description"><font style="color: #dd2032; font-weight: bold;">P</font>erseverance – despite difficulty there’s a determination</div>
+				<div class="description"><font style="color: #dd2032; font-weight: bold;">A</font>bove and beyond – to do much better than necessary or expected</div>
+				<div class="description"><font style="color: #dd2032; font-weight: bold;">I</font>ntegrity – being honest and fair; doing the right thing even no one is watching</div>
+				<div class="description"><font style="color: #dd2032; font-weight: bold;">N</font>urture – encourage growth</div>
+				<div class="description"><font style="color: #dd2032; font-weight: bold;">T</font>rustworthiness – able to relied on as honest and always truthful</div>
 			</div>
 		</div>
 			<!-- Contact Details -->
@@ -37,7 +38,7 @@
 					<div class="widget-box" style="background-image: url({{ url('img/icontact/phonebg.png') }}); background-size: contain; background-repeat: no-repeat; background-position: center left;">
 						<div class="icon"><img src="{{ url('img/icontact/phoneicon.png') }}"></div>
 						<div class="title">Call Us</div>
-						<div class="desc"><b>Tel.</b>+632 8646 8701, +632 8646 3571 </br> +632 8646 896 </br> <b>Mobile</b> +63917 106 4579 </br><b>Fax</b> +632 8646 8329</div>
+						<div class="desc"><b>Tel.</b>(+632) 8997 8777</br> (+632) 8646 8801 </br> (+632) 8646 8701, (+632) 8646 3571 </br> (+632) 8646 8967</br> <b>Mobile</b> +63917 106 4579 </br><b>Fax</b> +632 8646 8329</div>
 					</div>
 					<div class="widget-box" style="background-image: url({{ url('img/icontact/locbg.png') }}); background-size: contain; background-repeat: no-repeat; background-position: center left;">
 						<div class="icon"><img src="{{ url('img/icontact/locicon.png') }}"></div>
