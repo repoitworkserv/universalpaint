@@ -142,7 +142,7 @@
 
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/request-a-quote/">Request a qoute</a>
+                                    <a class="nav-link" href="/request-a-quote/">Request a quote</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/contact-us/">Contact us</a>
@@ -167,12 +167,12 @@
                             <div class="desc">click to request a brochure</div>
                         </div>
                         <div class="btn-con">
-                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
+                            <a href="/under-maintenance/" target="_blank" class="btns">Request now</a>
                         </div>
                     </div>
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">HOW TO PAINT GUIDE & TIPS FOR PAINTING</div>
+                            <div class="ttl">HOW TO PAINT? GUIDE & TIPS FOR PAINTING COLOR CHARTS</div>
                             <div class="desc">See the proper way to paint</div>
                         </div>
                         <div class="btn-con">
@@ -190,11 +190,11 @@
                     </div>
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">PAINT CALCULATOR</div>
+                            <div class="ttl">COLOR DEPOT PAINT CALCULATOR</div>
                             <div class="desc">click to compute how much paint you will need for your project</div>
                         </div>
                         <div class="btn-con">
-                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
+                            <a href="/under-maintenance/" target="_blank" class="btns">Calculate Now</a>
                         </div>
                     </div>
                 </div>
@@ -206,11 +206,17 @@
                     <div class="thumbnail-logo"><img src="{{ url('img/logo_nav.png') }}"></div>
                     <div class="text-con">
                         <img src="{{ url('img/001-placeholder.png') }}">
-                        <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippine</div>
+                        <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippines</div>
                     </div>
                     <div class="text-con">
-                        <img src="{{ url('img/002-phone-call.png') }}">
-                        <div class="sml-txt">+632 8646 8701, +632 8646 3571 </br> +632 8646 8967,+63917 106 4579 </br>fax no. +632 8646 8329</div>
+                                                                                             
+                        <div class="sml-txt">
+                            <img src="{{ url('img/002-phone-call.png') }}"> 
+                            (+632) 8997 8777 , (+632) 8646 8801 </br> 
+                            (+632) 8646 8701, (+632) 8646 3571 </br> (+632) 8646 8967</br>
+                            <img src="{{ url('img/003-fax-no.png') }}">(+632) 8646 8329
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="bot-con">
