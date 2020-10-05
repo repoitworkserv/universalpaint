@@ -157,6 +157,10 @@ p {
     padding-left: 30px;
 }
 
+.nav-item.regular-text a {
+    text-transform: none;
+}
+
 .dropdown-menu {
     padding: 0px !important;
 }
@@ -284,7 +288,7 @@ a.btn.white {
 }
 
 #first-section .banner-slide {
-    height: 80vh;
+    height: 100vh;
     display: flex;
 }
 
@@ -318,10 +322,11 @@ a.btn.white {
 
 #first-section .banner-slide .widget-box:after {
     content: "";
-    width: 300px;
-    height: 418px;
+    width: inherit;
+    height: 400px;
     position: absolute;
-    left: 60px;
+    left: 0;
+    bottom: -380px;
     padding: 20px;
     border: 10px solid #94978c;
     background: #94978c;
@@ -359,7 +364,7 @@ a.btn.white {
 }
 
 #first-section .heading {
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 300;
     letter-spacing: 4px;
     line-height: 1.2;
@@ -368,7 +373,7 @@ a.btn.white {
 }
 
 #first-section .desc {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 300;
     line-height: 1.7;
     margin-bottom: 45px;
@@ -458,6 +463,7 @@ a.btn.white {
     font-weight: 600;
     font-size: 20px;
     margin-bottom: 40px;
+    margin-left: 10px;
 }
 
 #third-section .description {
@@ -500,6 +506,13 @@ a.btn.white {
     transition: 0.7s;
 }
 
+#third-section .thumbnail-logo {
+    display: flex;
+    justify-content: center;
+    padding-left: 29px;
+
+}
+
 #third-section .thumbnail-logo img {
     height: 105px;
 }
@@ -517,7 +530,7 @@ a.btn.white {
 /* Fourth Section*/
 
 #fourth-section .bg-img {
-    height: 80vh;
+    height: 85vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -527,6 +540,20 @@ a.btn.white {
 #fourth-section .widget-box,
 #fourth-section .heading-bx {
     width: 50%;
+}
+
+#fourth-section .widget-box.clickable-paint {
+    position: absolute;
+    right: 265px;
+    background-color: red;
+    width: 20%;
+    opacity: 50%;
+    height: 75%;
+    display: flex;
+    bottom: 0;
+    top: 0;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 #fourth-section .heading-bx {
@@ -597,6 +624,7 @@ a.btn.white {
     font-size: 30px;
     color: #a2a2a2;
     padding-bottom: 50px;
+    padding-left: 10px;
 }
 
 #fifth-section .thumbnail-img {
@@ -643,9 +671,16 @@ a.btn.white {
 
 #fifth-section .block .color-desc {
     position: relative;
-    width: 33%;
+    width: 185px;
+    height: 100px;
     padding: 30px 20px 20px 20px;
     text-align: center;
+    margin-right: 10px;
+    z-index: 1;
+}
+
+#fifth-section .block .align-bx:first-child .widget-box:first-child .color-desc {
+    padding: 40px 20px 20px 20px;
 }
 
 #fifth-section .block .center-bx.row-bx .color-desc {
@@ -654,18 +689,18 @@ a.btn.white {
 
 #fifth-section .block .color-desc:after {
     content: "";
-    width: 170px;
-    height: 186px;
+    width: inherit;
+    height: 185px;
     position: absolute;
-    /* bottom: 150px; */
-    left: 8px;
-    padding: 20px;
+    left: 0;
+    top: 41px;
     border: 10px solid #94978c;
     background: #94978c;
     shape-outside: ellipse(30% 60% at 5%);
-    clip-path: ellipse(30% 60% at 5%);
+    clip-path: ellipse(30% 55% at 20%);
     shape-margin: 43px;
     transform: rotate(90deg);
+    z-index: -1;
 }
 
 #fifth-section .block .color-desc .ttl {
@@ -1156,8 +1191,8 @@ a.btn.white {
     height: 20px;
     width: 30px;
     position: absolute;
-    left: 25px;
-    bottom: 25px;
+    left: 21px;
+    bottom: 21px;
     background-image: url(/img/buttons/down.png);
     background-size: contain;
     background-repeat: no-repeat;
@@ -1502,24 +1537,18 @@ a.btn.white {
 @media only screen and ( max-width: 1400px) {
     #first-section .banner-slide .widget-box:after {
         content: "";
-        width: 180px;
-        height: 280px;
+        width: inherit;
+        height: 300px;
         position: absolute;
-        left: 50px;
+        bottom: -290px;
         padding: 20px;
+        left: 0;
         border: 10px solid #94978c;
         background: #94978c;
         shape-outside: ellipse(30% 60% at 5%);
         clip-path: ellipse(30% 60% at 5%);
         shape-margin: 43px;
         transform: rotate(90deg);
-    }
-    #fifth-section .block .color-desc:after {
-        content: "";
-        width: 165px;
-        height: 180px;
-        position: absolute;
-        left: 7px;
     }
     .logo {
         width: 15%;
@@ -1553,6 +1582,12 @@ a.btn.white {
     #fourth-section .container {
         max-width: 900px;
     }
+    #fourth-section .widget-box.clickable-paint {
+        right: 215px;
+    }
+    #fourth-section .bg-img {
+        height: 70vh;
+    }
     #fourth-section .thumbnail-logo img {
         width: 290px;
     }
@@ -1582,11 +1617,11 @@ a.btn.white {
     #second-section .widget-box .bg-img:after {
         padding-top: 160%;
     }
-    #fifth-section .block .color-desc {
-        width: 40%;
-    }
     #fifth-section .block .center-bx.row-bx .color-desc {
         width: 20%;
+    }
+    #fourth-section .widget-box.clickable-paint {
+        right: 230px;
     }
     #sixth-section .block .widget-box {
         padding: 0 25px;
@@ -1596,13 +1631,6 @@ a.btn.white {
     }
     #footer .top-con .text-con {
         padding-left: 70px;
-    }
-    #fifth-section .block .color-desc:after {
-        content: "";
-        width: 161px;
-        height: 163px;
-        position: absolute;
-        left: 1px;
     }
 }
 
@@ -1630,7 +1658,7 @@ a.btn.white {
         padding-left: 5px;
     }
     #first-section .banner-slide {
-        height: 70vh;
+        height: 95vh;
     }
     #third-section .color-row {
         display: flex;
@@ -1649,8 +1677,11 @@ a.btn.white {
     #fourth-section .widget-box {
         width: 100%;
         position: absolute;
-        bottom: -230px;
+        bottom: -280px;
         margin-bottom: 60px;
+    }
+    #fourth-section .widget-box.clickable-paint {
+        right: 170px;
     }
     #fourth-section .heading-bx {
         display: none;
@@ -1660,11 +1691,6 @@ a.btn.white {
     }
     #fifth-section .block .align-bx.row-bx .widget-box {
         width: 100%;
-    }
-    #fifth-section .block .color-desc:after {
-        content: "";
-        width: 260px;
-        height: 262px;
     }
     #sixth-section .block {
         flex-wrap: wrap;
@@ -1718,20 +1744,24 @@ a.btn.white {
     }
     #main-nav a, #main-nav .subnav .subnavbtn {
         font-size: 10px;
-    }
+    }    
     #first-section .banner-slide {
-        height: 180vh;
+        height: 80vh;
+    }
+    #third-section .container {
+        padding: 60px 0 0;
     }
     #fourth-section .bg-img {
-        height: 120vh;
+        height: 97vh;
         margin-bottom: 270px;
+    }
+    #fourth-section .widget-box.clickable-paint {
+        right: 265px;
+        width: 40%;
+        height: 72%;
     }
     #fourth-section .widget-box {
         bottom: -300px;
-    }
-    #fifth-section .block .color-desc:after {
-        width: 248px;
-        height: 250px;
     }
     #footer .bot-con {
         flex-wrap: wrap;
@@ -1751,9 +1781,9 @@ a.btn.white {
     .responsive-item{
         overflow-y: auto; height: 60vh; 
     }
-    #fifth-section .block .color-desc:after {
-        width: 222px;
-        height: 224px;
+    #fourth-section .widget-box.clickable-paint {
+        right: 235px;
+        height: 62%;
     }
 }
 
@@ -1766,9 +1796,8 @@ a.btn.white {
     #main-nav .subnav .subnavbtn {
         padding-left: 10px;
     }
-    #fifth-section .block .color-desc:after {
-        width: 212px;
-        height: 213px;
+    #fourth-section .widget-box.clickable-paint {
+        right: 216px;
     }
 }
 
@@ -1778,10 +1807,6 @@ a.btn.white {
 
     #main-nav a, #main-nav .subnav .subnavbtn {
         font-size: 8px;
-    }
-    #fifth-section .block .color-desc:after {
-        width: 184px;
-        height: 186px;
     }
     .nav-wrapper {
         display: block;
@@ -1805,15 +1830,22 @@ a.btn.white {
         justify-content: space-between;
         align-items: center;
     }
+    #fourth-section .widget-box.clickable-paint {
+        right: 188px;
+        height: 54%;
+    }
 }
 
 /* 575px */
 
 @media only screen and (max-width: 575px) {
-
     .button-add-to-cart {
         left: 0;
         width: 100%;
+    }
+    #fourth-section .widget-box.clickable-paint {
+        right: 168px;
+        height: 46%;
     }
 }
 
@@ -1837,8 +1869,6 @@ a.btn.white {
     }
     #fourth-section .bg-img {
         background-position: center top!important;
-    }
-    #fourth-section .bg-img {
         height: 70vh;
     }
     #fourth-section .widget-box {
@@ -1847,10 +1877,26 @@ a.btn.white {
         height: 329px;
         margin: 10px;
         left: 7px;
+        padding-top: 45px;
+    }
+    #fourth-section .widget-box.clickable-paint {
+        left: 119px;
+        height: 54%;
+        top: 56px;
+        bottom: unset;
+        margin-top: unset;
+        margin-bottom: unset;
+    }
+    #fifth-section .block .color-desc {
+        width: 161px;
     }
     #fifth-section .block .color-desc:after {
-        width: 125px;
-        height: 125px;
+        width: inherit;
+        height: 161px;
+        top: 48px;
+    }
+    #fifth-section .block .color-desc .ttl {
+        font-size: 17px;
     }
     #footer .top-con .text-con {
         padding-left: 20px;
@@ -1878,16 +1924,17 @@ a.btn.white {
     #main-nav .navbar a {
         padding: 14px 2px;
     }
-    #fifth-section .block .color-desc:after {
-        width: 110px;
-        height: 111px;
-    }
     #main-nav .subnav .subnavbtn {
         padding: 14px 4px;
     }
+    #fifth-section .block .color-desc {
+        width: 143px;
+        height: 85px;
+    }
     #fifth-section .block .color-desc:after {
-        width: 103px;
-        height: 104px;
+        width: inherit;
+        height: 143px;
+        top: 39px;
     }
     #fifth-section .block .color-desc .ttl {
         font-size: 15px;
@@ -1899,10 +1946,6 @@ a.btn.white {
 @media only screen and (max-width: 350px) {
     #third-section .color-picker {
         width: 100%;
-    }
-    #fifth-section .block .color-desc:after {
-        width: 89px;
-        height: 90px;
     }
     #fourth-section .widget-box {
         width: 310px;
