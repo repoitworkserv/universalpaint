@@ -158,7 +158,7 @@
                             <div class="desc">AquaGuard is a premium quality elastomeric paint, it features a flexible and ultra-durable coating that fills and covers existing or developing cracks on your wall - creating a waterproof barrier against rain from entering your home. Guaranteed to protect your home against all types of tropical weather.</div>
                             <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
                         </div>
-                        <div class="product-img-wrapper" style=" background-image: url('/img/aquaguard.png'); "></div>
+                        <a href="/product/aquaguard-elastomeric-paint-aquaguard-elastomeric-paint" class="product-img-wrapper" style=" background-image: url('/img/aquaguard.png'); "></a>
 
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                         <div class="desc">PLUS is a premium-economy quality latex paint. Perfect for concrete and masonry surfaces where quality is needed without the premium price.</div>
                             <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
                         </div>
-                        <div class="product-img-wrapper" style="background-image: url('/img/pluslatex.png')"></div>
+                        <a href="/product/universal-professional-architectural-paint-plus-latex-paint" class="product-img-wrapper" style="background-image: url('/img/pluslatex.png')"></a>
                     </div>
                 </div>
             </div>
@@ -225,7 +225,7 @@
                         <div class="desc">Premium quality roof paint that is formulated using UV resistant pigments. Will protect your roof and keep it looking new longer.</div>
                             <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
                         </div>
-                        <div class="product-img-wrapper" style="background-image: url('img/roofarmor.png')"></div>
+                        <a href="/product/universal-roof-armour-universal-roof-armour" class="product-img-wrapper" style="background-image: url('img/roofarmor.png')"></a>
                     </div>
                 </div>
             </div>
@@ -258,7 +258,7 @@
                         <div class="desc">Otto Epoxshield is an industrial quality two component epoxy topcoat that provides the ultimate in corrosion and abrasion resistance for your metal and steel projects. Dries to a smooth and glossy finish for easy maintenance</div>
                             <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
                         </div>
-                        <div class="product-img-wrapper" style="background-image: url('img/epoxshield.png')"></div>
+                        <a href="/product/otto-epoxshield-otto-epoxshield-topcoat" class="product-img-wrapper" style="background-image: url('img/epoxshield.png')"></a>
                     </div>
                 </div>
             </div>
