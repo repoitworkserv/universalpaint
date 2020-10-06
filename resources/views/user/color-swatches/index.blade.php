@@ -3,7 +3,7 @@
 @section('content')
 <div id="color-swatches">
 	<div class="container">
-        <div class="heading">Color Chats and brochures</div>
+        <div class="heading">Color Chats and Brochures</div>
         <div class="sub-heading">Browse by colour scheme</div>
 		<div class ="color-tab">
 			<div class="tab">
@@ -33,7 +33,7 @@
 			  </div>
 			  <div class="tablinks" data-color="Blue">
 		          <div class="color-picker">
-		            <div class="color-box" style="background-color:#29436E;"></div>
+		            <div class="color-box" style="background-color:#0045C7;"></div>
 		            <div class="ttl">Blue</div>
 		          </div>
 			  </div>

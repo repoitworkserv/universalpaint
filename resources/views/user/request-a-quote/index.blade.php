@@ -11,7 +11,7 @@
 					<div class="contact-form-bx">
 					  	<form action="/">
 						  	<div class="contact-form">
-						  		<div class="heading">Request A Qoute</div>
+						  		<div class="heading">Request A Quote</div>
 							  	<div class="c-form">
 							  		<div class="widget-box">
 									    <div class="label-top">Your Name<span>*</span></div>
@@ -81,8 +81,8 @@
 					</div>
 					<div class="widget-box" style="background-image: url({{ url('img/icontact/phonebg.png') }}); background-size: contain; background-repeat: no-repeat; background-position: center left;">
 						<div class="icon"><img src="{{ url('img/icontact/phoneicon.png') }}"></div>
-						<div class="title">Call Us</div>
-						<div class="desc"><b>Tel.</b>+632 8646 8701, +632 8646 3571 </br> +632 8646 896 </br> <b>Mobile</b> +63917 106 4579 </br><b>Fax</b> +632 8646 8329</div>
+						<div class="title">Call Us</div>												     
+						<div class="desc"><b>Tel.</b>(+632) 8997 8777</br> (+632) 8646 8801 </br> (+632) 8646 8701</br> (+632) 8646 3571 </br> (+632) 8646 8967 </br> <b>Mobile</b> +63917 106 4579 </br><b>Fax</b> +632 8646 8329</div>
 					</div>
 					<div class="widget-box" style="background-image: url({{ url('img/icontact/locbg.png') }}); background-size: contain; background-repeat: no-repeat; background-position: center left;">
 						<div class="icon"><img src="{{ url('img/icontact/locicon.png') }}"></div>

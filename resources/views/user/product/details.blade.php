@@ -71,8 +71,7 @@
                                             <input type="hidden" id="productid" value="{{$key->id}}">
                                             <input type="hidden" id="parentid" value="{{$key->ParentData ? $key->ParentData['id'] : $key->id}}">
                                             <div class="sub-title"></div>
-                                            <div class="desc">{!! $key->description !!}</div>
-                                            <div class="feat-ttl">BEST FEATURES</div>
+                                            <div class="desc">{!! $key->description !!}</div>                                            
                                             <div class="regular-price">
                                                 @if($key->is_sale == 1)
                                                     @if($key->product_type == 'single')
