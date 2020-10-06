@@ -141,8 +141,8 @@
                                     </div>
 
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/request-a-quote/">Request a quote</a>
+                                <li class="nav-item regular-text">
+                                    <a class="nav-link" href="/request-a-quote/">Request a Quote</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/contact-us/">Contact us</a>
