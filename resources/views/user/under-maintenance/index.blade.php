@@ -1,11 +1,10 @@
 <style>
-	
-body {
-    margin: 0;
-}
+    body {
+        margin: 0;
+    }
 
-div#under-maintenance {
-    height: 100vh;
+    div#under-maintenance {
+        /* height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,9 +16,13 @@ div#under-maintenance {
     letter-spacing: 4px;
     line-height: 1.2;
     margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
+    text-transform: uppercase; */
+        background-image: url('img/surface.jpg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url('/img/under-maintenance.png');
+        height: 100%;
+    }
 </style>
-<div id ="under-maintenance"> UNDER MAINTENANCE </div>
-
+<div id="under-maintenance"></div>
