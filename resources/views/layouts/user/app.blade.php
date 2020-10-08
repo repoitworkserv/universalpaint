@@ -92,7 +92,7 @@
                                                     <hr>
                                                     <a class="dropdown-item" href="/product-category/interior">Interior</a>
                                                     <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
-                                                    <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
+                                                    <a class="dropdown-item" href="/product-category/surface_preparation">Surface Preparation</a>
                                                     <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
                                                     <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
                                                 </div>

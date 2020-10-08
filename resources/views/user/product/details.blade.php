@@ -13,18 +13,20 @@
                     <div id="product-page-list">
                         <div class="banner-img" style="background-image: url({{ url('img/p2.png') }}); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                         <div class="container">
+                            @php
+                                $listab = array();
+                                $proddesc = '';
+                                $howtouse = '';
+                                $delvry_opt = '';
+                                $sub_cat = implode( ", ", $sub_category );
+                            @endphp                            
+                            @foreach($product as $key)
                             <div class="sub-navigation">
-                                <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products | Wall Paint</div>
+                                <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products| {{ $sub_cat }} Paint</div>
                             </div>
                             <div class="product-tile">
                                 <div class="block">
-                                    @php
-                                        $listab = array();
-                                        $proddesc = '';
-                                        $howtouse = '';
-                                        $delvry_opt = '';
-                                    @endphp
-                                    @foreach($product as $key)
+                                    
                                         @php
                                             $listab = explode(',',$key->list_tab);
                                             $howtouse = $key->howtousetab_details;
@@ -237,9 +239,11 @@
                                             </div> 
                                             @endif                                             
                                         </div>
-                                    @endforeach
+                                   
                                 </div>
                             </div>
+
+                            @endforeach
                         </div>
                     </div>
                 </div>

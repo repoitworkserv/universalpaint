@@ -252,7 +252,15 @@ class ProductPageController extends Controller
         if($product[0]->surface_preparation == 1 ) {
             $category .=  'Surface Preparation';
         }
-
+        $sub_category = array();
+        foreach($product as $item ){                
+            if(!empty($item->ProductCategoryData)) {
+                foreach($item->ProductCategoryData as $item) {                        
+                    $sub_cat = Category::where('id','=',$item->category_id)->get();
+                    array_push($sub_category,$sub_cat[0]->name);
+                }
+            }
+        }
         if($request->color_swatches) {
             $prod_attrib = array(
                 'parent_id' => $request->parent_id,
@@ -260,15 +268,14 @@ class ProductPageController extends Controller
             );            
 
             $cart = $request->session()->get('cart');         
-
-            return view('user.product.details', compact('uid','category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+            return view('user.product.details', compact('uid','category','sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }
         $color_count = $product[0]->UsedAttribute->count();
         if($color_count >5 )
         {                        
             return view('user.color-swatches.index',compact('productAttributes'));
-        }else{
-            return view('user.product.details', compact('uid','category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+        }else{                          
+            return view('user.product.details', compact('uid','category','sub_category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }           
     }
 
@@ -1090,6 +1097,103 @@ class ProductPageController extends Controller
         }
         return view('user.interior-door.index', compact('uid','category','product'));
     }
+
+    /*
+    Create Function for Prduct Category Fetching RMM
+    */
+    public function sub_category(Request $request)
+    {                
+        $searchCat = $request->category;
+        /** Change to Dynamic once records are cleansed */
+        $sub_cat_search = array(
+            'Concrete and Cement Boards',
+            'Metal and Steel',
+            'Wood'
+        );
+
+        $return_sub_cat = array();
+        
+        $sub_cat = Category::where(function($q)use($sub_cat_search){
+            $q->whereIn('name', $sub_cat_search);
+        })->get();          
+
+        if($sub_cat){                        
+            foreach($sub_cat as $item)
+            {
+                $producCategory = ProductCategory::where(function($q)use($sub_cat, $item){
+                    $q->where('category_id','=',$item->id);
+                })->get()->lists('product_id')->toArray();    
+                $return_sub_cat[$item->name] = array(
+                    'slug_name' => $item->slug_name,
+                    'product' => Product::where(function($q) use($producCategory, $searchCat){                    
+                        $q->where($searchCat,'=',1);
+                        $q->wherein('id',$producCategory);                    
+                    })->get()
+                );                                
+            }                            
+        }                      
+		$uid = Auth::id();
+        return view('user.sub-category.index', compact('return_sub_cat','searchCat','uid'));
+    }
+    /*
+    Create Function for Prduct Sub Category Fetching RMM
+    */
+    function sub_category_list(Request $request){
+        $param_sub_category = $request->sub_category;
+        $category = $request->category;
+
+        /** Change to Dynamic once records are cleansed */
+        $cat = Category::where(function($q)use($param_sub_category){            
+            $q->where('slug_name','=', $param_sub_category);
+        })->get();          
+        $producCategory;
+        if($cat){
+            
+            $producCategory = ProductCategory::where(function($q)use($cat){
+                $q->where('category_id','=',$cat[0]->id);
+            })->get()->lists('product_id')->toArray(); 
+        }
+        $product = Product::with(['BrandData'=>function($query){
+            $query->with('ProductByBrand');
+        }])
+        ->with(['UsedVariables'=>function($query){
+            $query->with('VariableData');
+        }])
+        ->with(['UsedAttribute'=>function($query){
+            $query->with('AttributeData');
+        }])
+        ->with(['ParentData'=>function($query){
+            $query->with('BrandData');
+        }])
+        ->with(['ChildData'=>function($query){
+            $query->groupBy('featured_image');
+        }])
+        ->with(['ProductCategoryData'=>function($query){            
+            $query->with(['SameCategoryProduct'=>function($querytwo){
+                $querytwo->with(['ProductDetails'=>function($querythree){
+                    $querythree->where('parent_id',0);
+                }]);
+            }]);
+        }])
+        ->with('ProductOverview')
+        ->with(['ProductWishlist'=>function($query){
+            $query->where('user_id', Auth::id());
+        }])        
+        ->where('parent_id','=',0)
+        ->where('interior','=',1)
+        ->wherein('id',$producCategory)
+        ->get();        
+        $uid = Auth::id();             
+        // $category;        
+        // if($product[0]->interior == 1) {
+        //     $category = 'interior';
+        // }
+        // if($product[0]->exterior == 1 ) {
+        //     $category .=  ' & exterior';
+        // }
+        return view('user.sub-category.list', compact('uid','category','param_sub_category', 'product'));
+    }
+
 
     public function color_swatches() 
     {
