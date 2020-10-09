@@ -17,24 +17,9 @@ Route::auth();
 
 // USER ROUTES
 
+Route::get('/product-category/{category}', 'User\ProductPageController@sub_category');
 
-// NEW PAGES
-
-// Route::get('/product-category/interior', function () {
-// 	return view('user.interior.index');
-// });
-Route::get('/product-category/interior', 'User\ProductPageController@interior');
-Route::get('/product-category/exterior', 'User\ProductPageController@exterior');
-//Industrial
-Route::get('/product-category/industrial', 'User\ProductPageController@industrial');
-//
-Route::get('/product-category/surface-preparation', 'User\ProductPageController@surfacePreparation');
-
-Route::get('/product-category/interior/door', 'User\ProductPageController@interior_door');
-
-// Route::get('/product-category/interior/door', function () {
-// 	return view('user.interior-door.index');
-// });
+Route::get('/product-category/{category}/{sub_category}', 'User\ProductPageController@sub_category_list');
 
 Route::get('/product-category/exterior/door', function () {
 	return view('user.exterior-door.index');
@@ -48,17 +33,11 @@ Route::get('/product-category/exterior/wall', function () {
 	return view('user.exterior-wall.index');
 });
 
-// Route::get('/product-category/exterior', function () {
-// 	return view('user.exterior.index');
-// });
 
 Route::get('/product-category/brands', 'User\BrandController@index');
 Route::get('//product-category/brands/{id}', 'User\BrandController@slugName');
 Route::get('/color-swatches', 'User\ProductPageController@color_swatches');
 
-// Route::get('/color-swatches', function () {
-// 	return view('user.color-swatches.index');
-// });
 
 Route::get('/contact-us', function () {
 	return view('user.contact-us.index');
@@ -86,6 +65,7 @@ Route::post('register-customer', 'User\RegisterController@register_customer');
 // Route::get('/product-category/interior', 'User\InteriorController@index');
 Route::get('/product-category/interior/search', 'User\InteriorController@search');
 Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
+
 
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');

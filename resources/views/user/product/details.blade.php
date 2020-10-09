@@ -13,49 +13,51 @@
                     <div id="product-page-list">
                         <div class="banner-img" style="background-image: url({{ url('img/p2.png') }}); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                         <div class="container">
+                            @php
+                                $listab = array();
+                                $proddesc = '';
+                                $howtouse = '';
+                                $delvry_opt = '';
+                                $sub_cat = implode( ", ", $sub_category );
+                            @endphp                            
+                            @foreach($product as $key)
                             <div class="sub-navigation">
-                                <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products | Wall Paint</div>
+                                <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products</div>
                             </div>
                             <div class="product-tile">
                                 <div class="block">
-                                    @php
-                                    $listab = array();
-                                    $proddesc = '';
-                                    $howtouse = '';
-                                    $delvry_opt = '';
-                                    @endphp
-                                    @foreach($product as $key)
-                                    @php
-                                    $listab = explode(',',$key->list_tab);
-                                    $howtouse = $key->howtousetab_details;
-                                    $delvry_opt = $key->deliveryopt_tab_details;
-                                    @endphp
-                                    @php
-                                    $prodesc = $key->description;
-                                    $query = App\ProductReviewsandRating::where('product_id', $key->id)->count();
-                                    $productRating = "(" . $query .' '."Rating)". "\r\n";
-                                    $prodprice = '';
+                                    
+                                        @php
+                                            $listab = explode(',',$key->list_tab);
+                                            $howtouse = $key->howtousetab_details;
+                                            $delvry_opt = $key->deliveryopt_tab_details;
+                                        @endphp
+                                        @php
+                                            $prodesc = $key->description;
+                                            $query = App\ProductReviewsandRating::where('product_id', $key->id)->count();
+                                            $productRating = "(" . $query .' '."Rating)". "\r\n";
+                                            $prodprice = '';
+                                        
+                                            if($key->product_type == 'single')
+                                                if($key->is_sale == 1)
+                                                    $prodprice = "\r\n".number_format($key->sale_price, 2);
+                                                else
+                                                    $prodprice = "\r\n".number_format($key->price, 2);
+                                            else
+                                                if($key->is_sale == 1)
+                                                    $prodprice = "\r\n".number_format($key->sale_price, 2);
+                                                else
+                                                    $prodprice = "\r\n".number_format($key->price, 2);
 
-                                    if($key->product_type == 'single')
-                                    if($key->is_sale == 1)
-                                    $prodprice = "\r\n".number_format($key->sale_price, 2);
-                                    else
-                                    $prodprice = "\r\n".number_format($key->price, 2);
-                                    else
-                                    if($key->is_sale == 1)
-                                    $prodprice = "\r\n".number_format($key->sale_price, 2);
-                                    else
-                                    $prodprice = "\r\n".number_format($key->price, 2);
-
-                                    $img = URL::asset('img/products').'/'.$product[0]->featured_image;
-                                    $prodname = $key->ParentData ? $key->ParentData['name'] :$key->name;
-                                    $url = URL::to('/').'/product';
-                                    @endphp
-                                    @section('ogproduct'){!! $prodname !!}@stop
-                                    @section('ogtitle'){!!$prodname . ' &#8369;'.$prodprice . ' \r\n' .$productRating!!}@stop
-                                    @section('ogdescription'){!! $proddesc !!}@stop
-                                    @section('ogurl',''){!!$url!!}@stop
-                                    @section('ogimg'){!! $img !!}@stop
+                                                    $img = URL::asset('img/products').'/'.$product[0]->featured_image;
+                                                    $prodname = $key->ParentData ? $key->ParentData['name'] :$key->name;
+                                                    $url = URL::to('/').'/product';
+                                        @endphp
+                                        @section('ogproduct'){!! $prodname !!}@stop
+                                        @section('ogtitle'){!!$prodname . ' &#8369;'.$prodprice . ' \r\n' .$productRating!!}@stop
+                                        @section('ogdescription'){!! $proddesc !!}@stop
+                                        @section('ogurl',''){!!$url!!}@stop
+                                        @section('ogimg'){!! $img !!}@stop
                                     <div class="left-bx col-md-5 col-sm-12 col-12">
                                         <div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $product[0]->featured_image }}); background-size: cover; background-repeat: no-repeat; background-position: center center; position: relative; left: 15px;"></div>
                                         <div class="prod-btn">
@@ -234,11 +236,17 @@
                                                 </div>
                                             </div>
                                         </div>
+<<<<<<< HEAD
                                         @endif
                                     </div>
                                     @endforeach
+=======
+                                   
+>>>>>>> 579ef9e879a8d74ac3b016e99fd927598469aec9
                                 </div>
                             </div>
+
+                            @endforeach
                         </div>
                     </div>
                 </div>
