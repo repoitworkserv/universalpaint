@@ -22,7 +22,7 @@
                             @endphp                            
                             @foreach($product as $key)
                             <div class="sub-navigation">
-                                <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products| {{ $sub_cat }} Paint</div>
+                                <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products</div>
                             </div>
                             <div class="product-tile">
                                 <div class="block">

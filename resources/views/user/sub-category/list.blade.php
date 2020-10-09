@@ -2,7 +2,11 @@
 
 
 @section('content')
-
+<style>
+#product-page-list .block {
+    margin-bottom: 20px;
+}
+</style>
 <div id ="product-page-list">
 	<div class="banner-img" style="background-image: url({{ url('img/p2.png') }}); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
 	<div class="container">
@@ -10,7 +14,7 @@
 			<div class="nav-right"> {{ ucfirst( str_replace("_", " ", $category)) }} Products</div>
 		</div>
 		<div class="product-tile">
-			<div class="block">			
+					
 				@php
 					$listab = array();
 					$proddesc = '';
@@ -18,6 +22,7 @@
 					$delvry_opt = '';
 				@endphp
 				@foreach($product as $key)
+                <div class="block">	
 					@php
 						$listab = explode(',',$key->list_tab);
 						$howtouse = $key->howtousetab_details;
@@ -48,8 +53,8 @@
 							@section('ogdescription'){!! $proddesc !!}@stop
 							@section('ogurl',''){!!$url!!}@stop
 							@section('ogimg'){!! $img !!}@stop
-							<div class="left-bx">                
-							<a href="/product/{{ $key->slug_name }}"><div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $product[0]->featured_image }}) ; background-size: cover; background-repeat: no-repeat; background-position: center center;"></div></a>
+							<div class="left-bx col-md-5 col-sm-12 col-12">                
+							<a href="/product/{{ $key->slug_name }}"><div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $key->featured_image }}) ; background-size: cover; background-repeat: no-repeat; background-position: center center; left: 15px; position: relative;"></div></a>
 								
 								<div class="prod-btn">
 									<img src="{{ url('img/buttons/button.png') }}">
@@ -59,7 +64,7 @@
 									<a href="" class="yellow-btn">Color Calculators</a>	
 								</div>				
 							</div>
-							<div class="right-bx">
+							<div class="right-bx col-md-7 col-sm-12 col-12">
 								<div class="title">{{$key->ParentData ? $key->ParentData['name'] :$key->name}}</div>
 								<div class="sub-title"></div>
 								<div class="desc">{!! $key->description !!}</div>
@@ -119,11 +124,9 @@
 									<div class="sml-desc">{{ $key->packaging}}</div>
 								</div>
 							</div>	
-				@endforeach			
-			</div>
-		</div>   
-
-		
+                        </div>
+				@endforeach						
+		</div>   		
 	</div>
 </div>
 
