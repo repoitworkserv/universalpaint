@@ -185,6 +185,7 @@ class ProductPageController extends Controller
     public function details($slug_name, Request $request)
     { 
         // $productAttributes = array();        
+        $cart = $request->session()->get('cart');
         $product = Product::with(['BrandData'=>function($query){
                 $query->with('ProductByBrand');
             }])
@@ -268,14 +269,14 @@ class ProductPageController extends Controller
             );            
 
             $cart = $request->session()->get('cart');         
-            return view('user.product.details', compact('uid','category','sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+            return view('user.product.details', compact('uid','category', 'cart', 'sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }
         $color_count = $product[0]->UsedAttribute->count();
         if($color_count >5 )
         {                        
             return view('user.color-swatches.index',compact('productAttributes'));
         }else{                          
-            return view('user.product.details', compact('uid','category','sub_category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+            return view('user.product.details', compact('uid','category','cart','sub_category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }           
     }
 
