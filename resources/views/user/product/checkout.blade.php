@@ -6,65 +6,62 @@
         <a href="/cart"><i class="fa fa-long-arrow-left" aria-hidden="true"></i> Back to Cart</a>
     </div> 
     {!! csrf_field() !!}
-    <div class="row">
+    <div class="row checkout-quote">
         <div class="col-lg-8">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                        <br><br><br><br><br><br>
-                            <h4>Shipping Details</h4>
+                        <br><br><br><br><br><br>                            
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label>First Name</label>
-                                                    <input type="text" name="b_first_name" id="b_first_name" class="form-control f_valid" placeholder="First Name" value="" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label>Last Name</label>
-                                                    <input type="text" name="b_last_name" id="b_last_name" class="form-control f_valid" placeholder="Last Name" value="" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label>Address</label>
-                                                    <input type="text" name="b_address" id="b_address" class="form-control f_valid" placeholder="Please enter Address" value="" required>
-                                                </div>
-                                            </div>
-                                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                                    <div class="form-group">
-                                                        <label>Email</label>
-                                                        <input type="text" name="b_email" id="b_email" class="form-control f_valid" placeholder="Please enter Email" value="" required>
+                                    <div class="row con-dtls">
+                                        <form action="/" style="width: 100%;">
+                                            <div class="contact-form">
+                                                <div class="heading">Checkout Details</div>
+                                                <div class="c-form">
+                                                    <div class="widget-box">
+                                                        <div class="label-top">Your Name<span>*</span></div>
+                                                        <input type="text" id="fname" name="firstname" placeholder="Your Name Here..">
                                                     </div>
+                                                    <div class="widget-box">
+                                                        <div class="label-top">Contact Number<span>*</span></div>
+                                                        <input type="text" id="cnum" name="contactnum" placeholder="Contact Number Here..">
+                                                    </div>
+                                                    <div class="widget-box">
+                                                        <div class="label-top">Email Address<span>*</span></div>
+                                                        <input type="text" id="eadd" name="em" placeholder="Email Address Here">
+                                                    </div>
+                                                    <div class="widget-box">
+                                                        <div class="label-top">Address<span>*</span></div>
+                                                        <input type="text" id="add" name="em" placeholder="Complete Address Here">
+                                                    </div>
+                                                    <div class="widget-box">
+                                                        <div class="label-top">Product<span>*</span></div>
+                                                        @if(!empty($cart))
+                                                            @php $x=0; @endphp
+                                                            @foreach($cart as $item) 
+                                                                <div>     
+                                                                <h6 class="nomargin product-name"></h6>                                                                
+                                                                <input type="text" id="prod" name="prod" placeholder="Product Name" value="{{$item['name']}}">
+                                                                @if(!empty($item['product_attribute']))
+                                                                                                                                
+                                                                    <input type="text" id="prod" name="prod" placeholder="Product Name" value="{!! App\Attribute::where('id',$item['product_attribute'])->first()['name'] !!}">
+                                                                
+                                                                @endif
+                                                                <div class="label-top">Quantity<span>*</span></div>
+                                                                    <input class="form-control cart-qty" type="number" min="1" step="1" value="{{$item['qty']}}" data-index="{{$x}}">
+                                                                    </div>
+                                                                @php $x++; @endphp
+                                                            @endforeach
+                                                        @endif	
+                                                        
+                                                        
+                                                    </div>                                                    
                                                 </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label>Mobile No.</label>
-                                                    <input type="text" name="b_mobile_no" id="b_mobile_no" class="form-control f_valid" placeholder="Please enter your mobile number" value="" required>
-                                                </div>
+                                                <div class="button-bx"><input type="submit" value="Send Now"></div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label>Shipping Area/Region</label>
-                                                    <select class="form-control f_valid ship-loc" id="b_city" name="b_city" required>
-                                                        <option value="" data-amount="0"></option>
-                                                        @foreach($shipping as $list)
-                                                             <option value="{{$list->id}}">{{$list->location}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label>Order Notes</label>
-                                                    <textarea class="form-control f_valid" name="b_notes" id="b_notes" rows="3" placeholder="Notes about your order, e.g special note for delivery." required></textarea>
-                                                </div>
-                                            </div>
+                                        </form>                                            
                                     </div>
                                 </div>
                                 <div class="col-lg-12">

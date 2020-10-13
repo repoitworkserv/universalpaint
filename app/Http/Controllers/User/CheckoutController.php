@@ -59,7 +59,7 @@ class CheckoutController extends Controller
                 }
             }
         }
-        return view('user.product.checkout', compact('sub_total', 'shipping' ));
+        return view('user.product.checkout', compact('sub_total', 'shipping','cart' ));
     }
 
     public function send_checkoutDetails(Request $request)
