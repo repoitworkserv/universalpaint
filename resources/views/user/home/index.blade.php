@@ -88,43 +88,15 @@
             </div>            
         </div>
         <!-- color picker -->
-        <div class="color-row">
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#F6F7F2;"></div>
-                <div class="ttl">Whites </br>& Neutrals</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#373E42;"></div>
-                <div class="ttl">Greys</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#B39F94;"></div>
-                <div class="ttl">Browns</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#7E7999;"></div>
-                <div class="ttl">Purples</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#0045C7;"></div>
-                <div class="ttl">Blue</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#9DBFAF;"></div>
-                <div class="ttl">Greens</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#FAE196;"></div>
-                <div class="ttl">Yellows</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#CC5327;"></div>
-                <div class="ttl">Oranges</div>
-            </div>
-            <div class="color-picker">
-                <div class="color-box" style="background-color:#A8312F;"></div>
-                <div class="ttl">Reds</div>
-            </div>
+        <div class="color-row">                    
+            @if(!empty($colors))                
+                @foreach($colors as $item)
+                    <a href="/color-swatches" class="color-picker">
+                        <div class="color-box" style="background-color:{!! $item['color'] !!};"></div>
+                        <div class="ttl">{!! $item['name'] !!}</div>
+                    </a>
+                @endforeach
+            @endif            
         </div>
     </div>
 </div>
@@ -146,7 +118,7 @@
                                     <div class="widget-box">
                                         <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
                                         <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
-                                            <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
+                                            <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
                                     </div>
                                     <a href="/product/{!! \App\Product::findOrFail($product)->slug_name; !!}" class="product-img-wrapper" style="background: url(
                                             
