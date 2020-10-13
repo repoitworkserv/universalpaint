@@ -1538,6 +1538,118 @@ a.btn.white {
     line-height: 1.9;
 }
 
+
+/* Checkout Qoute*/
+
+.checkout-quote {
+    margin-top: 87px;
+}
+
+.checkout-quote .container {
+    padding: 80px 0;
+}
+
+.checkout-quote .contact-details {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.checkout-quote .con-dtls {
+    width: 100%
+}
+
+.checkout-quote .heading {
+    color: #4e4e4e;
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+.checkout-quote .con-dtls .contact-form {
+    border: 2px solid #94978c2b;
+    border-radius: 10px;
+    padding: 45px 20px;
+    margin-bottom: 30px;
+}
+
+.checkout-quote .con-dtls input::placeholder {
+    font-size: 12px;
+    color: #94978c40;
+}
+
+.checkout-quote .con-dtls input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: #cccccc30;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.checkout-quote .con-dtls input[type=submit] {
+    background-color: #94978c;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkout-quote .con-dtls input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.checkout-quote .con-dtls .widget-box .label-top {
+    color: #4e4e4e;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.checkout-quote .con-dtls .widget-box .label-top span {
+    color: red;
+    padding-left: 5px;
+}
+
+.checkout-quote .bot-dtls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkout-quote .bot-dtls .widget-box {
+    width: 27%;
+    min-height: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #94978c;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.checkout-quote .bot-dtls .icon {
+    margin-bottom: 15px;
+}
+
+.checkout-quote .bot-dtls .title {
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #4e4e4e;
+    text-transform: uppercase;
+}
+
+.checkout-quote .bot-dtls .desc {
+    line-height: 1.9;
+}
+
+
 /* dropdown content */
 
 .dropdown-menu {
