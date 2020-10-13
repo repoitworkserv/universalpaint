@@ -265,7 +265,7 @@
             slidesToScroll: 1,
             autoplay: true,
             fade: true,
-            autoplaySpeed: 2000,
+            autoplaySpeed: 5000,
             pauseOnHover: false,
             pauseOnFocus: false,
             responsive: [{
@@ -285,7 +285,7 @@
             slidesToScroll: 1,
             autoplay: true,
             fade: true,
-            autoplaySpeed: 2000,
+            autoplaySpeed: 5000,
             pauseOnHover: false,
             pauseOnFocus: false,
             responsive: [{
