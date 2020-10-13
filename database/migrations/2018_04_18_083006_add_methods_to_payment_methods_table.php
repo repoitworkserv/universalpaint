@@ -5,6 +5,10 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddMethodsToPaymentMethodsTable extends Migration
 {
+    // public function __construct()
+    // {
+    //     DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+    // }
     /**
      * Run the migrations.
      *
@@ -12,7 +16,6 @@ class AddMethodsToPaymentMethodsTable extends Migration
      */
     public function up()
     {
-        
         DB::statement("ALTER TABLE payment_methods MODIFY COLUMN method ENUM('eghl','paypal','dragonpay','bank_deposit')");
     }
 

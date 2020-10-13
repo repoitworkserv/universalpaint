@@ -129,140 +129,39 @@
     </div>
 </div>
 <!-- Fourth Section -->
+<!-- Featured Products -->
 <div id="fourth-section">
-    <div class="block">
-        <div>
-            <!-- <div class="bg-img" style="background-image: url('img/aquaguard.png'); background-size: contain; background-repeat: no-repeat; background-position: center right;">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
-                    </div>
-                    <div class="widget-box">
-                        <div class="lrg-title">AquaGuard Elastomeric Paint</div>
-                        <div class="desc">AquaGuard is a premium quality elastomeric paint, it features a flexible and ultra-durable coating that fills and covers existing or developing cracks on your wall - creating a waterproof barrier against rain from entering your home. Guaranteed to protect your home against all types of tropical weather.</div>
-                        <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                    </div>
-                    <a href="/product/aquaguard-elastomeric-paint-aquaguard-elastomeric-paint">
-                        <div class="widget-box clickable-paint">
-                        </div>
-                    </a>
-                </div>
-            </div> -->
-            <div class="bg-img">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
-                    </div>
-                    <div class="widget-wrapper">
-                        <div class="widget-box">
-                            <div class="lrg-title">AquaGuard Elastomeric Paint</div>
-                            <div class="desc">AquaGuard is a premium quality elastomeric paint, it features a flexible and ultra-durable coating that fills and covers existing or developing cracks on your wall - creating a waterproof barrier against rain from entering your home. Guaranteed to protect your home against all types of tropical weather.</div>
-                            <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                        </div>
-                        <a href="/product/aquaguard-elastomeric-paint-aquaguard-elastomeric-paint" class="product-img-wrapper" style=" background-image: url('/img/aquaguard.png'); "></a>
-
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="heading-bx">
+            <div class="thumbnail-desc">Featured Product</div>
         </div>
-        <div>
-            <!-- <div class="bg-img" style="background-image: url('img/pluslatex.png'); background-size: contain; background-repeat: no-repeat; background-position: center right;">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
+        <div class="block">
+        @if($Page->GetMetaData('featured_products', 'product')['meta_value'])  
+                @foreach(explode(',', $Page->GetMetaData('featured_products', 'product')['meta_value']) as $product)
+                    <div>
+                        <div class="bg-img">
+                            
+                                
+                                <div class="widget-wrapper">
+                                    <div class="widget-box">
+                                        <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
+                                        <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
+                                            <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
+                                    </div>
+                                    <a href="/product/{!! \App\Product::findOrFail($product)->slug_name; !!}" class="product-img-wrapper" style="background: url(
+                                            
+                                            @if(\App\Product::findOrFail($product)->featured_image != '')
+                                                {!! asset('img/products/') !!}/{!! \App\Product::findOrFail($product)->featured_image !!}
+                                            @else
+                                                {!! asset('img/products/') !!}/placeholder.png
+                                            @endif
+                                        );"></a>                                
+                                </div>
+                            
+                        </div>                     
                     </div>
-                    <div class="widget-box">
-                        <div class="lrg-title">Plus Latex Paint</div>
-                        <div class="desc">PLUS is a premium-economy quality latex paint. Perfect for concrete and masonry surfaces where quality is needed without the premium price.</div>
-                        <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                    </div>
-                    <a href="/product/universal-professional-architectural-paint-plus-latex-paint">
-                        <div class="widget-box clickable-paint">
-                        </div>
-                    </a>
-                </div>
-            </div> -->
-            <div class="bg-img">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
-                    </div>
-                    <div class="widget-wrapper">
-                        <div class="widget-box">
-                        <div class="lrg-title">Plus Latex Paint</div>
-                        <div class="desc">PLUS is a premium-economy quality latex paint. Perfect for concrete and masonry surfaces where quality is needed without the premium price.</div>
-                            <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                        </div>
-                        <a href="/product/universal-professional-architectural-paint-plus-latex-paint" class="product-img-wrapper" style="background-image: url('/img/pluslatex.png')"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <!-- <div class="bg-img" style="background-image: url('img/roofarmor.png'); background-size: contain; background-repeat: no-repeat; background-position: center right;">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
-                    </div>
-                    <div class="widget-box">
-                        <div class="lrg-title">Universal Roof Armour</div>
-                        <div class="desc">Premium quality roof paint that is formulated using UV resistant pigments. Will protect your roof and keep it looking new longer.</div>
-                        <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                    </div>
-                    <a href="/product/universal-roof-armour-universal-roof-armour">
-                        <div class="widget-box clickable-paint">
-                        </div>
-                    </a>
-                </div>
-            </div> -->
-            <div class="bg-img">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
-                    </div>
-                    <div class="widget-wrapper">
-                        <div class="widget-box">
-                        <div class="lrg-title">Universal Roof Armour</div>
-                        <div class="desc">Premium quality roof paint that is formulated using UV resistant pigments. Will protect your roof and keep it looking new longer.</div>
-                            <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                        </div>
-                        <a href="/product/universal-roof-armour-universal-roof-armour" class="product-img-wrapper" style="background-image: url('img/roofarmor.png')"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <!-- <div class="bg-img" style="background-image: url('img/epoxshield.png'); background-size: contain; background-repeat: no-repeat; background-position: center right;">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
-                    </div>
-                    <div class="widget-box">
-                        <div class="lrg-title">Otto EpoxShield Topcoat</div>
-                        <div class="desc">Otto Epoxshield is an industrial quality two component epoxy topcoat that provides the ultimate in corrosion and abrasion resistance for your metal and steel projects. Dries to a smooth and glossy finish for easy maintenance</div>
-                        <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                    </div>
-                    <a href="/product/otto-epoxshield-otto-epoxshield-topcoat">
-                        <div class="widget-box clickable-paint">
-                        </div>
-                    </a>
-                </div>
-            </div> -->
-            <div class="bg-img">
-                <div class="container">
-                    <div class="heading-bx">
-                        <div class="thumbnail-desc">Featured Product</div>
-                    </div>
-                    <div class="widget-wrapper">
-                        <div class="widget-box">
-                        <div class="lrg-title">Otto EpoxShield Topcoat</div>
-                        <div class="desc">Otto Epoxshield is an industrial quality two component epoxy topcoat that provides the ultimate in corrosion and abrasion resistance for your metal and steel projects. Dries to a smooth and glossy finish for easy maintenance</div>
-                            <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
-                        </div>
-                        <a href="/product/otto-epoxshield-otto-epoxshield-topcoat" class="product-img-wrapper" style="background-image: url('img/epoxshield.png')"></a>
-                    </div>
-                </div>
-            </div>
+                @endforeach
+            @endif                    
         </div>
     </div>
 </div>

@@ -507,7 +507,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-		
+		dd($request);
     	$validator = Validator::make($request->all(), [
             'prodcode'            => 'required',
 		  	'prodname'            => 'required',

@@ -5,6 +5,10 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOrderCheckoutDetailsTable extends Migration
 {
+    // public function __construct()
+    // {
+    //     DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+    // }
     /**
      * Run the migrations.
      *
@@ -12,7 +16,6 @@ class CreateOrderCheckoutDetailsTable extends Migration
      */
     public function up()
     {
-    
        Schema::create('order_checkout_details', function (Blueprint $table) {
             $table->increments('id');
 			$table->integer('order_id');

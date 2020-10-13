@@ -625,9 +625,9 @@ a.btn.white {
     margin-bottom: 0;
 }
 
-#fourth-section .slick-prev {
+/* #fourth-section .slick-prev {
     left: 130px;
-}
+} */
 
 #fourth-section .slick-next {
     right: 130px;
@@ -1608,7 +1608,7 @@ a.btn.white {
 #product-page-list .right-bx {
     margin-bottom: 50px;
 
-
+}
 .latest-price {
     white-space: nowrap;
 
