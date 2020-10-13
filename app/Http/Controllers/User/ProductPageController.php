@@ -1145,14 +1145,14 @@ class ProductPageController extends Controller
         /** Change to Dynamic once records are cleansed */
         $cat = Category::where(function($q)use($param_sub_category){            
             $q->where('slug_name','=', $param_sub_category);
-        })->get();          
-        $producCategory;
+        })->get();                          
         if($cat){
             
-            $producCategory = ProductCategory::where(function($q)use($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){                
                 $q->where('category_id','=',$cat[0]->id);
             })->get()->lists('product_id')->toArray(); 
-        }
+        }        
+
         $product = Product::with(['BrandData'=>function($query){
             $query->with('ProductByBrand');
         }])
@@ -1180,7 +1180,7 @@ class ProductPageController extends Controller
             $query->where('user_id', Auth::id());
         }])        
         ->where('parent_id','=',0)
-        ->where('interior','=',1)
+        ->where($category,'=',1)
         ->wherein('id',$producCategory)
         ->get();        
         $uid = Auth::id();             

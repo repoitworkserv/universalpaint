@@ -21,17 +21,17 @@ Route::get('/product-category/{category}', 'User\ProductPageController@sub_categ
 
 Route::get('/product-category/{category}/{sub_category}', 'User\ProductPageController@sub_category_list');
 
-Route::get('/product-category/exterior/door', function () {
-	return view('user.exterior-door.index');
-});
+// Route::get('/product-category/exterior/door', function () {
+// 	return view('user.exterior-door.index');
+// });
 
-Route::get('/product-category/interior/wall', function () {
-	return view('user.interior-wall.index');
-});
+// Route::get('/product-category/interior/wall', function () {
+// 	return view('user.interior-wall.index');
+// });
 
-Route::get('/product-category/exterior/wall', function () {
-	return view('user.exterior-wall.index');
-});
+// Route::get('/product-category/exterior/wall', function () {
+// 	return view('user.exterior-wall.index');
+// });
 
 
 Route::get('/product-category/brands', 'User\BrandController@index');

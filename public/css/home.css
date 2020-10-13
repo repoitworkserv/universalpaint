@@ -926,6 +926,22 @@ a.btn.white {
     height: 30px;
 }
 
+#footer .top-con {
+    flex-wrap: wrap;
+}
+
+#footer .top-con .text-con.address {
+    width: calc(100% - 350px);
+}
+
+#footer .top-con .text-con.contact_number {
+    width: 170px;
+}
+
+#footer .text-con .txt_detail {
+    display: flex;
+}
+
 /* Products*/
 
 #product-page {
@@ -1673,7 +1689,7 @@ a.btn.white {
         top: 430px;
     }
     #first-section .banner-slide.fourth .widget-box:after {
-        top: 410px;
+        top: 345px;
     }
 }
 

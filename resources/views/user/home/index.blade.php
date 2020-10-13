@@ -60,14 +60,15 @@
             </div>
         </div>
         <div>
-        <div class="banner-slide fourth" style="background-image: url('img/4.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-            <div class="container">
-                <div class="widget-box">
-                    <div class="heading">The Ultimate weather<br> paint protection</div>
-                    <div class="desc">
-                    Click here to see paint & coatings that will PROTECT and make your home or project-ALL Weather.
+            <div class="banner-slide fourth" style="background-image: url('img/4.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                <div class="container">
+                    <div class="widget-box">
+                        <div class="heading">The Ultimate weather<br> paint protection</div>
+                        <div class="desc">
+                        Click here to see paint & coatings that will PROTECT and make your home or project-ALL Weather.
+                        </div>
+                        <a href="/product/aquaguard-elastomeric-paint-aquaguard-elastomeric-paint" class="btn white">READ MORE</a>
                     </div>
-                    <a href="/product/aquaguard-elastomeric-paint-aquaguard-elastomeric-paint" class="btn white">READ MORE</a>
                 </div>
             </div>
         </div>
