@@ -208,16 +208,24 @@
                         <img src="{{ url('img/001-placeholder.png') }}">
                         <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippines</div>
                     </div>
-                    <div class="text-con">
-                                                                                             
-                        <div class="sml-txt">
-                            <img src="{{ url('img/002-phone-call.png') }}"> 
-                            (+632) 8997 8777 , (+632) 8646 8801 </br> 
-                            (+632) 8646 8701, (+632) 8646 3571 </br> (+632) 8646 8967</br>
-                            <img src="{{ url('img/003-fax-no.png') }}">(+632) 8646 8329
-                        </div>
-                        
-                    </div>
+
+                    <div class="text-con">                                                                      
+                            <div class="sml-txt">
+                                <div class="txt_detail">
+                                    <img src="http://universalpaint.net/img/002-phone-call.png"> 
+                                    <p class="txt_detail-info">(+632) 8997 8777 <br/> 
+                                        (+632) 8646 8801 <br/> 
+                                        (+632) 8646 8701 <br/> 
+                                        (+632) 8646 3571 <br/>
+                                        (+632) 8646 8967 </br>
+                                    </p>
+                                </div>
+                                <div class="txt_detail">
+                                    <img src="http://universalpaint.net/img/003-fax-no.png">
+                                    <p class="txt_detail-info">(+632) 8646 8329</p>
+                                </div>
+                            </div>
+                        </div>                                        
                 </div>
                 <div class="bot-con">
                     <div class="footer-terms">

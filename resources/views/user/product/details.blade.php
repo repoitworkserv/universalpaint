@@ -236,13 +236,9 @@
                                                 </div>
                                             </div>
                                         </div>
-<<<<<<< HEAD
                                         @endif
                                     </div>
-                                    @endforeach
-=======
-                                   
->>>>>>> 579ef9e879a8d74ac3b016e99fd927598469aec9
+
                                 </div>
                             </div>
 
