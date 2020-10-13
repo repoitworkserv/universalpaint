@@ -172,41 +172,33 @@
             <div class="thumbnail-desc">What to paint</div>
         </div>
         <div class="block">
-            <div class="align-bx row-bx">
-                <div class="widget-box" style="background-image: url('img/surface.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+            <div class="align-bx row-bx">                
+                <a href="/product-category/surface_preparation" class="widget-box" style="background-image: url('img/surface.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     <div class="color-desc light-gray">
-                        <div class="ttl"><a href="/product-category/surface-preparation">Preparation</a></div>
+                        <div class="ttl">Preparation</div>
                         <div class="desc"></div>
                     </div>
-                </div>
-                <div class="widget-box" style="background-image: url('img/p2.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                </a>
+                <a href="/product-category/interior" class="widget-box" style="background-image: url('img/p2.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     <div class="color-desc brown">
-                        <div class="ttl"><a href="/product-category/interior">Interior Paint</a></div>
+                        <div class="ttl">Interior Paint</div>
                         <div class="desc"></div>
                     </div>
-                </div>
-            </div>
-            <!--             <div class="center-bx row-bx">
-                <div class="widget-box" style="background-image: url('img/p3.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                    <div class="color-desc dark-blue">
-                        <div class="ttl">brands</div>
-                        <div class="desc"></div>
-                    </div>
-                </div>
-            </div> -->
+                </a>
+            </div>            
             <div class="align-bx row-bx">
-                <div class="widget-box" style="background-image: url('img/p1.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                <a href="/product-category/exterior" class="widget-box" style="background-image: url('img/p1.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     <div class="color-desc blue-green">
-                        <div class="ttl"><a href="/product-category/exterior">exterior paint</a></div>
+                        <div class="ttl">exterior paint</div>
                         <div class="desc"></div>
                     </div>
-                </div>
-                <div class="widget-box" style="background-image: url('img/industrial.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                </a>
+                <a href="/product-category/industrial" class="widget-box" style="background-image: url('img/industrial.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     <div class="color-desc orange">
-                        <div class="ttl"><a href="/product-category/industrial">Industrial Paint</a></div>
+                        <div class="ttl">ndustrial Paint</div>
                         <div class="desc"></div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

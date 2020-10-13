@@ -1148,7 +1148,9 @@ a.btn.white {
     margin-bottom: 6px;
     text-transform: uppercase;
 }
-
+#product-page-list .right-bx .flex-txt .sml-ttl-fifteen {
+    width: 15%;
+}
 #product-page-list .right-bx .color-area+form {
     display: flex;
     place-content: center;
@@ -1546,8 +1548,7 @@ a.btn.white {
 
 #quantity_id {
     display: flex;
-    float: right;
-    /* padding: 10px 0; */
+    margin-left: 10px;
 }
 
 #quantity_id input {
@@ -1555,6 +1556,10 @@ a.btn.white {
     width: 70px;
     position: relative;
     text-align: center;
+    color: #dd2032;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 #quantity_id input:focus {
@@ -1591,6 +1596,16 @@ a.btn.white {
     border: 1px solid #ffc10e;
     height: 46px;
     font-weight: 700;
+    cursor: pointer;
+}
+
+.gotocart{
+    background-color: #ffc10e;
+    color: #034da1;
+    border: 1px solid #ffc10e;
+    height: 46px;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 .button-add-to-cart {
