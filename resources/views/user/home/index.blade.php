@@ -82,7 +82,7 @@
                 <div class="col col-md-2">
                     <img src="img/bluelogo.png">
                 </div>
-                <div class="col col-md-10">
+                <div class="col col-md-10" style="margin-top: 4%;">
                     <div class="heading">Our thousands of colors, Your Choice</div>
                 </div>
             </div>            
