@@ -63,8 +63,7 @@ class CheckoutController extends Controller
     }
 
     public function send_checkoutDetails(Request $request)
-    {
-        //dd($request->all());
+    {        
         $validator = Validator::make($request->all(), [
 			'billing_first_name'  => 'required',						
 			'billing_last_name'   => 'required',

@@ -43,14 +43,14 @@
                                                             @foreach($cart as $item) 
                                                                 <div>     
                                                                 <h6 class="nomargin product-name"></h6>                                                                
-                                                                <input type="text" id="prod" name="prod" placeholder="Product Name" value="{{$item['name']}}">
+                                                                <input type="text" id="prod" disabled name="prod" placeholder="Product Name" value="{{$item['name']}}">
                                                                 @if(!empty($item['product_attribute']))
                                                                                                                                 
                                                                     <input type="text" id="prod" name="prod" placeholder="Product Name" value="{!! App\Attribute::where('id',$item['product_attribute'])->first()['name'] !!}">
                                                                 
                                                                 @endif
                                                                 <div class="label-top">Quantity<span>*</span></div>
-                                                                    <input class="form-control cart-qty" type="number" min="1" step="1" value="{{$item['qty']}}" data-index="{{$x}}">
+                                                                    <input class="form-control cart-qty" disabled type="number" min="1" step="1" value="{{$item['qty']}}" data-index="{{$x}}">
                                                                     </div>
                                                                 @php $x++; @endphp
                                                             @endforeach
@@ -58,8 +58,7 @@
                                                         
                                                         
                                                     </div>                                                    
-                                                </div>
-                                                <div class="button-bx"><input type="submit" value="Send Now"></div>
+                                                </div>                                                
                                             </div>
                                         </form>                                            
                                     </div>

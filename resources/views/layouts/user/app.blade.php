@@ -163,8 +163,8 @@
                 <div class="block">
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">REQUEST COLOR BROCHURES</div>
-                            <div class="desc">click to request a brochure</div>
+                            <div class="ttl">REQUEST PRODUCT BROCHURE</div>
+                            <div class="desc">click to request a product</div>
                         </div>
                         <div class="btn-con">
                             <a href="/under-maintenance/" target="_blank" class="btns">Request now</a>
