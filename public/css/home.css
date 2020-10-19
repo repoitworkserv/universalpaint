@@ -2121,10 +2121,6 @@ a.btn.white {
         right: 235px;
         height: 62%;
     }
-    #color-swatches .tab .tablinks {
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
-    }
 }
 
 /* 768px */
