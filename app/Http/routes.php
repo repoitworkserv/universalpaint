@@ -35,6 +35,11 @@ Route::get('/request-a-quote', function () {
 	return view('user.request-a-quote.index');
 });
 
+Route::get('/how-to-paint', function () {
+	return view('user.how-to-paint.index');
+});
+
+
 Route::get('/product-category/brands/aquaGuard-elastomeric-paint ', function () {
 	return view('user.brand-1.index');
 });
