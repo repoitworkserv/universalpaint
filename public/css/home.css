@@ -1288,6 +1288,10 @@ a.btn.white {
     margin-bottom: 30px;
 }
 
+.tabcontent:not(:first-child) {
+    margin-top: 65px;
+}
+
 /* Contact Us*/
 
 #contact-us {

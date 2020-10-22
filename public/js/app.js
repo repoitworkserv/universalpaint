@@ -1154,22 +1154,30 @@ $('.sharebtn').on('click',function(){
 
     $(document).ready(function(){
         //Color Swatches
-        $('.tablinks').on('click',function(e){            
-            tab = $('.tabcontent');
-            $.each(tab,function(){
-                $(this).css({'display':'none'});
-            });
-
-            tablinks = $('.tablinks');
-            $.each(tablinks, function(){
-                if($(this).hasClass('active')){
-                    $(this).removeClass('active');
-                }
-            });
+        $('.tablinks').on('click',function(e){   
+            let id = e.target.id;
+            let tab = $('.tabcontent');
             
-            item = $(this).data('color');            
-            $("#"+item).css({'display':'block'});
-            $(this).addClass('active');
+            if (!id) {
+                $.each(tab,function(){
+                    $(this).css({'display':'none'});
+                });
+    
+                tablinks = $('.tablinks');
+                $.each(tablinks, function(){
+                    if($(this).hasClass('active')){
+                        $(this).removeClass('active');
+                    }
+                });
+                
+                item = $(this).data('color');            
+                $("#"+item).css({'display':'block'});
+                $(this).addClass('active');
+            } else {
+                if (id === 'view-all-colors') {
+                    tab.removeAttr('style');
+                }
+            }            
         });
         $("#defaultOpen").click();
      	$(".box-widget .color-picker .color-box").on('click',function(){            
