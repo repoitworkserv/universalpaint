@@ -1198,5 +1198,17 @@ $('.sharebtn').on('click',function(){
                 }
             });
         });
-
+    
+        $(".accordion-group").click(function (e) {
+            let accordionBody = $(this).find('.accordion-body');
+            let accordionHeading = $(this).find('.accordion-heading');
+    
+            if (e.target.classList.contains('accordion-toggle')) {
+                if (accordionBody.hasClass('show')) {
+                    accordionHeading.removeClass('accordion-opened');
+                } else {
+                    accordionHeading.addClass('accordion-opened');
+                }
+            }
+        });
     });

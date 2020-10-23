@@ -1185,12 +1185,13 @@ a.btn.white {
 }
 
 #color-swatches .color-tab {
-    margin-bottom: 65px;
+    margin-bottom: 55px;
 }
 
 #color-swatches .tab {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 #color-swatches .tablinks .color-picker {
@@ -1214,6 +1215,10 @@ a.btn.white {
     margin-bottom: 35px;
     text-align: center;
     transition: 0.3s;
+}
+
+#color-swatches .tablinks .ttl {
+    margin-bottom: 10px;
 }
 
 #color-swatches .tablinks .color-box:hover {
@@ -1245,6 +1250,7 @@ a.btn.white {
 #color-swatches .color-section .color-picker {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 #color-swatches .color-section .color-box {
@@ -1270,12 +1276,16 @@ a.btn.white {
     color: #848484;
 }
 
-#color-swatches .color-section .color-box:nth-child(10n) {
-    margin-right: 0;
-}
-
 .color-selected {
     border: 3px solid black;
+}
+
+#color-swatches #proceed {
+    float: right;
+}
+
+#color-swatches .color-section {
+    margin-bottom: 30px;
 }
 
 /* Contact Us*/
@@ -1741,6 +1751,75 @@ a.btn.white {
 
 }
 
+/* HOW TO PAINT */
+
+#how-to-paint {
+    margin-top: 10%;
+    margin-bottom: 100px;
+}
+
+#how-to-paint .title {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #4e4e4e;
+    letter-spacing: 2px;
+}
+
+#how-to-paint #accordion-container {
+    margin-left: -15px;
+}
+
+#how-to-paint .accordion-heading {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    background-color: #FFC10E;
+    padding: 8px 15px;
+    margin-top: 20px;
+    color: #4e4e4e;
+}
+
+#how-to-paint .accordion-heading:hover {
+    background-color: #DD2032; /* #f44336; */
+    color: white;
+}
+
+#how-to-paint .accordion-heading .accordion-toggle {
+    color: inherit
+}
+
+#how-to-paint .accordion-heading .accordion-toggle:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+#how-to-paint .accordion-toggle::after {
+    font-family: 'FontAwesome';
+    content: "\f078";    
+    float: right;
+}
+
+#how-to-paint .accordion-opened .accordion-toggle::after {    
+    content: "\f054";    
+}
+
+#how-to-paint ul {
+    list-style-type: disc;
+    padding-left: 30px;
+    padding-top: 15px;
+}
+
+#how-to-paint ul li {
+    padding: 5px 0;
+}
+
+#how-to-paint ul.sub-list {
+    list-style-type: square;
+    padding-left: 30px;
+    padding-top: 0px;
+}
+
 /**
  * Reponsive
  * -----------------------------------------------------------------------------
@@ -1851,6 +1930,9 @@ a.btn.white {
     }
     #first-section .banner-slide.fourth .widget-box:after {
         top: 345px;
+    }
+    #how-to-paint {
+        margin-top: 15%;
     }
 }
 
@@ -2099,6 +2181,9 @@ a.btn.white {
     #fifth-section .block .align-bx.row-bx .widget-box {
         overflow: hidden;
     }
+    #how-to-paint {
+        margin-top: 16%;
+    }
 }
 
 /* 770px */
@@ -2171,6 +2256,9 @@ a.btn.white {
     }
     #third-section .thumbnail-logo img {
         height: 150px;
+    }
+    #how-to-paint {
+        margin-top: 17%;
     }
 }
 
@@ -2254,6 +2342,9 @@ a.btn.white {
     }
     #product-page-list .left-bx, #product-page-list .right-bx {
         width: 100%;
+    }
+    #how-to-paint {
+        margin-top: 22%;
     }
 }
 
@@ -2438,6 +2529,10 @@ a.btn.white {
     #product-page-list .product-tile .block .right-bx .color-area+form {
         display: block;
     }
+
+    #color-swatches #proceed {
+        width: 100%;
+    }
 }
 
 /*  414px */
@@ -2480,6 +2575,9 @@ a.btn.white {
     #footer .top-con .text-con {
         font-size: 12px;
     }
+    #how-to-paint {
+        margin-top: 24%;
+    }
 }
 
 /* 400px */
@@ -2511,6 +2609,9 @@ a.btn.white {
     #fourth-section .container {
         padding-right: 0px;
         padding-left: 0px;
+    }
+    #how-to-paint {
+        margin-top: 27%;
     }
 }
 
@@ -2557,6 +2658,9 @@ a.btn.white {
 @media only screen and (max-width: 320px) {
     #first-section .banner-slide .widget-box:after {
         top: 280px;
+    }
+    #how-to-paint {
+        margin-top: 29%;
     }
 }
 
