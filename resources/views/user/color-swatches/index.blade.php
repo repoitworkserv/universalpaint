@@ -3,7 +3,7 @@
 @section('content')
 <div id="color-swatches">
 	<div class="container">
-        <div class="heading">Color Chats and Brochures</div>
+        <div class="heading">Color Charts and Brochures</div>
         <div class="sub-heading">Browse by colour scheme</div>
 		<div class ="color-tab">
 			<div class="tab">

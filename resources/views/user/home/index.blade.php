@@ -39,7 +39,7 @@
                     <div class="widget-box">
                         <div class="heading">Metal & Steel preparation paint</div>
                         <div class="desc">
-                            Ptotect steel and metal from corrosion with Universal Paint industrial grade coatings
+                            Protect steel and metal from corrosion with Universal Paint industrial grade coatings
                         </div>
                         <a href="/product-category/industrial" class="btn white">READ MORE</a>
                     </div>
@@ -103,6 +103,40 @@
 <!-- Fourth Section -->
 <!-- Featured Products -->
 <div id="fourth-section">
+                    <div class="block">
+                    @if($Page->GetMetaData('featured_products', 'product')['meta_value'])  
+                            @foreach(explode(',', $Page->GetMetaData('featured_products', 'product')['meta_value']) as $product)
+                                <div>
+                                    <div class="bg-img" style="background: url(@if(\App\Product::findOrFail($product)->featured_image != '')
+                                                    {!! asset('img/products/') !!}/{!! \App\Product::findOrFail($product)->featured_image !!}
+                                                @else
+                                                    {!! asset('img/products/') !!}/placeholder.png
+                                                @endif
+                                            ); background-size: contain; background-repeat: no-repeat; background-position: center right;">
+                                        <div class="container">
+                                            <div class="heading-bx">
+                                                <div class="thumbnail-desc">Featured Product</div>
+                                            </div>
+                                            <div class="widget-box">
+                                                <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
+                                                <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
+                                                <!-- <form  action="{{ URL::action('User\HomePageController@email_request') }}" method="get"  accept-charset="UTF-8"> -->
+                                                    <!-- {!! csrf_field() !!} -->
+                                                    <!-- <button type="submit" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</button> -->                                                    
+                                                    <!-- <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button>
+                                                    <!-- <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
+                                                <!-- </form> -->
+                                            </div>
+                                        </div>
+                                    </div>                                                  
+                                </div>
+                            @endforeach
+                        @endif                    
+                    </div>
+                </div>
+                 <!-- Old Open -->
+<!-- <div id="fourth-section">
     <div class="container">
         <div class="heading-bx">
             <div class="thumbnail-desc">Featured Product</div>
@@ -110,33 +144,37 @@
         <div class="block">
         @if($Page->GetMetaData('featured_products', 'product')['meta_value'])  
                 @foreach(explode(',', $Page->GetMetaData('featured_products', 'product')['meta_value']) as $product)
+                               
                     <div>
                         <div class="bg-img">
                             
                                 
                                 <div class="widget-wrapper">
                                     <div class="widget-box">
-                                        <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
-                                        <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
-                                            <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
+                                        <div class="lrg-title">{--!! \App\Product::findOrFail($product)->name; !!--}</div>
+                                        <div class="desc">{--!! \App\Product::findOrFail($product)->description !!--}</div>
+                                            <a href="/pdf/{--!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a>
                                     </div>
-                                    <a href="/product/{!! \App\Product::findOrFail($product)->slug_name; !!}" class="product-img-wrapper" style="background: url(
+                                    <a href="/product/{--!! \App\Product::findOrFail($product)->slug_name; !!}" class="product-img-wrapper" style="background: url(
                                             
                                             @if(\App\Product::findOrFail($product)->featured_image != '')
-                                                {!! asset('img/products/') !!}/{!! \App\Product::findOrFail($product)->featured_image !!}
+                                                {--!! asset('img/products/') !!--}/{--!! \App\Product::findOrFail($product)->featured_image !!--}
                                             @else
-                                                {!! asset('img/products/') !!}/placeholder.png
+                                                {--!! asset('img/products/') !!--}/placeholder.png
                                             @endif
                                         );"></a>                                
                                 </div>
                             
                         </div>                     
                     </div>
+                    
+
                 @endforeach
             @endif                    
         </div>
     </div>
-</div>
+</div> -->
+<!-- Old Close -->
 <!-- Fifth Section -->
 <div id="fifth-section">
     <div class="container">
@@ -167,11 +205,58 @@
                 </a>
                 <a href="/product-category/industrial" class="widget-box" style="background-image: url('img/industrial.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                     <div class="color-desc orange">
-                        <div class="ttl">ndustrial Paint</div>
+                        <div class="ttl">Industrial Paint</div>
                         <div class="desc"></div>
                     </div>
                 </a>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Brochure Modal-->
+<div id="emailRequestModal" class="modal fade" role="dialog" data-backdrop="static" >
+    <div class="modal-dialog modal-lg" style="pointer-events: auto">
+        <div class="panel panel-primary">
+            
+            {!! csrf_field() !!}
+                <div class="panel-heading" style="    background: #aeaeae;
+    border-top-right-radius: 13px;
+    border-top-left-radius: 14px;
+    padding-left: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;"><h4 class="modal-title">Enter Email Info</h4></div>
+                <div class="panel-body" style="background: #fff;
+    padding-top: 26px;
+    padding-left: 26px;"> 
+                	<div class="row">      
+                        <form  action="{{ URL::action('User\HomePageController@email_request') }}" method="get"  accept-charset="UTF-8">          		
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="broch_fullname">Name</label>
+                                    <input id="broch_fullname" name="broch_fullname" class="form-control" type="text"  value="">
+                                </div>							
+                                <div class="form-group color_attrib">
+                                    <label for="broc_email">Email Address</label>
+                                    <input id="broc_email" name="broc_email" class="form-control" type="text"  value="">
+                                </div>
+                            </div>
+                        </form>
+                	</div>                    
+                </div>
+                <div class="panel-footer" style="text-align: left; background: #aeaeae;
+    border-bottom-right-radius: 13px;
+    border-bottom-left-radius: 14px;
+    padding-left: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;">
+                    <div class="button-group">
+                        <!-- <button type="submit" class="btn btn-warning" data-dismiss="modal">Request</button> -->
+                        <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">SUBMIT</a>
+                        <a href="#" class="btn" data-dismiss="modal" >CLOSE</a>                        
+                    </div>
+                </div>
+            
         </div>
     </div>
 </div>

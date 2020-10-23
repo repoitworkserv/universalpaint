@@ -15,6 +15,10 @@ use App\PostMetaData;
 use App\Product;
 use App\UserBrands;
 use App\Brand;
+
+use Mail;
+use App\Settings;
+
 class HomePageController extends Controller
 {
     /**
@@ -84,6 +88,35 @@ class HomePageController extends Controller
             ),           
         );        
         return view('user.home.index', compact('Page', 'Post', 'Product','uid', 'user_type','userBrands','brands','colors'));
+    }
+
+    public function email_request(Request $request)
+    {
+        $filePath = $request->filename;
+        $data = array(
+            'fullname' 	 => 'Ronnie Manook',
+            'email' => 'ronnie2019.itworks@gmail.com',
+            'titlesubject' => 'Test Email',
+            'status' => 'success'            
+        );
+
+        $settings =  Settings::get();
+        // echo json_encode(array('status'=>'OK', 'msg'=>'success'));
+        // exit;
+        // $order_details = Order::where('order_code',$order_id)->with('OrderItemData')->get();
+        Mail::send('user.email-request', compact('data'), function ($message) use($data, $settings) {
+            // dd($settings);
+                    $message->sender($settings[0]['email_address']);
+                    $message->to($data['email'])->subject($data['titlesubject']);                    
+                    //$message->embed(public_path() . '/img/banner-email.png');
+                });
+            
+        // if (Mail::failures()) {
+        //     print_r("asd"); exit();
+        // }
+        // return \Response::download($filePath);
+                  
+
     }
 
 }
