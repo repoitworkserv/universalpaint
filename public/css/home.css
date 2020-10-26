@@ -625,9 +625,9 @@ a.btn.white {
     margin-bottom: 0;
 }
 
-/* #fourth-section .slick-prev {
+#fourth-section .slick-prev {
     left: 130px;
-} */
+}
 
 #fourth-section .slick-next {
     right: 130px;
@@ -1892,6 +1892,7 @@ a.btn.white {
         width: 319px;
         right: 275px;
     }
+    
     #fourth-section .container {
         max-width: 900px;
     }

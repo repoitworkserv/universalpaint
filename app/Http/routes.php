@@ -48,6 +48,8 @@ Route::get('products/checkout', 'User\CheckoutController@index');
 Route::get('/under-maintenance', function () {
 	return view('user.under-maintenance.index');
 });
+//Email To User
+Route::get('/email_user', 'User\HomePageController@email_request');
 
 //login
 Route::get('/', 'User\HomePageController@index');
