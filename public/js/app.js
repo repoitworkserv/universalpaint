@@ -1201,13 +1201,23 @@ $('.sharebtn').on('click',function(){
     
         $(".accordion-group").click(function (e) {
             let accordionBody = $(this).find('.accordion-body');
-            let accordionHeading = $(this).find('.accordion-heading');
+            if (e.target.classList.contains('sub-list') && accordionBody.length > 1) {
+                return;
+            }            
+            let accordionHeading = $(this).find('.accordion-heading').not('.sub-list');
+            let accordionHeadingSubList = $(this).find('.accordion-heading.sub-list');
     
-            if (e.target.classList.contains('accordion-toggle')) {
+            if (e.target.classList.contains('accordion-toggle') && !e.target.classList.contains('sub-list')) {
                 if (accordionBody.hasClass('show')) {
                     accordionHeading.removeClass('accordion-opened');
                 } else {
                     accordionHeading.addClass('accordion-opened');
+                }
+            } else {
+                if (accordionBody.hasClass('show')) {
+                    accordionHeadingSubList.removeClass('accordion-opened');
+                } else {
+                    accordionHeadingSubList.addClass('accordion-opened');
                 }
             }
         });
