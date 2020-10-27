@@ -1174,8 +1174,10 @@ $('.sharebtn').on('click',function(){
             let item = newActiveColorSwatch.data('color');
 
             if (item === 'View-All-Colors') {
-                $(".tabcontent").not("#Regular-Colors").css("display", "block");                
-                $(".tabcontent").not("#Regular-Colors").css("margin-top", "");
+                let tabContent = $(".tabcontent").not("#Regular-Colors");
+
+                tabContent.css("display", "block");       
+                tabContent.css("margin-top", "");
             } else {
                 $("#"+item).css("display", "block");
 
@@ -1187,10 +1189,7 @@ $('.sharebtn').on('click',function(){
             newActiveColorSwatch.addClass('active');
         }
 
-        $('.tablinks').on('click',function(e){   
-            let id = e.target.id;
-            let item = $(this).data('color');
-
+        $('.tablinks').on('click',function(){
             deactivateActiveColorSwatch();
             activateNewColorSwatch($(this));          
         });
