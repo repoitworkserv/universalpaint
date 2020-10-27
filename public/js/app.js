@@ -1154,31 +1154,47 @@ $('.sharebtn').on('click',function(){
 
     $(document).ready(function(){
         //Color Swatches
+
+        function deactivateActiveColorSwatch() {
+            let tablinks = $('.tablinks');
+            let tab = $('.tabcontent');
+
+            $.each(tablinks, function(){
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                }
+            });
+
+            $.each(tab,function(){
+                $(this).css({'display':'none'});
+            });
+        }
+
+        function activateNewColorSwatch(newActiveColorSwatch) {
+            let item = newActiveColorSwatch.data('color');
+
+            if (item === 'View-All-Colors') {
+                $(".tabcontent").not("#Regular-Colors").css("display", "block");                
+                $(".tabcontent").not("#Regular-Colors").css("margin-top", "");
+            } else {
+                $("#"+item).css("display", "block");
+
+                if (item != "White") {                    
+                    $("#"+item).css("margin-top", "0");
+                }
+            }
+            
+            newActiveColorSwatch.addClass('active');
+        }
+
         $('.tablinks').on('click',function(e){   
             let id = e.target.id;
-            let tab = $('.tabcontent');
-            
-            if (!id) {
-                $.each(tab,function(){
-                    $(this).css({'display':'none'});
-                });
-    
-                tablinks = $('.tablinks');
-                $.each(tablinks, function(){
-                    if($(this).hasClass('active')){
-                        $(this).removeClass('active');
-                    }
-                });
-                
-                item = $(this).data('color');            
-                $("#"+item).css({'display':'block'});
-                $(this).addClass('active');
-            } else {
-                if (id === 'view-all-colors') {
-                    tab.removeAttr('style');
-                }
-            }            
+            let item = $(this).data('color');
+
+            deactivateActiveColorSwatch();
+            activateNewColorSwatch($(this));          
         });
+
         $("#defaultOpen").click();
      	$(".box-widget .color-picker .color-box").on('click',function(){            
             $(this).addClass('color-selected');

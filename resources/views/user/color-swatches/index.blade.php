@@ -292,6 +292,31 @@
 					</div>
 				</div>
 			</div>
+			<div id="Regular-Colors"" class="tabcontent" style="display: none;">
+				<div class="box-widget">
+					<div class="color-picker row">
+						@if(!empty($productAttributes))
+						@foreach($productAttributes as $color)
+						@if($color->attributeData->cat_color == '')
+						<div class="color-box col-lg-1 col-md-2 col-sm-3 col-4" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+							<div class="title">{{ $color->attributeData->name }}</div>
+						</div>
+						@else
+						@break
+						@endif
+						@endforeach
+						@endif
+						@if(!empty($cat_regColors))
+						@foreach($cat_regColors as $color)
+						<div class="color-box col-lg-1 col-md-2 col-sm-3 col-4" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
+							<div class="title">{{ $color->name }}</div>
+						</div>
+						@endforeach
+						@endif
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<div>
 			<!-- <form action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> -->
