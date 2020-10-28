@@ -1194,6 +1194,14 @@ a.btn.white {
     flex-wrap: wrap;
 }
 
+#color-swatches .tablinks {
+    cursor: pointer;
+}
+
+#color-swatches .tablinks.active {
+    cursor: default;
+}
+
 #color-swatches .tablinks .color-picker {
     display: flex;
     flex-direction: column;
@@ -1286,6 +1294,10 @@ a.btn.white {
 
 #color-swatches .color-section {
     margin-bottom: 30px;
+}
+
+.tabcontent:not(:first-child) {
+    margin-top: 65px;
 }
 
 /* Contact Us*/
@@ -1788,6 +1800,7 @@ a.btn.white {
 #how-to-paint .accordion-heading .accordion-toggle {
     color: inherit
 }
+
 
 #how-to-paint .accordion-heading .accordion-toggle:hover {
     text-decoration: none;
