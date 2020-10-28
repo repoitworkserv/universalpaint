@@ -1154,23 +1154,46 @@ $('.sharebtn').on('click',function(){
 
     $(document).ready(function(){
         //Color Swatches
-        $('.tablinks').on('click',function(e){            
-            tab = $('.tabcontent');
-            $.each(tab,function(){
-                $(this).css({'display':'none'});
-            });
 
-            tablinks = $('.tablinks');
+        function deactivateActiveColorSwatch() {
+            let tablinks = $('.tablinks');
+            let tab = $('.tabcontent');
+
             $.each(tablinks, function(){
                 if($(this).hasClass('active')){
                     $(this).removeClass('active');
                 }
             });
+
+            $.each(tab,function(){
+                $(this).css({'display':'none'});
+            });
+        }
+
+        function activateNewColorSwatch(newActiveColorSwatch) {
+            let item = newActiveColorSwatch.data('color');
+
+            if (item === 'View-All-Colors') {
+                let tabContent = $(".tabcontent").not("#Regular-Colors");
+
+                tabContent.css("display", "block");       
+                tabContent.css("margin-top", "");
+            } else {
+                $("#"+item).css("display", "block");
+
+                if (item != "White") {                    
+                    $("#"+item).css("margin-top", "0");
+                }
+            }
             
-            item = $(this).data('color');            
-            $("#"+item).css({'display':'block'});
-            $(this).addClass('active');
+            newActiveColorSwatch.addClass('active');
+        }
+
+        $('.tablinks').on('click',function(){
+            deactivateActiveColorSwatch();
+            activateNewColorSwatch($(this));          
         });
+
         $("#defaultOpen").click();
      	$(".box-widget .color-picker .color-box").on('click',function(){            
             $(this).addClass('color-selected');
