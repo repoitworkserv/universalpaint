@@ -7,70 +7,70 @@
 		<div class="sub-heading">Browse by colour scheme</div>
 		<div class="color-tab">
 			<div class="tab">
-				<div class="tablinks col-md-4 col-lg-1 active" data-color="View-All-Colors">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12 active" data-color="View-All-Colors">
 					<div class="color-picker">
 						<div class="color-box" id="view-all-colors" style="background-color:#ccc;"></div>
 						<div class="ttl">View </br>All Colors</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="White">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="White">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#F6F7F2;"></div>
 						<div class="ttl">Whites </br>& Neutrals</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Grey">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Grey">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#373E42;"></div>
 						<div class="ttl">Greys</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Brown" id="defaultOp">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Brown" id="defaultOp">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#B39F94;"></div>
 						<div class="ttl">Browns</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Purple">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Purple">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#7E7999;"></div>
 						<div class="ttl">Purples</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Blue">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Blue">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#0045C7;"></div>
 						<div class="ttl">Blue</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Green">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Green">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#9DBFAF;"></div>
 						<div class="ttl">Greens</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Yellow">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Yellow">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#FAE196;"></div>
 						<div class="ttl">Yellows</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Orange">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Orange">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#CC5327;"></div>
 						<div class="ttl">Oranges</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Red">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Red">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#A8312F;"></div>
 						<div class="ttl">Reds</div>
 					</div>
 				</div>
-				<div class="tablinks col-md-4 col-lg-1" data-color="Regular-Colors">
+				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Regular-Colors">
 					<div class="color-picker">
 						<div class="color-box" id="regular-colors" style="background-color:#ccc;"></div>
-						<div class="ttl">Regular </br>Colors</div>
+						<div class="ttl">Best </br>Selling Colors</div>
 					</div>
 				</div>
 			</div>
