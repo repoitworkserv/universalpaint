@@ -7,8 +7,10 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "doctrine/dbal": "~2.3",
-        "jeroennoten/laravel-ckeditor": "^3.8"
+        "doctrine/dbal": "^2.9",
+        "jeroennoten/laravel-ckeditor": "^3.8",
+        "laminas/laminas-httphandlerrunner": "^1.2",
+        "league/flysystem-aws-s3-v2": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

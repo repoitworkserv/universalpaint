@@ -50,6 +50,7 @@ Route::get('/under-maintenance', function () {
 });
 //Email To User
 Route::get('/email_user', 'User\HomePageController@email_request');
+Route::get('/email_user_pdf', 'User\HomePageController@email_request_pdf');
 
 //login
 Route::get('/', 'User\HomePageController@index');

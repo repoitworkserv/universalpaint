@@ -54,11 +54,13 @@
 							@section('ogurl',''){!!$url!!}@stop
 							@section('ogimg'){!! $img !!}@stop
 							<div class="left-bx col-md-5 col-sm-12 col-12">                
-							<a href="/product/{{ $key->slug_name }}"><div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $key->featured_image }}) ; background-size: cover; background-repeat: no-repeat; background-position: center center; left: 15px; position: relative;"></div></a>
+							<a href="/product/{{ $key->slug_name }}">
+								<div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $key->featured_image }}) ; background-size: cover; background-repeat: no-repeat; background-position: center center; left: 15px; position: relative;"></div>
+							</a>
 								
 								<div class="prod-btn">
 									<img src="{{ url('img/buttons/button.png') }}">
-									<a href="" class="yellow-btn">Download Product Brochure Pdf</a>
+									<a href="/pdf/{{ $key->slug_name }}.pdf" class="yellow-btn">Download Product Brochure Pdf</a>
 									<a href="" class="yellow-btn">Safety data Sheets (SDS)</a>
 									<a href="" class="yellow-btn">Technical Data Sheet</a>
 									<a href="" class="yellow-btn">Color Calculators</a>	

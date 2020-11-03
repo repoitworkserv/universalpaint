@@ -119,14 +119,8 @@
                                             </div>
                                             <div class="widget-box">
                                                 <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
-                                                <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
-                                                <!-- <form  action="{{ URL::action('User\HomePageController@email_request') }}" method="get"  accept-charset="UTF-8"> -->
-                                                    <!-- {!! csrf_field() !!} -->
-                                                    <!-- <button type="submit" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</button> -->                                                    
-                                                    <!-- <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button>
-                                                    <!-- <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
-                                                <!-- </form> -->
+                                                <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>                                                
+                                                    <button type="button" class="btn btn-primary open-email-dialog" data-broc="{!! $product !!}" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button>                                                    
                                             </div>
                                         </div>
                                     </div>                                                  
@@ -218,7 +212,7 @@
 <div id="emailRequestModal" class="modal fade" role="dialog" data-backdrop="static" >
     <div class="modal-dialog modal-lg" style="pointer-events: auto">
         <div class="panel panel-primary">
-            
+            <form  action="{{ URL::action('User\HomePageController@email_request_pdf') }}" method="get"  accept-charset="UTF-8">
             {!! csrf_field() !!}
                 <div class="panel-heading" style="    background: #aeaeae;
     border-top-right-radius: 13px;
@@ -230,18 +224,19 @@
     padding-top: 26px;
     padding-left: 26px;"> 
                 	<div class="row">      
-                        <form  action="{{ URL::action('User\HomePageController@email_request') }}" method="get"  accept-charset="UTF-8">          		
+                                  		
                             <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input id="broc_product" name="broc_product" class="form-control" type="hidden"  value="">
                                 <div class="form-group">
-                                    <label for="broch_fullname">Name</label>
-                                    <input id="broch_fullname" name="broch_fullname" class="form-control" type="text"  value="">
+                                    <label for="broc_fullname">Name</label>
+                                    <input id="broc_fullname" name="broc_fullname" class="form-control" type="text"  value="">
                                 </div>							
                                 <div class="form-group color_attrib">
                                     <label for="broc_email">Email Address</label>
-                                    <input id="broc_email" name="broc_email" class="form-control" type="text"  value="">
+                                    <input id="broc_email" name="broc_email" class="form-control" type="email"  value="">
                                 </div>
                             </div>
-                        </form>
+                        
                 	</div>                    
                 </div>
                 <div class="panel-footer" style="text-align: left; background: #aeaeae;
@@ -251,13 +246,13 @@
     padding-top: 12px;
     padding-bottom: 12px;">
                     <div class="button-group">
-                        <!-- <button type="submit" class="btn btn-warning" data-dismiss="modal">Request</button> -->
-                        <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">SUBMIT</a>
+                        <button type="submit" class="btn btn-warning">Request</button>                        
                         <a href="#" class="btn" data-dismiss="modal" >CLOSE</a>                        
                     </div>
                 </div>
-            
+            </form>
         </div>
+
     </div>
 </div>
 @endsection
