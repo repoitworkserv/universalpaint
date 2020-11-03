@@ -1253,4 +1253,184 @@ $('.sharebtn').on('click',function(){
                 }
             }
         });
+
+        $(".customComboBox").click(function(e){
+            let icon = $(this).find("span");
+
+            if (icon.is(".fa-chevron-down")) {
+                icon.removeClass("fa-chevron-down").addClass("fa-chevron-up");
+            } else {
+                icon.removeClass("fa-chevron-up").addClass("fa-chevron-down");
+            }
+
+            $(this).find("li").toggle("100", "swing");
+            $(this).toggleClass("open");
+        });
+
+        $(".customComboBox li").click(function(e){
+            $(this).parent()
+                .find(".value")
+                .text(e.target.textContent)
+                .removeClass("default");
+
+            getPaintFromQueryString();
+        });
+      
+        $("#area-in-sqm").keypress(function(e){
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }      
+        }).keyup(function(e){            
+            computePerLiter();
+        });
+
+        function computePerLiter() {
+            let surfaceCondition = $("#surface-condition").text();
+            let perLiter;
+
+            if (surfaceCondition === "NEW PAINT") {
+                perLiter = 6.25;
+            } else {
+                perLiter = 7.5;
+            }
+
+            let liter;
+            let sqm = $("#area-in-sqm").val();
+
+            if (isFinite(sqm)) {
+                liter = Math.ceil(sqm / perLiter);
+            }
+
+            $(".liter").text(liter);
+        }
+
+        function checkComboBox(value) {
+            return value.includes('Surface');
+        }
+        
+        function getPaintFromQueryString() {
+            let surfaceType = $("#surface-type").text();
+            let surfaceLocation = $("#surface-location").text();
+            let surfaceCondition = $("#surface-condition").text();
+            let comboBox = [surfaceType, surfaceLocation, surfaceCondition].filter(checkComboBox);
+            let paint = $("#query-string-value").val();
+            
+            if (comboBox.length > 0) {
+                return;
+            } else {
+                let url = `/paintCalculatorResult/${paint}`;
+
+                $.ajax({
+                    url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var result = response.data;
+                        
+                        $("#paint").empty();
+                        $("#liter").empty();
+
+                        $("#paint").append(
+                            "<p>USE</p>"
+                        );
+
+                        $("#liter").append(
+                            "<p>LITERS</p>"
+                        );
+
+                        $.each(result, function (index, list) { 
+                            $("#paint").append(
+                                "<div class=\"paint\">" +
+                                    list.name +
+                                "</div>"
+                            );
+    
+                            $("#liter").append(
+                                "<div class=\"liter\">0</div>"
+                            );
+                        });
+
+                        if (surfaceType === "METAL AND STEEL") { 
+                            getPaintSuggestion(surfaceLocation);
+                        } else {
+                            getPaintSuggestion2(surfaceLocation, surfaceType);
+                        } 
+                        $("#area-in-sqm").removeAttr("disabled");
+
+                        setTimeout(() => {
+                            if ($("#area-in-sqm").val() != "") {
+                                computePerLiter(); 
+                            } 
+                        }, 550);
+                    },        
+                    error: function () {        
+                        alert("Error in getPaintFromQueryString!");
+                    }
+                });
+            }
+        }
+
+        function getPaintSuggestion(surfaceLocation) {
+            let url = `/paintCalculatorResult/${surfaceLocation}/metal/steel`;
+
+            $.ajax({
+                url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var result = response.data;
+                        
+                    $.each(result, function (index, list) { 
+                        if (list.name != $("#query-string-value").val()) { 
+                            $("#paint").append(
+                                "<div class=\"paint\">" +
+                                    list.name +
+                                "</div>"
+                            );
+        
+                            $("#liter").append(
+                                "<div class=\"liter\">0</div>"
+                            );
+                        }
+                    });
+                        
+                    $("#result-container").show();
+                },        
+                error: function () {        
+                    alert("Error in getPaintSuggestion!");
+                }
+            });
+        }
+
+        function getPaintSuggestion2(surfaceLocation, surfaceType) {
+            let url = `/paintCalculatorResult/${surfaceLocation}/${surfaceType}`;
+
+            $.ajax({
+                url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var result = response.data;
+                        
+                    $.each(result, function (index, list) { 
+                        if (list.name != $("#query-string-value").val()) {
+                            $("#paint").append(
+                                "<div class=\"paint\">" +
+                                    list.name +
+                                "</div>"
+                            );
+        
+                            $("#liter").append(
+                                "<div class=\"liter\">0</div>"
+                            );
+                        }
+                    });
+                        
+                    $("#result-container").show();
+                },        
+                error: function () {        
+                    alert("Error in getPaintSuggestion!");
+                }
+            });
+        }
     });
