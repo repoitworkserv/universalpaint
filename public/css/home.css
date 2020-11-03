@@ -1148,12 +1148,142 @@ a.btn.white {
     margin-bottom: 6px;
     text-transform: uppercase;
 }
+
 #product-page-list .right-bx .flex-txt .sml-ttl-fifteen {
     width: 15%;
 }
+
 #product-page-list .right-bx .color-area+form {
     display: flex;
     place-content: center;
+    margin-top: 10px;
+}
+
+/* Paint Calculator */
+
+#paint-calculator {
+    margin-top: 87px;
+    overflow: hidden;
+}
+
+#paint-calculator .heading {
+    color: #1e1958;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#paint-calculator .sub-heading {
+    color: #c7c7c7;
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#paint-calculator .desc {
+    margin-bottom: 50px;
+}
+
+#paint-calculator .container {
+    padding: 80px 0;
+}
+
+#paint-calculator #result-container {
+    border: 1px solid #DEE2E6;
+    border-radius: 10px;
+    opacity: 1;
+    padding: 20px 30px 40px;
+}
+
+#paint-calculator #result-container .result {
+    font: normal normal bold 25px/30px Montserrat;
+    letter-spacing: 2.5px;
+    color: #DD2032;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+#paint-calculator #result-container p {
+    font: normal normal bold 15px/19px Montserrat;
+    letter-spacing: 1.5px;
+    color: #4E4E4E;
+}
+
+#paint-calculator .customComboBox span {
+    float: right;
+    padding-top: 3.5px;
+}
+
+#paint-calculator .customComboBox label {
+    margin-bottom: 0;
+}
+
+#paint-calculator ul, #paint-calculator input {
+    background: #F6F6F6 0% 0% no-repeat padding-box;
+    border: 1px solid #DEE2E6;
+    width: 354px;
+    padding: 10px 15px;
+    display: block;
+    font-family: Montserrat;
+    font-size: 15px;
+}
+
+#paint-calculator ul.open {
+    box-shadow: 0px 20px 20px #00000033;
+}
+
+#paint-calculator li {
+    padding: 5px 0px;
+    width: 100%;
+    display: none;
+    border-top: 1px solid #DEE2E6;
+    cursor: default;
+    font-weight: bold;
+    font-family: Montserrat;
+    font-size: 15px;
+}
+
+#paint-calculator .customComboBox li:first-of-type {
+    margin-top: 10px;
+}
+
+#paint-calculator .label {
+    text-align: left;
+    font: normal normal bold 15px/19px Montserrat;
+    letter-spacing: 1.5px;
+}
+
+#paint-calculator .customComboBox .default {
+    opacity: 0.6;
+}
+
+#paint-calculator .required {
+    color: #DD2032;
+    font-weight: bold;
+}
+
+#paint-calculator #paint-liter .paint, #paint-calculator #paint-liter .liter {
+    font: normal normal normal 15px/19px Montserrat;
+    letter-spacing: 0px;
+    color: #4E4E4E;
+    background: #F6F6F6 0% 0% no-repeat padding-box;
+    border: 1px solid #DEE2E6;
+    padding: 10px 15px;
+}
+
+#paint-calculator #paint-liter .paint:not(:first-child), #paint-calculator #paint-liter .liter:not(:first-child) {
+    margin-top: 15px;
+}
+
+#paint-calculator #paint-liter .liter {
+    text-align: center;
+}
+
+#paint-calculator .note {
+    font: italic normal normal 13px/20px Montserrat;
+    color: #4E4E4E;
     margin-top: 10px;
 }
 
@@ -1560,7 +1690,6 @@ a.btn.white {
     line-height: 1.9;
 }
 
-
 /* Checkout Qoute*/
 
 .checkout-quote {
@@ -1671,7 +1800,6 @@ a.btn.white {
     line-height: 1.9;
 }
 
-
 /* dropdown content */
 
 .dropdown-menu {
@@ -1724,7 +1852,7 @@ a.btn.white {
     outline: unset;
 }
 
-#add-cart {    
+#add-cart {
     background-color: #ffc10e;
     color: #034da1;
     border: 1px solid #ffc10e;
@@ -1733,7 +1861,7 @@ a.btn.white {
     cursor: pointer;
 }
 
-.gotocart{
+.gotocart {
     background-color: #ffc10e;
     color: #034da1;
     border: 1px solid #ffc10e;
@@ -1756,11 +1884,10 @@ a.btn.white {
 
 #product-page-list .right-bx {
     margin-bottom: 50px;
-
 }
+
 .latest-price {
     white-space: nowrap;
-
 }
 
 /* HOW TO PAINT */
@@ -1793,7 +1920,8 @@ a.btn.white {
 }
 
 #how-to-paint .accordion-heading:hover {
-    background-color: #DD2032; /* #f44336; */
+    background-color: #DD2032;
+    /* #f44336; */
     color: white;
 }
 
@@ -1809,12 +1937,12 @@ a.btn.white {
 
 #how-to-paint .accordion-toggle::after {
     font-family: 'FontAwesome';
-    content: "\f078";    
+    content: "\f078";
     float: right;
 }
 
-#how-to-paint .accordion-opened .accordion-toggle::after {    
-    content: "\f054";    
+#how-to-paint .accordion-opened .accordion-toggle::after {
+    content: "\f054";
 }
 
 #how-to-paint ul {
@@ -1905,7 +2033,6 @@ a.btn.white {
         width: 319px;
         right: 275px;
     }
-    
     #fourth-section .container {
         max-width: 900px;
     }
@@ -2548,7 +2675,6 @@ a.btn.white {
     #product-page-list .product-tile .block .right-bx .color-area+form {
         display: block;
     }
-
     #color-swatches #proceed {
         width: 100%;
     }

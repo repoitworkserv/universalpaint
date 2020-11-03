@@ -65,7 +65,7 @@
                                             <a href="" class="yellow-btn">Download Product Brochure Pdf</a>
                                             <a href="" class="yellow-btn">Safety data Sheets (SDS)</a>
                                             <a href="" class="yellow-btn">Technical Data Sheet</a>
-                                            <a href="" class="yellow-btn">Color Calculators</a>
+                                            <a href="/paint-calculator?paint=<?php echo $key->ParentData ? $key->ParentData['name'] :$key->name; ?>" class="yellow-btn">Color Calculators</a>
                                         </div>
                                     </div>
                                     <div class="right-bx col-md-7 col-sm-12 col-12">
