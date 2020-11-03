@@ -1352,7 +1352,7 @@ $('.sharebtn').on('click',function(){
                             if ($("#area-in-sqm").val() != "") {
                                 computePerLiter(); 
                             } 
-                        }, 500);
+                        }, 550);
                     },        
                     error: function () {        
                         alert("Error in getPaintFromQueryString!");
