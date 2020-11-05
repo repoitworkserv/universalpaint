@@ -1341,11 +1341,8 @@ $('.sharebtn').on('click',function(){
                             );
                         });
 
-                        if (surfaceType === "METAL AND STEEL") { 
-                            getPaintSuggestion(surfaceLocation);
-                        } else {
-                            getPaintSuggestion2(surfaceLocation, surfaceType);
-                        } 
+                        getPaintSuggestion(surfaceLocation, surfaceType);
+
                         $("#area-in-sqm").removeAttr("disabled");
 
                         setTimeout(() => {
@@ -1361,39 +1358,7 @@ $('.sharebtn').on('click',function(){
             }
         }
 
-        function getPaintSuggestion(surfaceLocation) {
-            let url = `/paintCalculatorResult/${surfaceLocation}/metal/steel`;
-
-            $.ajax({
-                url,
-                type: 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    var result = response.data;
-                        
-                    $.each(result, function (index, list) { 
-                        if (list.name != $("#query-string-value").val()) { 
-                            $("#paint").append(
-                                "<div class=\"paint\">" +
-                                    list.name +
-                                "</div>"
-                            );
-        
-                            $("#liter").append(
-                                "<div class=\"liter\">0</div>"
-                            );
-                        }
-                    });
-                        
-                    $("#result-container").show();
-                },        
-                error: function () {        
-                    alert("Error in getPaintSuggestion!");
-                }
-            });
-        }
-
-        function getPaintSuggestion2(surfaceLocation, surfaceType) {
+        function getPaintSuggestion(surfaceLocation, surfaceType) {
             let url = `/paintCalculatorResult/${surfaceLocation}/${surfaceType}`;
 
             $.ajax({
@@ -1404,7 +1369,7 @@ $('.sharebtn').on('click',function(){
                     var result = response.data;
                         
                     $.each(result, function (index, list) { 
-                        if (list.name != $("#query-string-value").val()) {
+                        if (list.name != $("#query-string-value").val()) { 
                             $("#paint").append(
                                 "<div class=\"paint\">" +
                                     list.name +

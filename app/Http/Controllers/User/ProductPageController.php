@@ -1274,38 +1274,34 @@ class ProductPageController extends Controller
         ));
     }
 
-    public function paintSuggestion(Request $request) {
-        $search_where_to_use = $request->surfaceLocation;
-        $search_best_used_for_param = $request->surfaceType;
-        $search_best_used_for_param_two = $request->surfaceType2;
-
-        $result = Product::where(function($q) use($search_where_to_use, $search_best_used_for_param, $search_best_used_for_param_two){
-            $q->where('where_to_use', 'LIKE', '%' . $search_where_to_use . '%')
-              ->where('best_used_for', 'LIKE', '%' . $search_best_used_for_param . '%')
-              ->orWhere('best_used_for', 'LIKE', '%' . $search_best_used_for_param_two . '%');     
-        })->get();
-
-        return json_encode(array('data' => $result));
-    }
-
-    public function paintSuggestion2(Request $request) {
-        $search_where_to_use = $request->surfaceLocation;
-        $search_best_used_for_param = $request->surfaceType;
-
-        $result = Product::where(function($q) use($search_where_to_use, $search_best_used_for_param){
-            $q->where('where_to_use', 'LIKE', '%' . $search_where_to_use . '%')
-              ->where('best_used_for', 'LIKE', '%' . $search_best_used_for_param . '%');
-          })->orderBy('name', 'asc')
-            ->get();
-
-        return json_encode(array('data' => $result));
-    }
-
     public function paintResultFromQueryString(Request $request) {
         $search_name = $request->paint;
 
         $result = Product::where(function($q) use($search_name){
             $q->where('name', '=', $search_name);
+        })->get();
+
+        return json_encode(array('data' => $result));
+    }
+
+    public function paintSuggestion(Request $request) {
+        $surfaceType = $request->surfaceType;
+        $surfaceLocation = $request->surfaceLocation;
+        $category = array(
+            'WOOD' => '22',
+            'METAL AND STEEL' => '21',
+            'CONCRETE' => '20'
+        );        
+        
+        $producCategory = ProductCategory::where(function($q) use($category, $surfaceType){
+            $q->where('category_id', '=', $category[$surfaceType]);
+        })->get()
+          ->lists('product_id')
+          ->toArray();
+
+        $result = Product::where(function($q) use($producCategory, $surfaceLocation){
+            $q->where($surfaceLocation,'=', 1);
+            $q->whereIn('id', $producCategory);    
         })->get();
 
         return json_encode(array('data' => $result));
