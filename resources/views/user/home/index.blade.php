@@ -112,10 +112,36 @@
                                             <div class="heading-bx">
                                                 <div class="thumbnail-desc">Featured Product</div>
                                             </div>
+<!-- <<<<<<< HEAD
                                             <div class="widget-box">
                                                 <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
                                                 <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>                                                
                                                     <button type="button" class="btn btn-primary open-email-dialog" data-broc="{!! $product !!}" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button>                                                    
+======= -->
+                                            <div class="widget-box" style="display: flex; width: 100%;">
+                                                <div id="left">
+                                                    <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
+                                                    <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button>
+                                                </div>
+                                                <div id="right">
+                                                    <div class="bg-img" style="background: url(@if(\App\Product::findOrFail($product)->featured_image != '')
+                                                        {!! asset('img/products/') !!}/{!! \App\Product::findOrFail($product)->featured_image !!}
+                                                    @else
+                                                        {!! asset('img/products/') !!}/placeholder.png
+                                                    @endif
+                                                    ); background-size: contain; background-repeat: no-repeat; background-position: center right;">
+
+                                                    </div>
+                                                </div>
+                                                <!-- <form  action="{{ URL::action('User\HomePageController@email_request') }}" method="get"  accept-charset="UTF-8"> -->
+                                                    <!-- {!! csrf_field() !!} -->
+                                                    <!-- <button type="submit" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</button> -->                                                    
+                                                    <!-- <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
+                                                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button> --}}
+                                                    <!-- <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
+                                                <!-- </form> -->
+<!-- >>>>>>> 9c2378b40fe858ba0cae58d2aceba66862f1853e -->
                                             </div>
                                         </div>
                                     </div>                                                  
