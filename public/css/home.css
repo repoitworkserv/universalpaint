@@ -1980,6 +1980,14 @@ a.btn.white {
     margin-top: 15px
 }
 
+#how-to-paint #preparationPreparingRoom .row {
+    margin-top: 15px;
+}
+
+#how-to-paint #preparationPreparingRoom .left img {
+    width: 100%;
+}
+
 /**
  * Reponsive
  * -----------------------------------------------------------------------------
