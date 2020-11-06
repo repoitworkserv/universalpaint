@@ -42,8 +42,7 @@ Route::get('/how-to-paint', function () {
 Route::get('/paint-calculator', function () {
 	return view('user.paint-calculator.index');
 });
-Route::get('/paintCalculatorResult/{surfaceLocation}/{surfaceType}/{surfaceType2}', 'User\ProductPageController@paintSuggestion');
-Route::get('/paintCalculatorResult/{surfaceLocation}/{surfaceType}', 'User\ProductPageController@paintSuggestion2');
+Route::get('/paintCalculatorResult/{surfaceLocation}/{surfaceType}', 'User\ProductPageController@paintSuggestion');
 Route::get('/paintCalculatorResult/{paint}', 'User\ProductPageController@paintResultFromQueryString');
 
 Route::get('/product-category/brands/aquaGuard-elastomeric-paint ', function () {
