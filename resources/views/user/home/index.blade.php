@@ -107,12 +107,7 @@
                     @if($Page->GetMetaData('featured_products', 'product')['meta_value'])  
                             @foreach(explode(',', $Page->GetMetaData('featured_products', 'product')['meta_value']) as $product)
                                 <div>
-                                    <div class="bg-img" style="background: url(@if(\App\Product::findOrFail($product)->featured_image != '')
-                                                    {!! asset('img/products/') !!}/{!! \App\Product::findOrFail($product)->featured_image !!}
-                                                @else
-                                                    {!! asset('img/products/') !!}/placeholder.png
-                                                @endif
-                                            ); background-size: contain; background-repeat: no-repeat; background-position: center right;">
+                                    <div class="bg-img">
                                         <div class="container">
                                             <div class="heading-bx">
                                                 <div class="thumbnail-desc">Featured Product</div>

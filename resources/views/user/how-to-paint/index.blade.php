@@ -44,7 +44,53 @@
                 </div>
                 <div id="preparationPreparingRoom" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        <div class="contents">
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    <img src="/img/how-to-paint/before-painting/preparing-the-room/get-painting.png"/>
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7">
+                                    Get painting tools ready. Suggest to prepare: 
+                                    Paint brush, roller brush, Paint tray, rags, tape, 
+                                    cutter, newspaper or plastic sheet for covering 
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    <img src="/img/how-to-paint/before-painting/preparing-the-room/remove-or-cover.png"/>
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7">
+                                    Remove or cover light switch and outlet face plates 
+                                    door knobs and tape or cover windows. 
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    <img src="/img/how-to-paint/before-painting/preparing-the-room/move-aside.png"/>
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7">
+                                    Move aside or cover furniture. 
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    <img src="/img/how-to-paint/before-painting/preparing-the-room/cover-the-floors.png"/>
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7">
+                                    Cover the floors with newspaperor blue sheet to 
+                                    protect against paint drips. 
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    <img src="/img/how-to-paint/before-painting/preparing-the-room/last-but.png"/>
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7">
+                                    Last but certainly not least, make sure the area you 
+                                    are painting is well ventilated. 
+                                </div>   
+                            </div>      
+                        </div>
                     </div>
                 </div>
             </div>
@@ -230,72 +276,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="accordion">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-container" href="#collapseOne">
-                    PREPARING TO PAINT
-                </a>
-            </div>
-            <div id="collapseOne" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>Product selection - what am I going to paint?</li>
-                        <li>How much paint is needed?</li>
-                        <li>Preparing the room</li>
-                        <li>Preparing the tools needed for painting</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-container" href="#collapseTwo">
-                    PAINTING/APPLICATION
-                </a>
-            </div>
-            <div id="collapseTwo" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>Repairing damage walls
-                            <ul class="sub-list">
-                                <li>Fungi</li>
-                                <li>Peeling paint</li>
-                                <li>Rust</li>
-                                <li>Holes and cracks</li>
-                            </ul>
-                        </li>
-
-                        <li>Applying skimcoat / putty</li>
-                        <li>Proper paint application
-                            <ul class="sub-list">
-                                <li>Wood</li>
-                                <li>Metal and steel</li>
-                                <li>Concrete</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-container" href="#collapseThree">
-                    CLEAN-UP
-                </a>
-            </div>
-            <div id="collapseThree" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>Clean-up of room</li>
-                        <li>Clean-up of tools</li>
-                        <li>What to do with used paint / cans</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </div>
 
 @endsection
