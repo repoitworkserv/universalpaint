@@ -194,7 +194,7 @@
                             <div class="desc">click to compute how much paint you will need for your project</div>
                         </div>
                         <div class="btn-con">
-                            <a href="/under-maintenance/" target="_blank" class="btns">Calculate Now</a>
+                            <a href="/paint-calculator" target="_blank" class="btns">Calculate Now</a>
                         </div>
                     </div>
                 </div>
