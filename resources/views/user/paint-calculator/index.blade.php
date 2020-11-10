@@ -8,9 +8,9 @@
         <div class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</div>
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4">
                 <div id="criteria-container">
-                    <input type="hidden" id="query-string-value" value="<?php echo $_GET['paint'] ?>">
+                    <input type="hidden" id="query-string-value" value="<?php echo isset($_GET['paint']) ? $_GET['paint'] : "" ?>">
                     <div>
                         <label class="label">SURFACE TYPE</label> <span class="required">*</span>
                         <ul class="customComboBox">
@@ -42,22 +42,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-8">
                 <div id="result-container" style="display: none;">
                     <span class="result">RESULT</span>
                     <br><br>
                     <div class="row" id="paint-liter">
                         <div id="paint" class="col-lg-10">
-                            {{-- <p>USE</p> --}}
-                            {{-- <div class="paint">Universal Aquaguard (Elastomeric Paint)</div>
-                            <div class="paint">sample product name (Sample description)</div>
-                            <div class="paint">sample product name (Sample description)</div> --}}
                         </div>
                         <div id="liter" class="col-lg-2">
-                            {{-- <p>LITERS</p> --}}
-                            {{-- <div class="liter">1</div>
-                            <div class="liter">2</div>
-                            <div class="liter">3</div> --}}
                         </div>
                     </div>
                     <div class="note"><label style="font-weight: bold; margin-bottom: 0;">Note:</label> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
