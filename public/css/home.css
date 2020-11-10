@@ -1236,7 +1236,7 @@ a.btn.white {
 #paint-calculator ul, #paint-calculator input {
     background: #F6F6F6 0% 0% no-repeat padding-box;
     border: 1px solid #DEE2E6;
-    width: 354px;
+    width: 100%;
     padding: 10px 15px;
     display: block;
     font-family: Montserrat;
@@ -2262,6 +2262,12 @@ a.btn.white {
     }
 }
 
+@media only screen and (max-width: 991px) {
+    #paint-liter #liter {
+        margin-top: 20px;
+    }
+}
+
 /* 900px */
 
 @media only screen and (max-width: 900px) {
@@ -2389,6 +2395,10 @@ a.btn.white {
     }
     #quantity_id {
         float: left;
+    }
+    #paint-calculator #result-container,
+    #paint-liter #liter {
+        margin-top: 20px;
     }
     #fourth-section .widget-box {
         flex-direction: column-reverse;
