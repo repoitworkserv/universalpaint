@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-lg-4 col-md-4">
                 <div id="criteria-container">
-                    <input type="hidden" id="query-string-value" value="<?php echo $_GET['paint'] ?>">
+                    <input type="hidden" id="query-string-value" value="<?php echo isset($_GET['paint']) ? $_GET['paint'] : "" ?>">
                     <div>
                         <label class="label">SURFACE TYPE</label> <span class="required">*</span>
                         <ul class="customComboBox">

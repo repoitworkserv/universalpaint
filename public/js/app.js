@@ -1264,7 +1264,7 @@ $('.sharebtn').on('click',function(){
                 .text(e.target.textContent)
                 .removeClass("default");
 
-            getPaintFromQueryString();
+                getPaintSuggestion();
         });
       
         $("#area-in-sqm").keypress(function(e){
@@ -1358,35 +1358,65 @@ $('.sharebtn').on('click',function(){
             }
         }
 
-        function getPaintSuggestion(surfaceLocation, surfaceType) {
-            let url = `/paintCalculatorResult/${surfaceLocation}/${surfaceType}`;
+        function getPaintSuggestion() {
+            let surfaceType = $("#surface-type").text();
+            let surfaceLocation = $("#surface-location").text();
+            let surfaceCondition = $("#surface-condition").text();
+            let comboBox = [surfaceType, surfaceLocation, surfaceCondition].filter(checkComboBox);            
 
-            $.ajax({
-                url,
-                type: 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    var result = response.data;
+            if (comboBox.length > 0) {
+                return;
+            } else {
+                let url = `/paintCalculatorResult/${surfaceLocation}/${surfaceType}`;
+
+                $.ajax({
+                    url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var result = response.data;
                         
-                    $.each(result, function (index, list) { 
-                        if (list.name != $("#query-string-value").val()) { 
-                            $("#paint").append(
-                                "<div class=\"paint\">" +
-                                    list.name +
-                                "</div>"
-                            );
-        
+                        $("#paint").empty();
+                        $("#liter").empty();
+    
+                        $("#paint").append(
+                            "<p>USE</p>"
+                        );
+    
+                        $("#liter").append(
+                            "<p>LITERS</p>"
+                        );
+    
+                        $.each(result, function (index, list) { 
+                            if (list.name === $("#query-string-value").val()) { 
+                                $("#paint").find('.paint:first-of-type').before(
+                                    "<div class=\"paint\">" +
+                                        list.name +
+                                    "</div>"
+                                );
+                            } else {
+                                $("#paint").append(
+                                    "<div class=\"paint\">" +
+                                        list.name +
+                                    "</div>"
+                                );
+                            }
+
                             $("#liter").append(
                                 "<div class=\"liter\">0</div>"
                             );
+                        });
+                            
+                        $("#result-container").show();
+                        $("#area-in-sqm").removeAttr("disabled");
+                        if ($("#area-in-sqm").val() != "") {
+                            computePerLiter(); 
                         }
-                    });
-                        
-                    $("#result-container").show();
-                },        
-                error: function () {        
-                    alert("Error in getPaintSuggestion!");
-                }
-            });
+                    },        
+                    error: function () {        
+                        alert("Error in getPaintSuggestion!");
+                    }
+                });
+            }
         }
     });
