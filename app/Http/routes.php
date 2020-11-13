@@ -16,16 +16,14 @@
 Route::auth();
 
 // USER ROUTES
+Route::get('/product-category/brands', 'User\BrandController@index');
+Route::get('/product-category/brands/{sub_category}', 'User\BrandController@sub_category_list');
 
+Route::get('/product-category/all-products', 'User\ProductPageController@allProducts');
 Route::get('/product-category/{category}', 'User\ProductPageController@sub_category');
-
 Route::get('/product-category/{category}/{sub_category}', 'User\ProductPageController@sub_category_list');
 
-
-Route::get('/product-category/brands', 'User\BrandController@index');
-Route::get('//product-category/brands/{id}', 'User\BrandController@slugName');
 Route::get('/color-swatches', 'User\ProductPageController@color_swatches');
-
 
 Route::get('/contact-us', function () {
 	return view('user.contact-us.index');
