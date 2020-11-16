@@ -14,7 +14,7 @@
 			<div class="nav-right"> {{ ucfirst( str_replace("_", " ", $category)) }} Products</div>
 		</div>
 		<div class="product-tile">
-					
+			@if (!$product->isEmpty())
 				@php
 					$listab = array();
 					$proddesc = '';
@@ -125,7 +125,12 @@
 								</div>
 							</div>	
                         </div>
-				@endforeach						
+				@endforeach
+			@else
+				<div class="col-md-12 col-sm-12 col-xs-12 text-center">
+					<p><h3>No Paint Found!</h3></p>
+				</div> 
+			@endif					
 		</div>   		
 	</div>
 </div>
