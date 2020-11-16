@@ -33,7 +33,7 @@ use DB;
 use Config;
 use App\UserProfile;
 use Session;
-use File;  
+use File;
 
 class ProductPageController extends Controller
 {
@@ -848,36 +848,81 @@ class ProductPageController extends Controller
         ));
     }
 
-    public function paintResultFromQueryString(Request $request) {
+    public function paintResultFromQueryString(Request $request)
+    {
         $search_name = $request->paint;
 
-        $result = Product::where(function($q) use($search_name){
+        $result = Product::where(function ($q) use ($search_name) {
             $q->where('name', '=', $search_name);
         })->get();
 
         return json_encode(array('data' => $result));
     }
 
-    public function paintSuggestion(Request $request) {
+    public function paintSuggestion(Request $request)
+    {
         $surfaceType = $request->surfaceType;
         $surfaceLocation = $request->surfaceLocation;
         $category = array(
             'WOOD' => '22',
             'METAL AND STEEL' => '21',
             'CONCRETE' => '20'
-        );        
-        
-        $producCategory = ProductCategory::where(function($q) use($category, $surfaceType){
+        );
+
+        $producCategory = ProductCategory::where(function ($q) use ($category, $surfaceType) {
             $q->where('category_id', '=', $category[$surfaceType]);
         })->get()
           ->lists('product_id')
           ->toArray();
 
-        $result = Product::where(function($q) use($producCategory, $surfaceLocation){
-            $q->where($surfaceLocation,'=', 1);
-            $q->whereIn('id', $producCategory);    
+        $result = Product::where(function ($q) use ($producCategory, $surfaceLocation) {
+            $q->where($surfaceLocation, '=', 1);
+            $q->whereIn('id', $producCategory);
         })->get();
 
         return json_encode(array('data' => $result));
+    }
+
+    public function allProducts()
+    {
+        $category = array(
+            'Concrete and Cement Boards',
+            'Metal and Steel',
+            'Wood'
+        );
+
+        $allProducts = array(
+            'Interior',
+            'Exterior',
+            'Surface_Preparation',
+            'Industrial'
+        );
+
+        $result = array();
+
+        $productCategory = Category::where(function ($q) use ($category) {
+            $q->whereIn('name', $category);
+        })->get();
+
+        foreach ($allProducts as $product) {
+            foreach ($productCategory as $item) {
+                $producCategory = ProductCategory::where(function ($q) use ($item) {
+                    $q->where('category_id', '=', $item->id);
+                })->get()
+                  ->lists('product_id')
+                  ->toArray();
+
+                $response[trim($item->name)][$product] = array(
+                    'slug_name' => $item->slug_name,
+                    'product' => Product::where(function ($q) use ($producCategory, $product) {
+                        $q->where($product, '=', 1)
+                          ->wherein('id', $producCategory); 
+                    })->get(),
+                    'sub_category' => trim($item->name)
+                );
+            }
+        }
+
+        return view('user.sub-category.all-product', compact('response','allProducts'));
     }
 }

@@ -88,7 +88,7 @@
                                     <div class="container">
                                         <div class="row">
                                                 <div class="col-lg-4">
-                                                    <h2><a href="">All Products</a></h2>
+                                                    <h2><a href="/product-category/all-products">All Products</a></h2>
                                                     <hr>
                                                     <a class="dropdown-item" href="/product-category/interior">Interior</a>
                                                     <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
