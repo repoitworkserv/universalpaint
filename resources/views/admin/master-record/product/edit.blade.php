@@ -931,6 +931,7 @@
 	       </div>
 	     </div>
    </div>
+
    <div class="box box-gold">
 	    <div class="box-header">
 	      <h3 class="box-title col-md-9 col-sm-9 col-xs-12"><i class="fa fa-image"></i> Gallery </h3>
@@ -961,6 +962,71 @@
 	       </div>
 	     </div>
    </div>
+
+   <div class="box box-gold">
+	    <div class="box-header">
+	      <h3 class="box-title col-md-9 col-sm-9 col-xs-12"><i class="fa fa-image"></i> Brochure pdf </h3>
+	      <!--div class="col-md-3 col-sm-3 col-xs-12" style="overflow: hidden;">
+	      	<div class="btn btn-gold gallery_btn" style="position:relative;">
+	      		<input type="file" multiple="multiple" id="gallery_input" style="opacity:0;position:absolute;	" />
+	      		<i class="fa fa-plus"></i> Upload Gallery
+	      	</div>
+	      </div-->
+	    </div>
+	    <div class="box-body">
+	      <div  class="row brochure_wrapview">
+		  	<div class="col-md-6 col-sm-6 col-xs-12 per_image_wrap col-md-offset-3 col-sm-offset-3 mb10">
+			  	Current File:<a href="/pdf/{{$productdetails->brochure_path}}">{{$productdetails->brochure_path}}</a>
+				<input type="file" name="brochure_img" class="inp_brochure_view"  accept="application/pdf"
+				style="max-width: 202px;float:left;" />
+			</div>
+	       </div>
+	     </div>
+   </div>
+
+   <div class="box box-gold">
+	    <div class="box-header">
+	      <h3 class="box-title col-md-9 col-sm-9 col-xs-12"><i class="fa fa-image"></i> Safety Sheet pdf </h3>
+	      <!--div class="col-md-3 col-sm-3 col-xs-12" style="overflow: hidden;">
+	      	<div class="btn btn-gold gallery_btn" style="position:relative;">
+	      		<input type="file" multiple="multiple" id="gallery_input" style="opacity:0;position:absolute;	" />
+	      		<i class="fa fa-plus"></i> Upload Gallery
+	      	</div>
+	      </div--> 
+	    </div>
+	    <div class="box-body">
+	      <div  class="row safety_wrapview">
+		  	<div class="col-md-6 col-sm-6 col-xs-12 per_image_wrap col-md-offset-3 col-sm-offset-3 mb10">
+			  	Current File:<a href="/pdf/{{$productdetails->safety_path}}">{{$productdetails->safety_path}}</a>
+				<input type="file" name="safety_img" class="inp_safety_view"   accept="application/pdf"
+				style="max-width: 202px;float:left;"/>
+			</div>
+	       </div>
+	     </div>
+   </div>
+
+   <div class="box box-gold">
+	    <div class="box-header">
+	      <h3 class="box-title col-md-9 col-sm-9 col-xs-12"><i class="fa fa-image"></i> Technical Sheet pdf </h3>
+	      <!--div class="col-md-3 col-sm-3 col-xs-12" style="overflow: hidden;">
+	      	<div class="btn btn-gold gallery_btn" style="position:relative;">
+	      		<input type="file" multiple="multiple" id="gallery_input" style="opacity:0;position:absolute;	" />
+	      		<i class="fa fa-plus"></i> Upload Gallery
+	      	</div>
+	      </div--> 
+	    </div>
+	    <div class="box-body">
+	      <div  class="row technical_wrapview">
+		  	<div class="col-md-6 col-sm-6 col-xs-12 per_image_wrap col-md-offset-3 col-sm-offset-3 mb10">
+			  	Current File:<a href="/pdf/{{$productdetails->technical_path}}">{{$productdetails->technical_path}}</a>
+				<input type="file" name="technical_img" accept="application/pdf"
+				class="inp_technical_view"  style="max-width: 202px;float:left;" />
+			</div>
+	       </div>
+	     </div>
+
+   </div>
+
 </div>
 </form>
 </div>
@@ -977,7 +1043,8 @@
             $(this).parent('form').submit();
         }
         
-    });
+    }); 
+
 </script>
 
 <script>
@@ -1467,6 +1534,11 @@
 	      $(umg).css({'opacity':'0','width':'0','height':'0'});
 	    });
     });
+
+
+
+ 
+	
     
     $('.ovrview_deletebtn').on('click',function(e){
   		e.stopImmediatePropagation();

@@ -116,8 +116,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {	
-    	 $validator = Validator::make($request->all(), [
+    {	 
+		$validator = Validator::make($request->all(), [
 			'prodcode'            => 'required',						
 			'prodname'            => 'required',
 			'proddesc'            => 'required',
@@ -162,13 +162,14 @@ class ProductController extends Controller
 			$newproduct->list_tab = $request->howtouse.','.$request->aboutbrand.','.$request->deliveropt;
 			$newproduct->howtousetab_details = $request->htu_desc;
 			$newproduct->deliveryopt_tab_details = $request->delopt_desc;
-			
+ 			
 			//single product
 			if($product_type == 'single'){
 				
-			
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$pdfallowedfileExtension   =['PDF','pdf'];
+
 	            if($request->hasfile('upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -187,6 +188,68 @@ class ProductController extends Controller
 		                }	
 					}
 				}
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+		                $brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+		                $brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+		
+		                if ($brochure_check) {
+		                    $brochure_new_filename   = $this->getRegExp($brochure_filename); 
+		                    $brochure_post_path      = public_path('pdf');	
+		                    $brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+		                } else {
+		                    $message = 'Brochure Invalid File Type';
+		                }	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+ 				if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				
+
 				
 				$newproduct->quantity 		 = $request->single_product_qty;
 				$newproduct->price 			 = $request->single_product_price;
@@ -204,6 +267,19 @@ class ProductController extends Controller
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
 				}
+
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
+				}
+
 				if($newproduct->save()){  
 					//product category saving
 					$category = $request->categorylist;
@@ -238,7 +314,8 @@ class ProductController extends Controller
 				$count_product  = count($request->variation_product_qty);
 				//start for parent saving
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$pdfallowedfileExtension   =['PDF','pdf'];
 	            if($request->hasfile('parent_upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -255,6 +332,66 @@ class ProductController extends Controller
 		                } else {
 		                    $message = 'Invalid File Type';
 		                }	
+					}
+				}
+
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+						$brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+		
+						if ($brochure_check) {
+							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
+							$brochure_post_path      = public_path('pdf');	
+							$brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+						} else {
+							$message = 'Brochure Invalid File Type';
+						}	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+					if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
 					}
 				}
 				
@@ -274,6 +411,18 @@ class ProductController extends Controller
 				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
+				}
+
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
 				}
 				// end for parent saving
 			
@@ -553,7 +702,9 @@ class ProductController extends Controller
 			if($product_type == 'single'){
 				
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$pdfallowedfileExtension   =['PDF','pdf'];
+
 	            if($request->hasfile('upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -570,6 +721,66 @@ class ProductController extends Controller
 		                } else {
 		                    $message = 'Invalid File Type';
 		                }	
+					}
+				}
+
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+						$brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+		
+						if ($brochure_check) {
+							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
+							$brochure_post_path      = public_path('pdf');	
+							$brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+						} else {
+							$message = 'Brochure Invalid File Type';
+						}	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+					if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
 					}
 				}
             	$brand_slugname = Brand::where('id',$request->prod_brandname)->first()['slug_name'];
@@ -600,6 +811,17 @@ class ProductController extends Controller
 				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
+				}
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
 				}
 				if($newproduct->save()){  
 					//product category saving
@@ -651,7 +873,9 @@ class ProductController extends Controller
 				
 				//start for parent saving
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$pdfallowedfileExtension   =['PDF','pdf'];
+
 	            if($request->hasfile('parent_upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -668,6 +892,66 @@ class ProductController extends Controller
 		                } else {
 		                    $message = 'Invalid File Type';
 		                }	
+					}
+				}
+
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+						$brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+		
+						if ($brochure_check) {
+							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
+							$brochure_post_path      = public_path('pdf');	
+							$brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+						} else {
+							$message = 'Brochure Invalid File Type';
+						}	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+					if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
 					}
 				}
 				$brand_slugname = Brand::where('id',$request->prod_brandname)->first()['slug_name'];
@@ -687,6 +971,17 @@ class ProductController extends Controller
 				$newproduct->keywords		 = $request->parent_keywords;
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
+				}
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
 				}
 				// end for parent saving
 				
