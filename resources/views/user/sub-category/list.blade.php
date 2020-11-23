@@ -58,9 +58,9 @@
 								
 								<div class="prod-btn">
 									<img src="{{ url('img/buttons/button.png') }}">
-									<a href="" class="yellow-btn">Download Product Brochure Pdf</a>
-									<a href="" class="yellow-btn">Safety data Sheets (SDS)</a>
-									<a href="" class="yellow-btn">Technical Data Sheet</a>
+ 									<a href="/pdf/{{$key->brochure_path}}" class="yellow-btn">Download Product Brochure Pdf</a>
+									<a href="/pdf/{{$key->safety_path}}" class="yellow-btn">Safety data Sheets (SDS)</a>
+									<a href="/pdf/{{$key->technical_path}}" class="yellow-btn">Technical Data Sheet</a>
 									<a href="" class="yellow-btn">Color Calculators</a>	
 								</div>				
 							</div>
