@@ -977,7 +977,7 @@
 	      <div  class="row brochure_wrapview">
 		  	<div class="col-md-6 col-sm-6 col-xs-12 per_image_wrap col-md-offset-3 col-sm-offset-3 mb10">
 			  	Current File:<a href="/pdf/{{$productdetails->brochure_path}}">{{$productdetails->brochure_path}}</a>
-				<input type="file" name="brochure_img" class="inp_brochure_view"  accept="application/pdf"
+				<input type="file" name="brochure_img" class="inp_brochure_view"  accept=".doc, .docx, .pdf,"
 				style="max-width: 202px;float:left;" />
 			</div>
 	       </div>
@@ -998,7 +998,7 @@
 	      <div  class="row safety_wrapview">
 		  	<div class="col-md-6 col-sm-6 col-xs-12 per_image_wrap col-md-offset-3 col-sm-offset-3 mb10">
 			  	Current File:<a href="/pdf/{{$productdetails->safety_path}}">{{$productdetails->safety_path}}</a>
-				<input type="file" name="safety_img" class="inp_safety_view"   accept="application/pdf"
+				<input type="file" name="safety_img" class="inp_safety_view"   accept=".doc, .docx, .pdf,"
 				style="max-width: 202px;float:left;"/>
 			</div>
 	       </div>
@@ -1019,7 +1019,7 @@
 	      <div  class="row technical_wrapview">
 		  	<div class="col-md-6 col-sm-6 col-xs-12 per_image_wrap col-md-offset-3 col-sm-offset-3 mb10">
 			  	Current File:<a href="/pdf/{{$productdetails->technical_path}}">{{$productdetails->technical_path}}</a>
-				<input type="file" name="technical_img" accept="application/pdf"
+				<input type="file" name="technical_img"  accept=".doc, .docx, .pdf,"
 				class="inp_technical_view"  style="max-width: 202px;float:left;" />
 			</div>
 	       </div>
