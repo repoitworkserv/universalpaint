@@ -168,7 +168,7 @@ class ProductController extends Controller
 				
 				$new_filename = '';
 				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
-				$pdfallowedfileExtension   =['PDF','pdf'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
 
 	            if($request->hasfile('upload_image')) {
 	            	
@@ -196,7 +196,7 @@ class ProductController extends Controller
 						$brochure_upload_pdf   = $request->file('brochure_img');
 						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
 		                $brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
-		                $brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+		                $brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
 		
 		                if ($brochure_check) {
 		                    $brochure_new_filename   = $this->getRegExp($brochure_filename); 
@@ -216,7 +216,7 @@ class ProductController extends Controller
 						$safety_upload_pdf   = $request->file('safety_img');
 						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
 						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
-						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
 		
 						if ($safety_check) {
 							$safety_new_filename   = $this->getRegExp($safety_filename); 
@@ -236,7 +236,7 @@ class ProductController extends Controller
 						$technical_upload_pdf   = $request->file('technical_img');
 						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
 						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
-						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
 		
 						if ($technical_check) {
 							$technical_new_filename   = $this->getRegExp($technical_filename); 
@@ -315,7 +315,7 @@ class ProductController extends Controller
 				//start for parent saving
 				$new_filename = '';
 				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
-				$pdfallowedfileExtension   =['PDF','pdf'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
 	            if($request->hasfile('parent_upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -343,7 +343,7 @@ class ProductController extends Controller
 						$brochure_upload_pdf   = $request->file('brochure_img');
 						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
 						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
-						$brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+						$brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
 		
 						if ($brochure_check) {
 							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
@@ -363,7 +363,7 @@ class ProductController extends Controller
 						$safety_upload_pdf   = $request->file('safety_img');
 						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
 						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
-						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
 		
 						if ($safety_check) {
 							$safety_new_filename   = $this->getRegExp($safety_filename); 
@@ -383,7 +383,7 @@ class ProductController extends Controller
 						$technical_upload_pdf   = $request->file('technical_img');
 						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
 						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
-						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
 		
 						if ($technical_check) {
 							$technical_new_filename   = $this->getRegExp($technical_filename); 
@@ -703,7 +703,7 @@ class ProductController extends Controller
 				
 				$new_filename = '';
 				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
-				$pdfallowedfileExtension   =['PDF','pdf'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
 
 	            if($request->hasfile('upload_image')) {
 	            	
@@ -732,7 +732,7 @@ class ProductController extends Controller
 						$brochure_upload_pdf   = $request->file('brochure_img');
 						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
 						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
-						$brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+						$brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
 		
 						if ($brochure_check) {
 							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
@@ -752,7 +752,7 @@ class ProductController extends Controller
 						$safety_upload_pdf   = $request->file('safety_img');
 						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
 						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
-						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
 		
 						if ($safety_check) {
 							$safety_new_filename   = $this->getRegExp($safety_filename); 
@@ -772,7 +772,7 @@ class ProductController extends Controller
 						$technical_upload_pdf   = $request->file('technical_img');
 						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
 						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
-						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
 		
 						if ($technical_check) {
 							$technical_new_filename   = $this->getRegExp($technical_filename); 
@@ -874,7 +874,7 @@ class ProductController extends Controller
 				//start for parent saving
 				$new_filename = '';
 				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
-				$pdfallowedfileExtension   =['PDF','pdf'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
 
 	            if($request->hasfile('parent_upload_image')) {
 	            	
@@ -903,7 +903,7 @@ class ProductController extends Controller
 						$brochure_upload_pdf   = $request->file('brochure_img');
 						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
 						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
-						$brochure_check              = in_array($brochure_extension,$pdfallowedfileExtension);
+						$brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
 		
 						if ($brochure_check) {
 							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
@@ -923,7 +923,7 @@ class ProductController extends Controller
 						$safety_upload_pdf   = $request->file('safety_img');
 						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
 						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
-						$safety_check              = in_array($safety_extension,$pdfallowedfileExtension);
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
 		
 						if ($safety_check) {
 							$safety_new_filename   = $this->getRegExp($safety_filename); 
@@ -943,7 +943,7 @@ class ProductController extends Controller
 						$technical_upload_pdf   = $request->file('technical_img');
 						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
 						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
-						$technical_check              = in_array($technical_extension,$pdfallowedfileExtension);
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
 		
 						if ($technical_check) {
 							$technical_new_filename   = $this->getRegExp($technical_filename); 
