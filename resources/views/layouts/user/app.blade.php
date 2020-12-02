@@ -61,8 +61,8 @@
                 <div class="nav-wrapper">
                     <div class="header-contact">
                         <p class="smll-text">follow and like us on</p>
-                        <a href="https://www.facebook.com/"><img src="{{ url('img/FB.png') }}"></a>
-                        <a href="https://www.facebook.com/"><img src="{{ url('img/IG.png') }}"></a>
+                        <a href="https://www.facebook.com/universalpaintph/"><img src="{{ url('img/FB.png') }}"></a>
+                        <a href="https://www.instagram.com/universalpaintph/"><img src="{{ url('img/IG.png') }}"></a>
                     </div>
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
