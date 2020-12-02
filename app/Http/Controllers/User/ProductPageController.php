@@ -831,7 +831,7 @@ class ProductPageController extends Controller
         $cat_regColors = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
         })->get();
-
+        
         return view('user.color-swatches.index', compact(
         'cat_blue',
         'cat_accents',
@@ -844,7 +844,8 @@ class ProductPageController extends Controller
         'cat_red',
         'cat_violet',
         'cat_yellow',
-        'cat_regColors'
+        'cat_regColors',
+        'products'
         ));
     }
 
