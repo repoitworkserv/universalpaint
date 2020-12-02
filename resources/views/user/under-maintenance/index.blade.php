@@ -14,9 +14,7 @@
     .background {
         background-size: cover;
         background-repeat: no-repeat;
-        /* background-position: center center; */
         background-image: url('/img/universal_paint.png');
-        position: relative;
         height: 100%;
     }
 
