@@ -24,6 +24,9 @@ Route::get('/product-category/{category}', 'User\ProductPageController@sub_categ
 Route::get('/product-category/{category}/{sub_category}', 'User\ProductPageController@sub_category_list');
 
 Route::get('/color-swatches', 'User\ProductPageController@color_swatches');
+Route::get('/color-swatches/cart', function () {
+	return view('user.color-swatches.cart');
+});
 
 Route::get('/contact-us', function () {
 	return view('user.contact-us.index');

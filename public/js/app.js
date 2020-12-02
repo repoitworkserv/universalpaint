@@ -1203,10 +1203,30 @@ $('.sharebtn').on('click',function(){
             activateNewColorSwatch($(this));          
         });
 
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+
         $("#defaultOpen").click();
-     	$(".box-widget .color-picker .color-box").on('click',function(){            
+     	$(".box-widget .color-picker .color-box").on('click', function(e){
+            let bgColor = $(this).css("background-color");
             $(this).addClass('color-selected');
+            $("#selected-color").text(toTitleCase($(this).text().trim()))
+                                .siblings('.color-box').css("background-color", bgColor);
+            
         });
+
+        window.addEventListener("resize", removeModalPadding);
+
+        function removeModalPadding() {
+            setTimeout(() => {                
+                if ($("#color-modal").width() <= 500) {
+                    $("#color-modal").css("padding-right", "0");
+                }
+            }, 500);
+        }        
 
         $('#proceed').on('click',function(e){
             parent_id = $(".box-widget .color-box").data('parent-id');

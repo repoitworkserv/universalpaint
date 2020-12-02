@@ -1417,6 +1417,7 @@ a.btn.white {
     margin-bottom: 10px;
     text-transform: uppercase;
     text-align: center;
+    cursor: pointer;
 }
 
 #color-swatches .color-section .color-box .title {
@@ -1437,6 +1438,12 @@ a.btn.white {
 
 #color-swatches .color-section {
     margin-bottom: 30px;
+}
+
+#color-swatches-cart {
+    margin-top: 160px;
+    overflow: hidden;
+    margin-bottom: 20px;
 }
 
 .tabcontent:not(:first-child) {

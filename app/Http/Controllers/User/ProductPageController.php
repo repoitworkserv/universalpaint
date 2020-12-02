@@ -927,18 +927,7 @@ class ProductPageController extends Controller
         return view('user.sub-category.all-product', compact('response','allProducts'));
     }
 
-    public function fetch(Request $request){
-    if($request->get('query'))
-     {
-      $query = $request->get('query');
+    public function getColoredPaint(Request $request) {
 
-      $data = Product::where('brand_id', $query)->get();
-      $output = '';
-      foreach($data as $row)
-      {
-       $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
-      }
-      echo $output;
-     }
     }
 }
