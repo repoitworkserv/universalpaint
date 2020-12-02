@@ -1152,6 +1152,15 @@ $('.sharebtn').on('click',function(){
 
     });
 
+    $(document).on("click", ".open-email-dialog", function () {
+        var product_id = $(this).data('broc');
+   
+        $(".panel-body #broc_product").val( product_id );
+        // As pointed out in comments, 
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+   });
+
     $(document).ready(function(){
         //Color Swatches
 

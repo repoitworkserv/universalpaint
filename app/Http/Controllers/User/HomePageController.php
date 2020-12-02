@@ -90,33 +90,50 @@ class HomePageController extends Controller
         return view('user.home.index', compact('Page', 'Post', 'Product','uid', 'user_type','userBrands','brands','colors'));
     }
 
-    public function email_request(Request $request)
+    public function email_request_pdf(Request $request)
     {
+        // $data = array();
+        // $fullname = $request->fullname;
+        // $email = $request->email;
+        // $product = Product::findOrFail($request->broc_product)->slug_name;
+        // Mail::send('user.email-request', compact('fullname','email'), function ($message) {
+        //         $message->sender('developer.itworks@gmail.com');
+        //         $message->to('ronnie2019.itworks@gmail.com')->subject('Customer Info');
+        //     });
+        // $url = '/pdf//'.$product .'.pdf';        
+        // return redirect($url);
+
+        $fullname = $request->broc_fullname;
+        $email = $request->broc_email;
+
+        $data = array(
+		'fullname' => $fullname,
+		'email' => $email
+        );
+        
+	    $product = Product::findOrFail($request->broc_product)->slug_name;
+        Mail::send('user.email-request', compact('data'), function ($message) {
+                $message->sender('developer.itworks@gmail.com');
+                $message->to('ronnie2019.itworks@gmail.com')->subject('Customer Info');
+            });
+        $url = '/pdf//'.$product.'.pdf';        
+        return redirect($url);
+
+    }
+    public function email_request(Request $request)
+    {        
         $filePath = $request->filename;
         $data = array(
             'fullname' 	 => 'Ronnie Manook',
             'email' => 'ronnie2019.itworks@gmail.com',
             'titlesubject' => 'Test Email',
             'status' => 'success'            
-        );
-
-        $settings =  Settings::get();
-        // echo json_encode(array('status'=>'OK', 'msg'=>'success'));
-        // exit;
-        // $order_details = Order::where('order_code',$order_id)->with('OrderItemData')->get();
-        Mail::send('user.email-request', compact('data'), function ($message) use($data, $settings) {
-            // dd($settings);
+        );        
+        $settings =  Settings::get();        
+        Mail::send('user.email-request', compact('data'), function ($message) use($data, $settings) {            
                     $message->sender($settings[0]['email_address']);
-                    $message->to($data['email'])->subject($data['titlesubject']);                    
-                    //$message->embed(public_path() . '/img/banner-email.png');
-                });
-            
-        // if (Mail::failures()) {
-        //     print_r("asd"); exit();
-        // }
-        // return \Response::download($filePath);
-                  
-
+                    $message->to($data['email'])->subject($data['titlesubject']);                                        
+                });                   
     }
 
 }

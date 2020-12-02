@@ -152,7 +152,7 @@
                     </nav>
                 </div> <!-- nav-wrapper -->
             </div> <!-- header content -->
-        </header>
+        </header>        
         @yield('content')
         <!-- Sixth Section -->
         <div id="sixth-section" style="background-image: url('{{ url('img/footer_bgs.png') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
@@ -176,7 +176,7 @@
                             <div class="desc">See the proper way to paint</div>
                         </div>
                         <div class="btn-con">
-                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
+                            <a href="/how-to-paint" target="_blank" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">
@@ -185,7 +185,7 @@
                             <div class="desc">click here to see online color charts</div>
                         </div>
                         <div class="btn-con">
-                            <a href="/under-maintenance/" target="_blank" class="btns">Read More</a>
+                            <a href="/color-swatches" target="_blank" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">

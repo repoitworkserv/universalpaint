@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'developer.itworks@gmail.com', 'name' => 'ez-deal.customerservice'],
+    'from' => ['address' => 'developer.itworks@gmail.com', 'name' => 'Universal Customer Service'],
 
     /*
     |--------------------------------------------------------------------------
