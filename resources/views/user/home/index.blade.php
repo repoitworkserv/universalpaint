@@ -28,7 +28,7 @@
                         <div class="desc">
                             Click here to know how Universal PLUS delivers white without the premium price tag.
                         </div>
-                        <a href="/product/universal-professional-architectural-paint-plus-latex-paint" class="btn white">READ MORE</a>
+                        <a href="/product-category/brands/universal-professional-architectural-paint" class="btn white">READ MORE</a>
                     </div>
                 </div>
             </div>
