@@ -831,7 +831,7 @@ class ProductPageController extends Controller
         $cat_regColors = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
         })->get();
-        
+        $chooseBrand = Brand::with('BrandWithProduct')->get();
         return view('user.color-swatches.index', compact(
         'cat_blue',
         'cat_accents',
@@ -845,7 +845,7 @@ class ProductPageController extends Controller
         'cat_violet',
         'cat_yellow',
         'cat_regColors',
-        'products'
+        'chooseBrand'
         ));
     }
 
@@ -925,5 +925,20 @@ class ProductPageController extends Controller
         }
 
         return view('user.sub-category.all-product', compact('response','allProducts'));
+    }
+
+    public function fetch(Request $request){
+    if($request->get('query'))
+     {
+      $query = $request->get('query');
+
+      $data = Product::where('brand_id', $query)->get();
+      $output = '';
+      foreach($data as $row)
+      {
+       $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+      }
+      echo $output;
+     }
     }
 }

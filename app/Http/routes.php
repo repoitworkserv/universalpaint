@@ -65,7 +65,7 @@ Route::post('register-customer', 'User\RegisterController@register_customer');
 Route::get('/product-category/interior/search', 'User\InteriorController@search');
 Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
 
-
+Route::post('/autocomplete/fetch', 'User\ProductPageController@fetch')->name('autocomplete.fetch');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');
 Route::get('/product-category/exterior/search', 'User\ExteriorPageController@search');
@@ -78,6 +78,7 @@ Route::get('/product/{id}', 'User\ProductPageController@details');
 Route::post('/product-variance', 'User\ProductPageController@productvariance');
 Route::post('/product-view', 'User\ProductPageController@productview');
 Route::post('/add-cart', 'User\CartController@addcart');
+Route::post('/color-add-cart', 'User\CartController@coloraddtocart');
 Route::post('/remove-cart', 'User\CartController@removecart');
 Route::post('/check-cart', 'User\CartController@checkcart');
 Route::get('/get-shipping-rate', 'User\CartController@get_shipping');

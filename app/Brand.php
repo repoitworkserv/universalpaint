@@ -29,6 +29,10 @@ class Brand extends Model
 	public function ProductByBrand(){
     	 return $this->hasMany('App\Product', 'brand_id', 'id')->inRandomOrder()->take(3);
     }
+
+    public function BrandWithProduct(){
+        return $this->hasMany('App\Product', 'brand_id', 'id');
+   }
 	
 	public function UserBrandData()
 	{
