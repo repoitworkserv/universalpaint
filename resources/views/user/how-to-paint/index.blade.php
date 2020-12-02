@@ -20,7 +20,7 @@
                 </div>
                 <div id="preparationProductSelection" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        Paint On-Going
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 </div>
                 <div id="preparationHowMuchPaint" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        Paint On-Going
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                 </div>
                 <div id="preparationPreparingTools" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        Paint On-Going
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                                 </div>
                                 <div id="fungi" class="accordion-body collapse">
                                     <div class="accordion-inner">
-                                        Waiting for Content
+                                        Paint On-Going
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                                 </div>
                                 <div id="peelingPaint" class="accordion-body collapse">
                                     <div class="accordion-inner">
-                                        Waiting for Content
+                                        Paint On-Going
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                 </div>
                                 <div id="rust" class="accordion-body collapse">
                                     <div class="accordion-inner">
-                                        Waiting for Content
+                                        Paint On-Going
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                                 </div>
                                 <div id="holes" class="accordion-body collapse">
                                     <div class="accordion-inner">
-                                        Waiting for Content
+                                        Paint On-Going
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
                 </div>
                 <div id="paintingPutty" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        Paint On-Going
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                                 </div>
                                 <div id="wood" class="accordion-body collapse">
                                     <div class="accordion-inner">
-                                        Waiting for Content
+                                        Paint On-Going
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@
                                 </div>
                                 <div id="metal" class="accordion-body collapse">
                                     <div class="accordion-inner">
-                                        Waiting for Content
+                                        Paint On-Going
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                                 </div>
                                 <div id="concrete" class="accordion-body collapse">
                                     <div class="accordion-inner">
-                                        Waiting for Content
+                                        Paint On-Going
                                     </div>
                                 </div>
                             </div>
@@ -246,7 +246,7 @@
                 </div>
                 <div id="cleanUpRoom" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        Paint On-Going
                     </div>
                 </div>
             </div>
@@ -258,7 +258,7 @@
                 </div>
                 <div id="cleanUpTools" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        Paint On-Going
                     </div>
                 </div>
             </div>
@@ -270,7 +270,7 @@
                 </div>
                 <div id="cleanUpCans" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Waiting for Content
+                        Paint On-Going
                     </div>
                 </div>
             </div>
