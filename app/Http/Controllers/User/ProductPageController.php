@@ -931,12 +931,22 @@ class ProductPageController extends Controller
     if($request->get('query'))
      {
       $query = $request->get('query');
-
-      $data = Product::where('brand_id', $query)->get();
+      $data = ProductAttribute::where('attribute_id', $query)->get();
+    //   $data = Product::with(['ProductAttributeData' => function($q) use($query){
+    //       $q->whereIn('attribute_id', $query);
+    //   }])->get();
+    //   =>function($query){
+    //     $query->where('user_id', Auth::id());
+    // }])
+      //$data = Product::where('parent_id', $query)->get();
+      $product = Product::get();
       $output = '';
       foreach($data as $row)
       {
-       $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+            if(Product::where('id', $row->product_id)->first()['parent_id']){
+                $parent = Product::where('id', $row->product_id)->first()['parent_id'];
+                $output .= '<option value="'.Product::where('id', $parent)->first()['id'].'">'.Product::where('id', $parent)->first()['name'].'</option>';
+            }
       }
       echo $output;
      }
