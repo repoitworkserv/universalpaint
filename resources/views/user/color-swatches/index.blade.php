@@ -323,7 +323,8 @@
 			{!! csrf_field() !!}
 			<!-- <input type="hidden" name="item_quantity" id="item_quantity"> -->
 
-			<button id="proceed" class="btn btn-default">Select and Proceed</button>
+			<!-- <button id="proceed" class="btn btn-default">Select and Proceed</button> -->
+			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/request-a-quote') }}" >Select and Proceed</a> </button>
 			<!-- </form> -->
 		</div>
 	</div>
@@ -344,22 +345,14 @@
 	  {!! csrf_field() !!}
 		<div class="colorSwatches" width="100%"></div>
 		<div class="form-group">
-			<label for="chooseBrand" class="col-form-label">Brand:</label>
-			<select name="chooseBrand" id="chooseBrand" class="form-control">
-			<option value="" disabled><--Choose Brand--></option>
-			@foreach($chooseBrand as $brand)
-			<option value="{{ $brand->id }}" >{{ $brand->name }}</option>
-			@endforeach
-			</select>
-
             <label for="product-reasearch" class="col-form-label">Product:</label>
 			<select class="form-control"  id="productName" name="productName"></select>
           </div>
-
       </div>
       <div class="modal-footer">
 	  	<input type="hidden" name="colorChoose" id="colorChoose">
-        <button class="btn btn-primary">Add to Cart</button>
+		<input type="hidden" name="colorCss" id="colorCss">
+        <button class="btn btn-primary">Add</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
 	  </form>
@@ -378,15 +371,13 @@ $(document).ready(function (){
 		$('#colorChoose').val($(this).data('id'));
 		$('div#addToCart').modal('show');
 		var rgb = "rgb("+ $(this).data('rcolor') +","+ $(this).data('gcolor') +","+ $(this).data('bcolor')+")";
+		$('#colorCss').val(rgb);
 		$('div#colorName').html($(this).data('name'));
 		$('.modal-header').css("background-color", rgb);
 		$('.modal-body').css("background-color", rgb);
 		if($('.btn-secondary').on('click') || $('.btn-primary').on('click')){
 		$(this).removeClass('color-selected')
-		}
-	});
-	$('#chooseBrand').on('change', function(){
-		var query = $('#chooseBrand').val();
+		var query = $('#colorChoose').val();
 			if(query != '')
 			{
 			var _token = $('input[name="_token"]').val();
@@ -404,7 +395,11 @@ $(document).ready(function (){
 			$('#productName').fadeOut();  
 		});  	
 		}
+		}
 	});
+	$('#chooseBrand').on('change', function(){
+
+	});//
 })
 </script>
 @endsection

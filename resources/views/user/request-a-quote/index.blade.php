@@ -29,14 +29,38 @@
 									    <div class="label-top">Address<span>*</span></div>
 									    <input type="text" id="add" name="em" placeholder="Complete Address Here">
 									</div>
-							  		<div class="widget-box">
-									    <div class="label-top">Product<span>*</span></div>
-									    <input type="text" id="prod" name="prod" placeholder="Product Name">
+									<div class="box">
+									<div class="box-header with-border">
+									<h3 class="box-title">Products</h3>
 									</div>
-							  		<div class="widget-box">
-									    <div class="label-top">Quantity<span>*</span></div>
-									    <input type="text" id="qty" name="qty" placeholder="QTY">
+									<!-- /.box-header -->
+									<div class="box-body">
+									<table class="table table-bordered">
+										<tbody>
+										<tr>
+											<th style="width: 10px">#</th>
+											<th>Product Name</th>
+											<th>Color</th>
+										</tr>
+										@if(Session::get('requestqoute'))
+											@php 
+												$list = Session::get('requestqoute');
+											@endphp
+											@foreach($list as $key=>$index)
+											<tr>
+												<td>{{++$key}}</td>
+												<td>{{ $index['name'] }}</td>
+												<td style="background-color: {{ $index['css_color'] }}"></td>
+											</tr>
+											@endforeach
+										@endif
+									</tbody></table>
 									</div>
+									<!-- /.box-body -->
+									<div class="box-footer clearfix">
+
+									</div>
+								</div>
 								</div>
 								<div class="button-bx"><input type="submit" value="Send Now"></div>
 							</div>

@@ -54,43 +54,51 @@ class CartController extends Controller
     }
 
     public function coloraddtocart(Request $request){
-        $productid = $request->productName;
-        $attribute = $request->colorChoose;
-        $product = Product::where('id', $productid)->get();
         $message = '';
-        $item = [
-            'id' => $product[0]['id'],    
-            'name' => $product[0]['name'],
-            'qty' => 1,                    
-            'price' => $product[0]['price'],
-            'discount' => 0,
-            'discount_type' => 0,
-            'sale_price' => 0,
-            'description' => 0,
-            'shipping_weight' => 0,
-            'shipping_height' => 0,
-            'shipping_length' => 0,
-            'shipping_width' => 0,
-            'is_sale' => 0,
-            'product_attribute' => $attribute, 
-        ];
-        if ($request->session()->has('cart')) {
-            $cart = $request->session()->get('cart');
-            $key = array_search($request->item_id, array_column($cart, 'id'));
-            $ids = array_column($cart, 'id', 'id');
-            if(isset($ids[$request->item_id])) {
-                $cart[$key]['qty'] += $request->item_quantity;
-                $request->session()->put('cart', $cart);
-            } else {
-                $request->session()->push('cart', $item);
+        if($request->productName == null){
+            $message = "Item is unavailable!";
+            return redirect()->back()->with('error', $message);
+        } else {
+            $productid = $request->productName;
+            $attribute = $request->colorChoose;
+            $csscolor = $request->colorCss;
+            $product = Product::where('id', $productid)->get();
+            $item = [
+                'id' => $product[0]['id'],    
+                'name' => $product[0]['name'],
+                'qty' => 1,                    
+                'price' => $product[0]['price'],
+                'discount' => 0,
+                'discount_type' => 0,
+                'sale_price' => 0,
+                'description' => 0,
+                'shipping_weight' => 0,
+                'shipping_height' => 0,
+                'shipping_length' => 0,
+                'shipping_width' => 0,
+                'is_sale' => 0,
+                'product_attribute' => $attribute,
+                'css_color' => $csscolor
+            ];
+            if ($request->session()->has('requestqoute')) {
+                $cart = $request->session()->get('requestqoute');
+                $key = array_search($request->item_id, array_column($cart, 'id'));
+                $ids = array_column($cart, 'id', 'id');
+                if(isset($ids[$request->item_id])) {
+                    $cart[$key]['qty'] += $request->item_quantity;
+                    $request->session()->put('requestqoute', $cart);
+                } else {
+                    $request->session()->push('requestqoute', $item);
+                }
+                $message = "Item is successfully added to cart";
             }
-            $message = "Item is successfully added to cart";
+            else {
+                $request->session()->push('requestqoute', $item);
+                $message = "Item is successfully added to cart";
+            }
+            return redirect()->back()->with('success', $message);
         }
-        else {
-            $request->session()->push('cart', $item);
-            $message = "Item is successfully added to cart";
-        }
-        return redirect()->back()->with('success', $message);
+        
     }
 
 
@@ -101,7 +109,6 @@ class CartController extends Controller
         //Submit Multiple Items Here
         $multi = isset($request->multiple) ? $request->multiple : false;
         $productid = $request->productid; 
-
         if($multi != false){                                      
             $product = Product::whereIn('id',$productid)->get();            
             foreach($product as $prod){
