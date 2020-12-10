@@ -350,6 +350,7 @@
           </div>
       </div>
       <div class="modal-footer">
+		<input type="hidden" name="colorNameP" id="colorNameP">
 	  	<input type="hidden" name="colorChoose" id="colorChoose">
 		<input type="hidden" name="colorCss" id="colorCss">
         <button class="btn btn-primary">Add</button>
@@ -373,6 +374,7 @@ $(document).ready(function (){
 		var rgb = "rgb("+ $(this).data('rcolor') +","+ $(this).data('gcolor') +","+ $(this).data('bcolor')+")";
 		$('#colorCss').val(rgb);
 		$('div#colorName').html($(this).data('name'));
+		$('#colorNameP').val($(this).data('name'));
 		$('.modal-header').css("background-color", rgb);
 		$('.modal-body').css("background-color", rgb);
 		if($('.btn-secondary').on('click') || $('.btn-primary').on('click')){

@@ -46,6 +46,8 @@ Route::get('/paintCalculatorResult/{paint}', 'User\ProductPageController@paintRe
 Route::get('/product-category/brands/aquaGuard-elastomeric-paint ', function () {
 	return view('user.brand-1.index');
 });
+//Email Request Quote
+Route::post('request-a-qoute/send-qoute', 'User\ProductPageController@quoteSent')->name('sendmail.quote');
 
 Route::get('products/checkout', 'User\CheckoutController@index');
 Route::get('/under-maintenance', function () {

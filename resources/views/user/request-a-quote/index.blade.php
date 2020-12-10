@@ -9,25 +9,25 @@
 			<div class="contact-details">
 				<div class="con-dtls">
 					<div class="contact-form-bx">
-					  	<form action="/">
+					  	<!-- <form action="/"> -->
 						  	<div class="contact-form">
 						  		<div class="heading">Request A Quote</div>
 							  	<div class="c-form">
 							  		<div class="widget-box">
 									    <div class="label-top">Your Name<span>*</span></div>
-									    <input type="text" id="fname" name="firstname" placeholder="Your Name Here..">
+									    <input type="text" id="fname" name="firstname" placeholder="Your Name Here.." required>
 									</div>
 							  		<div class="widget-box">
 									    <div class="label-top">Contact Number<span>*</span></div>
-									    <input type="text" id="cnum" name="contactnum" placeholder="Contact Number Here..">
+									    <input type="text" id="cnum" name="contactnum" placeholder="Contact Number Here.." required>
 									</div>
 							  		<div class="widget-box">
 									    <div class="label-top">Email Address<span>*</span></div>
-									    <input type="text" id="eadd" name="em" placeholder="Email Address Here">
+									    <input type="text" id="eadd" name="em" placeholder="Email Address Here" required>
 									</div>
 							  		<div class="widget-box">
 									    <div class="label-top">Address<span>*</span></div>
-									    <input type="text" id="add" name="em" placeholder="Complete Address Here">
+									    <input type="text" id="add" name="em" placeholder="Complete Address Here" required>
 									</div>
 									<div class="box">
 									<div class="box-header with-border">
@@ -35,7 +35,7 @@
 									</div>
 									<!-- /.box-header -->
 									<div class="box-body">
-									<table class="table table-bordered">
+									<table class="table table-bordered" id="productTable">
 										<tbody>
 										<tr>
 											<th style="width: 10px">#</th>
@@ -50,7 +50,7 @@
 											<tr>
 												<td>{{++$key}}</td>
 												<td>{{ $index['name'] }}</td>
-												<td style="background-color: {{ $index['css_color'] }}"></td>
+												<td style="background-color: {{ $index['css_color'] }}">{{ $index['color_name'] }}</td>
 											</tr>
 											@endforeach
 										@endif
@@ -62,9 +62,9 @@
 									</div>
 								</div>
 								</div>
-								<div class="button-bx"><input type="submit" value="Send Now"></div>
+								<div class="btn button-bx send-request" style="background-color: #94978c; color: white">Send Now</div>
 							</div>
-					  	</form>
+					  	<!-- </form> -->
 					</div>
 				</div>
 				<div class="con-dtls">
@@ -75,19 +75,19 @@
 							  	<div class="c-form">
 							  		<div class="widget-box">
 									    <div class="label-top">Your Name<span>*</span></div>
-									    <input type="text" id="fname" name="firstname" placeholder="Your Name Here..">
+									    <input type="text" id="fname2" name="firstname2" placeholder="Your Name Here..">
 									</div>
 							  		<div class="widget-box">
 									    <div class="label-top">Email Address<span>*</span></div>
-									    <input type="text" id="eadd" name="em" placeholder="Email Address Here">
+									    <input type="text" id="eadd2" name="eadd2" placeholder="Email Address Here">
 									</div>
 							  		<div class="widget-box">
 									    <div class="label-top">Complete Project Address<span>*</span></div>
-									    <input type="text" id="add" name="em" placeholder="Complete Project Address Here">
+									    <input type="text" id="add2" name="add2" placeholder="Complete Project Address Here">
 									</div>
 							  		<div class="widget-box">
 									    <div class="label-top">Preferred Date Of Visit or Call<span>*</span></div>
-									    <input type="text" id="cnum" name="contactnum" placeholder="Date of Visit">
+									    <input type="text" id="cnum2" name="cnum2" placeholder="Date of Visit">
 									</div>
 								</div>
 								<div class="button-bx"><input type="submit" value="Send Now"></div>
@@ -119,4 +119,23 @@
 </div>
 
 
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+
+$(document).ready(function (){
+	$('.send-request').on('click', function(){
+		var _token = $('input[name="_token"]').val(),
+		name = $('#fname').val(),cnum = $('#cnum').val(),eadd = $('#eadd').val();
+		$.ajax({
+		url:"{{ route('sendmail.quote') }}",
+		method:"POST",
+		data:{ name:name,cnum:cnum,eadd:eadd, _token: "{{ csrf_token() }}"},
+		success:function(data){
+			}
+		});
+	});
+})
+</script>
 @endsection
