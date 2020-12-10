@@ -1,3 +1,4 @@
+<div>
 <style>
         table {
         font-family: arial, sans-serif;
@@ -6,9 +7,7 @@
         }
 
         td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
+        border: 1px solid #dddddd;text-align: left;padding: 8px;
         }
 
         tr:nth-child(even) {
@@ -27,18 +26,18 @@
             
         </p>
 
-        <table>
+        <table sytle="font-family: arial, sans-serif;border-collapse: collapse;width: 100%;">
             <tr>
-                <th>Product Availed:</th>
-                <th>Quantity:</th>
-                <th>Color:</th>
-                <th>Size:</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Product Availed:</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Quantity:</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Color:</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Size:</th>
             </tr>
             @foreach($requestqoute as $item)
             <tr>
-                <td>{{$item['name']}}</td>
-                <td>{{$item['qty']}}</td>
-                <td style="background-color: {{ $item['css_color'] }}">{{$item['color_name']}}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{$item['name']}}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{$item['qty']}}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;background-color: {{ $item['css_color'] }}">{{$item['color_name']}}</td>
                 <td></td>
             </tr>
             @endforeach
@@ -49,5 +48,6 @@
             Please feel free to contact (632) 8997-8777 or email <br>
            <a href="mailto:sales@universalpaint.net">sales@universalpaint.net</a>  for any concerns.
         </p>
-        @php dd($requestqoute); @endphp
     </div>
+
+</div>

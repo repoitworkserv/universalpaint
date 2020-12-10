@@ -968,6 +968,8 @@ class ProductPageController extends Controller
     
         if (Mail::failures()) {
             print_r("asd"); exit();
+        } else {
+            Session::forget('requestqoute');
         }
     }
 }
