@@ -55,6 +55,7 @@ class CartController extends Controller
 
     public function coloraddtocart(Request $request){
         $message = '';
+        //Session::forget('requestqoute');
         if($request->productName == null){
             $message = "Item is unavailable!";
             return redirect()->back()->with('error', $message);
@@ -62,6 +63,7 @@ class CartController extends Controller
             $productid = $request->productName;
             $attribute = $request->colorChoose;
             $csscolor = $request->colorCss;
+            $colorname = $request->colorNameP;
             $product = Product::where('id', $productid)->get();
             $item = [
                 'id' => $product[0]['id'],    
@@ -78,7 +80,8 @@ class CartController extends Controller
                 'shipping_width' => 0,
                 'is_sale' => 0,
                 'product_attribute' => $attribute,
-                'css_color' => $csscolor
+                'css_color' => $csscolor,
+                'color_name' => $colorname
             ];
             if ($request->session()->has('requestqoute')) {
                 $cart = $request->session()->get('requestqoute');

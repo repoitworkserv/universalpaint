@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Mail;
 
 //Model
 use App\PaymentMethod;
@@ -950,5 +951,23 @@ class ProductPageController extends Controller
       }
       echo $output;
      }
+    }
+
+    public function quoteSent(Request $request)
+    {
+        Session::get('requestqoute');
+        //dd($request->all(),Session::get('requestqoute'));
+        $requestqoute = Session::get('requestqoute');
+        $name = $request->name;
+        $cnum = $request->cnum;
+        $eadd = $request->eadd;
+        Mail::send('user.request-quote', compact('name', 'cnum', 'requestqoute'), function ($message) use($eadd) {
+            $message->sender($eadd);
+            $message->to($eadd);
+        });
+    
+        if (Mail::failures()) {
+            print_r("asd"); exit();
+        }
     }
 }
