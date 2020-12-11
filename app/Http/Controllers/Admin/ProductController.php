@@ -629,7 +629,7 @@ class ProductController extends Controller
 	   $subproduct 		= Product::where('parent_id',$id)
 	   					->with('ProductVariableData')
 	   					->with('ProductAttributeData')
-	   					->with('ProductUserPrice')->get(); 
+	   					->with('ProductUserPrice')->paginate(5); 
 	   $productcategory = ProductCategory::where('product_id',$id)->get();
 	   $productvariable = ProductVariable::where('product_id',$id)->get(); //print_r($productvariable->toArray()); exit();
 	   $productothers   = ProductOthers::where('product_id',$id)->where('prodothers_type','overview')->get();
@@ -655,7 +655,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {		
+    {	
     	$validator = Validator::make($request->all(), [
             'prodcode'            => 'required',
 		  	'prodname'            => 'required',

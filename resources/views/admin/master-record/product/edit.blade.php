@@ -492,7 +492,6 @@
 															@php
 																$promo_start_var = date('m/d/Y', strtotime($sp->promo_start));
 																$promo_end_var = date('m/d/Y', strtotime($sp->promo_start));
-																
 																$sp_promo_start = ($promo_start_var == '01/01/1970') ? '' : $promo_start_var;
 																$sp_promo_end = ($promo_end_var == '01/01/1970') ? '' : $promo_end_var;
 															@endphp
@@ -726,7 +725,7 @@
 																$sp_count++;
 															@endphp
 														@endforeach
-														
+
 								                    </tbody>
 								                 </table>
 					            			</div>
@@ -736,19 +735,14 @@
                 					 
                 				</div>
                 			</div>
-                			
+							{{ $subproduct->links() }}
                 			
 			                <div class="form-group text-right">
 			            		<!--<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: {{($productdetails->product_type == 'multiple') && ($subproduct->count() > 0) ? 'inline' : 'none'}};">Save Product</button>-->
 			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" >Save Product</button>        
 			                </div>
-				                
-				        
-                	
                   </div>
                 </div>
-          
-
         <!-- /.box-body -->
           
         </div>
