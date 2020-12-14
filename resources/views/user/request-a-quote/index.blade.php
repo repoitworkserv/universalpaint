@@ -90,7 +90,7 @@
 									    <input type="text" id="cnum2" name="cnum2" placeholder="Date of Visit">
 									</div>
 								</div>
-								<div class="button-bx"><input type="submit" value="Send Now"></div>
+								<!-- <div class="button-bx"><input type="submit" value="Send Now"></div> -->
 							</div>
 					  	</form>
 					</div>
@@ -133,6 +133,7 @@ $(document).ready(function (){
 		method:"POST",
 		data:{ name:name,cnum:cnum,eadd:eadd, _token: "{{ csrf_token() }}"},
 		success:function(data){
+			location.reload();
 			}
 		});
 	});
