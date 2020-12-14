@@ -67,7 +67,7 @@
 					  	<!-- </form> -->
 					</div>
 				</div>
-				<div class="con-dtls">
+				<!-- <div class="con-dtls">
 					<div class="contact-form-bx">
 					  	<form action="/">
 						  	<div class="contact-form">
@@ -90,11 +90,11 @@
 									    <input type="text" id="cnum2" name="cnum2" placeholder="Date of Visit">
 									</div>
 								</div>
-								<!-- <div class="button-bx"><input type="submit" value="Send Now"></div> -->
+								<div class="button-bx"><input type="submit" value="Send Now"></div>
 							</div>
 					  	</form>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<!-- Contact Details -->
 				<div class="bot-dtls">
