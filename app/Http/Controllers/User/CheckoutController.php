@@ -170,6 +170,7 @@ class CheckoutController extends Controller
             'shipping_mobile'              => 'required',
             'shipping_city'                => 'required'
         );
+        
         if($request->is_shipping == 'true') {
             $check_valid = array_merge($billing_validator,$shipping_validator);
         } else {
