@@ -244,7 +244,7 @@ class ProductPageController extends Controller
             $category = 'interior';
         }
         if($product[0]->exterior == 1 ) {
-            $category .=  ' & exterior';
+            $category .=  '  exterior';
         }
 
         if($product[0]->industrial == 1) {
