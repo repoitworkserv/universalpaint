@@ -494,6 +494,7 @@
 																$promo_end_var = date('m/d/Y', strtotime($sp->promo_start));
 																$sp_promo_start = ($promo_start_var == '01/01/1970') ? '' : $promo_start_var;
 																$sp_promo_end = ($promo_end_var == '01/01/1970') ? '' : $promo_end_var;
+																
 															@endphp
 														
 														<tr class="activeRow"  id="variation_Row{{$sp_count}}">
@@ -526,7 +527,7 @@
 									                        	@endforeach
 								                        	@endforeach
 								                        	<td class="text-left">
-								                        		<a class="badge bg-orange"  data-toggle="collapse" data-target="#variation_det{{$sp_count}}" class="accordion-toggle"  ><i class="	fa fa-pencil-square-o"></i> Edit Details</a>
+								                        		<a class="badge bg-orange edit-varation" data-id="{{ $sp->id }}"  data-toggle="collapse" data-target="#variation_det{{$sp_count}}" class="accordion-toggle"  ><i class="	fa fa-pencil-square-o"></i> Edit Details</a>
 								                        		@if($sp_count >= 2)
 													       			<a class="badge bg-orange delete_details" data-myrow = "variation_Row{{$sp_count}}" data-nxtrow="variation_detRow{{$sp_count}}"><i class="	fa fa-trash"></i> Delete Details</a>
 													       		@endif
@@ -735,12 +736,15 @@
                 					 
                 				</div>
                 			</div>
-							{{ $subproduct->links() }}
-                			
+
+							@if($productdetails->product_type == 'multiple')
+								<button class="btn btn-gold">Back</button>
+							@else
 			                <div class="form-group text-right">
 			            		<!--<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: {{($productdetails->product_type == 'multiple') && ($subproduct->count() > 0) ? 'inline' : 'none'}};">Save Product</button>-->
 			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" >Save Product</button>        
 			                </div>
+							@endif
                   </div>
                 </div>
         <!-- /.box-body -->
@@ -1562,5 +1566,15 @@
 			// Do nothing!
 		}
   	});
+
+	$('.edit-varation').on('click', function(e){
+		console.log($(this).data('id'), $(this).hasClass('collapsed'));
+		if($(this).hasClass('collapsed') == true)
+		{	console.log($(this).hasClass('collapsed'));
+			
+		} else {
+			console.log('saving!!')
+		}
+	});
 </script>
 @stop
