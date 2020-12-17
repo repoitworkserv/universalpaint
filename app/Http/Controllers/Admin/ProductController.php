@@ -1538,5 +1538,14 @@ class ProductController extends Controller
 		return true;
 	}
 	
+	//Update Product Attri
+	public function updateAttri(Request $request)
+	{
+		$multiproduct = Product::where('id', $request->prodid);
+		if($multiproduct){
+			$multiproduct->update(['quantity' => $request->attriqty, 'price' => $request->attriprice]);
+			return redirect()->back();
+		}
+	}
 
 }

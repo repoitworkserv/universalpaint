@@ -527,7 +527,12 @@
 									                        	@endforeach
 								                        	@endforeach
 								                        	<td class="text-left">
-								                        		<a class="badge bg-orange edit-varation" data-id="{{ $sp->id }}"  data-toggle="collapse" data-target="#variation_det{{$sp_count}}" class="accordion-toggle"  ><i class="	fa fa-pencil-square-o"></i> Edit Details</a>
+								                        		<a class="badge bg-orange edit-varation" 
+																data-id="{{ $sp->id }}"
+																data-attr_price="{{ $sp->price }}"
+																data-attr_qty="{{ $sp->quantity }}"
+																data-attr_name="{{ $attr->name }}" 
+																data-target="#variation_det{{$sp_count}}" class="accordion-toggle" ><i class="fa fa-pencil-square-o"></i> Edit Details</a>
 								                        		@if($sp_count >= 2)
 													       			<a class="badge bg-orange delete_details" data-myrow = "variation_Row{{$sp_count}}" data-nxtrow="variation_detRow{{$sp_count}}"><i class="	fa fa-trash"></i> Delete Details</a>
 													       		@endif
@@ -736,15 +741,15 @@
                 					 
                 				</div>
                 			</div>
-
-							@if($productdetails->product_type == 'multiple')
-								<button class="btn btn-gold">Back</button>
+							{{ $subproduct->links() }}
+							<!-- @if($productdetails->product_type == 'multiple')
+								<a class="btn btn-warning">Back</a>
 							@else
 			                <div class="form-group text-right">
-			            		<!--<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: {{($productdetails->product_type == 'multiple') && ($subproduct->count() > 0) ? 'inline' : 'none'}};">Save Product</button>-->
+			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: {{($productdetails->product_type == 'multiple') && ($subproduct->count() > 0) ? 'inline' : 'none'}};">Save Product</button>
 			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" >Save Product</button>        
 			                </div>
-							@endif
+							@endif -->
                   </div>
                 </div>
         <!-- /.box-body -->
@@ -1028,6 +1033,64 @@
 </div>
 </form>
 </div>
+
+
+<div id="myModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static"> <!-- modal container -->
+<div class="modal-dialog modal-lg">
+        <div class="panel panel-primary">
+            <form action="{{ URL::action('Admin\ProductController@updateAttri') }}" method="post"accept-charset="UTF-8">
+			{!! csrf_field() !!}
+                <div class="panel-heading"><h4 class="modal-title">Edit <span id="colortitle"></span></h4></div>
+                <div class="panel-body">
+                	<div class="row">
+                		<div class="col-md-12 col-sm-12 col-xs-12">
+	                		<div class="col-md-6 col-sm-12 col-xs-12">
+	                			<div class="row form-group">
+			                        <label class="col-md-4 col-sm-4 col-xs-12" >Product ID</label>
+									<div class="col-md-8 col-sm-8 col-xs-12">
+			                        	<input class="form-group" type="text" id="prodid" name="prodid" readonly>
+			                        </div>
+			                    </div>
+			                    <div class="row form-group">
+			                        <label class="col-md-4 col-sm-4 col-xs-12" >Price</label>
+			                        <div class="col-md-8 col-sm-8 col-xs-12">
+			                        	<input class="form-group" type="text" id="attriprice" name="attriprice">
+			                        </div>
+			                    </div>
+	                		</div>
+	                		<div class="col-md-6 col-sm-12 col-xs-12">
+	                			<div class="row form-group">
+			                        <label class="col-md-4 col-sm-4 col-xs-12" >Quantity</label>
+			                       <div class="col-md-8 col-sm-8 col-xs-12">
+			                        	<input class="form-group" type="text" id="attriqty" name="attriqty">
+			                        </div>
+			                    </div>
+			                    <!-- <div class="row form-group">
+			                        <label class="col-md-4 col-sm-4 col-xs-12" >Total Amount</label>
+			                        <div class="col-md-8 col-sm-8 col-xs-12">
+			                        	&#8369; <span class="totamount_div ">asdasd</span>
+			                        </div>
+			                    </div> -->
+	                		</div>
+                		</div>
+                	</div>
+                	<div class="row billshipp_details">
+                		
+                	</div>
+                </div>
+                <div class="panel-footer" style="text-align: right">
+					<div class="button-group">
+                        <button type="submit" class="btn btn-success"  >Add</button>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 
+<!-- close modal container -->
 </section>
 <!-- /.content-wrapper -->
 
@@ -1568,13 +1631,11 @@
   	});
 
 	$('.edit-varation').on('click', function(e){
-		console.log($(this).data('id'), $(this).hasClass('collapsed'));
-		if($(this).hasClass('collapsed') == true)
-		{	console.log($(this).hasClass('collapsed'));
-			
-		} else {
-			console.log('saving!!')
-		}
+		$('#prodid').val($(this).data('id'));
+		$('#attriqty').val($(this).data('attr_qty'));
+		$('#attriprice').val($(this).data('attr_price'));
+		$('#colortitle').html($(this).closest('tr').find('td:first-child').find(':selected').text());
+		$('#myModal').modal('show')
 	});
 </script>
 @stop

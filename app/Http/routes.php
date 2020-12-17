@@ -147,7 +147,8 @@ Route::resource('product', 'User\ProductPageController@product_ratings');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function () {    
         
     Route::get('logout', 'Admin\AuthController@getSignOut');
-
+	//product attri route
+	Route::post('edit', 'Admin\ProductController@updateAttri');
 	Route::resource('email-template', 'Admin\EmailTemplateController');
 	Route::post('email-template-update', 'Admin\EmailTemplateController@update');
 	Route::post('image_upl','Admin\UserController@image_upl');
