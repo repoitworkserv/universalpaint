@@ -296,10 +296,10 @@
         onchange_img(e, umg);
     });
 
-    // $("#productattri").on("keyup change", function() {
-    //     $('#prodattri').val($(this).val());
-    //     $("#prod_qty").val()
-    //     // console.log($(this).val(), $('#prodattri').val());
-    // });
+    $("#productattri").on("keyup change", function() {
+        $('#prodattri').val($(this).val());
+        $("#prod_qty").val()
+        // console.log($(this).val(), $('#prodattri').val());
+    });
 </script>
 @endsection
