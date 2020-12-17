@@ -67,7 +67,7 @@
 					  	<!-- </form> -->
 					</div>
 				</div>
-				<div class="con-dtls">
+				<!-- <div class="con-dtls">
 					<div class="contact-form-bx">
 					  	<form action="/">
 						  	<div class="contact-form">
@@ -94,7 +94,7 @@
 							</div>
 					  	</form>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<!-- Contact Details -->
 				<div class="bot-dtls">
