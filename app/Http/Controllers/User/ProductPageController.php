@@ -774,10 +774,11 @@ class ProductPageController extends Controller
     public function color_swatches() 
     {
         $param = 'blue';
+        
         $cat_blue = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
         })->get();                                    
-    
+     
         $param = 'ACCENTS';
         $cat_accents = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
@@ -827,12 +828,12 @@ class ProductPageController extends Controller
         $cat_yellow = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
         })->get();
-
+       
         $param = '';
         $cat_regColors = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
         })->get();
-        $chooseBrand = Brand::with('BrandWithProduct')->get();
+               
         return view('user.color-swatches.index', compact(
         'cat_blue',
         'cat_accents',
@@ -845,8 +846,7 @@ class ProductPageController extends Controller
         'cat_red',
         'cat_violet',
         'cat_yellow',
-        'cat_regColors',
-        'chooseBrand'
+        'cat_regColors'
         ));
     }
 
