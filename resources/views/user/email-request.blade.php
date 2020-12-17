@@ -48,8 +48,8 @@
 </div>
 <div class="order-details">
 <p class="center" style="margin: auto;border-style: none;padding: 10px;text-align: center;color: gray;font-family: \'Asap\';font-size: small;">
-Fullname: {{ $fullname }}
-Email: {{ $email }}
+Fullname: {{ $data['fullname'] }} <br>
+Email: {{ $data['email'] }}
 </p>
 <p class="center" style="margin: auto;border-style: none;padding: 10px;text-align: center;color: gray;font-family: \'Asap\';font-size: small;">Powered by iTWorks Global Solutions</p>
 </div>
