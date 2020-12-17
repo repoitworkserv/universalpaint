@@ -68,6 +68,7 @@ Route::get('/product-category/interior/search', 'User\InteriorController@search'
 Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
 
 Route::post('/autocomplete/fetch', 'User\ProductPageController@fetch')->name('autocomplete.fetch');
+Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');
 Route::get('/product-category/exterior/search', 'User\ExteriorPageController@search');
@@ -249,7 +250,6 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth'], function () {
 	Route::resource('manage-addressbook', 'Customer\ProfileController@manage_address');
 	Route::resource('manage-creditcard', 'Customer\ProfileController@manage_creditcard');
 	Route::get('orders', 'User\OrderPageController@index');
-
 	Route::post('update_profile','Customer\ProfileController@update_profile');
 	Route::post('update_address','Customer\ProfileController@address_details');
 	Route::post('update_creditcard','Customer\ProfileController@update_ccdetails');
