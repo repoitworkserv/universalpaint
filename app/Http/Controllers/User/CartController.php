@@ -107,7 +107,7 @@ class CartController extends Controller
 
 
     public function addcart(Request $request)
-    {                
+    {
         $return_arr = array();        
         //Submit Multiple Items Here
         $multi = isset($request->multiple) ? $request->multiple : false;
