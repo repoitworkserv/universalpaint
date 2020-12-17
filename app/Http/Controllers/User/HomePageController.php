@@ -91,17 +91,7 @@ class HomePageController extends Controller
     }
 
     public function email_request_pdf(Request $request)
-    {
-        // $data = array();
-        // $fullname = $request->fullname;
-        // $email = $request->email;
-        // $product = Product::findOrFail($request->broc_product)->slug_name;
-        // Mail::send('user.email-request', compact('fullname','email'), function ($message) {
-        //         $message->sender('developer.itworks@gmail.com');
-        //         $message->to('ronnie2019.itworks@gmail.com')->subject('Customer Info');
-        //     });
-        // $url = '/pdf//'.$product .'.pdf';        
-        // return redirect($url);
+    {        
 
         $fullname = $request->broc_fullname;
         $email = $request->broc_email;
@@ -114,7 +104,7 @@ class HomePageController extends Controller
 	    $product = Product::findOrFail($request->broc_product)->slug_name;
         Mail::send('user.email-request', compact('data'), function ($message) {
                 $message->sender('developer.itworks@gmail.com');
-                $message->to('ronnie2019.itworks@gmail.com')->subject('Customer Info');
+                $message->to('ronnie2019.itworks@gmail.com')->subject('Customer Info'); //Change this to Universal Email
             });
         $url = '/pdf//'.$product.'.pdf';        
         return redirect($url);

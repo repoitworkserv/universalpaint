@@ -398,10 +398,7 @@ $(document).ready(function (){
 		});  	
 		}
 		}
-	});
-	$('#chooseBrand').on('change', function(){
-
-	});//
+	});	
 })
 </script>
 @endsection
