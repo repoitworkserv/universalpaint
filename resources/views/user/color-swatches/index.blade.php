@@ -1,6 +1,7 @@
 @extends('layouts.user.app')
 
 @section('content')
+
 <div id="color-swatches">
 	<div class="container">
 		<div class="heading">Color Charts and Brochures</div>
@@ -324,7 +325,7 @@
 			<!-- <input type="hidden" name="item_quantity" id="item_quantity"> -->
 
 			<!-- <button id="proceed" class="btn btn-default">Select and Proceed</button> -->
-			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/request-a-quote') }}" >Select and Proceed</a> </button>
+			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
 			<!-- </form> -->
 		</div>
 	</div>

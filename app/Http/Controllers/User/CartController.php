@@ -11,6 +11,8 @@ use App\Product;
 use App\Shipping;
 use App\ShippingDimension;
 use App\ShippingGngRates;
+use App\Attribute;
+use App\ProductAttribute;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,30 +24,35 @@ class CartController extends Controller
     public function index(Request $request)
     { 
         $shipping = ShippingGngRates::all();
-        $cart = $request->session()->get('cart'); 
-
+        $cart = $request->session()->get('gocart'); 
+        $arr_color = [];
         $uid = Auth::id();
-        $sub_total = 0;
-        $total = 0;
-        $message = "Your Cart is Empty";
-        if(!$cart){
-            return view('user/product/cart', compact('cart', 'sub_total', 'shipping', 'uid'))->withErrors(['msg', 'The Message']);
-        }else{
-            $shipping[0]['shipping_data'] = Product::where('id', $cart[0]['id'])->first();
-            for ($i=0; $i < count($cart); $i++) {
-                $cart[$i]['product_data'] = Product::where('id', $cart[$i]['id'])->first();
-                if ($cart[$i]['sale_price'] != 0) {
-                    //if()
-                    $sub_total += $cart[$i]['qty'] * $cart[$i]['sale_price'];
-                    
-                }
-                else {
-                    $sub_total += $cart[$i]['qty'] * $cart[$i]['price'];
-                }
-            $total = $sub_total;
+
+        foreach($cart as $i){
+            $attr = Attribute::where('id', $i)->first();
+            $prr = ProductAttribute::where('attribute_id', $i)->get();
+            $arr_p = [];
+            foreach($prr as $d){
+                $parentProduct = Product::with('ParentData')->where('id', $d->product_id)->first();
+                $ChildAndParent = array(
+                    'child' => $d->product_id,
+                    'id' => $d->id,
+                    'name' => $parentProduct->ParentData->name,
+                    'featureimage' => $parentProduct->ParentData->featured_image
+                );
+                array_push($arr_p, $ChildAndParent);
             }
-            return view('user/product/cart', compact('total', 'cart', 'sub_total', 'shipping', 'uid'));
+            array_push($arr_color, array(            
+                'name'=> $attr->name, 
+                'r'=> $attr->r_attr, 
+                'g' => $attr->g_attr,
+                'b' => $attr->b_attr,
+                'id' => $attr->id,
+                'products'=> $arr_p
+            )
+        );
         }
+        return view('user/product/cart', compact('cart', 'uid', 'arr_color'));
     }
 
     public function update(Request $request)
@@ -218,9 +225,9 @@ class CartController extends Controller
 
     public function removecart(Request $request)
     {
-        $cart = $request->session()->get('cart');
+        $cart = $request->session()->get('gocart'); 
         array_splice($cart, $request->cart_id, 1);
-        $request->session()->put('cart', $cart);
+        $request->session()->put('gocart', $cart);
         echo json_encode('ok');
     }
 

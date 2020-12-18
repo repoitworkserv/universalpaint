@@ -20,44 +20,41 @@
 					<table class="table table-striped cart-table table-condensed">
 						<thead class="cart-header">
 							<tr>
-								<th colspan="2" class="col-md-8">Product</th>
+								<th colspan="2" class="col-md-8">Color</th>
+								<th class="col-md-1">Product</th>
 								<th class="col-md-1">Quantity</th>
-								<th class="col-md-1"></th>
 								<!-- <th class="col-md-1">Price</th> -->
 								<th class="col-md-1"></th>
 							</tr>
 						</thead>
 						<tbody>
-							@if($cart)
+							@if($arr_color)
 							@php $x=0; @endphp
-							@foreach($cart as $item)
-
+							@foreach($arr_color as $item)
 							<tr class="cart-product">
-								<td data-th="Product" colspan="2">
+								<td data-th="Product" >
 									<div class="row">
-										<div class=" cart-img col-sm-3 hidden-xs"><img src="{{ URL::asset('img/products') }}/{{$item['product_data']['featured_image']}}" alt="..." class="img-responsive"></div>
-										<div class="col-sm-9">
-											<h6 class="nomargin product-name">{{$item['name']}}</h6>
-											<div>{!!$item['description']!!}</div>
-											@if(!empty($item['product_attribute']))
-											<div>
-												{!! App\Attribute::where('id',$item['product_attribute'])->first()['name'] !!} &nbsp;
-											</div>
-											@else
-											<div></div>
-											@endif
-										</div>
+										<div class=" cart-img col-sm-6 hidden-xs" style="height:100px; background-color: rgb({{$item['r']}}, {{$item['g']}}, {{$item['b']}});"></div>
 									</div>
 								</td>
-								<td data-th="Quantity" class="cart-qty-cntn">
+								<td >
 									<!-- <div class="qty-plus"><i class="fa fa-plus" aria-hidden="true"></i></div> -->
-									<input class="form-control cart-qty" type="number" min="1" step="1" value="{{$item['qty']}}" data-index="{{$x}}">
+									<div class="container">
+										<div class="row">
+										@foreach($item['products'] as $index)
+											<div class="col-sm" style="background: url({!! asset('img/products/') !!}/{!! $index['featureimage'] !!});">
+											{{ $index['name'] }}
+											</div>
+										@endforeach
+										</div>
+									</div>
 									<!-- <div class="qty-minus"><i class="fa fa-minus" aria-hidden="true"></i></div> -->
+									
 								</td>
 								
 								<td> &nbsp; </td>								
 								<td>
-									<button class="btn btn-danger remove-cart float-right"><i class="fa fa-trash-o"></i></button>
+									<button class="btn btn-danger remove-cart float-right" data-index="{{$x}}"><i class="fa fa-trash-o"></i></button>
 								</td>
 							</tr>
 							@php $x++; @endphp
@@ -66,10 +63,10 @@
 							</tr>
 						</tbody>
 						<tfoot>
-							<input type="hidden" name="sub-total" class="sub-total" value="{{$sub_total}}">
+							<input type="hidden" name="sub-total" class="sub-total" value="">
 							<tr class="d-block d-sm-none">
 								<td class="text-center">
-									<strong>Total: <span class="total-amount"> &#8369; {{$sub_total == 0 ? number_format($sub_total, 2): number_format($total, 2)}}</span></strong>
+									<strong>Total: <span class="total-amount"> &#8369;</span></strong>
 								</td>
 							</tr>
 							<tr>
@@ -94,4 +91,30 @@
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+//CART
+$('.remove-cart').on('click', function () {
+	var cart_id = $(this).data('index')
+	console.log(cart_id)
+	$.ajax({
+		url: '/remove-cart',
+		method: "post",
+		dataType: "json",
+		data: {
+			cart_id: cart_id,
+			_token: "{{ csrf_token() }}"
+		},
+		success: function (data) {
+			console.log('ok');
+			location.reload();
+		},
+		error: function(){
+			console.log('error');
+		}
+	});
+})
+</script>
 @endsection
