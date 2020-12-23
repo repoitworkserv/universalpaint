@@ -945,6 +945,15 @@ class ProductPageController extends Controller
         }
     }
 
+    //GET
+    public function getfetch(Request $request){
+        $prodid = $request->get('query');
+        //dd($prodid);
+        $parentProduct = Product::where('id', $request->get('query'))->first()['price'];
+        $index = $request;
+        echo json_encode($parentProduct);
+    }
+
     public function quoteSent(Request $request)
     {
         Session::get('requestqoute');

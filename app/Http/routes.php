@@ -68,6 +68,7 @@ Route::get('/product-category/interior/search', 'User\InteriorController@search'
 Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
 
 Route::post('/autocomplete/fetch', 'User\ProductPageController@fetch')->name('autocomplete.fetch');
+Route::post('/autocomplete/getfetch', 'User\ProductPageController@getfetch')->name('autocomplete.getfetch');
 Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');

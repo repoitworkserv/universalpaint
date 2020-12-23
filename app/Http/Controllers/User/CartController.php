@@ -27,7 +27,6 @@ class CartController extends Controller
         $cart = $request->session()->get('gocart'); 
         $arr_color = [];
         $uid = Auth::id();
-
         foreach($cart as $i){
             $attr = Attribute::where('id', $i)->first();
             $prr = ProductAttribute::where('attribute_id', $i)->get();
