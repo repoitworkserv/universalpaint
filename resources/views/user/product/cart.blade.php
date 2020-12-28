@@ -38,9 +38,9 @@
 				@foreach($arr_color as $item)
 				<div class="row col-sm-12">
 					<div class="col-sm-2" style="border:1px solid black; background-color: rgb({{$item['r']}}, {{$item['g']}}, {{$item['b']}});"><br>
-					<div class=" cart-img hidden-xs" style="height:100px;"></div>
+					<div class=" cart-img hidden-xs" style="height:100px; font-weight: bold;text-align: center;">{{ $item['name'] }}</div>
 					</div>
-					<div class="col-sm-7  prod-row-{{$x}}">
+					<div class="col-sm-7" id="prod-row-{{$x}}">
 							<!-- start -->
 							<div class="container">
 								<div class="row col-sm-12 productpaint">
@@ -105,29 +105,32 @@
 <script type="text/javascript">
 
 //selection
-$('.productpaint').on('click', function(e){
-	e.preventDefault()
-	$(this).find('a').each(function (index, value){
-		console.log('ssssss', index, $(value).hasClass('active'));
-		if($(value).hasClass('active') == false){
-			$(value).removeClass('active').addClass('inactive');
-		} else if ($(value).hasClass('inactive') == true) {
-			$(value).removeClass('inactive').addClass('active');
-		}
-	});
+// $('.productpaint').on('click', function(e){
+// 	e.preventDefault()
+// 	$(this).find('a').each(function (index, value){
 
-});
+// 	});
+
+// });
 $('.container .row  a').on('click', function(e) {
-	e.preventDefault()
 	var query = $(this).data('id'), values = [];
 	var dataindex = $(this).data('index');
-	var qt = 'prod-row-'+dataindex;
-	if($(this).hasClass('active') == false){
-		$(this).addClass('active').remove('inactive');
-	} else {
-		$(this).removeClass('active').addClass('inactive')
-	}
+	var qt = '#prod-row-'+dataindex;
+	$(function(){
 
+	 
+	});
+	if(!$(this).hasClass('active')){
+		console.log($(qt));
+		$(qt+' a').removeClass('active').addClass('inactive');
+		$(this).removeClass('inactive').addClass('active');
+		$(qt).find('a').each(function (index, value){
+			if($(value).hasClass('active') == false){
+				$(value).addClass('inactive');
+			}
+		})
+	} 
+	e.preventDefault()
 	$.ajax({
 		url:"{{ route('autocomplete.getfetch') }}",
 		method:"post",
@@ -136,8 +139,7 @@ $('.container .row  a').on('click', function(e) {
 			$('.list-price-'+dataindex).html(data);
 			var subtotal = 0;
 			$('.pricelist').each(function (){
-				if($(this).html() != NaN){
-					console.log(parseInt($(this).html()))
+				if($(this).html() != NaN){	
 					subtotal += parseInt($(this).html());
 				}
 				$('.subtotal').html('<span>&#8369;</span> '+subtotal);
