@@ -18,7 +18,7 @@
 			width: 100px;
 		}
 		.active {
-			border: 3px solid black;
+			border: 3px solid red;
 		}
 </style>
 @endsection
