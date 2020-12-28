@@ -19,6 +19,7 @@
 		}
 		.active {
 			border: 3px solid red;
+			box-shadow: 2px 4px gray;
 		}
 </style>
 @endsection
