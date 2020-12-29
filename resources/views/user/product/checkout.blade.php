@@ -106,7 +106,7 @@ $(document).ready(function (){
 		method:"POST",
 		data:{ name:name,cnum:cnum,eadd:eadd, _token: "{{ csrf_token() }}"},
 		success:function(data){
-
+            location.reload();
 			}
 		});
 	});
