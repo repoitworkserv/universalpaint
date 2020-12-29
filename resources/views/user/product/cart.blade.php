@@ -37,7 +37,7 @@
 				@if($arr_color)
 				@php $x=0; @endphp
 				@foreach($arr_color as $item)
-				<div class="row col-sm-12">
+				<div class="row col-sm-12 row-item" id="row-content-{{$x}}" data-id="{{ $item['id'] }}">
 					<div class="col-sm-2" style="border:1px solid black; background-color: rgb({{$item['r']}}, {{$item['g']}}, {{$item['b']}});"><br>
 					<div class=" cart-img hidden-xs" style="height:100px; font-weight: bold;text-align: center;">{{ $item['name'] }}</div>
 					</div>
@@ -46,7 +46,7 @@
 							<div class="container">
 								<div class="row col-sm-12 productpaint">
 								@foreach($item['products'] as $ind)
-								<a class="color-box box select-option " data-id="{!! $ind['child'] !!}" data-index="{{$x}}">
+								<a class="color-box box select-option "  data-id="{!! $ind['child'] !!}" data-name="{!! $ind['name'] !!}" data-index="{{$x}}">
 								<!-- <input type="checkbox"  name="" id=""> -->
 									<div class="col-sm-3" >
 									<div class="top">
@@ -69,20 +69,20 @@
 							<!-- end -->
 					</div>
 					<div class="col-sm-2">
-						<select name="size" id="size" class="form-control" style="margin-top: 50%;">
-							<option value="" selected disabled>Volume</option>
-							<option value="">4 L</option>
-							<option value="">6 L</option>
+						<select name="size" id="size-volume-{{$x}}" class="form-control size-volume" data-index="{{$x}}" style="margin-top: 50%;">
+							<option value="300">4 L</option>
+							<option value="500">6 L</option>
 						</select>
 					</div>
-					<div class="col-sm-1"><div class="list-price-{{$x}} pricelist"></div><br><br>
+					<input type="hidden" name="price-color" id="price-color-{{$x}}" class="price-color">
+					<div class="col-sm-1"><div class="list-price-{{$x}} pricelist"></div><br>
 					<button class="btn btn-danger remove-cart float-right" data-index="{{$x}}"><i class="fa fa-trash-o"></i></button>
 					</div>
 				</div>
 				@php $x++; @endphp
 				@endforeach
 				@endif					
-		</div>
+			</div>
 		<hr width="100%"
         size="20" color="gray"
         noshade> 
@@ -93,8 +93,10 @@
 			<div class="col-sm-7">
 
 			</div>
-			<div class="col-sm-1">Subtotal <span class="subtotal"></span></div>
-			<div class="col-sm-2"><br><div class=""> </div>
+			<div class="col-sm-2">Subtotal <span class="subtotal"></span></div>
+			<div class="col-sm-1"><br>
+			<!-- <button onclick="window.location='{{ url("/checkout") }}'" class="btn checkout-order" >Checkout</button> -->
+			<button href="{!! url('/checkout') !!}" class="btn checkout-order">Checkout</button>
 			</div>
 		</div>
 	</div>
@@ -137,11 +139,11 @@ $('.container .row  a').on('click', function(e) {
 		method:"post",
 		data:{query:query, dataindex:dataindex,_token: "{{ csrf_token() }}"},
 		success:function(data){
-			$('.list-price-'+dataindex).html(data);
+			var price = $('#price-color-'+dataindex).val(data);
 			var subtotal = 0;
 			$('.pricelist').each(function (){
 				if($(this).html() != NaN){	
-					subtotal += parseInt($(this).html());
+					subtotal += parseInt(data) + parseInt($('#size-volume-'+dataindex).val());;
 				}
 				$('.subtotal').html('<span>&#8369;</span> '+subtotal);
 			});
@@ -172,6 +174,61 @@ $('.remove-cart').on('click', function () {
 			console.log('error');
 		}
 	});
+})
+//checkout
+$('.size-volume').on('keyup change', function() {
+	var index =  $(this).data('index');
+	var total = $('#price-color-'+index).val();
+	var valueadd = 0;
+	var subtotal = 0;
+	console.log('clear', total);
+	if(total){
+		valueadd += parseInt($('#price-color-'+index).val()) + parseInt($(this).val());
+	}
+	$('.list-price-'+index).html(valueadd);
+	$('.pricelist').each(function (){
+		if($(this).html() != NaN){	
+			subtotal += parseInt($(this).html());
+		}
+		$('.subtotal').html('<span>&#8369;</span> '+subtotal);
+	});
+	subtotal = 0;
+});
+
+function calculatePrice() {
+
+}
+
+$(document).ready(function(){
+	$('.checkout-order').on('click', function() {
+		var allproducts = [];
+		$('.row-item').each(function (){
+			if($('.row-item').length > 0){
+				allproducts.push( {colorvar : $(this).data('id'), 
+					productid: $(this).find('.active').data('id'), 
+					productname: $(this).find('.active').data('name'),
+					productsize: $(this).find('select option:selected').text(),
+					volumeprice: $(this).find('select').val()
+				} );
+			}
+		});
+		console.log(allproducts);
+		$.ajax({
+		url: base_url + '/checkout',
+		method: "post",
+		dataType: "json",
+		data: {
+			product: allproducts,
+			_token: "{{ csrf_token() }}"
+		},
+		success: function (data) {
+			console.log('ok');
+		},
+		error: function(){
+			console.log('error');
+		}
+	});
+	})
 })
 </script>
 
