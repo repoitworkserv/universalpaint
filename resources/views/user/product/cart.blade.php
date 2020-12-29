@@ -50,8 +50,8 @@
 								<!-- <input type="checkbox"  name="" id=""> -->
 									<div class="col-sm-3" >
 									<div class="top">
-                                        <!-- <div class="list img" style="background: url({!! asset('img/products/') !!}/{!! $ind['featureimage'] !!});"></div> -->
-										<div class=" img" style="width: 100px;background-image: url(http://localhost:8000/img/products/1600095996-Universal-Professional-Flat-Wall-Enamel.png)"></div>
+                                        <!-- <div class="list img" style="background: url();"></div> -->
+										<div class=" img" style="width: 100px;background: url({!! asset('img/products') !!}/{!! $ind['featureimage'] !!}); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                                     </div>
 									<div class="productname">
 
@@ -69,10 +69,9 @@
 							<!-- end -->
 					</div>
 					<div class="col-sm-2">
-						<select name="size" id="size" class="form-control" style="margin-top: 50%;">
-							<option value="" selected disabled>Volume</option>
-							<option value="">4 L</option>
-							<option value="">6 L</option>
+						<select name="size" id="size-{{$x}}" class="form-control" style="margin-top: 50%;">
+							<option value="300">4 L</option>
+							<option value="500">6 L</option>
 						</select>
 					</div>
 					<div class="col-sm-1"><div class="list-price-{{$x}} pricelist"></div><br><br>
@@ -132,6 +131,7 @@ $('.container .row  a').on('click', function(e) {
 		})
 	} 
 	e.preventDefault()
+	
 	$.ajax({
 		url:"{{ route('autocomplete.getfetch') }}",
 		method:"post",
@@ -148,9 +148,8 @@ $('.container .row  a').on('click', function(e) {
 		}
 	});
 
-	
-
 });
+
 
 //CART
 $('.remove-cart').on('click', function () {

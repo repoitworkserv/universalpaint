@@ -33,6 +33,7 @@ class CartController extends Controller
             $arr_p = [];
             foreach($prr as $d){
                 $parentProduct = Product::with('ParentData')->where('id', $d->product_id)->first();
+                //dd($parentProduct);
                 $ChildAndParent = array(
                     'child' => $d->product_id,
                     'id' => $d->id,
