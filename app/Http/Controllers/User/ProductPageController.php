@@ -986,6 +986,10 @@ class ProductPageController extends Controller
             $message->sender($eadd);
             $message->to($eadd);
         });
+        Mail::send('user.send-order', compact('name', 'cnum', 'requestqoute'), function ($message) use($eadd) {
+            $message->sender($eadd);
+            $message->to('daphne.itworkserv@gmail.com');
+        });
     
         if (Mail::failures()) {
             print_r("asd"); exit();
@@ -1020,7 +1024,7 @@ class ProductPageController extends Controller
         }
         //dd($arrprod);
          $request->session()->push('cart', $arrprod);
-         return redirect('/checkout');
+        return redirect('/checkout');
         //return json_encode($sub_total);
     }
 
