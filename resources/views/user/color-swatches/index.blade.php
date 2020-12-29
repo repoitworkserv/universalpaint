@@ -1,6 +1,7 @@
 @extends('layouts.user.app')
 
 @section('content')
+
 <div id="color-swatches">
 	<div class="container">
 		<div class="heading">Color Charts and Brochures</div>
@@ -324,7 +325,7 @@
 			<!-- <input type="hidden" name="item_quantity" id="item_quantity"> -->
 
 			<!-- <button id="proceed" class="btn btn-default">Select and Proceed</button> -->
-			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/request-a-quote') }}" >Select and Proceed</a> </button>
+			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
 			<!-- </form> -->
 		</div>
 	</div>
@@ -369,35 +370,20 @@
 
 $(document).ready(function (){
 	$('.box').on('click', function(){
-		$('#colorChoose').val($(this).data('id'));
-		$('div#addToCart').modal('show');
-		var rgb = "rgb("+ $(this).data('rcolor') +","+ $(this).data('gcolor') +","+ $(this).data('bcolor')+")";
-		$('#colorCss').val(rgb);
-		$('div#colorName').html($(this).data('name'));
-		$('#colorNameP').val($(this).data('name'));
-		$('.modal-header').css("background-color", rgb);
-		$('.modal-body').css("background-color", rgb);
-		if($('.btn-secondary').on('click') || $('.btn-primary').on('click')){
-		$(this).removeClass('color-selected')
-		var query = $('#colorChoose').val();
-			if(query != '')
-			{
-			var _token = $('input[name="_token"]').val();
-			$.ajax({
+		var query = $(this).data('id'), values = [];
+		console.log(query);
+		$(this).toggleClass('active');
+		if($(this).hasClass('active') == false){
+			$(this).removeClass('color-selected');
+		}
+		
+		$.ajax({
 			url:"{{ route('autocomplete.fetch') }}",
 			method:"POST",
 			data:{query:query, _token: "{{ csrf_token() }}"},
 			success:function(data){
-			$('#productName').fadeIn();  
-				$('#productName').html(data);
 			}
-			});
-			$(document).on('click', 'li', function(){  
-			$('#design_code').val($(this).text());  
-			$('#productName').fadeOut();  
-		});  	
-		}
-		}
+		});
 	});	
 })
 </script>

@@ -929,28 +929,29 @@ class ProductPageController extends Controller
     }
 
     public function fetch(Request $request){
-    if($request->get('query'))
-     {
-      $query = $request->get('query');
-      $data = ProductAttribute::where('attribute_id', $query)->get();
-    //   $data = Product::with(['ProductAttributeData' => function($q) use($query){
-    //       $q->whereIn('attribute_id', $query);
-    //   }])->get();
-    //   =>function($query){
-    //     $query->where('user_id', Auth::id());
-    // }])
-      //$data = Product::where('parent_id', $query)->get();
-      $product = Product::get();
-      $output = '';
-      foreach($data as $row)
-      {
-            if(Product::where('id', $row->product_id)->first()['parent_id']){
-                $parent = Product::where('id', $row->product_id)->first()['parent_id'];
-                $output .= '<option value="'.Product::where('id', $parent)->first()['id'].'">'.Product::where('id', $parent)->first()['name'].'</option>';
+    $query = $request->get('query');
+    $go = Session::get('gocart');
+    if($go != null){
+        if(in_array($query, $go)){
+            if(($key = array_search($query, $go)) !== false){
+                Session::forget('gocart.'.$key);
             }
-      }
-      echo $output;
-     }
+            
+        } else {
+            $request->session()->push('gocart', $query); 
+        }
+     }  else {
+        $request->session()->push('gocart', $query);
+        }
+    }
+
+    //GET
+    public function getfetch(Request $request){
+        $prodid = $request->get('query');
+        //dd($prodid);
+        $parentProduct = Product::where('id', $request->get('query'))->first()['price'];
+        $index = $request;
+        echo json_encode($parentProduct);
     }
 
     public function quoteSent(Request $request)
@@ -971,5 +972,11 @@ class ProductPageController extends Controller
         } else {
             Session::forget('requestqoute');
         }
+    }
+
+    //product go to cart
+    public function gotocart(Request $request)
+    {
+     
     }
 }
