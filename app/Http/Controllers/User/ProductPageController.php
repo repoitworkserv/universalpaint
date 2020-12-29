@@ -974,9 +974,58 @@ class ProductPageController extends Controller
         }
     }
 
+    public function orderSent(Request $request)
+    {
+        Session::get('cart');
+        //dd($request->all(),Session::get('requestqoute'));
+        $requestqoute = Session::get('cart');
+        $name = $request->name;
+        $cnum = $request->cnum;
+        $eadd = $request->eadd;
+        Mail::send('user.send-order', compact('name', 'cnum', 'requestqoute'), function ($message) use($eadd) {
+            $message->sender($eadd);
+            $message->to($eadd);
+        });
+    
+        if (Mail::failures()) {
+            print_r("asd"); exit();
+        } else {
+            Session::forget('cart');
+            Session::forget('gocart');
+        }
+    }
+
     //product go to cart
     public function gotocart(Request $request)
     {
      
+    }
+
+    public function checkout(Request $request)
+    {
+        $sub_total = '300'; 
+        $products = $request->product;
+        //dd($products);
+        $arrprod = array();
+        Session::forget('cart');
+        //$request->session()->push('cart',$products);
+        foreach($products as $index){
+            $arrprod[] = array(
+                'colorvar' => $index["colorvar"],
+                'productid'=>  $index["productid"],
+                'productname' => $index["productname"],
+                'productsize' => $index["productsize"],
+                'volumeprice' => $index["volumeprice"],
+            );
+        }
+        //dd($arrprod);
+         $request->session()->push('cart', $arrprod);
+         return redirect('/checkout');
+        //return json_encode($sub_total);
+    }
+
+    public function checkoutView(Request $request)
+    {
+        return view('user.product.checkout');
     }
 }
