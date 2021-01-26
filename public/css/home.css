@@ -1988,6 +1988,19 @@ a.btn.white {
     width: 100%;
 }
 
+.justified {
+    text-align: justify;
+}
+
+.margin-top-bottom {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.square {
+    list-style-type: square !important;
+}
+
 /**
  * Reponsive
  * -----------------------------------------------------------------------------

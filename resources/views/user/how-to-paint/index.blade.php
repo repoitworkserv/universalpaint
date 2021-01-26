@@ -102,7 +102,152 @@
                 </div>
                 <div id="preparationPreparingTools" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        Paint On-Going
+                        <div class="contents">
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 justified margin-top-bottom">
+                                    Follow the "How to Prepare the Room Section" part before beginning
+                                    <br/><br/>
+                                    Now you're ready to paint! Choose an interior paint that suits your needs and taste.
+                                    We suggest Universal Professional Flat or Semi-gloss or Universal Plus Flat or Semigloss, 
+                                    for added anti-microbial protection, use Universal Advantage 
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 margin-top-bottom">
+                                    <strong>Important!</strong>
+                                    <ul class="square">
+                                        <li>
+                                            Always stir paint before using.
+                                        </li>
+                                        <li>
+                                            If using several gallons, try to mix this together in one container to make the color consistent.
+                                        </li>
+                                    </ul>                  
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class=" col-lg-12 col-md-12 col-sm-12 margin-top-bottom">
+                                    <strong>Important!</strong>
+                                    <br/>
+                                    A <strong>primer</strong> or undercoat is a preparatory coating put on the surface before topcoat painting. Why is it important?
+                                    <ul class="square">
+                                        <li>
+                                            This is the first coat.
+                                        </li>
+                                        <li>
+                                            Priming ensures better adhesion of topcoat to the surface
+                                        </li>
+                                        <li>
+                                            Increases paint durability
+                                        </li>
+                                        <li>
+                                            Provides additional protection for the material being painted.
+                                        </li>
+                                    </ul>
+                                    <strong>Pro Tip!</strong> It may not be necessary to primer previously painted surface except to "spot prime" areas where paint has peeled off.
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 margin-top-bottom">
+                                    <strong>Corners first:</strong>
+                                    <br>
+                                    Dip your brush in the paint, remove excess paint.
+                                    <ul class="square">
+                                        <li>
+                                            Start brushin a few centimeters from the corner or edge.
+                                        </li>
+                                        <li>
+                                            Drag the brush so that the line on the paint follows the edging.
+                                        </li>
+                                        <li>
+                                            Paint along the corners where the roller brush cannot go to.
+                                        </li>
+                                        <li>
+                                            This is like creating a paint border.
+                                        </li>
+                                    </ul>
+                                    
+                                    <strong>Important!</strong> Maintain a wet edge with the painted corner so your roller can blend into the brushed paint.
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 margin-top-bottom">
+                                    After corners, it's time to paint the areas where a roller brush will be used. 
+                                    To put paint on your roller brush:
+                                    <ul class="square">
+                                        <li>
+                                            Put paint on the tray - make sure it's not overflowing.
+                                        </li>
+                                        <li>
+                                            Place roller brush on the outer edge if the sloping part of the tray.
+                                        </li>
+                                        <li>
+                                            Push it forward on the tray and continue rolling it back & forth over the tray 
+                                            with full rotations to spread the paint evenly.
+                                        </li>
+                                    </ul>
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 margin-top-bottom">
+                                    Start from where you cut in (#4) and roll across the wall. For best results, roll as far into the brushed area as possible.
+                                    <br><br>
+                                    <strong>Pro Tip!</strong> Paint in a 'W' motion
+                                    <ul class="square">
+                                        <li>
+                                            Make a W on the wall
+                                        </li>
+                                        <li>
+                                            Fill the area without paint and continue
+                                        </li>
+                                    </ul>
+                                    This will ensure an even distribution across your wall.
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 margin-top-bottom">
+                                    After painting the first coat, observe the inter-coat time then apply second or third coats as needed
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 margin-top-bottom">
+                                    When done, peel tape off on areas you may have applied it to.
+                                    <br><br>
+                                    <strong>Important!</strong>
+                                    <br>
+                                    Do not let the paint dry before peeling tape as this may also tear the paint off.
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="left col-lg-5 col-md-5 col-sm-5">
+                                    
+                                </div>
+                                <div class="right col-lg-7 col-md-7 col-sm-7 margin-top-bottom">
+                                    Clean up time. Go to section "Clean-up after Painting"
+                                </div>   
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
