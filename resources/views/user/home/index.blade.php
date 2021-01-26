@@ -88,7 +88,11 @@
             </div>            
         </div>
         <!-- color picker -->
-        <div class="color-row">                    
+        <div class="color-row">
+            <a href="/color-swatches" class="color-picker">
+                <div class="color-box" style="background-color: #ccc;"></div>
+                <div class="ttl">View </br>All Colors</div>
+            </a>            
             @if(!empty($colors))                
                 @foreach($colors as $item)
                     <a href="/color-swatches" class="color-picker">
@@ -96,7 +100,11 @@
                         <div class="ttl">{!! $item['name'] !!}</div>
                     </a>
                 @endforeach
-            @endif            
+            @endif
+            <a href="/color-swatches" class="color-picker">
+                <div class="color-box" style="background-color: #ccc;"></div>
+                <div class="ttl">Best </br>Selling Colors</div>
+            </a>          
         </div>
     </div>
 </div>
