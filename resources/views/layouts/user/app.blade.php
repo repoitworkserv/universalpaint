@@ -176,7 +176,7 @@
                             <div class="desc">See the proper way to paint</div>
                         </div>
                         <div class="btn-con">
-                            <a href="/how-to-paint" target="_blank" class="btns">Read More</a>
+                            <a href="/how-to-paint" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">
