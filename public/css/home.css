@@ -1406,7 +1406,7 @@ a.btn.white {
 
 #color-swatches .color-section .color-box {
     height: 130px;
-    width: 9%;
+    width: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1418,6 +1418,7 @@ a.btn.white {
     text-transform: uppercase;
     text-align: center;
 }
+
 
 #color-swatches .color-section .color-box .title {
     padding: 20px;
@@ -2000,6 +2001,25 @@ a.btn.white {
 .square {
     list-style-type: square !important;
 }
+
+.sml-desc > .color-picker > .color-box {
+    width: 100px;
+    height: 120px;
+    word-wrap: break-word;
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.sml-desc > .color-picker > .color-box > .title {
+    text-align: center;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-transform: uppercase;
+    padding-top: 40px;
+    padding-bottom: 50px;
+}
+
 
 /**
  * Reponsive

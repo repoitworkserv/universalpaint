@@ -83,7 +83,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'white')
-									<div class="color-box box  @if($white_count <= $color_design_ctr && $white_count > 1 ) col-lg-4 @elseif($white_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -105,7 +105,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'gray')
-									<div class="color-box box @if($gray_count <= $color_design_ctr && $gray_count > 1 ) col-lg-4 @elseif($gray_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -127,7 +127,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'brown')
-									<div class="color-box  @if($brown_count <= $color_design_ctr && $brown_count > 1 ) col-lg-4 @elseif($brown_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -149,7 +149,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'violet')
-									<div class="color-box box  @if($violet_count <= $color_design_ctr && $violet_count > 1 ) col-lg-4 @elseif($violet_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -171,7 +171,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'blue')
-									<div class="color-box box @if($blue_count <= $color_design_ctr && $blue_count > 1 ) col-lg-4 @elseif($blue_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -193,7 +193,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'green')
-									<div class="color-box box @if($green_count <= $color_design_ctr && $green_count > 1 ) col-lg-4 @elseif($green_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}"  data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}"  data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -215,7 +215,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'yellow')
-									<div class="color-box box @if($yellow_count <= $color_design_ctr && $yellow_count > 1 ) col-lg-4 @elseif($yellow_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -237,7 +237,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'orange')
-									<div class="color-box box @if($orange_count <= $color_design_ctr && $orange_count > 1 ) col-lg-4 @elseif($orange_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -259,7 +259,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'red')
-									<div class="color-box box @if($red_count <= $color_design_ctr && $red_count > 1 ) col-lg-4 @elseif($red_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -281,7 +281,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if($color->attributeData->best_selling)
-									<div class="color-box box @if($best_seller_count <= $color_design_ctr && $best_seller_count > 1 ) col-lg-4 @elseif($best_seller_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -300,7 +300,15 @@
 
 		</div>
 		<div>
+			@if(isset($product_id)) 
+			<form id="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
+				{!! csrf_field() !!}
+				<input type="hidden" name="product_id" id="product_id" value="{{$product_id}}">
+				<button type="submit" id="multple-colors-proceed" class="btn btn-default">Select and Proceed</button>
+			</form>
+			@else
 			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
+			@endif
 		</div>
 	</div>
 </div>
@@ -378,6 +386,16 @@ $(document).ready(function (){
 			}
 			}
 		});
+	} else {
+		$('#multple-colors-proceed').click(function(e) {
+			e.preventDefault();
+			$('.color-selected').each(function() {
+				$('#preselectcolor_form').append('<input type="hidden" name="color_ids[]" class="color_id" value="'+$(this).data("id")+'">');
+				$('#preselectcolor_form').append('<input type="hidden" name="color_names[]" class="color_name" value="'+$(this).data("name")+'">');
+			});
+			$('#preselectcolor_form').submit();
+			
+		})
 	}
 })
 </script>

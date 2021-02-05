@@ -80,6 +80,7 @@ Route::get('/product-category/exterior/{id}', 'User\ExteriorPageController@detai
 Route::get('/products', 'User\ProductPageController@index');
 Route::get('/products/search', 'User\ProductPageController@search');
 Route::get('/product/{id}', 'User\ProductPageController@details');
+Route::post('/preselect-colors', 'User\ProductPageController@preselectedColors');
 Route::post('/product-variance', 'User\ProductPageController@productvariance');
 Route::post('/product-view', 'User\ProductPageController@productview');
 Route::post('/add-cart', 'User\CartController@addcart');

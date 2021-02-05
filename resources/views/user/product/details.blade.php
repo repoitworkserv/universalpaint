@@ -142,6 +142,19 @@
                                                     @foreach($color_selected as $item)
                                                     @php var_dump($item) @endphp
                                                     @endforeach
+                                                    @elseif(isset($preselected_colors) && !empty($preselected_colors))
+                                                    <div class="color-picker row">
+                                                        @foreach($preselected_colors as $product_color)
+                                                            @foreach($product_color['color_names'] as $color_key_id => $color_name)
+                                                                @php
+                                                                    $color_data = \App\Attribute::find($product_color['color_ids'][$color_key_id]);
+                                                                @endphp
+                                                                <div class="color-box box" data-id="{{$product_color['color_ids'][$color_key_id]}}" style="background-color:rgb({{$color_data->r_attr}},{{$color_data->g_attr}} ,{{$color_data->b_attr}}  );">
+                                                                    <div class="title">{{$color_name}}</div>
+                                                                </div>
+                                                            @endforeach
+                                                        @endforeach
+                                                        </div>
                                                     @endif
                                                     @if(!empty($cart))
 
@@ -175,24 +188,34 @@
                                                 </div>
                                             </div>
                                             <div class="sml-ttl">
+                                                @php 
+                                                    $parent_shipping_width = ($key->ParentData) ? $key->ParentData['shipping_width'] : "";
+                                                    $parent_shipping_length = ($key->ParentData) ? $key->ParentData['shipping_length'] : "";
+                                                    $parent_shipping_weight = ($key->ParentData) ? $key->ParentData['shipping_weight'] : "";
+                                                    $parent_shipping_height = ($key->ParentData) ? $key->ParentData['shipping_height'] : "";
+                                                    $parent_is_sale = ($key->ParentData) ? $key->ParentData['is_sale'] : "";
+                                                    $parent_item_name = ($key->ParentData) ? $key->ParentData['name'] : "";
+                                                    $parent_price = ($key->ParentData) ? $key->ParentData['price'] : "";
+                                                    $parent_sale_price = ($key->ParentData) ? $key->ParentData['sale_price'] : "";
+                                                @endphp
                                                 <form action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
                                                     {!! csrf_field() !!}
-                                                    <input type="hidden" name="shipping_width" id="shipping_width" value="{{$key->product_type == 'single' ? $key->shipping_width : $key->ParentData['shipping_width']}}">
-                                                    <input type="hidden" name="shipping_length" id="shipping_length" value="{{$key->product_type == 'single' ? $key->shipping_length : $key->ParentData['shipping_length']}}">
-                                                    <input type="hidden" name="shipping_weight" id="shipping_weight" value="{{$key->product_type == 'single' ? $key->shipping_weight : $key->ParentData['shipping_weight']}}">
-                                                    <input type="hidden" name="shipping_height" id="shipping_height" value="{{$key->product_type == 'single' ? $key->shipping_height : $key->ParentData['shipping_height']}}">
+                                                    <input type="hidden" name="shipping_width" id="shipping_width" value="{{$key->product_type == 'single' ? $key->shipping_width : $parent_shipping_width}}">
+                                                    <input type="hidden" name="shipping_length" id="shipping_length" value="{{$key->product_type == 'single' ? $key->shipping_length : $parent_shipping_length}}">
+                                                    <input type="hidden" name="shipping_weight" id="shipping_weight" value="{{$key->product_type == 'single' ? $key->shipping_weight : $parent_shipping_weight}}">
+                                                    <input type="hidden" name="shipping_height" id="shipping_height" value="{{$key->product_type == 'single' ? $key->shipping_height : $parent_shipping_height}}">
                                                     <input type="hidden" name="item_id" id="item_id" value="{{$key->product_type == 'single' ? $key->id : 0}}">
                                                     <input type="hidden" name="item_quantity" id="item_quantity">
                                                     <input type="hidden" name="prodattri" id="prodattri">
                                                     {{-- <input type="hidden" name="item_is_sale" id="is_sale" value="{{$key->is_sale}}"> --}}
-                                                    <input type="hidden" name="is_sale" id="is_sale" value="{{$key->product_type == 'single' ? $key->is_sale : $key->ParentData['is_sale']}}">
+                                                    <input type="hidden" name="is_sale" id="is_sale" value="{{$key->product_type == 'single' ? $key->is_sale : $parent_is_sale}}">
                                                     <input type="hidden" name="item_name" id="item_name" value="{{$key->ParentData ? $key->ParentData['name'] :$key->name}}">
 
                                                     @if (\App\UserBrands::where('user_id', $uid)->where('brand_id', \App\Product::with('BrandData')->findOrFail($key->id)->BrandData['id'])->get()->isEmpty() || \App\ProductUserPrice::where('product_id', $key->id)->where('user_types_id', $user_type)->get()->isEmpty())
                                                     {{-- <input type="hidden" name="item_price" id="item_price" value="{{$key->product_type == 'single' ? $key->price : $key->price}}">
                                                     <input type="hidden" name="item_sale_price" id="item_sale_price" value="{{$key->product_type == 'single' ? $key->sale_price : $key->sale_price}}"> --}}
-                                                    <input type="hidden" name="item_price" id="item_price" value="{{$key->product_type == 'single' ? $key->price : $key->ParentData['price']}}">
-                                                    <input type="hidden" name="item_sale_price" id="item_sale_price" value="{{$key->product_type == 'single' ? $key->sale_price : $key->ParentData['sale_price']}}">
+                                                    <input type="hidden" name="item_price" id="item_price" value="{{$key->product_type == 'single' ? $key->price : $parent_price}}">
+                                                    <input type="hidden" name="item_sale_price" id="item_sale_price" value="{{$key->product_type == 'single' ? $key->sale_price : $parent_sale_price}}">
                                                     @else
                                                     @if (\App\ProductUserPrice::where('product_id', $key->id)->where('user_types_id', $user_type)->first()['discount_type'] == 'fix')
                                                     <input type="hidden" name="item_price" id="item_price" value="{!! $key->price - \App\ProductUserPrice::where('product_id', $key->id)->where('user_types_id', $user_type)->first()['price']; !!}">
@@ -233,7 +256,7 @@
                                             </div>
                                         </div>
                                         @endif
-                                        @if($cart)
+                                       
                                             <div class="row">
                                                 <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                                     <div class="flex-txt">
@@ -241,7 +264,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endif                                         
+                                                                        
                                     </div>
 
                                 </div>

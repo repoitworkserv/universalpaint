@@ -225,6 +225,7 @@ class ProductPageController extends Controller
         // $user_type_id = User::where('id', $uid)->first()['users_type_id'];
 		$product_rev = Product::where('parent_id',0)->where('slug_name',$slug_name); 
         $product_id = ($product->count() > 0 ? $product_rev->get()[0]->id : 0);
+        $product_parent_id = ($product->count() > 0 ? $product_rev->get()[0]->parent_id : 0);
         $img_gal = ProductImages::where('product_id', $product_id)->get();
 		$prod_rev_row = ProductReviewsandRating::where('user_id',$uid)->where('product_id',$product_id);
 		$prod_rev = $prod_rev_row->get();
@@ -270,49 +271,18 @@ class ProductPageController extends Controller
         }
         if($request->color_swatches) {
             $prod_attrib = array(
-                'parent_id' => $request->parent_id,
+                'parent_id' => isset($request->parent_id) ? $request->parent_id : $product_parent_id,
                 'product_name' => $request->prod_name,
             );            
 
-            $cart = $request->session()->get('cart');         
-            return view('user.product.details', compact('uid','category', 'cart', 'sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+            $cart = $request->session()->get('cart');     
+            $preselected_colors = $request->session()->get('preselected-colors');    
+            return view('user.product.details', compact('uid','category', 'cart','preselected_colors', 'sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }
         $color_count = $product[0]->UsedAttribute->count();
-        $gray_count = 0;
-        $blue_count = 0;
-        $green_count = 0;
-        $indigo_count = 0;
-        $white_count = 0;
-        $orange_count = 0;
-        $red_count = 0;
-        $violet_count = 0;
-        $yellow_count = 0;
-        $brown_count = 0;
-        $accents_count = 0;
-        $blank_color_count = 0;
-        $best_seller_count = 0;
-        $color_design_ctr = 8;
-
-        foreach($product[0]->UsedAttribute as $color) {
-
-            if(strtolower(trim($color->attributeData->cat_color)) == 'gray') $gray_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'accents') $accents_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'blue') $blue_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'green') $green_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'indigo') $indigo_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'white') $white_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'orange') $orange_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'red') $red_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'violet') $violet_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'yellow') $yellow_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == 'brown') $brown_count++;
-            if($color->attributeData->best_selling) $best_seller_count++;
-            if(strtolower(trim($color->attributeData->cat_color)) == '') $blank_color_count++;
-
-        }
         if($color_count >5 )
         {                        
-            return view('user.color-swatches.index',compact('product_id','productAttributes','gray_count','blue_count','green_count','indigo_count','white_count','orange_count','red_count','violet_count','yellow_count','brown_count','best_seller_count','blank_color_count','color_design_ctr'));
+            return view('user.color-swatches.index',compact('product_id','productAttributes'));
         }else{                          
             return view('user.product.details', compact('uid','category','cart','sub_category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }           
@@ -966,7 +936,24 @@ class ProductPageController extends Controller
     }
 
     public function preselectedColors(Request $request) {
-        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'color_names' => 'required',
+            'color_ids' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            return Redirect::back()->withErrors($validator->errors())->with(array('status'=>'error','msg'=>$message));   
+        } else {
+            $product = Product::find($request->product_id);
+
+            $request->session()->forget('preselected-colors');
+            $request->session()->push('preselected-colors', $request->all()); 
+            return redirect('/product/'.$product->slug_name.'?color_swatches=true');
+        }
     }
 
     public function fetch(Request $request){
