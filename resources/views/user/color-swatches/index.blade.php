@@ -83,7 +83,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(strtolower(trim($color->attributeData->cat_color)) == 'white')
-									<div class="color-box box  @if($white_count <= $color_design_ctr && $blue_count > 1 ) col-lg-4 @elseif($blue_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box  @if($white_count <= $color_design_ctr && $white_count > 1 ) col-lg-4 @elseif($white_count == 1) col-lg-9 @else col-lg-1 @endif col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -300,9 +300,7 @@
 
 		</div>
 		<div>
-			
 			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
-			
 		</div>
 	</div>
 </div>
