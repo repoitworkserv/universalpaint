@@ -300,20 +300,9 @@
 
 		</div>
 		<div>
-			@if(isset($product_id)) 
-			<form action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
-				{!! csrf_field() !!}
-				<input type="hidden" name="product_id" id="product_id" value="{{$product_id}}">
-				<input type="hidden" name="item_quantity" id="item_quantity" value="1"> 
-				<input type="hidden" name="color_id[]" class="color_id" value="2"> 
-				<input type="hidden" name="color_id[]" class="color_id" value="3"> 
-				<input type="hidden" name="color_name[]" class="color_name" value="wewew">
-				<input type="hidden" name="color_css[]" class="color_css" value="sadasdsa">
-				<button type="submit" id="multple-colors-proceed" class="btn btn-default">Select and Proceed</button>
-			</form>
-			@else
+			
 			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
-			@endif
+			
 		</div>
 	</div>
 </div>
