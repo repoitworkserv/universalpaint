@@ -11,6 +11,8 @@
             <div class="row">
                 <div class="col-lg-12" style="padding-right: 0;">
                     <div id="product-page-list">
+                        <form action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                        {!! csrf_field() !!}
                         <div class="banner-img" style="background-image: url({{ url('img/p2.png') }}); background-size: cover; background-repeat: no-repeat; background-position: center center;"></div>
                         <div class="container">
                             @php
@@ -21,6 +23,7 @@
                                 $sub_cat = implode( ", ", $sub_category );
                             @endphp                            
                             @foreach($product as $key)  
+                            <input type="hidden" name="product_id" id="product_id" value="{{$key->id}}" />
                             <div class="sub-navigation">
                                 <div class="nav-right nav-right col-lg-7 col-md-7 col-sm-12 col-12">{{ $category }} Products</div>
                             </div>
@@ -150,6 +153,9 @@
                                                                     $color_data = \App\Attribute::find($product_color['color_ids'][$color_key_id]);
                                                                 @endphp
                                                                 <div class="color-box box" data-id="{{$product_color['color_ids'][$color_key_id]}}" style="background-color:rgb({{$color_data->r_attr}},{{$color_data->g_attr}} ,{{$color_data->b_attr}}  );">
+                                                                <input type="hidden" name="color_ids[]" class="color_ids" value="{{$color_data['id']}}">
+                                                                <input type="hidden" name="color_names[]" class="color_names" value="{{$color_name}}">
+                                                                <input type="hidden" name="color_css[]" class="color_css" value="rgb({{$color_data->r_attr}},{{$color_data->g_attr}} ,{{$color_data->b_attr}})">
                                                                     <div class="title">{{$color_name}}</div>
                                                                 </div>
                                                             @endforeach
@@ -169,6 +175,8 @@
                                                 @if($key['product_type'] == 'multiple')
                                                 @foreach($key->UsedVariables as $list)
                                                 <div class="option-field">
+                                                    <input type="hidden" name="color_names[]" class="color_names_single" value="" />
+                                                    <input type="hidden" name="color_ids[]" class="color_ids_single" value="" />
                                                     <select id="productattri" class="atrribute-list form-control" name="prod-attri[]">
                                                         <option value="">Select </option>
                                                         @foreach($key->UsedAttribute as $attri)
@@ -181,12 +189,6 @@
                                                 @endforeach
                                                 @endif
                                             </div>                                            
-                                            <div class="sml-ttl sml-ttl-fifteen">
-                                                <input type="hidden" id="var-count" value="{{count($key->UsedVariables)}}">
-                                                <div id="quantity_id" class="quantity-select">                                                    
-                                                    <input class="prod_qty numbers-only" data-cartid="cart_id" value="0" id="prod_qty" name="prod_qty">                                                    
-                                                </div>
-                                            </div>
                                             <div class="sml-ttl">
                                                 @php 
                                                     $parent_shipping_width = ($key->ParentData) ? $key->ParentData['shipping_width'] : "";
@@ -198,8 +200,6 @@
                                                     $parent_price = ($key->ParentData) ? $key->ParentData['price'] : "";
                                                     $parent_sale_price = ($key->ParentData) ? $key->ParentData['sale_price'] : "";
                                                 @endphp
-                                                <form action="{!! URL::action('User\CartController@addcart') !!}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-                                                    {!! csrf_field() !!}
                                                     <input type="hidden" name="shipping_width" id="shipping_width" value="{{$key->product_type == 'single' ? $key->shipping_width : $parent_shipping_width}}">
                                                     <input type="hidden" name="shipping_length" id="shipping_length" value="{{$key->product_type == 'single' ? $key->shipping_length : $parent_shipping_length}}">
                                                     <input type="hidden" name="shipping_weight" id="shipping_weight" value="{{$key->product_type == 'single' ? $key->shipping_weight : $parent_shipping_weight}}">
@@ -227,13 +227,6 @@
                                                     <input type="hidden" name="item_discount" id="item_discount" value="{{$key->product_type == 'single' ? $key->discount : $key->discount}}">
                                                     <input type="hidden" name="item_discount_type" id="item_discount_type" value="{{$key->product_type == 'single' ? $key->discount_type : $key->discount_type}}">
                                                     <input type="hidden" name="item_description" id="item_description" value="{{$key->product_type == 'single' ? $key->description : $key->description}}">
-                                                    @if (empty($uid))
-                                                    <a><button class="col-md-12" tabindex="-1" id="add-cart" disabled="true">ADD TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button></a>
-                                                    <!-- <a href="#" data-toggle="modal" data-target="#register_new_account"><button class="button button--aylen"tabindex="-1" id="add-cart"  disabled="true">ADD TO CART<i class="fas fa-shopping-bag"></i></button></a> -->
-                                                    @else
-                                                    <a><button class="col-md-12" tabindex="-1" id="add-cart" disabled="true">ADD TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button></a>
-                                                    @endif
-                                                </form>
                                             </div>
                                         </div>
                                         <div class="flex-txt">
@@ -258,9 +251,15 @@
                                         @endif
                                        
                                             <div class="row">
+                                            <div class="sml-ttl sml-ttl-fifteen">
+                                                <input type="hidden" id="var-count" value="{{count($key->UsedVariables)}}">
+                                                <div id="quantity_id" class="quantity-select">                                                    
+                                                    <input type="number" class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" id="quantity" name="quantity">                                                    
+                                                </div>
+                                            </div>
                                                 <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                                     <div class="flex-txt">
-                                                        <a href="/cart"><button class="button gotocart" tabindex="-1" id="gotocart">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button></a>
+                                                        <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -272,6 +271,7 @@
 
                             @endforeach
                         </div>
+                        </form>
                     </div>
                 </div>
 
@@ -319,10 +319,11 @@
         onchange_img(e, umg);
     });
 
-    $("#productattri").on("keyup change", function() {
-        $('#prodattri').val($(this).val());
-        $("#prod_qty").val()
-        // console.log($(this).val(), $('#prodattri').val());
+    $("#productattri").on("change", function() {
+        var color_id = $(this).val();
+        var color_name = $('#productattri option:selected').text();
+        $('.color_names_single').val(color_name);
+        $('.color_ids_single').val(color_id);
     });
 </script>
 @endsection

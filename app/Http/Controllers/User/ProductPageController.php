@@ -958,19 +958,18 @@ class ProductPageController extends Controller
 
     public function fetch(Request $request){
     $query = $request->get('query');
-    $go = Session::get('gocart');
-    if($go != null){
-        if(in_array($query, $go)){
-            if(($key = array_search($query, $go)) !== false){
-                Session::forget('gocart.'.$key);
-            }
-            
-        } else {
-            $request->session()->push('gocart', $query); 
-        }
-     }  else {
-        $request->session()->push('gocart', $query);
-        }
+    $attributes = ProductAttribute::where('attribute_id','=',intval($query))->with('proddata')->get();
+    $result = '';
+    foreach($attributes as $attribute) {
+        if( $attribute->proddata !== null) {
+            $prod_id = $attribute->proddata->parent_id;
+            $product = Product::find($attribute->proddata->parent_id);
+            $prod_name = (!empty($product->name)) ? $product->name : $product->product_code;
+            if(!empty($prod_name)) $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>';
+        } 
+    }
+    if(!empty($result)) echo $result;
+    else echo '<option value>No product Available</value>';
     }
 
     //GET

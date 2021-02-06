@@ -324,7 +324,7 @@
         </button>
       </div>
       <div class="modal-body">
-	  <form action="{!! URL::action('User\CartController@coloraddtocart') !!}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+	  <form action="{!! URL::action('User\CartController@colorSwatchesAddToCart') !!}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
 	  {!! csrf_field() !!}
 		<div class="colorSwatches" width="100%"></div>
 		<div class="form-group">

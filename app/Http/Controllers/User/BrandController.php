@@ -11,17 +11,16 @@ use App\UserBrands;
 use App\Product;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
     public function index(Request $request)
     {
-        $searchKey = trim($request->search);
-        echo phpinfo();exit;
-        $brands = Brand::has('ProductByBrand')->get();        
+        $brands = Brand::with('ProductByBrand')->get();
         $uid = Auth::id();
         $userBrands = UserBrands::where('user_id', $uid)->pluck('brand_id')->all();        
-        return view('user.brands.index', compact('brands',  'uid', 'userBrands'));
+        return view('user.brands.index', compact('brands', 'uid', 'userBrands'));
     }
 
     public function detail($slug = '')
