@@ -2122,12 +2122,26 @@ a.btn.white {
     flex-direction: column;
 }
 
+.cart-checkout-btn {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+#cart-checkout-btn {
+    background: rgba(194,82,71,255)
+}
+
 .remove-cart-icon {
     color:red;
 }
 
 .remove-cart {
     background-color: Transparent;
+}
+
+.pricelist {
+    padding: 0px;
 }
 
 @media only screen and (max-width: 767px) {
@@ -2145,12 +2159,12 @@ a.btn.white {
         margin-top: 20px;
         margin-bottom: 50px;
     }
+
+    .pricelist {
+        margin: 50px;
+    }
+
     
-}
-
-
-@media only screen and (max-width: 767px) {
-
     #prod-row-0 {
         padding-left: 0px;
     }
@@ -2162,7 +2176,7 @@ a.btn.white {
     .cart-buttons {
         padding-left: 42px !important;
     }    
-
+    
 }
 
 

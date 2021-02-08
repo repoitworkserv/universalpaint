@@ -113,8 +113,8 @@
 			</div>
 		</div>
 		<div class="row col-sm-12"> 
-			<div class="col-sm-0 col-lg-3"> </div>
-			<div class="col-sm-11 col-lg-9 cart-privacy-policy-row"> <input type="checkbox" />&nbsp; Yes, I would like to receive emails from UNIVERSAL PAINT with the latest promotions and color trends. <span class="cart-privacy-policy">privacy policy</span></div>
+			<div class="col-sm-0 col-lg-2"> </div>
+			<div class="col-sm-11 col-lg-10 cart-privacy-policy-row"> <input type="checkbox" />&nbsp; Yes, I would like to receive emails from UNIVERSAL PAINT with the latest promotions and color trends. <span class="cart-privacy-policy">privacy policy</span></div>
 		</div>
 		<div class="row col-sm-12 mt-3"> 
 			<div class="col-sm-0 col-lg-8"> </div>
@@ -125,7 +125,7 @@
 		<div class="row col-sm-9 col-lg-8 cart-buttons">
 			<div><button> FIND PAINTS IN STORE</button></div>
 			<div><button> <div class="cart-print-button"><div>PRINT</div> <div><small>SHOPPING LIST</small> </div><div></button></div>
-			<div><button> REVIEW ORDER</button></div>
+			<div><button id="cart-checkout-btn"> <div class="cart-checkout-btn"><div>CHECK OUT NOW</div><small>AT UNIVERSAL PAINT</small></button></div>
 		</div>
 		</div>
 	</div>
