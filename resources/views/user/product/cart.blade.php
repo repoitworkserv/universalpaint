@@ -114,7 +114,7 @@
 		</div>
 		<div class="row col-sm-12"> 
 			<div class="col-sm-0 col-lg-3"> </div>
-			<div class="col-sm-11 col-lg-9 cart-privacy-policy-row"> <input type="checkbox" />&nbsp; Yes, I would like to receive emails from BEHR with the latest promotions and color trends. <span class="cart-privacy-policy">privacy policy</span></div>
+			<div class="col-sm-11 col-lg-9 cart-privacy-policy-row"> <input type="checkbox" />&nbsp; Yes, I would like to receive emails from UNIVERSAL PAINT with the latest promotions and color trends. <span class="cart-privacy-policy">privacy policy</span></div>
 		</div>
 		<div class="row col-sm-12 mt-3"> 
 			<div class="col-sm-0 col-lg-8"> </div>
