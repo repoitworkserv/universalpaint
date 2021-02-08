@@ -1204,8 +1204,9 @@ $('.sharebtn').on('click',function(){
         });
 
         $("#defaultOpen").click();
-     	$(".box-widget .color-picker .color-box").on('click',function(){            
-            $(this).addClass('color-selected');
+     	$(".box-widget .color-picker .color-box").on('click',function(){          
+            if ($(this).hasClass('color-selected')) $(this).removeClass('color-selected');
+            else $(this).addClass('color-selected');
         });
 
         $('#proceed').on('click',function(e){

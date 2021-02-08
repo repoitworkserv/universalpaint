@@ -225,16 +225,22 @@ class ProductPageController extends Controller
         // $user_type_id = User::where('id', $uid)->first()['users_type_id'];
 		$product_rev = Product::where('parent_id',0)->where('slug_name',$slug_name); 
         $product_id = ($product->count() > 0 ? $product_rev->get()[0]->id : 0);
+        $product_parent_id = ($product->count() > 0 ? $product_rev->get()[0]->parent_id : 0);
         $img_gal = ProductImages::where('product_id', $product_id)->get();
 		$prod_rev_row = ProductReviewsandRating::where('user_id',$uid)->where('product_id',$product_id);
 		$prod_rev = $prod_rev_row->get();
 		$prod_rev_count = $prod_rev_row->count();
 		$paginate_count = (!empty($uid)) ? 6 : 3;
 		$prod_rev_list = ProductReviewsandRating::where('product_id',$product_id)->with('UserProfileData')->paginate($paginate_count);
-        $user_type = Auth::user()['users_type_id'];
+        $user_type = (Auth::user()) ? Auth::user()['users_type_id'] : [];
         $userBrands = UserBrands::where('user_id',$uid)->pluck('brand_id')->all();
-        $user_product_price = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['price'];
-        $user_product_discount_type = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['discount_type'];
+        if(!empty($user_type)) {
+            $user_product_price = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['price'];
+            $user_product_discount_type = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['discount_type'];
+        } else {
+            $user_product_price  = 0;
+            $user_product_discount_type = 0;
+        }
         $user_condition = UserBrands::where('user_id', $uid)->where('brand_id', Product::with('BrandData')->findOrFail($product_id)->BrandData['id'])->get()->isEmpty();
         $query = ProductReviewsandRating::where('product_id', $product_id)->count();
         //dd($product[0]->ProductCategoryData[rand(0,(count($product[0]->ProductCategoryData) - 1))]['SameCategoryProduct']);
@@ -265,17 +271,18 @@ class ProductPageController extends Controller
         }
         if($request->color_swatches) {
             $prod_attrib = array(
-                'parent_id' => $request->parent_id,
+                'parent_id' => isset($request->parent_id) ? $request->parent_id : $product_parent_id,
                 'product_name' => $request->prod_name,
             );            
 
-            $cart = $request->session()->get('cart');         
-            return view('user.product.details', compact('uid','category', 'cart', 'sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+            $cart = $request->session()->get('cart');     
+            $preselected_colors = $request->session()->get('preselected-colors');    
+            return view('user.product.details', compact('uid','category', 'cart','preselected_colors', 'sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }
         $color_count = $product[0]->UsedAttribute->count();
         if($color_count >5 )
         {                        
-            return view('user.color-swatches.index',compact('productAttributes'));
+            return view('user.color-swatches.index',compact('product_id','productAttributes'));
         }else{                          
             return view('user.product.details', compact('uid','category','cart','sub_category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
         }           
@@ -928,21 +935,41 @@ class ProductPageController extends Controller
         return view('user.sub-category.all-product', compact('response','allProducts'));
     }
 
+    public function preselectedColors(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'color_names' => 'required',
+            'color_ids' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            return Redirect::back()->withErrors($validator->errors())->with(array('status'=>'error','msg'=>$message));   
+        } else {
+            $product = Product::find($request->product_id);
+
+            $request->session()->forget('preselected-colors');
+            $request->session()->push('preselected-colors', $request->all()); 
+            return redirect('/product/'.$product->slug_name.'?color_swatches=true');
+        }
+    }
+
     public function fetch(Request $request){
     $query = $request->get('query');
-    $go = Session::get('gocart');
-    if($go != null){
-        if(in_array($query, $go)){
-            if(($key = array_search($query, $go)) !== false){
-                Session::forget('gocart.'.$key);
-            }
-            
-        } else {
-            $request->session()->push('gocart', $query); 
-        }
-     }  else {
-        $request->session()->push('gocart', $query);
-        }
+    $attributes = ProductAttribute::where('attribute_id','=',intval($query))->with('proddata')->get();
+    $result = '';
+    foreach($attributes as $attribute) {
+        if( $attribute->proddata !== null) {
+            $prod_id = $attribute->proddata->parent_id;
+            $product = Product::find($attribute->proddata->parent_id);
+            $prod_name = (!empty($product->name)) ? $product->name : $product->product_code;
+            if(!empty($prod_name)) $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>';
+        } 
+    }
+    if(!empty($result)) echo $result;
+    else echo '<option value>No product Available</value>';
     }
 
     //GET

@@ -80,10 +80,13 @@ Route::get('/product-category/exterior/{id}', 'User\ExteriorPageController@detai
 Route::get('/products', 'User\ProductPageController@index');
 Route::get('/products/search', 'User\ProductPageController@search');
 Route::get('/product/{id}', 'User\ProductPageController@details');
+Route::post('/preselect-colors', 'User\ProductPageController@preselectedColors');
 Route::post('/product-variance', 'User\ProductPageController@productvariance');
+Route::post('/preselected-colors', 'User\ProductPageController@preselectedColors');
 Route::post('/product-view', 'User\ProductPageController@productview');
 Route::post('/add-cart', 'User\CartController@addcart');
 Route::post('/color-add-cart', 'User\CartController@coloraddtocart');
+Route::post('/color-swatches-add-cart', 'User\CartController@colorSwatchesAddToCart');
 Route::post('/remove-cart', 'User\CartController@removecart');
 Route::post('/check-cart', 'User\CartController@checkcart');
 Route::get('/get-shipping-rate', 'User\CartController@get_shipping');

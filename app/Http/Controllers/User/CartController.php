@@ -24,40 +24,18 @@ class CartController extends Controller
     public function index(Request $request)
     { 
         $shipping = ShippingGngRates::all();
-        $cart = $request->session()->get('gocart'); 
+        $cart = $request->session()->get('gocart');
         $arr_color = [];
         $uid = Auth::id();
-        foreach($cart as $i){
-            $attr = Attribute::where('id', $i)->first();
-            $prr = ProductAttribute::where('attribute_id', $i)->get();
-            $arr_p = [];
-            foreach($prr as $d){
-                $parentProduct = Product::with('ParentData')->where('id', $d->product_id)->first();
-                $ChildAndParent = array(
-                    'child' => $d->product_id,
-                    'id' => $d->id,
-                    'name' => $parentProduct->ParentData->name,
-                    'featureimage' => $parentProduct->ParentData->featured_image
-                );
-                array_push($arr_p, $ChildAndParent);
-            }
-            array_push($arr_color, array(            
-                'name'=> $attr->name, 
-                'r'=> $attr->r_attr, 
-                'g' => $attr->g_attr,
-                'b' => $attr->b_attr,
-                'id' => $attr->id,
-                'products'=> $arr_p
-            )
-        );
-        }
-        return view('user/product/cart', compact('cart', 'uid', 'arr_color'));
+        return view('user/product/cart', compact('cart', 'uid'));
     }
 
     public function update(Request $request)
     {
 
     }
+
+
 
     public function coloraddtocart(Request $request){
         $message = '';
@@ -110,112 +88,168 @@ class CartController extends Controller
         
     }
 
-
-
-    public function addcart(Request $request)
-    {
-        $return_arr = array();        
-        //Submit Multiple Items Here
-        $multi = isset($request->multiple) ? $request->multiple : false;
-        $productid = $request->productid; 
-        if($multi != false){                                      
-            $product = Product::whereIn('id',$productid)->get();            
-            foreach($product as $prod){
-                $item = [
-                    'id' => $prod->id,    
-                    'name' => '',
-                    'qty' => 1,                    
-                    'price' => 1,
-                    'discount' => 0,
-                    'discount_type' => 0,
-                    'sale_price' => 0,
-                    'description' => 0,
-                    'shipping_weight' => 0,
-                    'shipping_height' => 0,
-                    'shipping_length' => 0,
-                    'shipping_width' => 0,
-                    'is_sale' => 0,
-                    'product_attribute' => $request['prod-attri'], 
-                ];
-                
-                 if($request->session()->has('cart')) {
-                    $cart = $request->session()->get('cart');
-                    $key = array_search($prod->id, array_column($cart, 'id'));
-                    $ids = array_column($cart, 'id', 'id');
-                    if(isset($ids[$prod->id])) {
-                        $cart[$key]['qty'] += 1;
-                        $request->session()->put('cart', $cart);                        
-                    } else {
-                        $request->session()->push('cart', $item);
-                    }
-                }else{
-                    $request->session()->push('cart', $item);
-                }
-            }   
-            // $cart = $request->session()->get('cart');  
-            // echo json_encode($cart);
-            // exit;
-
-            
-            // $message = "Item is successfully added to cart";            
-            // return redirect()->back()->with('success', $message);      
-            $product = Product::where('id',$request->parent_id)->get();
-            // echo json_encode($product[0]->slug_name);
-            
-            // return redirect()->route('product', ['id' => $product[0]->slug_name]);     
-            // return redirect()->route('product', ['id' => $product[0]->slug_name]); 
-            // return redirect('/product'.'/'. $product[0]->slug_name);
-            $url = '/product/'. $product[0]->slug_name.'?color_swatches=true&parent_id='. $product[0]->id;
-            // $url = '/product/'. $product[0]->slug_name.'?color_swatches=true&';
-            $data = array(
-                'msg' => 'success',
-                'url' => $url
-            );
-            echo json_encode($data); 
-            exit;
-        }else{
-                
-            if(!Auth::user()) {
-                $item = [
-                    'id' => $request->item_id,
-                    'name' => $request->item_name,
-                    'qty' => $request->item_quantity,
-                    'price' => $request->item_price,
-                    'discount' => $request->item_discount,
-                    'discount_type' => $request->item_discount_type,
-                    'sale_price' => $request->item_sale_price,
-                    'description' => $request->item_description,
-                    'shipping_weight' => $request->shipping_weight,
-                    'shipping_height' => $request->shipping_height,
-                    'shipping_length' => $request->shipping_length,
-                    'shipping_width' => $request->shipping_width,
-                    'is_sale' => $request->item_is_sale,
-                	'product_attribute' => $request->prodattri, 
-                ];
-                if ($request->session()->has('cart')) {
-                    $cart = $request->session()->get('cart');
-                    $key = array_search($request->item_id, array_column($cart, 'id'));
-                    $ids = array_column($cart, 'id', 'id');
-                    if(isset($ids[$request->item_id])) {
-                        $cart[$key]['qty'] += $request->item_quantity;
-                        $request->session()->put('cart', $cart);
-                    } else {
-                        $request->session()->push('cart', $item);
-                    }
-                }
-                else {
-                    $request->session()->push('cart', $item);
+    public function colorSwatchesAddToCart(Request $request){
+        $message = '';
+        //Session::forget('requestqoute');
+        if($request->productName == null){
+            $message = "Item is unavailable!";
+            return redirect()->back()->with('error', $message);
+        } else {
+            $productid = $request->productName;
+            $attribute = $request->colorChoose;
+            $csscolor = $request->colorCss;
+            $colorname = $request->colorNameP;
+            $product = Product::find($productid);
+            $item = [
+                'product_attribute' => $attribute,
+                'css_color' => $csscolor,
+                'color_name' => $colorname,
+                'product_details' => [
+                    [ 
+                        'id' => $product['id'],    
+                        'name' => $product['name'],
+                        'image' => $product['featured_image'],
+                        'qty' => 1,                    
+                        'price' => $product['price'],
+                        'discount' => 0,
+                        'discount_type' => 0,
+                        'sale_price' => 0,
+                        'description' => 0,
+                        'shipping_weight' => 0,
+                        'shipping_height' => 0,
+                        'shipping_length' => 0,
+                        'shipping_width' => 0,
+                        'is_sale' => 0,
+                    ]
+                ]
+            ];
+            if ($request->session()->has('gocart')) {
+                $cart = $request->session()->get('gocart');
+                $key = array_search($colorname, array_column($cart, 'color_name'));
+                if($key !== false) {
+                    array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                    $request->session()->put('gocart', $cart);
+                } else {
+                    $request->session()->push('gocart', $item);
                 }
                 $message = "Item is successfully added to cart";
-            	$return_arr = array('msg'=>$message,'status'=>"success");
-            } else {
-                $message = "Please Login first before adding to cart.";
-            	$return_arr = array('msg'=>$message,'modalshow'=>'show','status'=>'error','addcart'=>'');
+            }
+            else {
+                $request->session()->push('gocart', $item);
+                $message = "Item is successfully added to cart";
             }
             return redirect()->back()->with('success', $message);
         }
+        
     }
 
+    public function addcart(Request $request)
+    {
+        $message = '';
+        if($request->product_id == null){
+            $message = "Item is unavailable!";
+            return redirect()->back()->with('error', $message);
+        } else {
+            $productid = $request->product_id;
+            $color_ids = $request->color_ids;
+            if(!isset($request->color_css))  {
+                $color_data = Attribute::find(intval($color_ids[0]));
+                $csscolor[0] = 'rgb('.$color_data->r_attr.','.$color_data->g_attr.','.$color_data->b_attr.')';
+            }
+            else {
+                $csscolor = $request->color_css;
+            }
+            $colornames = $request->color_names;
+            $quantity = $request->quantity;
+            $product = Product::find($productid);
+
+            foreach($colornames as $key => $colorname) {
+                $item = [
+                    'product_attribute' => $color_ids[$key],
+                    'css_color' => $csscolor[$key],
+                    'color_name' => $colorname,
+                    'product_details' => [
+                        [ 
+                            'id' => $product['id'],    
+                            'name' => $product['name'],
+                            'image' => $product['featured_image'],
+                            'qty' => $quantity,                    
+                            'price' => $product['price'],
+                            'discount' => 0,
+                            'discount_type' => 0,
+                            'sale_price' => 0,
+                            'description' => 0,
+                            'shipping_weight' => 0,
+                            'shipping_height' => 0,
+                            'shipping_length' => 0,
+                            'shipping_width' => 0,
+                            'is_sale' => 0,
+                        ]
+                    ]
+                ];
+                if ($request->session()->has('gocart')) {
+                    $cart = $request->session()->get('gocart');
+                    $key = array_search($colorname, array_column($cart, 'color_name'));
+                    if($key !== false) {
+                        array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                        $request->session()->put('gocart', $cart);
+                    } else {
+                        $request->session()->push('gocart', $item);
+                    }
+                    $message = "Item is successfully added to cart";
+                }
+                else {
+                    $request->session()->push('gocart', $item);
+                    $message = "Item is successfully added to cart";
+                }
+            }
+            return redirect('cart')->with('success', $message);
+        }
+    }
+
+    public function addCartMultipleColors(Request $request) {
+
+        dd($request->all());
+        if(!Auth::user()) {
+
+            $item = [
+                'id' => $request->item_id,
+                'name' => $request->item_name,
+                'qty' => $request->item_quantity,
+                'price' => $request->item_price,
+                'discount' => $request->item_discount,
+                'discount_type' => $request->item_discount_type,
+                'sale_price' => $request->item_sale_price,
+                'description' => $request->item_description,
+                'shipping_weight' => $request->shipping_weight,
+                'shipping_height' => $request->shipping_height,
+                'shipping_length' => $request->shipping_length,
+                'shipping_width' => $request->shipping_width,
+                'is_sale' => $request->item_is_sale,
+                'product_attribute' => $request->prodattri, 
+            ];
+            if ($request->session()->has('cart')) {
+                $cart = $request->session()->get('cart');
+                $key = array_search($request->item_id, array_column($cart, 'id'));
+                $ids = array_column($cart, 'id', 'id');
+                if(isset($ids[$request->item_id])) {
+                    $cart[$key]['qty'] += $request->item_quantity;
+                    $request->session()->put('cart', $cart);
+                } else {
+                    $request->session()->push('cart', $item);
+                }
+            }
+            else {
+                $request->session()->push('cart', $item);
+            }
+            $message = "Item is successfully added to cart";
+            $return_arr = array('msg'=>$message,'status'=>"success");
+        } else {
+            $message = "Please Login first before adding to cart.";
+            $return_arr = array('msg'=>$message,'modalshow'=>'show','status'=>'error','addcart'=>'');
+        }
+        return redirect()->back()->with('success', $message);
+    }
     public function getdimension(Request $request)
     {
         $shippingdimension = ShippingDimension::all();

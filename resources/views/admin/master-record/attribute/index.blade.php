@@ -65,7 +65,19 @@
 				            </div>
 							<div class="form-group color_attrib">
             					<label for="attrb_catcolor">Cat Color</label>
-            					<input id="attrb_catcolor" name="attrb_catcolor" class="form-control" type="text"  value="">
+								<select id="attrb_catcolor" name="attrb_catcolor" class="form-control">
+            					<option value="">Select Category Color</option>
+								<option value="Red">Red</option>
+								<option value="Blue">Blue</option>
+								<option value="Yellow">Yellow</option>
+								<option value="Green">Green</option>
+								<option value="White">White & Neutrals</option>
+								<option value="Gray">Gray</option>
+								<option value="Brown">Brown</option>
+								<option value="Purple">Purple</option>
+								<option value="Orange">Orange</option>
+								</select>
+            					<!-- <input id="attrb_catcolor" name="attrb_catcolor" class="form-control" type="text"  value=""> -->
 				            </div>
 							<div class="form-group color_attrib">
             					<label for="attrb_red">Red</label>
@@ -84,6 +96,12 @@
             					<label for="attrb_description">Description</label>
             					<textarea name="attrb_description" class="form-control" rows="5" id="attrb_description"></textarea>
 				            </div>
+							<div class="form-group color_attrib">
+									<div class="form-group">
+										<label>Best Selling</label>
+										<input type="checkbox" name="best_selling" id="best_selling" class="checkbox">
+									</div>
+                            </div>
 			                <div class="form-group text-right">
 			            		<button class="btn btn-gold btn-md" type="submit">Add Attribute</button>    
 			                </div>
@@ -94,15 +112,16 @@
                   <div class="col-md-7 col-sm-7 col-xs-12">
 					<div class="row ">
                 		<div class="col-md-offset-6 col-sm-offset-6 col-md-6 col-sm-6 col-xs-12">
-		                  	<form  action="{{ URL::action('Admin\AttributeController@index') }}" method="post"  accept-charset="UTF-8" enctype="multipart/form-data">
+		                  	<!-- <form  action="{{ URL::action('Admin\AttributeController@index') }}" method="post"  accept-charset="UTF-8" enctype="multipart/form-data"> -->
 		                  		{!! csrf_field() !!}
 			                  	<div class="input-group">
-			                  		<input type="text" class="form-control input-gold" name="search_item" value="{{($search_item) ? $search_item : ''}}">
+			                  		<input type="text" class="form-control input-gold" id="search_item" name="search_item" value="{{($search_item) ? $search_item : ''}}">
 				                    <span class="input-group-btn">
-				                      <button type="submit" class="btn btn-gold"><i class="fa fa-search"></i> Search Attribute</button>
+				                      <!-- <button type="submit" class="btn btn-gold"><i class="fa fa-search"></i> Search Attribute</button> -->
+									  <a href="#" id="btn-search" class="btn btn-gold" > <i class="fa fa-search"></i> Search Attribute </a>
 				                    </span>
 					              </div>
-				            </form>
+				            <!-- </form> -->
 		                  </div>
                 	</div>
                     <table id="example1" class="table table-striped" role="grid" aria-describedby="example1_info">
@@ -134,6 +153,7 @@
 								data-gattr="{{ $att->g_attr }}" 
 								data-battr="{{ $att->b_attr }}" 
 								data-attrbdesc = "{{ $att->description }}" 
+								data-attrbbestselling = "{{ $att->best_selling }}" 
 								data-variabletype="{{ $att->VariableData['name'] }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
                         	</td>
                         </tr>
@@ -149,7 +169,7 @@
           
 
         <!-- /.box-body -->
-          <div class="pagination"> {{ $attributelist->links() }} </div>
+          <div class="pagination"> {{ $attributelist->appends($_GET)->links() }} </div>
         </div>
 
       </div>
@@ -179,7 +199,19 @@
 				            </div>							
 							<div class="form-group color_attrib">
             					<label for="edit_attrb_catcolor">Cat Color</label>
-            					<input id="edit_attrb_catcolor" name="edit_attrb_catcolor" class="form-control" type="text"  value="">
+								<select id="edit_attrb_catcolor" name="edit_attrb_catcolor" class="form-control">
+            					<option value="">Select Category Color</option>
+								<option value="Red">Red</option>
+								<option value="Blue">Blue</option>
+								<option value="Yellow">Yellow</option>
+								<option value="Green">Green</option>
+								<option value="White">White & Neutrals</option>
+								<option value="Gray">Gray</option>
+								<option value="Brown">Brown</option>
+								<option value="Purple">Purple</option>
+								<option value="Orange">Orange</option>
+								</select>
+            					<!-- <input id="attrb_catcolor" name="attrb_catcolor" class="form-control" type="text"  value=""> -->
 				            </div>
 							<div class="form-group color_attrib">
             					<label for="edit_attrb_red">Red</label>
@@ -198,6 +230,10 @@
             					<label for="edit_attrb_description">Description</label>
             					<textarea id="edit_attrb_description" name="edit_attrb_description" class="form-control" rows="5"></textarea>
 				            </div>
+							<div class="form-group color_attrib">
+								<label>Best Selling</label>
+								<input type="checkbox" name="edit_attrb_best_selling" id="edit_attrb_best_selling" class="checkbox">
+                            </div>
 					    </div>
 					</div>
 	            </div>
@@ -225,6 +261,17 @@
             $(this).parent('form').submit();
         }
         
+	});
+
+	$('#search_item').keyup(function(e) {
+		if(e.keyCode == '13') {
+			$('#btn-search').trigger('click');
+		}
+	})
+
+	$('#btn-search').click(function() {
+		var search = $('#search_item').val();
+		window.location = '/admin/attribute?search_item='+search;
 	});
 	
 	$("#attrb_variable_name").on('change',function(){
