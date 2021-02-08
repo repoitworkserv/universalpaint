@@ -83,7 +83,7 @@
 						</select>
 					</div> -->
 					<input type="hidden" name="price-color" id="price-color-{{$x}}" class="price-color">
-					<div class="col-sm-1 col-lg-1 ml-5"><div class="list-price-{{$x}} pricelist">$ 0.00</div><br></div>
+					<div class="col-sm-1 col-lg-1 ml-5"><div class="list-price-{{$x}} pricelist">PHP 0.00</div><br></div>
 				</div>
 				@php $x++; @endphp
 				@empty	
@@ -106,7 +106,7 @@
 			<div class="col-sm-2 col-lg-7">
 
 			</div>
-			<div class="col-sm-8 col-lg-3 cart-subtotal-label">Subtotal <span class="subtotal ml-5">$ 0.00</span></div>
+			<div class="col-sm-8 col-lg-3 cart-subtotal-label">Subtotal <span class="subtotal ml-5">PHP 0.00</span></div>
 			<div class="col-sm-1"><br>
 			<!-- <button onclick="window.location='{{ url("/checkout") }}'" class="btn checkout-order" >Checkout</button> -->
 			<!-- <button href="{!! url('/checkout') !!}" class="btn checkout-order">Checkout</button> -->
@@ -118,7 +118,7 @@
 		</div>
 		<div class="row col-sm-12 mt-3"> 
 			<div class="col-sm-0 col-lg-8"> </div>
-			<div class="col-sm-11 col-lg-4 cart-review-order-label">Review your order, then checkout at HomeDepot.com</div>
+			<div class="col-sm-11 col-lg-4 cart-review-order-label">Review your order, then checkout at UNIVERSAL PAINT</div>
 		</div>
 		<div class="row col-sm-12 mb-5 mt-5">
 		<div class="col-sm-3 col-lg-4"> </div>
@@ -141,15 +141,15 @@ $('.cart-add-paint').click(function() {
 });
 
 $('.select-option').click(function() {
-	var price = $(this).data('price');
+	var price = parseFloat($(this).data('price'));
 	var p_index = $(this).data('index');
 	var subtotal = 0.00;
-	$('.list-price-'+p_index).text("$ "+price.toFixed(2));
+	$('.list-price-'+p_index).text("PHP "+price.toFixed(2));
 
 	$('.pricelist').each(function() {
-		subtotal += parseFloat($(this).text().replace('$ ',''));
+		subtotal += parseFloat($(this).text().replace('PHP ',''));
 	})
-	$('.subtotal').text('$ '+subtotal.toFixed(2));
+	$('.subtotal').text('PHP '+subtotal.toFixed(2));
 });
 $('.container .row  a').on('click', function(e) {
 	var query = $(this).data('id'), values = [];
@@ -169,7 +169,6 @@ $('.container .row  a').on('click', function(e) {
 			}
 		})
 	} 
-	e.preventDefault()
 });
 
 //CART
