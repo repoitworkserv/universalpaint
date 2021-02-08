@@ -118,7 +118,7 @@
 		</div>
 		<div class="row col-sm-12 mt-3"> 
 			<div class="col-sm-0 col-lg-8"> </div>
-			<div class="col-sm-11 col-lg-4 cart-review-order-label">Review your order, then checkout at UNIVERSAL PAINT</div>
+			<div class="col-sm-11 col-lg-4 cart-review-order-label">Review your order, then checkout at UNIVERSALPAINT.net</div>
 		</div>
 		<div class="row col-sm-12 mb-5 mt-5">
 		<div class="col-sm-3 col-lg-4"> </div>
