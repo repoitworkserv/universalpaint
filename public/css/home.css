@@ -1707,8 +1707,8 @@ a.btn.white {
 
 /* Checkout Qoute*/
 
-.checkout-quote {
-    margin-top: 87px;
+#checkout-page {
+    margin-top: 200px;
 }
 
 .checkout-quote .container {
@@ -1739,6 +1739,7 @@ a.btn.white {
     border-radius: 10px;
     padding: 45px 20px;
     margin-bottom: 30px;
+    width: 100%
 }
 
 .checkout-quote .con-dtls input::placeholder {
@@ -1747,6 +1748,28 @@ a.btn.white {
 }
 
 .checkout-quote .con-dtls input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: #cccccc30;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.checkout-quote .con-dtls select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: #cccccc30;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.checkout-quote .con-dtls textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -2142,6 +2165,69 @@ a.btn.white {
 
 .pricelist {
     padding: 0px;
+}
+
+.checkout-form {
+    margin-top: 50px;
+}
+.order-summary {
+    margin-top: 50px;
+}
+.order-summary > h6 {
+    font-weight: 800;
+}
+
+.order-summary > div > div > span {
+    font-weight: 800;
+}
+
+.order-summary > div > div > span#discount {
+    color:red
+}
+
+.order-summary > div > span#discount {
+    color:red;
+}
+.checkout-buttons {
+    margin-top: 50px;
+    margin-bottom: 20px;
+} 
+.checkout-buttons > #btn-checkoutdetails {
+    background: rgba(221,32,50,255);
+    border-color: rgba(221,32,50,255);
+    width: 100%;
+}
+
+#dragonpay-button {
+    background: url('/img/dragonpay_logo.png');
+    background-color: #f26c1e;
+    background-origin: content-box;
+    height: 45px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 10px 0;
+    width: 100%;
+
+}
+#dragonpay-button:hover {
+    box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.05);
+    background-color: #ea7632;
+}
+
+.starter-template {
+    margin-top: 250px;
+}
+
+.continue-shopping {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    background: rgba(221,32,50,255) !important;
+    color: white !important;
+    font-size: x-large;
 }
 
 @media only screen and (max-width: 767px) {

@@ -54,15 +54,15 @@ class CartController extends Controller
                 'name' => $product[0]['name'],
                 'qty' => 1,                    
                 'price' => $product[0]['price'],
-                'discount' => 0,
-                'discount_type' => 0,
-                'sale_price' => 0,
-                'description' => 0,
-                'shipping_weight' => 0,
-                'shipping_height' => 0,
-                'shipping_length' => 0,
-                'shipping_width' => 0,
-                'is_sale' => 0,
+                'discount' => $product[0]['discount'],
+                'discount_type' => $product[0]['discount_type'],
+                'sale_price' => $product[0]['sale_price'],
+                'description' =>  $product[0]['description'],
+                'shipping_weight' => $product[0]['shipping_weight'],
+                'shipping_height' => $product[0]['shipping_height'],
+                'shipping_length' => $product[0]['shipping_length'],
+                'shipping_width' => $product[0]['shipping_width'],
+                'is_sale' => $product[0]['is_sale'],
                 'product_attribute' => $attribute,
                 'css_color' => $csscolor,
                 'color_name' => $colorname
@@ -111,15 +111,15 @@ class CartController extends Controller
                         'image' => $product['featured_image'],
                         'qty' => 1,                    
                         'price' => $product['price'],
-                        'discount' => 0,
-                        'discount_type' => 0,
-                        'sale_price' => 0,
-                        'description' => 0,
-                        'shipping_weight' => 0,
-                        'shipping_height' => 0,
-                        'shipping_length' => 0,
-                        'shipping_width' => 0,
-                        'is_sale' => 0,
+                        'discount' => $product[0]['discount'],
+                        'discount_type' => $product[0]['discount_type'],
+                        'sale_price' => $product[0]['sale_price'],
+                        'description' =>  $product[0]['description'],
+                        'shipping_weight' => $product[0]['shipping_weight'],
+                        'shipping_height' => $product[0]['shipping_height'],
+                        'shipping_length' => $product[0]['shipping_length'],
+                        'shipping_width' => $product[0]['shipping_width'],
+                        'is_sale' => $product[0]['is_sale'],
                     ]
                 ]
             ];
@@ -127,7 +127,13 @@ class CartController extends Controller
                 $cart = $request->session()->get('gocart');
                 $key = array_search($colorname, array_column($cart, 'color_name'));
                 if($key !== false) {
-                    array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                    foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
+                        if($item['product_details'][0]['id'] == $cart_item['id']) {
+                            $cart[$key]['product_details'][$cart_item_key]['qty'] += $quantity;
+                        } else {
+                            array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                        }
+                    }
                     $request->session()->put('gocart', $cart);
                 } else {
                     $request->session()->push('gocart', $item);
@@ -175,15 +181,15 @@ class CartController extends Controller
                             'image' => $product['featured_image'],
                             'qty' => $quantity,                    
                             'price' => $product['price'],
-                            'discount' => 0,
-                            'discount_type' => 0,
-                            'sale_price' => 0,
-                            'description' => 0,
-                            'shipping_weight' => 0,
-                            'shipping_height' => 0,
-                            'shipping_length' => 0,
-                            'shipping_width' => 0,
-                            'is_sale' => 0,
+                            'discount' => $product['discount'],
+                            'discount_type' => $product['discount_type'],
+                            'sale_price' => $product['sale_price'],
+                            'description' =>  $product['description'],
+                            'shipping_weight' => $product['shipping_weight'],
+                            'shipping_height' => $product['shipping_height'],
+                            'shipping_length' => $product['shipping_length'],
+                            'shipping_width' => $product['shipping_width'],
+                            'is_sale' => $product['is_sale'],
                         ]
                     ]
                 ];
@@ -191,7 +197,13 @@ class CartController extends Controller
                     $cart = $request->session()->get('gocart');
                     $key = array_search($colorname, array_column($cart, 'color_name'));
                     if($key !== false) {
-                        array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                            foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
+                                if($item['product_details'][0]['id'] == $cart_item['id']) {
+                                    $cart[$key]['product_details'][$cart_item_key]['qty'] += $quantity;
+                                } else {
+                                    array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                                }
+                            }
                         $request->session()->put('gocart', $cart);
                     } else {
                         $request->session()->push('gocart', $item);
