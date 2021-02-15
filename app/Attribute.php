@@ -11,6 +11,14 @@ class Attribute extends Model
 	protected $fillable = [
 		'variable_id',		
 		'name',
+		'r_attr',
+		'g_attr',
+		'b_attr',
+		'cat_color',
+		'description',
+		'best_sellling',
+		'created_at',
+		'updated_at'
     ];
 
     

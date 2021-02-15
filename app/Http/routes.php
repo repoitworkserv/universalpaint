@@ -65,16 +65,16 @@ Route::post('register-customer', 'User\RegisterController@register_customer');
 
 //Interior
 // Route::get('/product-category/interior', 'User\InteriorController@index');
-Route::get('/product-category/interior/search', 'User\InteriorController@search');
-Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
+// Route::get('/product-category/interior/search', 'User\InteriorController@search');
+// Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
 
 Route::post('/autocomplete/fetch', 'User\ProductPageController@fetch')->name('autocomplete.fetch');
 Route::post('/autocomplete/getfetch', 'User\ProductPageController@getfetch')->name('autocomplete.getfetch');
-Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
+// Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');
-Route::get('/product-category/exterior/search', 'User\ExteriorPageController@search');
-Route::get('/product-category/exterior/{id}', 'User\ExteriorPageController@details');
+// Route::get('/product-category/exterior/search', 'User\ExteriorPageController@search');
+// Route::get('/product-category/exterior/{id}', 'User\ExteriorPageController@details');
 
 //products
 Route::get('/products', 'User\ProductPageController@index');
@@ -97,19 +97,23 @@ Route::group(['middleware' => ['auth']], function () {
 }); 
 Route::post('/checkout-details', 'User\CheckoutController@send_checkoutDetails');
 Route::post('/checkout-dragonpay','User\CheckoutController@payment_dragonpay');
-Route::post('/checkout-dragonpaypostback','User\CheckoutController@payment_dragonpay_postback');
 Route::get('/checkout-dragonpayreturn','User\CheckoutController@payment_dragonpay_return');
+Route::post('/fetch-shipping-rate', 'User\CheckoutController@fetch_shipping_rate');
 // Route::post('/checkout-validate', 'User\CheckoutController@validate_customer_detail');
 Route::post('/checkout-paypal-create', 'User\CheckoutController@payment_paypal_create');
 Route::post('/checkout-paypal-execute', 'User\CheckoutController@payment_paypal_execute');
+Route::post('/order-cod', 'User\CheckoutController@cod_order');
+Route::get('/cod-return', 'User\CheckoutController@cod_return');
+
 Route::get('/delfilt/{type}/{filter}/{name}', 'User\ProductPageController@removeFilters');
 Route::get('/putfilt/{type}/{filter}/{name}', 'User\ProductPageController@putFilters');
 Route::get('/getclear/{type}/{sess_name}', 'User\ProductPageController@clearAllFilters');
 Route::post('/product/add-wishlist', 'User\ProductPageController@add_wishlist');
 //cart
 // Route::get('/cart', 'User\ProductPageController@cart');
-Route::get('/checkout', 'User\ProductPageController@checkoutView');
-Route::post('/checkout', 'User\ProductPageController@checkout');
+//Route::get('/checkout', 'User\ProductPageController@checkoutView');
+//Route::post('/checkout', 'User\ProductPageController@checkout');
+  Route::get('/checkout','User\CheckoutController@index');
 // Route::post('/add_to_cart', 'User\ProductPageController@add_to_cart');
 // Route::post('/remove_product_from_cart', 'User\ProductPageController@remove_product_from_cart');
 // Route::post('/adjust_product_quantity', 'User\ProductPageController@adjust_product_quantity');

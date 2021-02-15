@@ -38,7 +38,8 @@
 						</div>
 					</div>
 				@endif
-				@forelse($cart as $item)
+				@if($cart)
+				@foreach($cart as $item)
 				<div class="row col-sm-12 row-item mb-3 cart-color-details" > 
 					<div class="cart-color-name" >{{ $item['color_name'] }} </div>
 				</div>
@@ -83,50 +84,53 @@
 						</select>
 					</div> -->
 					<input type="hidden" name="price-color" id="price-color-{{$x}}" class="price-color">
-					<div class="col-sm-1 col-lg-1 ml-5"><div class="list-price-{{$x}} pricelist">PHP 0.00</div><br></div>
+					<div class="col-sm-1 col-lg-1 ml-5"><div class="list-price-{{$x}} pricelist">P 0.00</div><br></div>
 				</div>
 				@php $x++; @endphp
-				@empty	
+				<div class="row col-sm-12 row-item mb-3 cart-add-paint" > Add another paint </div>		
+				@endforeach		
+				@else 
 				<div class="page-header">
 					<h5>Shopping Cart</h5>
 					<hr width="100%" size="20" color="gray" noshade> 
 				</div>
 				<p > Cart is Empty</p>
-				@endforelse			
-				<div class="row col-sm-12 row-item mb-3 cart-add-paint" > Add another paint </div>
+				@endif	
 			</div>
 
 			<hr width="100%"
 			size="20" color="gray"
 			noshade> 
-		<div class="cart-subtotal-row row col-sm-12">
-			<div class="col-sm-2" style=""><br>
-			<div class="cart-img hidden-xs"></div>
-			</div>
-			<div class="col-sm-2 col-lg-7">
+			@if($cart)
+			<div class="cart-subtotal-row row col-sm-12">
+				<div class="col-sm-2" style=""><br>
+				<div class="cart-img hidden-xs"></div>
+				</div>
+				<div class="col-sm-2 col-lg-7">
 
+				</div>
+				<div class="col-sm-8 col-lg-3 cart-subtotal-label">Subtotal <span class="subtotal ml-5">P 0.00</span></div>
+				<div class="col-sm-1"><br>
+				<!-- <button onclick="window.location='{{ url("/checkout") }}'" class="btn checkout-order" >Checkout</button> -->
+				<!-- <button href="{!! url('/checkout') !!}" class="btn checkout-order">Checkout</button> -->
+				</div>
 			</div>
-			<div class="col-sm-8 col-lg-3 cart-subtotal-label">Subtotal <span class="subtotal ml-5">PHP 0.00</span></div>
-			<div class="col-sm-1"><br>
-			<!-- <button onclick="window.location='{{ url("/checkout") }}'" class="btn checkout-order" >Checkout</button> -->
-			<!-- <button href="{!! url('/checkout') !!}" class="btn checkout-order">Checkout</button> -->
+			<div class="row col-sm-12"> 
+				<div class="col-sm-0 col-lg-2"> </div>
+				<div class="col-sm-11 col-lg-10 cart-privacy-policy-row"> <input type="checkbox" />&nbsp; Yes, I would like to receive emails from UNIVERSAL PAINT with the latest promotions and color trends. <span class="cart-privacy-policy">privacy policy</span></div>
 			</div>
-		</div>
-		<div class="row col-sm-12"> 
-			<div class="col-sm-0 col-lg-2"> </div>
-			<div class="col-sm-11 col-lg-10 cart-privacy-policy-row"> <input type="checkbox" />&nbsp; Yes, I would like to receive emails from UNIVERSAL PAINT with the latest promotions and color trends. <span class="cart-privacy-policy">privacy policy</span></div>
-		</div>
-		<div class="row col-sm-12 mt-3"> 
-			<div class="col-sm-0 col-lg-8"> </div>
-			<div class="col-sm-11 col-lg-4 cart-review-order-label">Review your order, then checkout at UNIVERSALPAINT.net</div>
-		</div>
-		<div class="row col-sm-12 mb-5 mt-5">
-		<div class="col-sm-3 col-lg-4"> </div>
-		<div class="row col-sm-9 col-lg-8 cart-buttons">
-			<div><button> FIND PAINTS IN STORE</button></div>
-			<div><button> <div class="cart-print-button"><div>PRINT</div> <div><small>SHOPPING LIST</small> </div><div></button></div>
-			<div><button id="cart-checkout-btn"> <div class="cart-checkout-btn"><div>CHECK OUT NOW</div><small>AT UNIVERSAL PAINT</small></button></div>
-		</div>
+			<div class="row col-sm-12 mt-3"> 
+				<div class="col-sm-0 col-lg-8"> </div>
+				<div class="col-sm-11 col-lg-4 cart-review-order-label">Review your order, then checkout at UNIVERSALPAINT.net</div>
+			</div>
+			<div class="row col-sm-12 mb-5 mt-5">
+			<div class="col-sm-3 col-lg-4"> </div>
+			<div class="row col-sm-9 col-lg-8 cart-buttons">
+				<div><button> FIND PAINTS IN STORE</button></div>
+				<div><button> <div class="cart-print-button"><div>PRINT</div> <div><small>SHOPPING LIST</small> </div><div></button></div>
+				<div><button id="cart-checkout-btn"> <div class="cart-checkout-btn"><div>CHECK OUT NOW</div><small>AT UNIVERSAL PAINT</small></button></div>
+			</div>
+			@endif
 		</div>
 	</div>
 </div>
@@ -144,12 +148,12 @@ $('.select-option').click(function() {
 	var price = parseFloat($(this).data('price'));
 	var p_index = $(this).data('index');
 	var subtotal = 0.00;
-	$('.list-price-'+p_index).text("PHP "+price.toFixed(2));
+	$('.list-price-'+p_index).text("P "+price.toFixed(2));
 
 	$('.pricelist').each(function() {
-		subtotal += parseFloat($(this).text().replace('PHP ',''));
+		subtotal += parseFloat($(this).text().replace('P ',''));
 	})
-	$('.subtotal').text('PHP '+subtotal.toFixed(2));
+	$('.subtotal').text('P '+subtotal.toFixed(2));
 });
 $('.container .row  a').on('click', function(e) {
 	var query = $(this).data('id'), values = [];
@@ -248,6 +252,10 @@ $(document).ready(function(){
 		}
 	});
 	})
+
+	$('#cart-checkout-btn').click(function() {
+		window.location = '/checkout';
+	});
 })
 </script>
 
