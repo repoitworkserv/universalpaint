@@ -4,6 +4,7 @@
 @section('content')
 
 <div id ="request-a-qoute">
+{!! csrf_field() !!}
 	<div class="container">
 			<!-- Contact Details -->
 			<div class="contact-details">
@@ -36,25 +37,33 @@
 									<!-- /.box-header -->
 									<div class="box-body">
 									<table class="table table-bordered" id="productTable">
-										<tbody>
-										<tr>
-											<th style="width: 10px">#</th>
-											<th>Product Name</th>
-											<th>Color</th>
-										</tr>
-										@if(Session::get('requestqoute'))
-											@php 
-												$list = Session::get('requestqoute');
-											@endphp
-											@foreach($list as $key=>$index)
-											<tr>
-												<td>{{++$key}}</td>
-												<td>{{ $index['name'] }}</td>
-												<td style="background-color: {{ $index['css_color'] }}">{{ $index['color_name'] }}</td>
-											</tr>
-											@endforeach
-										@endif
-									</tbody></table>
+												<tbody>
+												<tr>
+														<th style="width: 10px">#</th>
+														<th>Product Name</th>
+														<th>Color</th>
+														<th>Qty</th>
+														<th>Price</th>
+												</tr>
+												@for ($i=0; $i < count($cart); $i++) 
+														@foreach($cart[$i]['product_details'] as $key=>$index)
+														@php 
+														$ctr = 0;
+														@endphp
+														<tr>
+																<td>{{++$ctr}}</td>
+																<td>{{ $index['name'] }}</td>
+																<td style="background-color: {{$cart[$i]['css_color']}}">{{ $cart[$i]['color_name'] }}</td>
+																@php
+																$totalprice = $index['is_sale'] ? $index['sale_price'] * $index['qty'] : $index['price'] * $index['qty'];
+																@endphp
+																<td>{{$index['qty']}}</td>
+																<td>{{ $totalprice }} </td>
+														</tr>
+														@endforeach
+												@endfor
+											</tbody>
+										</table>
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer clearfix">
@@ -131,10 +140,17 @@ $(document).ready(function (){
 		$.ajax({
 		url:"{{ route('sendmail.quote') }}",
 		method:"POST",
-		data:{ name:name,cnum:cnum,eadd:eadd, _token: "{{ csrf_token() }}"},
+		data:{ name:name,cnum:cnum,eadd:eadd, _token},
+		beforeSend: function() {
+			alert('Please wait....');
+		},
 		success:function(data){
-			location.reload();
-			}
+			alert(data);
+			setTimeout(function(){ window.location = '/'; }, 2000);
+		},error: function(xhr, status, error) {
+  		console.log(xhr.responseText);
+			console.log(error);
+		}
 		});
 	});
 })

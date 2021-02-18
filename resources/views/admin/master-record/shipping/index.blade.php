@@ -68,6 +68,9 @@
                                     <label>Location</label>
                                     <input type="text" name="location" style="text-transform: capitalize;" id="location"  class="form-control" placeholder="Enter Location">
                                 </div>
+                                <div class="form-group">
+									<input type="checkbox" checked="true" name="status" value="1"><strong for="prodname"> Active</strong>
+								</div>
                                 @for($s=0;$ShippingDimension->count() > $s; $s++)
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
@@ -125,7 +128,8 @@
                                                     data-shippingprice17="{{$list->below17kg}}" 
                                                     data-shippingprice18="{{$list->below18kg}}" 
                                                     data-shippingprice19="{{$list->below19kg}}" 
-                                                    data-shippingprice20="{{$list->below20kg}}">
+                                                    data-shippingprice20="{{$list->below20kg}}"
+                                                    data-shippingstatus="{{$list->status}}">
                                                         <span class="fa fa-edit"></span> Edit
                                                     </a>
                                                     <form action="{{ URL::action('Admin\ShippingController@destroy', $list->id) }}" method="POST">
@@ -159,6 +163,9 @@
                                             <div class="form-group">
                                                 <label>Location</label>
                                                 <input type="text" name="e_location" id="e_location" class="form-control" placeholder="Enter ...">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="checkbox" id="e_status" name="e_status"><strong for="prodname"> Active</strong>
                                             </div>
                                         	@php $i = 0; @endphp
                                         		@for($s=0;$ShippingDimension->count() > $s; $s++)
@@ -212,6 +219,9 @@
                                             <div class="form-group">
                                                 <label>Name (kg)</label>
                                                 <input type="text" name="size" id="size" class="form-control" placeholder="Label" value="">
+                                                <div class="form-group">
+                                                    <input type="checkbox" checked="true" name="status" value="1"><strong for="prodname"> Active</strong>
+                                                </div>
                                                 <label>Weight</label>
                                                 <input type="text" name="weight" id="weight" class="form-control" placeholder="Enter Weight" value="">
                                                 <input type="hidden" name="width" id="width" class="form-control" placeholder="Enter width" value="">

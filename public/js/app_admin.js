@@ -630,7 +630,9 @@ $(document).ready(function () {
 
     	$('input#e_price19').val($(this).data('shippingprice20'));
 
-    	
+        if($(this).data('shippingstatus') == "1")
+    	$('input#e_status').attr('checked', true);
+        else $('input#e_status').attr('checked', false);
 
     })
 

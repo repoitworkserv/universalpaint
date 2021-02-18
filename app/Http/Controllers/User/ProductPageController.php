@@ -981,24 +981,39 @@ class ProductPageController extends Controller
         echo json_encode($parentProduct);
     }
 
+    public function requestQuote(Request $request) {
+        $cart = Session::get('gocart');
+        return view('user.request-a-quote.index', compact('cart'));
+    }
+
     public function quoteSent(Request $request)
     {
-        Session::get('requestqoute');
         //dd($request->all(),Session::get('requestqoute'));
-        $requestqoute = Session::get('requestqoute');
+        $cart = Session::get('gocart');
         $name = $request->name;
         $cnum = $request->cnum;
         $eadd = $request->eadd;
-        Mail::send('user.request-quote', compact('name', 'cnum', 'requestqoute'), function ($message) use($eadd) {
-            $message->sender($eadd);
-            $message->to($eadd);
-        });
-    
+
+        $data = array(
+            'cart' => $cart,
+            'name' => $name,
+        );
+
+        $this->send_email($data,$name,$eadd);
         if (Mail::failures()) {
-            print_r("asd"); exit();
+            echo json_encode("Error sending quote to your email. Please contact customer service.");
         } else {
-            Session::forget('requestqoute');
+            Session::forget('gocart');
+            echo json_encode("Quote sent. Kindly check your email.");
         }
+    }
+
+    private function send_email($data,$customer_name, $customer_email) {
+        Mail::send('user.request-quote',$data,function($message) use($customer_email) {
+           $message->to($customer_email)->subject
+              ('Universal Paint Quote Request');
+           $message->from('sales@universalpaint.net','Universal Paint');
+        });
     }
 
     public function orderSent(Request $request)

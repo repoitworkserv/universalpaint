@@ -2198,6 +2198,11 @@ a.btn.white {
     width: 100%;
 }
 
+.checkout-buttons > #btn-request-quote {
+    width: 100%;
+}
+
+
 #dragonpay-button {
     background: url('/img/dragonpay_logo.png');
     background-color: #f26c1e;
