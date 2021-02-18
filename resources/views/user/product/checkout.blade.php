@@ -47,6 +47,11 @@
                                                             <option value="{{$ship->id}}">{{$ship->location}}</option>
                                                             @endforeach
                                                             </select>
+                                                            @foreach($shipping_location as $ship) 
+                                                            @if($ship->status)
+                                                            <input type="hidden" name="active_shipping[]" class="active-shipping" value="{{$ship->id}}" />
+                                                            @endif
+                                                            @endforeach
                                                         </div>
                                                         <div class="widget-box">
                                                             <div class="label-top">Shipping Note</div>
@@ -146,6 +151,7 @@
                     <div class="form-error" style="display:none"></div>
                     <button type="submit" class="btn btn-primary send-request" id="btn-checkoutdetails">Cash on Delivery</button>
                     <div id="dragonpay-button"></div>
+                    <button class="btn btn-secondary request-quote" id="btn-request-quote">Request a Quote</button>
                 </div>
             </div>
 
@@ -176,7 +182,14 @@ $(document).ready(function (){
         shipping_region = document.getElementById('shipping_location').value,
         shipping_fee =  $('input[name=shipping]').val(),
         shipping_msg = "",
-        token = $('input[name="_token"]').val();
+        token = $('input[name="_token"]').val(),
+        is_active_shipping = 0;
+
+        $('.active-shipping').each(function() {
+            if(shipping_region == $(this).val()) {
+                is_active_shipping = 1;
+            }
+        });
         if(billing_address  == ''){
             $('.form-error').show();
             $('.form-error').html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+'The Shipping address field is required.'+'</div>');
@@ -189,6 +202,8 @@ $(document).ready(function (){
             $('.form-error').show();
             $('.form-error').html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+'Please contact customer service for assistance regarding your shipping fee.'+'</div>');
             setTimeout(function(){$('.form-error').fadeOut(); }, 2000);
+        } else if(is_active_shipping == 0) {
+            alert('Shipping is not available on your region.');
         } else {
             data = {
                     first_name: $('input#first_name').val(),
@@ -232,7 +247,21 @@ $(document).ready(function (){
         var shipping_location = $(this).val();
         var total_weight = $('#total_weight').val();
         var  _token = $('input[name=_token').val();
+        var is_active_shipping = 0;
 
+        $('.active-shipping').each(function() {
+            if(shipping_location == $(this).val()) {
+                is_active_shipping = 1;
+            }
+        });
+
+        if(is_active_shipping == 0) {
+            $('#btn-checkoutdetails').hide();
+            $('#dragonpay-button').hide();
+        } else {
+            $('#btn-checkoutdetails').show();
+            $('#dragonpay-button').show();
+        }
         data = {
             shipping_location,
             total_weight,
@@ -268,10 +297,50 @@ $(document).ready(function (){
 
     $('#btn-checkoutdetails').click(function(e) {
         e.preventDefault();
-        if(confirm('Are you sure you want to place order?')) {
-            $('#CheckoutForm').submit();
+        var shipping_region = document.getElementById('shipping_location').value,
+        is_active_shipping = 0;
+
+        $('.active-shipping').each(function() {
+            if(shipping_region == $(this).val()) {
+                is_active_shipping = 1;
+            }
+        });
+
+        if(is_active_shipping) {
+            if(confirm('Are you sure you want to place order?')) {
+                $('#CheckoutForm').submit();
+            }
+        } else {
+            alert('Shipping is not available on your region.');
         }
     });
+    
+    $('#btn-request-quote').on('click', function(e){
+        e.preventDefault();
+		var _token = $('input[name="_token"]').val(),
+		name = $('#first_name').val() +' '+ $('#last_name').val(),cnum = $('#contact_num').val(),eadd = $('#email_add').val();
+
+        if(name !== "" && cnum !== "" && eadd !== "") {
+            $.ajax({
+            url:"{{ route('sendmail.quote') }}",
+            method:"POST",
+            data:{ name:name,cnum:cnum,eadd:eadd, _token},
+            beforeSend: function() {
+                alert('Please wait....');
+            },
+            success:function(data){
+                alert(data);
+                setTimeout(function(){ window.location = '/'; }, 2000);
+            },error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+                console.log(error);
+            }
+            });
+        } else {
+            alert("Please complete required fields!");
+        }
+	});
+
 })
 </script>
 @endsection

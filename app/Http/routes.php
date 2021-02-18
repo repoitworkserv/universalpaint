@@ -29,9 +29,7 @@ Route::get('/contact-us', function () {
 	return view('user.contact-us.index');
 });
 
-Route::get('/request-a-quote', function () {
-	return view('user.request-a-quote.index');
-});
+Route::get('/request-a-quote', 'User\ProductPageController@requestQuote');
 
 Route::get('/how-to-paint', function () {
 	return view('user.how-to-paint.index');

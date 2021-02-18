@@ -31,16 +31,18 @@
                 <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Product Availed:</th>
                 <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Quantity:</th>
                 <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Color:</th>
-                <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Size:</th>
+                <!-- <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Size:</th> -->
             </tr>
-            @foreach($requestqoute as $item)
+            @for ($i=0; $i < count($cart); $i++) 
+            @foreach($cart[$i]['product_details'] as $key=>$index)
             <tr>
-                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{$item['name']}}</td>
-                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{$item['qty']}}</td>
-                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;background-color: {{ $item['css_color'] }}">{{$item['color_name']}}</td>
-                <td></td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{$index['name']}}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{$index['qty']}}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;background-color: {{ $cart[$i]['css_color'] }}">{{$cart[$i]['color_name']}}</td>
+                <!-- <td></td> -->
             </tr>
             @endforeach
+            @endfor
         </table>
         <p>
             A sales agent will get in touch with you shortly. <br><br>
