@@ -13,8 +13,8 @@ class AlterOrderItemAddColorLiter extends Migration
     public function up()
     {
         Schema::table('order_item', function (Blueprint $table) {
-            $table->string('color')->nullable(false)->after('product_details');
-            $table->string('liter')->nullable(false)->after('product_details');
+            $table->string('color')->nullable(true)->after('product_details');
+            $table->string('liter')->nullable(true)->after('product_details');
         });
     }
 
