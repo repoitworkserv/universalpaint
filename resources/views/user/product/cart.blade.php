@@ -58,7 +58,7 @@
 						<div class="container">
 							<div class="row col-sm-12 productpaint">
 							@foreach($item['product_details'] as $prod_key => $prod_data)
-								<a class="color-box box select-option " data-id="{!! $prod_data['id'] !!}" data-name="{!! $prod_data['name']!!}" data-price="{{$prod_data['price']}}" data-index="{{$x}}">
+								<a class="color-box box select-option " data-id="{!! $prod_data['id'] !!}" data-name="{!! $prod_data['name']!!}" data-price="{{$prod_data['price']}}" data-qty="{{$prod_data['qty']}}" data-index="{{$x}}">
 								<!-- <input type="checkbox"  name="" id=""> -->
 									<div class="cart-item">
 										<div class="top">
@@ -66,7 +66,7 @@
 												@if($prod_data['image'])
 												<img src="img/products/{!!$prod_data['image']!!}" alt="" onerror="this.src='img/no_image.png'">
 												@endif
-											<div class="cart-product-name"><p >{!! $prod_data['name'] !!}</p></div>
+											<div class="cart-product-name"><p >{!! $prod_data['name'] !!}  X {{$prod_data['qty']}}</p></div>
 										</div>
 										</div>
 										<input type="hidden" name="pricerow-{{$x}}" id="price-{{$x}}">
@@ -146,12 +146,14 @@ $('.cart-add-paint').click(function() {
 
 $('.select-option').click(function() {
 	var price = parseFloat($(this).data('price'));
+	var qty = parseFloat($(this).data('qty'));
+	var total_price = price * qty;
 	var p_index = $(this).data('index');
 	var subtotal = 0.00;
-	$('.list-price-'+p_index).text("P "+price.toFixed(2));
+	$('.list-price-'+p_index).text("P"+total_price.toFixed(2));
 
 	$('.pricelist').each(function() {
-		subtotal += parseFloat($(this).text().replace('P ',''));
+		subtotal += parseFloat($(this).text().replace('P',''));
 	})
 	$('.subtotal').text('P '+subtotal.toFixed(2));
 });

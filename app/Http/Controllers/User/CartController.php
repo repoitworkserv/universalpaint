@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Session;
+use Validator;
 
 class CartController extends Controller
 {
@@ -91,14 +92,32 @@ class CartController extends Controller
     public function colorSwatchesAddToCart(Request $request){
         $message = '';
         //Session::forget('requestqoute');
-        if($request->productName == null){
-            $message = "Item is unavailable!";
+
+        $validator = Validator::make($request->all(), [
+            'productId'   => 'required',
+            'productName' => 'required',
+            'colorChoose' => 'required',
+            'colorCss' => 'required',
+            'colorNameP' => 'required',
+            'quantity' => 'required',
+            'product_liters' => 'required',
+
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
             return redirect()->back()->with('error', $message);
         } else {
-            $productid = $request->productName;
+            $productid = $request->productId;
+            $product_name = $request->productName;
             $attribute = $request->colorChoose;
             $csscolor = $request->colorCss;
             $colorname = $request->colorNameP;
+            $quantity  = $request->quantity;
+            $liter    = $request->product_liters;
+            $parent_product_img = Product::where('name','=',$product_name)->pluck('featured_image');
             $product = Product::find($productid);
             $item = [
                 'product_attribute' => $attribute,
@@ -107,19 +126,21 @@ class CartController extends Controller
                 'product_details' => [
                     [ 
                         'id' => $product['id'],    
-                        'name' => $product['name'],
-                        'image' => $product['featured_image'],
-                        'qty' => 1,                    
+                        'name' => $product_name,
+                        'image' => $parent_product_img !== null ? $parent_product_img[0] : "",
+                        'qty' => $quantity,          
                         'price' => $product['price'],
-                        'discount' => $product[0]['discount'],
-                        'discount_type' => $product[0]['discount_type'],
-                        'sale_price' => $product[0]['sale_price'],
-                        'description' =>  $product[0]['description'],
-                        'shipping_weight' => $product[0]['shipping_weight'],
-                        'shipping_height' => $product[0]['shipping_height'],
-                        'shipping_length' => $product[0]['shipping_length'],
-                        'shipping_width' => $product[0]['shipping_width'],
-                        'is_sale' => $product[0]['is_sale'],
+                        'discount' => $product['discount'],
+                        'discount_type' => $product['discount_type'],
+                        'sale_price' => $product['sale_price'],
+                        'description' =>  $product['description'],
+                        'color'       => $colorname,
+                        'liter' => $liter,
+                        'shipping_weight' => $product['shipping_weight'],
+                        'shipping_height' => $product['shipping_height'],
+                        'shipping_length' => $product['shipping_length'],
+                        'shipping_width' => $product['shipping_width'],
+                        'is_sale' => $product['is_sale'],
                     ]
                 ]
             ];
@@ -152,8 +173,18 @@ class CartController extends Controller
     public function addcart(Request $request)
     {
         $message = '';
-        if($request->product_id == null){
-            $message = "Item is unavailable!";
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'color_ids' => 'required',
+            'color_names' => 'required',
+            'product_liters' => 'required',
+            'quantity' => 'required'
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
             return redirect()->back()->with('error', $message);
         } else {
             $productid = $request->product_id;
@@ -166,9 +197,16 @@ class CartController extends Controller
                 $csscolor = $request->color_css;
             }
             $colornames = $request->color_names;
+            $liters     = $request->product_liters;
             $quantity = $request->quantity;
             $product = Product::find($productid);
+            
 
+            // if(isset($request->prod_attri)) {
+            //     $color_data = Attribute::find(intval($request->prod_attri[0]));
+            //     $colornames  = [$color_data->name];
+            //     $csscolor[0] = 'rgb('.$color_data->r_attr.','.$color_data->g_attr.','.$color_data->b_attr.')';
+            // }
             foreach($colornames as $key => $colorname) {
                 $item = [
                     'product_attribute' => $color_ids[$key],
@@ -179,12 +217,14 @@ class CartController extends Controller
                             'id' => $product['id'],    
                             'name' => $product['name'],
                             'image' => $product['featured_image'],
-                            'qty' => $quantity,                    
-                            'price' => $product['price'],
+                            'qty' => $quantity[$key],                    
+                            'price' => isset($request->product_prices) ? $request->product_prices[$key] : $product['price'],
                             'discount' => $product['discount'],
                             'discount_type' => $product['discount_type'],
                             'sale_price' => $product['sale_price'],
                             'description' =>  $product['description'],
+                            'color'       => $colorname,
+                            'liter'       => $liters[$key],
                             'shipping_weight' => $product['shipping_weight'],
                             'shipping_height' => $product['shipping_height'],
                             'shipping_length' => $product['shipping_length'],

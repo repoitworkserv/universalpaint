@@ -68,6 +68,7 @@
                                                                     <th style="width: 10px">#</th>
                                                                     <th>Product Name</th>
                                                                     <th>Color</th>
+                                                                    <th>Liter</th>
                                                                     <th>Qty</th>
                                                                     <th>Price</th>
                                                                 </tr>
@@ -83,6 +84,7 @@
                                                                         @php
                                                                         $totalprice = $index['is_sale'] ? $index['sale_price'] * $index['qty'] : $index['price'] * $index['qty'];
                                                                         @endphp
+                                                                        <td>{{ $index['liter'] }}</td>
                                                                         <td>{{$index['qty']}}</td>
                                                                         <td>{{ $totalprice }} </td>
                                                                     </tr>
@@ -180,6 +182,7 @@ $(document).ready(function (){
     $('#dragonpay-button').on('click', function() {
         var billing_address = document.getElementById('complete_add').value, 
         shipping_region = document.getElementById('shipping_location').value,
+        shipping_location = $('#shipping_location option:selected').text(),
         shipping_fee =  $('input[name=shipping]').val(),
         shipping_msg = "",
         token = $('input[name="_token"]').val(),
@@ -198,7 +201,7 @@ $(document).ready(function (){
             $('.form-error').show();
             $('.form-error').html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+'The Shipping region field is required.'+'</div>');
             setTimeout(function(){$('.form-error').fadeOut();  }, 2000);
-        } else if (parseFloat(shipping_fee) <= 0) {
+        } else if (parseFloat(shipping_fee) <= 0 && shipping_location !== "Metro Manila") {
             $('.form-error').show();
             $('.form-error').html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+'Please contact customer service for assistance regarding your shipping fee.'+'</div>');
             setTimeout(function(){$('.form-error').fadeOut(); }, 2000);

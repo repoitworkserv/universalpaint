@@ -737,6 +737,8 @@ class CheckoutController extends Controller
                     $order_item->product_name       = $item['name'];
                     $order_item->product_details    = $item['description'];
                     $order_item->quantity           = $item['qty'];
+                    $order_item->color              = $item['color'];
+                    $order_item->liter              = $item['liter'];
                     $price                          = $item['is_sale'] && $item['sale_price'] > 0 ? $item['sale_price'] : $item['price'];
                     $order_item->price              = $price;
                     $order_item->discount           = $item['discount'];
