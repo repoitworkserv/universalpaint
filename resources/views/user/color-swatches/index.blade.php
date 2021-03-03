@@ -4,6 +4,16 @@
 
 <div id="color-swatches">
 	<div class="container">
+	@if(session()->has('error'))
+	<div class="form-message" style= "display:block">
+		<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{session()->get('error')}}</div>
+	</div>
+	@endif
+	@if(session()->has('success'))
+	<div class="form-message" style= "display:block">
+		<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{session()->get('success')}}</div>
+	</div>
+	@endif
 		<div class="heading">Color Charts and Brochures</div>
 		<div class="sub-heading">Browse by colour scheme</div>
 		<div class="color-tab">
@@ -327,11 +337,20 @@
 	  <form action="{!! URL::action('User\CartController@colorSwatchesAddToCart') !!}" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
 	  {!! csrf_field() !!}
 		<div class="colorSwatches" width="100%"></div>
-		<div class="form-group">
-            <label for="product-reasearch" class="col-form-label">Product:</label>
-			<select class="form-control"  id="productName" name="productName"></select>
-          </div>
+		<input type="hidden" id="productName" name="productName" value>
+			<div class="form-group">
+        <label for="product-reasearch" class="col-form-label">Product:</label>
+				<select class="form-control"  id="productId" name="productId" required></select>
       </div>
+			<div class="form-group">
+        <label for="product-reasearch" class="col-form-label">Liters:</label>
+				<select class="form-control"  id="product_liters" name="product_liters"></select>
+      </div>
+			<div class="form-group">
+        <label for="product-reasearch" class="col-form-label">Quantity:</label>
+				<input type="number"  class="form-control prod_qty numbers-only" min="1" value="1" name="quantity" required>
+      </div>
+    </div>
       <div class="modal-footer">
 		<input type="hidden" name="colorNameP" id="colorNameP">
 	  	<input type="hidden" name="colorChoose" id="colorChoose">
@@ -375,13 +394,13 @@ $(document).ready(function (){
 				method:"POST",
 				data:{query:query, _token: _token},
 				success:function(data){
-				$('#productName').fadeIn();  
-					$('#productName').html(data);
+					$('#productId').fadeIn();  
+					$('#productId').html(data);
 				}
 				});
 				$(document).on('click', 'li', function(){  
 				$('#design_code').val($(this).text());  
-				$('#productName').fadeOut();  
+				$('#productId').fadeOut();  
 			});  	
 			}
 			}
@@ -397,6 +416,93 @@ $(document).ready(function (){
 			
 		})
 	}
-})
+
+	$('#productId').on('change',function() {
+		var product_id = $(this).val();
+		var product_name = $('option:selected', this).text();
+		var attrib_id   = $('#colorChoose').val();
+		var _token     = $('input[name="_token"]').val();
+		$('#productName').val(product_name);
+		var send_data = {
+			product_id,
+			attrib_id,
+			_token
+		};
+		$.ajax({
+			url:"{{URL::to('/get-productattrib')}}",
+			method:"POST",
+			data: send_data,
+			dataType: "json",
+			success:function(data){
+				console.log(data.id);
+				var response = {
+					prod_attr_id: data.id,
+					_token
+				};
+				$.ajax({
+					url: '/subproduct-variance',
+					method: "post",
+					dataType: "json",
+					data: response,
+					success: function (data) {        
+						console.log(data);  
+						if(data.status == false) {
+								alert(data.msg);
+						} else {
+							if(data !== null && data.length !== 0) {
+								$('#product_liters').html('<option value>Select Liters</option');
+								$.each(data,function(key,value) {
+									$('#product_liters').append(
+											'<option value="' + data[key].product_id + '">' + data[key].liters + '</option>'
+									);
+								}); 
+								$('#product_liters').unbind('change');
+								$('#product_liters').on('change', function(e) {
+									var product_id = $(this).val();
+									var liter      = $("option:selected",this).text();
+									$('.product_liters_single').val(liter);
+									$.ajax({
+										url: '/get-subproductdetails',
+										method: "post",
+										dataType: "json",
+										data: {
+												product_id,
+												_token
+										},
+										success: function (data) {          
+												if(data.status == false) {
+														alert(data.msg);
+												} else {
+														if(data.quantity == 0) {
+																$('.prod_qty').val(data.quantity);
+																alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+														} else {
+																$('.prod_qty').attr('max',data.quantity);
+																$('.product_price_single').val(data.price);
+														}
+												}
+										},
+										error: function(e) {
+												console.log(e);
+										}
+									});
+								});
+							} else {
+								$('#product_liters').parent().hide();
+							}
+						}
+					},
+					error: function (request, status, error) {
+        		alert(request.responseText);
+    			}
+				});
+
+			},
+			error: function (request, status, error) {
+        alert(request.responseText);
+    	}
+		});
+	});
+});
 </script>
 @endsection

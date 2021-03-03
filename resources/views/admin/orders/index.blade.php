@@ -295,6 +295,8 @@
 	                                    <th>Item Name</th>
 	                                    <th>Description</th>
 	                                    <th>Quantity</th>
+																			<th>Color</th>
+																			<th>Liter</th>
 	                                    <th>Price</th>
 <!-- 	                                    <th>Discount</th> -->
 	                                    <th>Amount</th>
@@ -410,6 +412,8 @@
 				                                    '<td>'+item_details[cd].product_name+'</td>'+
 				                                    '<td>'+item_details[cd].product_details+'</td>'+
 				                                    '<td>'+item_details[cd].quantity+'</td>'+
+																						'<td>'+item_details[cd].color+'</td>'+
+																						'<td>'+item_details[cd].liter+'</td>'+
 				                                    '<td>₱ '+item_details[cd].price.toFixed(2)+'</td>'+
 				                                    // '<td>'+discount_type+'</td>'+
 				                                    '<td>₱ '+(item_details[cd].price.toFixed(2) * item_details[cd].quantity).toFixed(2)+'</td>'+

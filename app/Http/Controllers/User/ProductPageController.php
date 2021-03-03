@@ -269,6 +269,13 @@ class ProductPageController extends Controller
                 }
             }
         }
+
+        $subproduct 	= Product::where('parent_id',$product_id)
+        ->with('ProductVariableData')
+        ->with('ProductAttributeData')
+        ->with('ProductUserPrice')->get(); 
+      // dd($product);
+
         if($request->color_swatches) {
             $prod_attrib = array(
                 'parent_id' => isset($request->parent_id) ? $request->parent_id : $product_parent_id,
@@ -959,16 +966,22 @@ class ProductPageController extends Controller
     public function fetch(Request $request){
     $query = $request->get('query');
     $attributes = ProductAttribute::where('attribute_id','=',intval($query))->with('proddata')->get();
-    $result = '';
+    $result = '<option value>Select Product</option>';
+    $has_data = false;
+
     foreach($attributes as $attribute) {
         if( $attribute->proddata !== null) {
-            $prod_id = $attribute->proddata->parent_id;
-            $product = Product::find($attribute->proddata->parent_id);
+            $prod_id = $attribute->proddata->id;
+            $parent_id = $attribute->proddata->parent_id;
+            $product = Product::find($parent_id);
             $prod_name = (!empty($product->name)) ? $product->name : $product->product_code;
-            if(!empty($prod_name)) $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>';
-        } 
+            if(!empty($prod_name)) {
+                $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>'; 
+                $has_data = true;
+            }
+        }
     }
-    if(!empty($result)) echo $result;
+    if($has_data) echo $result;
     else echo '<option value>No product Available</value>';
     }
 
@@ -1073,5 +1086,105 @@ class ProductPageController extends Controller
     public function checkoutView(Request $request)
     {
         return view('user.product.checkout');
+    }
+
+    public function getSubProductVariance(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'prod_attr_id' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+            $prod_attr_id   = (int)$request->prod_attr_id;
+            $prod_attr_data = ProductAttribute::where("id","=",$prod_attr_id)->first();
+
+            $attr_id     = $prod_attr_data->attribute_id;
+            $prod_id     = $prod_attr_data->product_id;
+            $parent_id   = Product::where('id',"=",$prod_id)->pluck('parent_id');
+            $liters      = [];
+
+            $subproducts = DB::table('product AS p')
+                            ->join('product_attribute AS pa','pa.product_id','=','p.id')
+                            ->join('attribute AS a','a.id','=','pa.attribute_id')
+                            ->join('variable AS v','v.id','=','a.variable_id')
+                            ->selectRaw("p.id,p.price,p.quantity,a.name")
+                            ->where('p.parent_id','=',$parent_id)
+                            ->where('v.name','=','Liters')
+                            ->get();
+
+            foreach($subproducts as $subproduct) {
+                $prod_attrs = DB::table('product_attribute AS pa')
+                                ->join('attribute AS a','pa.attribute_id','=','a.id')
+                                ->selectRaw('pa.*,a.*')
+                                ->where('pa.product_id','=',$subproduct->id)
+                                ->get();
+
+                if($prod_attrs[0]->attribute_id  == $attr_id) {
+                    array_push($liters, ["attrib_id" => $attr_id, "product_id" => $subproduct->id, "liters" => $prod_attrs[1]->name]);
+                }
+            }
+
+            echo json_encode($liters);
+        }
+    }
+
+    public function getColorDetails(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'color_name' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+            $attrs = Attribute::where('name', '=', $request->color_name)->first();
+            echo json_encode($attrs);
+        }
+    }
+
+    public function getSubProductDetails(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+            $prod = Product::where('id', '=', $request->product_id)->first();
+            echo json_encode($prod);
+        }
+    }
+
+    public function getProductAttrib(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'attrib_id' => 'required'
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+
+            $product_id = (int)$request->product_id;
+            $attrib_id = (int)$request->attrib_id;
+            $product_attrib = ProductAttribute::where('product_id','=',$product_id)->where('attribute_id','=',$attrib_id)->first();
+            if(!empty($product_attrib) && $product_attrib !== null)  { echo json_encode($product_attrib); }
+            else { echo json_encode(array("status" => false,"msg" => "Error! Cannot fetch product attributes")); }
+        }
     }
 }
