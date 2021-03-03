@@ -975,11 +975,9 @@ class ProductPageController extends Controller
             $parent_id = $attribute->proddata->parent_id;
             $product = Product::find($parent_id);
             $prod_name = (!empty($product->name)) ? $product->name : $product->product_code;
-            $product_attrib = ProductAttribute::where('product_id','=',$prod_id)->count(); //Checker if Attribute Color and Liters are existing
-            if(!empty($prod_name) && $product_attrib > 1 ) {
-                  $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>'; 
-                  $has_data = true;
-                  break;
+            if(!empty($prod_name)) {
+                $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>'; 
+                $has_data = true;
             }
         }
     }

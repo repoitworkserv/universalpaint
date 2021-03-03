@@ -99,9 +99,7 @@ class CartController extends Controller
             'colorChoose' => 'required',
             'colorCss' => 'required',
             'colorNameP' => 'required',
-            'quantity' => 'required',
-            'product_liters' => 'required',
-
+            'quantity' => 'required'
         ]);
         $message = '';
         if($validator->fails()){
@@ -116,7 +114,7 @@ class CartController extends Controller
             $csscolor = $request->colorCss;
             $colorname = $request->colorNameP;
             $quantity  = $request->quantity;
-            $liter    = $request->product_liters;
+            $liter    = isset($request->product_liters) ? $request->product_liters : "";
             $parent_product_img = Product::where('name','=',$product_name)->pluck('featured_image');
             $product = Product::find($productid);
             $item = [
@@ -175,9 +173,6 @@ class CartController extends Controller
         $message = '';
         $validator = Validator::make($request->all(), [
             'product_id' => 'required',
-            'color_ids' => 'required',
-            'color_names' => 'required',
-            'product_liters' => 'required',
             'quantity' => 'required'
         ]);
         $message = '';
@@ -188,43 +183,73 @@ class CartController extends Controller
             return redirect()->back()->with('error', $message);
         } else {
             $productid = $request->product_id;
-            $color_ids = $request->color_ids;
-            if(!isset($request->color_css))  {
+            $color_ids = isset($request->color_ids) ? $request->color_ids : [] ;
+            if(!isset($request->color_css) && !empty($color_ids))  {
                 $color_data = Attribute::find(intval($color_ids[0]));
                 $csscolor[0] = 'rgb('.$color_data->r_attr.','.$color_data->g_attr.','.$color_data->b_attr.')';
             }
             else {
                 $csscolor = $request->color_css;
             }
-            $colornames = $request->color_names;
-            $liters     = $request->product_liters;
+            $colornames = isset($request->color_names) ? $request->color_names : [] ;
+            $liters     = isset($request->product_liters) ? $request->product_liters : [] ;
             $quantity = $request->quantity;
             $product = Product::find($productid);
             
-
             // if(isset($request->prod_attri)) {
             //     $color_data = Attribute::find(intval($request->prod_attri[0]));
             //     $colornames  = [$color_data->name];
             //     $csscolor[0] = 'rgb('.$color_data->r_attr.','.$color_data->g_attr.','.$color_data->b_attr.')';
             // }
-            foreach($colornames as $key => $colorname) {
+            if(!empty($colornames)) {
+                foreach($colornames as $key => $colorname) {
+                    $item = [
+                        'product_attribute' => $color_ids[$key],
+                        'css_color' => $csscolor[$key],
+                        'color_name' => $colorname,
+                        'product_details' => [
+                            [ 
+                                'id' => $product['id'],    
+                                'name' => $product['name'],
+                                'image' => $product['featured_image'],
+                                'qty' => $quantity[$key],                    
+                                'price' => isset($request->product_prices) ? floatval($request->product_prices[$key]) : $product['price'],
+                                'discount' => $product['discount'],
+                                'discount_type' => $product['discount_type'],
+                                'sale_price' => $product['sale_price'],
+                                'description' =>  $product['description'],
+                                'color'       => $colorname,
+                                'liter'       => !empty($liters) ? $liters[$key] : "",
+                                'shipping_weight' => $product['shipping_weight'],
+                                'shipping_height' => $product['shipping_height'],
+                                'shipping_length' => $product['shipping_length'],
+                                'shipping_width' => $product['shipping_width'],
+                                'is_sale' => $product['is_sale'],
+                            ]
+                        ]
+                    ];
+
+                    $message = $this->addCartItem($request,$item);
+                }
+            } else {
+
                 $item = [
-                    'product_attribute' => $color_ids[$key],
-                    'css_color' => $csscolor[$key],
-                    'color_name' => $colorname,
+                    'product_attribute' => 0,
+                    'css_color' => "none",
+                    'color_name' => "none",
                     'product_details' => [
                         [ 
                             'id' => $product['id'],    
                             'name' => $product['name'],
                             'image' => $product['featured_image'],
-                            'qty' => $quantity[$key],                    
-                            'price' => isset($request->product_prices) ? $request->product_prices[$key] : $product['price'],
+                            'qty' => $quantity[0],                    
+                            'price' => $product['price'],
                             'discount' => $product['discount'],
                             'discount_type' => $product['discount_type'],
                             'sale_price' => $product['sale_price'],
                             'description' =>  $product['description'],
-                            'color'       => $colorname,
-                            'liter'       => $liters[$key],
+                            'color'       => "",
+                            'liter'       => "",
                             'shipping_weight' => $product['shipping_weight'],
                             'shipping_height' => $product['shipping_height'],
                             'shipping_length' => $product['shipping_length'],
@@ -233,30 +258,37 @@ class CartController extends Controller
                         ]
                     ]
                 ];
-                if ($request->session()->has('gocart')) {
-                    $cart = $request->session()->get('gocart');
-                    $key = array_search($colorname, array_column($cart, 'color_name'));
-                    if($key !== false) {
-                            foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
-                                if($item['product_details'][0]['id'] == $cart_item['id']) {
-                                    $cart[$key]['product_details'][$cart_item_key]['qty'] += $quantity;
-                                } else {
-                                    array_push($cart[$key]['product_details'],$item['product_details'][0]);
-                                }
-                            }
-                        $request->session()->put('gocart', $cart);
-                    } else {
-                        $request->session()->push('gocart', $item);
-                    }
-                    $message = "Item is successfully added to cart";
-                }
-                else {
-                    $request->session()->push('gocart', $item);
-                    $message = "Item is successfully added to cart";
-                }
+
+                $message = $this->addCartItem($request,$item);
             }
             return redirect('cart')->with('success', $message);
         }
+    }
+
+    private function addCartItem($request,$item) {
+
+        if ($request->session()->has('gocart')) {
+            $cart = $request->session()->get('gocart');
+            $key = array_search($item['color_name'], array_column($cart, 'color_name'));
+            if($key !== false) {
+                    foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
+                        if($item['product_details'][0]['id'] == $cart_item['id']) {
+                            $cart[$key]['product_details'][$cart_item_key]['qty'] += $item['product_details'][0]['qty'];
+                        } else {
+                            array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                        }
+                    }
+                $request->session()->put('gocart', $cart);
+            } else {
+                $request->session()->push('gocart', $item);
+            }
+            $message = "Item is successfully added to cart";
+        }
+        else {
+            $request->session()->push('gocart', $item);
+            $message = "Item is successfully added to cart";
+        }
+        return $message;
     }
 
     public function addCartMultipleColors(Request $request) {

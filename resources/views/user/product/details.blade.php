@@ -203,12 +203,14 @@
                                                                     <div class="option-field">
                                                                         <input type="hidden" name="product_liters[]" class="product_liters" value="" />
                                                                         <input type="hidden" name="product_prices[]" class="product_price" value="" />
-                                                                        <select id="product_liters" class="product_liters form-control" required>
+                                                                        @if(!empty($liters))
+                                                                        <select id="product_liters" class="product_liters form-control">
                                                                             <option value="">Select </option>
                                                                             @foreach($liters as $liter) 
                                                                             <option value="{{$liter['product_id']}}">{{ $liter['liters']}} </option>
                                                                             @endforeach
-                                                                        <select>                                                                                                        
+                                                                        <select>        
+                                                                        @endif                                                                                                
                                                                     </div>
                                                                     <div id="quantity_id_multiple" class="quantity-select">    
                                                                         <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]">                                                    
@@ -228,7 +230,7 @@
                                         @else
                                         <div class="flex-txt">
                                             <div class="sml-ttl">
-                                                @if($key['product_type'] == 'multiple')
+                                            @if($key['product_type'] == 'multiple')
                                                 @foreach($key->UsedVariables as $list)
                                                 @if(strtolower($list->VariableData['name']) == 'color')
                                                 <div class="option-field">
@@ -248,11 +250,11 @@
                                                 <div class="option-field mt-2">
                                                     <input type="hidden" name="product_liters[]" class="product_liters_single" value="" />
                                                     <input type="hidden" name="product_prices[]" class="product_price_single" value="" />
-                                                    <select id="product_liters" class="form-control" required>
+                                                    <select id="product_liters" class="form-control">
                                                         <option value="">Select </option>
                                                     <select>                                                                                                        
                                                 </div>
-                                                @endif
+                                            @endif
                                             </div>                                            
                                             <div class="sml-ttl">
                                                 @php 
@@ -429,6 +431,8 @@
                     } else {
                         if(data !== null) {
                             $('#product_liters').html('<option value>Select Liters</option');
+                        } else {
+                            $('#product_liters').hide();
                         }
                         $.each(data,function(key,value) {
                             $('#product_liters').append(

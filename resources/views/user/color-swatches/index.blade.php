@@ -344,7 +344,7 @@
       </div>
 			<div class="form-group">
         <label for="product-reasearch" class="col-form-label">Liters:</label>
-				<select class="form-control"  id="product_liters" name="product_liters" required></select>
+				<select class="form-control"  id="product_liters" name="product_liters"></select>
       </div>
 			<div class="form-group">
         <label for="product-reasearch" class="col-form-label">Quantity:</label>
@@ -449,48 +449,48 @@ $(document).ready(function (){
 						if(data.status == false) {
 								alert(data.msg);
 						} else {
-							if(data !== null) {
-									$('#product_liters').html('<option value>Select Liters</option');
-							}
-							$.each(data,function(key,value) {
+							if(data !== null && data.length !== 0) {
+								$('#product_liters').html('<option value>Select Liters</option');
+								$.each(data,function(key,value) {
 									$('#product_liters').append(
 											'<option value="' + data[key].product_id + '">' + data[key].liters + '</option>'
 									);
-							}); 
-							$('#product_liters').unbind('change');
-							$('#product_liters').on('change', function(e) {
-
+								}); 
+								$('#product_liters').unbind('change');
+								$('#product_liters').on('change', function(e) {
 									var product_id = $(this).val();
 									var liter      = $("option:selected",this).text();
 									$('.product_liters_single').val(liter);
-
 									$.ajax({
-											url: '/get-subproductdetails',
-											method: "post",
-											dataType: "json",
-											data: {
-													product_id,
-													_token
-											},
-											success: function (data) {          
-													if(data.status == false) {
-															alert(data.msg);
-													} else {
-															if(data.quantity == 0) {
-																	$('.prod_qty').val(data.quantity);
-																	alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
-															} else {
-																	$('.prod_qty').attr('max',data.quantity);
-																	$('.product_price_single').val(data.price);
-															}
-													}
-											},
-											error: function(e) {
-													console.log(e);
-											}
-										});
+										url: '/get-subproductdetails',
+										method: "post",
+										dataType: "json",
+										data: {
+												product_id,
+												_token
+										},
+										success: function (data) {          
+												if(data.status == false) {
+														alert(data.msg);
+												} else {
+														if(data.quantity == 0) {
+																$('.prod_qty').val(data.quantity);
+																alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+														} else {
+																$('.prod_qty').attr('max',data.quantity);
+																$('.product_price_single').val(data.price);
+														}
+												}
+										},
+										error: function(e) {
+												console.log(e);
+										}
 									});
+								});
+							} else {
+								$('#product_liters').parent().hide();
 							}
+						}
 					},
 					error: function (request, status, error) {
         		alert(request.responseText);
