@@ -244,6 +244,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 		'uses' => 'Admin\ProductController@deleteImage'
 	]);
 	Route::delete('product/{id}', 'Admin\ProductController@destroy');
+	Route::delete('product-delete-variation','Admin\ProductController@delete_variation');
 	//Subscriber
 	Route::resource('subscriber', 'Admin\SubscriberController');
 	Route::resource('subscriber/status', 'Admin\SubscriberController@status_update');
