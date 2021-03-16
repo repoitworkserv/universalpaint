@@ -65,7 +65,7 @@
                                         <div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $product[0]->featured_image }}); background-size: cover; background-repeat: no-repeat; background-position: center center; position: relative; left: 15px;"></div>
                                         <div class="prod-btn">
                                             <img src="{{ url('img/buttons/button.png') }}">
-                                            <a href="/pdf/{!! $key->slug_name !!}.pdf" class="yellow-btn">Download Product Brochure Pdf</a>
+                                            <a href="/pdf/{!! $key->brochure_path !!}" class="yellow-btn">Download Product Brochure Pdf</a>
                                             <a href="" class="yellow-btn">Safety data Sheets (SDS)</a>
                                             <a href="" class="yellow-btn">Technical Data Sheet</a>
                                             <a href="/paint-calculator?paint=<?php echo $key->ParentData ? $key->ParentData['name'] :$key->name; ?>" class="yellow-btn">Color Calculators</a>
