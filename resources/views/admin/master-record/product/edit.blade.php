@@ -1088,7 +1088,7 @@
    			if(attributedata.length > 0){
    				tbl_col += '<td>'+
    				             '<select name="variation_attributes[]" class="select2 select2-hidden-accessible form-control" style="width: 100%;">'+
-   				              '<!--option value="0">Any '+data[$v].name+'</option-->';
+   				              '<option value="">Select '+data[$v].name+'</option>';
    				for(att=0;att<attributedata.length;att++){
    					tbl_col += '<option value="'+attributedata[att].id+'">'+attributedata[att].name+'</option>';
    				}
