@@ -643,7 +643,6 @@ class ProductController extends Controller
 	   $discount_type = Config::get('constants.discount_type');
 	   $DateNow        = date('m/d/Y');
 	   $id = Auth::id();
-		 //dd($variablelist);
 	   $uimage = UserImages::where('user_id',$id)->with('ImageData')->get();
        return view('admin.master-record.product.edit',compact('uimage','productdetails','productcategory','productvariable','product_type','subproduct','variablelist','brandlist','categorylist','discount_type','productothers','productimages','usertypes','productuserprice'));
     }
@@ -656,7 +655,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {	//dd($request->variation_attributes);
+    {
     	$validator = Validator::make($request->all(), [
             'prodcode'            => 'required',
 		  	'prodname'            => 'required',
