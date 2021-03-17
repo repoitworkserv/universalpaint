@@ -65,7 +65,7 @@
                                         <div class="prod-img" style="background-image: url({!! asset('img/products') !!}/{{ $product[0]->featured_image }}); background-size: cover; background-repeat: no-repeat; background-position: center center; position: relative; left: 15px;"></div>
                                         <div class="prod-btn">
                                             <img src="{{ url('img/buttons/button.png') }}">
-                                            <a href="/pdf/{!! $key->slug_name !!}.pdf" class="yellow-btn">Download Product Brochure Pdf</a>
+                                            <a href="/pdf/{!! $key->brochure_path !!}" class="yellow-btn">Download Product Brochure Pdf</a>
                                             <a href="" class="yellow-btn">Safety data Sheets (SDS)</a>
                                             <a href="" class="yellow-btn">Technical Data Sheet</a>
                                             <a href="/paint-calculator?paint=<?php echo $key->ParentData ? $key->ParentData['name'] :$key->name; ?>" class="yellow-btn">Color Calculators</a>
@@ -152,11 +152,69 @@
                                                                 @php
                                                                     $color_data = \App\Attribute::find($product_color['color_ids'][$color_key_id]);
                                                                 @endphp
-                                                                <div class="color-box box" data-id="{{$product_color['color_ids'][$color_key_id]}}" style="background-color:rgb({{$color_data->r_attr}},{{$color_data->g_attr}} ,{{$color_data->b_attr}}  );">
-                                                                <input type="hidden" name="color_ids[]" class="color_ids" value="{{$color_data['id']}}">
-                                                                <input type="hidden" name="color_names[]" class="color_names" value="{{$color_name}}">
-                                                                <input type="hidden" name="color_css[]" class="color_css" value="rgb({{$color_data->r_attr}},{{$color_data->g_attr}} ,{{$color_data->b_attr}})">
-                                                                    <div class="title">{{$color_name}}</div>
+                                                                <div class="multiple-variations">
+                                                                    <div class="color-box box" data-id="{{$product_color['color_ids'][$color_key_id]}}" style="background-color:rgb({{$color_data->r_attr}},{{$color_data->g_attr}} ,{{$color_data->b_attr}}  );">
+                                                                    <input type="hidden" name="color_ids[]" class="color_ids" value="{{$color_data['id']}}">
+                                                                    <input type="hidden" name="color_names[]" class="color_names" value="{{$color_name}}">
+                                                                    <input type="hidden" name="color_css[]" class="color_css" value="rgb({{$color_data->r_attr}},{{$color_data->g_attr}} ,{{$color_data->b_attr}})">
+                                                                        <div class="title"><span>{{$color_name}}</span></div>
+                                                                    </div>
+
+                                                                    @php    
+                                                                    $parent_id   = $product_id;
+                                                                    $subproducts = \App\Product::where('parent_id','=',$parent_id)->get();
+
+                                                                    foreach($subproducts as $subproduct) {
+                                                                        
+                                                                        $prod_attr_data   = \App\ProductAttribute::where('product_id','=',$subproduct->id)->where('attribute_id','=',$color_data->id)->first();
+                                                                        if($prod_attr_data !== null && !empty($prod_attr_data)) {
+                                                                            break;
+                                                                        }
+
+                                                                    }
+
+                                                                    $attr_id     = $color_data->id;
+                                                                    $prod_id     = $prod_attr_data->product_id;
+                                                                    $liters      = [];
+
+                                                                    $variations  = \DB::table('product AS p')
+                                                                                    ->join('product_attribute AS pa','pa.product_id','=','p.id')
+                                                                                    ->join('attribute AS a','a.id','=','pa.attribute_id')
+                                                                                    ->join('variable AS v','v.id','=','a.variable_id')
+                                                                                    ->selectRaw("p.id,p.price,p.quantity,a.name")
+                                                                                    ->where('p.id','=',$prod_id)
+                                                                                    ->where('v.name','=','Liters')
+                                                                                    ->get();
+
+                                                                    foreach($variations as $variation) {
+                                                                        $prod_attrs = \DB::table('product_attribute AS pa')
+                                                                                        ->join('attribute AS a','pa.attribute_id','=','a.id')
+                                                                                        ->selectRaw('pa.*,a.*')
+                                                                                        ->where('pa.product_id','=',$variation->id)
+                                                                                        ->get();
+
+                                                                        if($prod_attrs[0]->attribute_id  == $attr_id) {
+                                                                            array_push($liters, ["attrib_id" => $attr_id, "product_id" => $variation->id, "liters" => $prod_attrs[1]->name]);
+                                                                        }
+                                                                    }
+
+                                                                    @endphp
+                                                
+                                                                    <div class="option-field">
+                                                                        <input type="hidden" name="product_liters[]" class="product_liters" value="" />
+                                                                        <input type="hidden" name="product_prices[]" class="product_price" value="" />
+                                                                        @if(!empty($liters))
+                                                                        <select id="product_liters" class="product_liters form-control">
+                                                                            <option value="">Select </option>
+                                                                            @foreach($liters as $liter) 
+                                                                            <option value="{{$liter['product_id']}}">{{ $liter['liters']}} </option>
+                                                                            @endforeach
+                                                                        <select>        
+                                                                        @endif                                                                                                
+                                                                    </div>
+                                                                    <div id="quantity_id_multiple" class="quantity-select">    
+                                                                        <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]">                                                    
+                                                                    </div>
                                                                 </div>
                                                             @endforeach
                                                         @endforeach
@@ -172,22 +230,31 @@
                                         @else
                                         <div class="flex-txt">
                                             <div class="sml-ttl">
-                                                @if($key['product_type'] == 'multiple')
+                                            @if($key['product_type'] == 'multiple')
                                                 @foreach($key->UsedVariables as $list)
+                                                @if(strtolower($list->VariableData['name']) == 'color')
                                                 <div class="option-field">
                                                     <input type="hidden" name="color_names[]" class="color_names_single" value="" />
                                                     <input type="hidden" name="color_ids[]" class="color_ids_single" value="" />
-                                                    <select id="productattri" class="atrribute-list form-control" name="prod-attri[]">
+                                                    <select id="productattri" class="form-control" name="prod_attri[]">
                                                         <option value="">Select </option>
                                                         @foreach($key->UsedAttribute as $attri)
                                                         @if($attri->AttributeData['variable_id'] == $list->VariableData['id'])
-                                                        <option style="background: rgb(255,0,0); color: white;" value="{{$attri->AttributeData['id']}}">{{$attri->AttributeData['name']}}</option>
+                                                        <option style="background: rgb(255,0,0); color: white;" value="{{$attri['id']}}">{{$attri->AttributeData['name']}}</option>
                                                         @endif
                                                         @endforeach
                                                     </select>                                                                                                        
                                                 </div>
-                                                @endforeach
                                                 @endif
+                                                @endforeach
+                                                <div class="option-field mt-2">
+                                                    <input type="hidden" name="product_liters[]" class="product_liters_single" value="" />
+                                                    <input type="hidden" name="product_prices[]" class="product_price_single" value="" />
+                                                    <select id="product_liters" class="form-control">
+                                                        <option value="">Select </option>
+                                                    <select>                                                                                                        
+                                                </div>
+                                            @endif
                                             </div>                                            
                                             <div class="sml-ttl">
                                                 @php 
@@ -251,12 +318,14 @@
                                         @endif
                                        
                                             <div class="row">
+                                            @if(empty($prod_attrib))
                                             <div class="sml-ttl sml-ttl-fifteen">
                                                 <input type="hidden" id="var-count" value="{{count($key->UsedVariables)}}">
                                                 <div id="quantity_id" class="quantity-select">                                                    
-                                                    <input type="number" class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" id="quantity" name="quantity">                                                    
+                                                    <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]">                                                    
                                                 </div>
                                             </div>
+                                            @endif
                                                 <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                                     <div class="flex-txt">
                                                         <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
@@ -320,10 +389,129 @@
     });
 
     $("#productattri").on("change", function() {
-        var color_id = $(this).val();
-        var color_name = $('#productattri option:selected').text();
+        var prod_attr_id = $(this).val();
+        var color_name = $("option:selected", this).text();
+        var color_id = 0;
+        var _token = $('input[name=_token').val();
+        var data = {
+            prod_attr_id,
+            _token
+        }
+
         $('.color_names_single').val(color_name);
-        $('.color_ids_single').val(color_id);
+
+        $.ajax({
+            url: '/get-colordetails',
+            method: "post",
+            dataType: "json",
+            data: {
+                color_name,
+                _token
+            },
+            success: function (data) {          
+                if(data.status == false) {
+                    alert(data.msg);
+                } else {
+                    $('.color_ids_single').val(data.id);
+                }
+            },
+            error: function(e) {
+                console.log(e);
+            }
+        });
+
+        $.ajax({
+                url: '/subproduct-variance',
+                method: "post",
+                dataType: "json",
+                data: data,
+                success: function (data) {          
+                    if(data.status == false) {
+                        alert(data.msg);
+                    } else {
+                        if(data !== null) {
+                            $('#product_liters').html('<option value>Select Liters</option');
+                        } else {
+                            $('#product_liters').hide();
+                        }
+                        $.each(data,function(key,value) {
+                            $('#product_liters').append(
+                                '<option value="' + data[key].product_id + '">' + data[key].liters + '</option>'
+                            );
+                        }); 
+                        $('#product_liters').unbind('change');
+                        $('#product_liters').on('change', function(e) {
+
+                            var product_id = $(this).val();
+                            var liter      = $("option:selected",this).text();
+                            $('.product_liters_single').val(liter);
+
+                            $.ajax({
+                                url: '/get-subproductdetails',
+                                method: "post",
+                                dataType: "json",
+                                data: {
+                                    product_id,
+                                    _token
+                                },
+                                success: function (data) {          
+                                    if(data.status == false) {
+                                        alert(data.msg);
+                                    } else {
+                                        if(data.quantity == 0) {
+                                            $('.prod_qty').val(data.quantity);
+                                            alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+                                        } else {
+                                            $('.prod_qty').attr('max',data.quantity);
+                                            $('.product_price_single').val(data.price);
+                                        }
+                                    }
+                                },
+                                error: function(e) {
+                                    console.log(e);
+                                }
+                             });
+                        });
+                    }
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+    });
+
+    $('.product_liters').on('change',function() {
+        var _token     = $('input[name=_token').val();
+        var product_id = $(this).val();
+        var liter      = $("option:selected",this).text();
+        var dropdown   = $(this);
+        dropdown.parent().find('input[name="product_liters[]"]').val(liter);
+
+        $.ajax({
+            url: '/get-subproductdetails',
+            method: "post",
+            dataType: "json",
+            data: {
+                product_id,
+                _token
+            },
+            success: function (data) {          
+                if(data.status == false) {
+                    alert(data.msg);
+                } else {
+                    if(data.quantity == 0) {
+                        $('.prod_qty').val(data.quantity);
+                        alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+                    } else {
+                        dropdown.parent().next().find('.prod_qty').attr('max',data.quantity);
+                        dropdown.parent().find('input[name="product_prices[]"]').val(data.price);
+                    }
+                }
+            },
+            error: function(e) {
+                console.log(e);
+            }
+            });
     });
 </script>
 @endsection

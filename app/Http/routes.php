@@ -68,6 +68,10 @@ Route::post('register-customer', 'User\RegisterController@register_customer');
 
 Route::post('/autocomplete/fetch', 'User\ProductPageController@fetch')->name('autocomplete.fetch');
 Route::post('/autocomplete/getfetch', 'User\ProductPageController@getfetch')->name('autocomplete.getfetch');
+Route::post('/subproduct-variance','User\ProductPageController@getSubProductVariance');
+Route::post('/get-colordetails','User\ProductPageController@getColorDetails');
+Route::post('/get-subproductdetails','User\ProductPageController@getSubProductDetails');
+Route::post('/get-productattrib','User\ProductPageController@getProductAttrib');
 // Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');
@@ -240,10 +244,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('product/{id}', [
 		'uses' => 'Admin\ProductController@update'
 	]);
+	Route::get('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
+	Route::post('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
 	Route::delete('product/product-image/{id}', [
 		'uses' => 'Admin\ProductController@deleteImage'
 	]);
 	Route::delete('product/{id}', 'Admin\ProductController@destroy');
+	Route::delete('product-delete-variation','Admin\ProductController@delete_variation');
 	//Subscriber
 	Route::resource('subscriber', 'Admin\SubscriberController');
 	Route::resource('subscriber/status', 'Admin\SubscriberController@status_update');

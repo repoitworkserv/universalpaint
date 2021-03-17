@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use DB;
 use Config;
 use Validator;
 use Auth;
@@ -25,6 +26,7 @@ use App\ProductImages;
 use App\UserTypes;
 use App\ProductUserPrice;
 use App\PostMetaData;
+use App\Attribute;
 
 class ProductController extends Controller
 {
@@ -619,17 +621,39 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-       $productdetails = Product::with('ProductCategoryData')->find($id);  
-	   
-	   if (empty($productdetails)){
-			abort(404);
-		}
-	   $subproduct 		= Product::where('parent_id',$id)
-	   					->with('ProductVariableData')
-	   					->with('ProductAttributeData')
-	   					->with('ProductUserPrice')->paginate(5); 
+
+			$subproduct 	= Product::where('parent_id',$id)
+			->with('ProductVariableData')
+			->with('ProductAttributeData')
+			->with('ProductUserPrice')->paginate(10); 
+			if(isset($request->form_search_variation) && !empty($request->form_search_variation)) {
+				$search_attrib = Attribute::where("name",$request->form_search_variation)->orWhere("name","like","%".$request->form_search_variation."%")->pluck('name')->toArray();
+				
+				if($search_attrib) {
+					$search_subproduct = DB::table('product')
+					->select('product.id')
+					->join('product_attribute','product_attribute.product_id', '=','product.id')
+					->join('attribute','attribute.id', '=','product_attribute.attribute_id')
+					->where('product.parent_id',$id)
+					->where(function($query) use($search_attrib) {
+							for ($i = 0; $i < count($search_attrib); $i++){
+								$query->orwhere('attribute.name', 'like',  '%' . $search_attrib[$i] .'%');
+							}      
+					})->get();
+					$subproduct_data = collect($search_subproduct)->map(function($x){ return (array) $x; })->toArray(); 
+					$subproduct = Product::where('parent_id',$id)
+					  ->whereIn('id',$subproduct_data)
+						->with('ProductVariableData')
+						->with('ProductAttributeData')
+						->with('ProductUserPrice')->paginate(10); 
+				}
+			}
+      $productdetails = Product::with('ProductCategoryData')->find($id);  
+	  	if (empty($productdetails)){
+				abort(404);
+			}
 	   $productcategory = ProductCategory::where('product_id',$id)->get();
 	   $productvariable = ProductVariable::where('product_id',$id)->get(); //print_r($productvariable->toArray()); exit();
 	   $productothers   = ProductOthers::where('product_id',$id)->where('prodothers_type','overview')->get();
@@ -642,9 +666,10 @@ class ProductController extends Controller
        $product_type 	= Config::get('constants.product_type');
 	   $discount_type = Config::get('constants.discount_type');
 	   $DateNow        = date('m/d/Y');
+		 $product_id = $id;
 	   $id = Auth::id();
 	   $uimage = UserImages::where('user_id',$id)->with('ImageData')->get();
-       return view('admin.master-record.product.edit',compact('uimage','productdetails','productcategory','productvariable','product_type','subproduct','variablelist','brandlist','categorylist','discount_type','productothers','productimages','usertypes','productuserprice'));
+       return view('admin.master-record.product.edit',compact('product_id','uimage','productdetails','productcategory','productvariable','product_type','subproduct','variablelist','brandlist','categorylist','discount_type','productothers','productimages','usertypes','productuserprice'));
     }
 
     /**
@@ -655,7 +680,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {	
+    {
     	$validator = Validator::make($request->all(), [
             'prodcode'            => 'required',
 		  	'prodname'            => 'required',
@@ -1093,23 +1118,23 @@ class ProductController extends Controller
 
 							$new_prod_id = $subproduct[$m];
 							
-							//existing product
-							$exsproduct = Product::where('parent_id',$id)->get();
-							if($exsproduct->count() > 0){
-								//checking from existing to new records
-								//delete if not match
-								foreach($exsproduct as $exsprod){
-									$is_exist = '0';	
-									for($ep=0;$ep<count($subproduct);$ep++){
-										if($subproduct[$ep] == $exsprod->id){
-											$is_exist = '1';
-										}
-									}
-									if($is_exist == '0'){
-										Product::where('id',$exsprod->id)->delete();
-									}
-								}
-							}
+							// //existing product
+							// $exsproduct = Product::where('parent_id',$id)->get();
+							// if($exsproduct->count() > 0){
+							// 	//checking from existing to new records
+							// 	//delete if not match
+							// 	foreach($exsproduct as $exsprod){
+							// 		$is_exist = '0';	
+							// 		for($ep=0;$ep<count($subproduct);$ep++){
+							// 			if($subproduct[$ep] == $exsprod->id){
+							// 				$is_exist = '1';
+							// 			}
+							// 		}
+							// 		if($is_exist == '0'){
+							// 			Product::where('id',$exsprod->id)->delete();
+							// 		}
+							// 	}
+							// }
 							
 							
 						
@@ -1291,9 +1316,9 @@ class ProductController extends Controller
 										
 										
 										$newproductuserprice->product_id = $new_prod_id;
-										$newproductuserprice->user_types_id = $utype_id_child[$init_arrkey];
-										$newproductuserprice->price = $utype_discntval_child[$init_arrkey];
-										$newproductuserprice->discount_type = $utype_discnt_type_child[$init_arrkey];
+										$newproductuserprice->user_types_id = isset($utype_id_child[$init_arrkey]) ? $utype_id_child[$init_arrkey] : "";
+										$newproductuserprice->price = isset($utype_discntval_child[$init_arrkey]) ? $utype_discntval_child[$init_arrkey] : "";
+										$newproductuserprice->discount_type = isset($utype_discnt_type_child[$init_arrkey]) ? $utype_discnt_type_child[$init_arrkey] : "" ;
 										$newproductuserprice->updated_at = date('Y-m-d');
 										
 										$newproductuserprice->save();
@@ -1303,11 +1328,10 @@ class ProductController extends Controller
 							
 						}
 						$message = 'New Product successfully Updated!';
-				   		return redirect()->action('Admin\ProductController@index')->with('success',$message);
-
+						return redirect()->back()->with('status','success')->with('msg',$message);
 
 					}else{
-						return redirect()->withInput()->back()->with('error',$message);	
+						return redirect()->withInput()->back()->with('status','error')->with('msg',$message);
 					}
 				}
 				
@@ -1319,7 +1343,7 @@ class ProductController extends Controller
         //error on save      
     	//dd(redirect()->withInput()->back()->with('error', $message));
     	$message = 'Please Check your Inputs data';
-        return redirect()->withInput()->back()->with('error', $message);
+        return redirect()->withInput()->back()->with('status','error')->with('msg',$message);
     }
 
     /**
@@ -1536,6 +1560,24 @@ class ProductController extends Controller
 			}
 		}
 		return true;
+	}
+
+	public function delete_variation(Request $request) {
+		$product_id = (int)$request->product_id;
+		$attr_id    = (int)$request->attr_id;
+		$product    = Product::find($product_id);
+		if($product->delete()) {
+			$product_attr = ProductAttribute::where('product_id',$product_id)->where('attribute_id',$attr_id);
+			$product_attr->delete();
+			return response()->json([
+				'message' => 'Variation deleted successfully!'
+			]);
+		} else {
+			return response()->json([
+				'message' => 'Error deleting Variation!'
+			]);
+		}
+
 	}
 	
 	//Update Product Attri
