@@ -124,7 +124,10 @@
                                                 <div id="left">
                                                     <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
                                                     <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button>
+                                                    @if(\App\Product::findOrFail($product)->brochure_path)
+                                                    <button type="button" class="download_pdf btn btn-primary" data-id="{!! \App\Product::findOrFail($product)->id; !!}">DOWNLOAD PRODUCT BROCHURE PDF</button>
+                                                    @endif
+                                                    <!-- <button type="button" class="btn btn-primary" data-id="{!! \App\Product::findOrFail($product)->id; !!}" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button> -->
                                                 </div>
                                                 <div id="right">
                                                     <div class="bg-img" style="background: url(@if(\App\Product::findOrFail($product)->featured_image != '')
@@ -140,7 +143,8 @@
                                                     <!-- {!! csrf_field() !!} -->
                                                     <!-- <button type="submit" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</button> -->                                                    
                                                     <!-- <a href="/pdf/{!! \App\Product::findOrFail($product)->slug_name !!}.pdf" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
-                                                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button> --}}
+                                                    {{-- <button type="button" class="download_pdf btn btn-primary" data-toggle="modal" 
+                                                    data-id="{!! \App\Product::findOrFail($product)->id; !!}" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button> --}}
                                                     <!-- <a href="#" class="btn">DOWNLOAD PRODUCT BROCHURE PDF</a> -->
                                             </div>
                                         </div>
@@ -233,7 +237,7 @@
 <div id="emailRequestModal" class="modal fade" role="dialog" data-backdrop="static" >
     <div class="modal-dialog modal-lg" style="pointer-events: auto">
         <div class="panel panel-primary">
-            <form  action="{{ URL::action('User\HomePageController@email_request_pdf') }}" method="get"  accept-charset="UTF-8">
+            <form  id="downloadPdfForm"action="{{ URL::action('User\HomePageController@email_request_pdf') }}" method="get"  accept-charset="UTF-8">
             {!! csrf_field() !!}
                 <div class="panel-heading" style="    background: #aeaeae;
     border-top-right-radius: 13px;
@@ -277,3 +281,16 @@
     </div>
 </div>
 @endsection
+@section('scripts')
+
+<script>
+    $(document).ready(function() {
+        $('.download_pdf').click(function() {
+            var product_id = $(this).data('id');
+            $('#broc_product').val(product_id);
+            $('#downloadPdfForm').submit();
+        });
+    })
+</script>
+
+@stop
