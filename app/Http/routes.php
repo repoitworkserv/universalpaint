@@ -244,10 +244,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('product/{id}', [
 		'uses' => 'Admin\ProductController@update'
 	]);
+	Route::get('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
+	Route::post('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
 	Route::delete('product/product-image/{id}', [
 		'uses' => 'Admin\ProductController@deleteImage'
 	]);
 	Route::delete('product/{id}', 'Admin\ProductController@destroy');
+	Route::delete('product-delete-variation','Admin\ProductController@delete_variation');
 	//Subscriber
 	Route::resource('subscriber', 'Admin\SubscriberController');
 	Route::resource('subscriber/status', 'Admin\SubscriberController@status_update');
