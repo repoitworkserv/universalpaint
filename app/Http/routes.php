@@ -240,6 +240,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('product/{id}', [
 		'uses' => 'Admin\ProductController@update'
 	]);
+	Route::get('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
+	Route::post('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
 	Route::delete('product/product-image/{id}', [
 		'uses' => 'Admin\ProductController@deleteImage'
 	]);
