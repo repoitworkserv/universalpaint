@@ -454,7 +454,7 @@
                                           </div>
                                           <div class="col-md-6 col-sm-6 col-sm-6">
                                              <div class="form-group pull-right">
-                                                <label>Search Variation:&nbsp;&nbsp;</label><input type="text" id="search_variation" name="search" value=
+                                                <label>Variation:&nbsp;&nbsp;</label><input type="text" id="search_variation" name="search" value=
                                                 "{{ request()->get('form_search_variation')}}">
                                                 <span><button type="button" id="search_variation_btn" class="badge bg-orange" href="#" data-reccounter = "{{($subproduct->count()+1 )}}"><i class="	fa fa-search"></i> Search</button></span>
                                              </div>
