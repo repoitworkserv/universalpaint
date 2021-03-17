@@ -445,10 +445,19 @@
                                           </div>
                                        </div>
                                     </div>
-                                    <div class="variation_section" style="display:{{($productdetails->product_type == 'multiple') && ($subproduct->count() > 0) ? 'inline' : 'none'}};">
+                                    <div class="variation_section" style="display:{{($productdetails->product_type == 'multiple') ? 'inline' : 'none'}};">
                                        <div class="col-md-12 col-sm-12 col-sm-12">
-                                          <div class="form-group">
-                                             <label>Create Variation <span><a class="badge bg-orange add_variation" href="#" data-reccounter = "{{($subproduct->count()+1 )}}"><i class="	fa fa-plus"></i> Add Variation</a></span></label>
+                                          <div class="col-md-6 col-sm-6 col-sm-6">
+                                             <div class="form-group">
+                                                <label>Create Variation <span><a class="badge bg-orange add_variation" href="#" data-reccounter = "{{($subproduct->count()+1 )}}"><i class="	fa fa-plus"></i> Add Variation</a></span></label>
+                                             </div>
+                                          </div>
+                                          <div class="col-md-6 col-sm-6 col-sm-6">
+                                             <div class="form-group pull-right">
+                                                <label>Search Variation:&nbsp;&nbsp;</label><input type="text" id="search_variation" name="search" value=
+                                                "{{ request()->get('form_search_variation')}}">
+                                                <span><button type="button" id="search_variation_btn" class="badge bg-orange" href="#" data-reccounter = "{{($subproduct->count()+1 )}}"><i class="	fa fa-search"></i> Search</button></span>
+                                             </div>
                                           </div>
                                        </div>
                                        <div class="col-md-12 col-sm-12 col-sm-12 text-center">
@@ -949,6 +958,10 @@
             </div>
          </div>
       </form>
+      <form id="SearchVariationForm" action="{{URL::to('admin/product/'.$product_id.'/edit')}}" type="POST">
+       {!! csrf_field() !!}
+       <input type="hidden" name="form_search_variation" id="form_search_variation" />
+       </form>
    </div>
 </section>
 <!-- /.content-wrapper -->
@@ -962,6 +975,24 @@
        }
        
    }); 
+
+   var search_variation = function(event) {
+      event.preventDefault();
+      var search = $('#search_variation').val();
+      $('#form_search_variation').val(search);
+      $('#SearchVariationForm').submit();
+   }
+
+   $('#search_variation').on('keyup',function(e) {
+      if(e.keyCode == 13) {
+         search_variation(e);
+      }
+   })
+
+   $('#search_variation_btn').click(function(e) {
+      search_variation(e);
+   })
+
    
 </script>
 <script>

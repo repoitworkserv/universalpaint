@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use DB;
 use Config;
 use Validator;
 use Auth;
@@ -25,6 +26,7 @@ use App\ProductImages;
 use App\UserTypes;
 use App\ProductUserPrice;
 use App\PostMetaData;
+use App\Attribute;
 
 class ProductController extends Controller
 {
@@ -619,17 +621,39 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-       $productdetails = Product::with('ProductCategoryData')->find($id);  
-	   
-	   if (empty($productdetails)){
-			abort(404);
-		}
-	   $subproduct 		= Product::where('parent_id',$id)
-	   					->with('ProductVariableData')
-	   					->with('ProductAttributeData')
-	   					->with('ProductUserPrice')->paginate(10); 
+
+			$subproduct 	= Product::where('parent_id',$id)
+			->with('ProductVariableData')
+			->with('ProductAttributeData')
+			->with('ProductUserPrice')->paginate(10); 
+			if(isset($request->form_search_variation) && !empty($request->form_search_variation)) {
+				$search_attrib = Attribute::where("name",$request->form_search_variation)->orWhere("name","like","%".$request->form_search_variation."%")->pluck('name')->toArray();
+				
+				if($search_attrib) {
+					$search_subproduct = DB::table('product')
+					->select('product.id')
+					->join('product_attribute','product_attribute.product_id', '=','product.id')
+					->join('attribute','attribute.id', '=','product_attribute.attribute_id')
+					->where('product.parent_id',$id)
+					->where(function($query) use($search_attrib) {
+							for ($i = 0; $i < count($search_attrib); $i++){
+								$query->orwhere('attribute.name', 'like',  '%' . $search_attrib[$i] .'%');
+							}      
+					})->get();
+					$subproduct_data = collect($search_subproduct)->map(function($x){ return (array) $x; })->toArray(); 
+					$subproduct = Product::where('parent_id',$id)
+					  ->whereIn('id',$subproduct_data)
+						->with('ProductVariableData')
+						->with('ProductAttributeData')
+						->with('ProductUserPrice')->paginate(10); 
+				}
+			}
+      $productdetails = Product::with('ProductCategoryData')->find($id);  
+	  	if (empty($productdetails)){
+				abort(404);
+			}
 	   $productcategory = ProductCategory::where('product_id',$id)->get();
 	   $productvariable = ProductVariable::where('product_id',$id)->get(); //print_r($productvariable->toArray()); exit();
 	   $productothers   = ProductOthers::where('product_id',$id)->where('prodothers_type','overview')->get();
@@ -642,9 +666,10 @@ class ProductController extends Controller
        $product_type 	= Config::get('constants.product_type');
 	   $discount_type = Config::get('constants.discount_type');
 	   $DateNow        = date('m/d/Y');
+		 $product_id = $id;
 	   $id = Auth::id();
 	   $uimage = UserImages::where('user_id',$id)->with('ImageData')->get();
-       return view('admin.master-record.product.edit',compact('uimage','productdetails','productcategory','productvariable','product_type','subproduct','variablelist','brandlist','categorylist','discount_type','productothers','productimages','usertypes','productuserprice'));
+       return view('admin.master-record.product.edit',compact('product_id','uimage','productdetails','productcategory','productvariable','product_type','subproduct','variablelist','brandlist','categorylist','discount_type','productothers','productimages','usertypes','productuserprice'));
     }
 
     /**
