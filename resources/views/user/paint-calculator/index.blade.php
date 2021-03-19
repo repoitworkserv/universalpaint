@@ -52,7 +52,7 @@
                         <div id="liter" class="col-lg-2">
                         </div>
                     </div>
-                    <div class="note"><label style="font-weight: bold; margin-bottom: 0;">Note:</label> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                    <!-- <div class="note"><label style="font-weight: bold; margin-bottom: 0;">Note:</label> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div> -->
                 </div>
             </div>
         </div>
