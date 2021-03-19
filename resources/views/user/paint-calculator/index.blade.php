@@ -4,8 +4,8 @@
 <div id="paint-calculator">
     <div class="container">
         <div class="heading">PAINT CALCULATOR</div>
-        <div class="sub-heading">lorem ipsum</div>
-        <div class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</div>
+        <div class="sub-heading"></div>
+        <div class="desc"></div>
 
         <div class="row">
             <div class="col-lg-4 col-md-4">
