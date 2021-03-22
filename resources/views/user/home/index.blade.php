@@ -307,7 +307,7 @@
                 method: "POST",
                 data: data,
                 success: function (data,status,xhr) {   // success callback function
-                   $('#emailRequestModal').modal().hide();
+                   $('#emailRequestModal').modal('hide');
                    alert("Thank you for providing your name and email. The brochure will now start downloading...");
                    window.location = data.url;
                 },
