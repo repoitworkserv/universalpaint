@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Response;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -92,22 +93,22 @@ class HomePageController extends Controller
 
     public function email_request_pdf(Request $request)
     {        
+        $fullname = $request->broc_fullname;
+        $email = $request->broc_email;
 
-        // $fullname = $request->broc_fullname;
-        // $email = $request->broc_email;
-
-        // $data = array(
-		// 'fullname' => $fullname,
-		// 'email' => $email
-        // );
+        $data = array(
+		'fullname' => $fullname,
+		'email' => $email
+        );
         
 	    $product = Product::findOrFail($request->broc_product)->brochure_path;
-        // Mail::send('user.email-request', compact('data'), function ($message) use($email) {
-        //         $message->sender('developer.itworks@gmail.com');
-        //         $message->to($email)->subject('Customer Info'); //Change this to Universal Email
-        //     });
+        Mail::send('user.email-request', compact('data'), function ($message) {
+                $message->sender(env('MAIL_USERNAME',''));
+                $message->to(env('MAIL_SALES',''))->subject('Customer Info'); //Change this to Universal Email
+            });
         $url = '/pdf//'.$product;        
-        return redirect($url);
+
+        return Response::json(array('url' => $url));
 
     }
     public function email_request(Request $request)

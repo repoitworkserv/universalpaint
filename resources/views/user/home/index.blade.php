@@ -125,9 +125,8 @@
                                                     <div class="lrg-title">{!! \App\Product::findOrFail($product)->name; !!}</div>
                                                     <div class="desc">{!! \App\Product::findOrFail($product)->description !!}</div>
                                                     @if(\App\Product::findOrFail($product)->brochure_path)
-                                                    <button type="button" class="download_pdf btn btn-primary" data-id="{!! \App\Product::findOrFail($product)->id; !!}">DOWNLOAD PRODUCT BROCHURE PDF</button>
+                                                    <button type="button" class="download_pdf btn btn-primary" data-id="{!! \App\Product::findOrFail($product)->id; !!}" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button>
                                                     @endif
-                                                    <!-- <button type="button" class="btn btn-primary" data-id="{!! \App\Product::findOrFail($product)->id; !!}" data-toggle="modal" data-target="#emailRequestModal">DOWNLOAD PRODUCT BROCHURE PDF</button> -->
                                                 </div>
                                                 <div id="right">
                                                     <div class="bg-img" style="background: url(@if(\App\Product::findOrFail($product)->featured_image != '')
@@ -237,7 +236,7 @@
 <div id="emailRequestModal" class="modal fade" role="dialog" data-backdrop="static" >
     <div class="modal-dialog modal-lg" style="pointer-events: auto">
         <div class="panel panel-primary">
-            <form  id="downloadPdfForm"action="{{ URL::action('User\HomePageController@email_request_pdf') }}" method="get"  accept-charset="UTF-8">
+            <form  id="downloadPdfForm" action="{{ URL::to('/email_user_pdf') }}" method="post"  accept-charset="UTF-8">
             {!! csrf_field() !!}
                 <div class="panel-heading" style="    background: #aeaeae;
     border-top-right-radius: 13px;
@@ -288,7 +287,34 @@
         $('.download_pdf').click(function() {
             var product_id = $(this).data('id');
             $('#broc_product').val(product_id);
-            $('#downloadPdfForm').submit();
+        });
+
+        $('#downloadPdfForm').on('submit',function(e) {
+            e.preventDefault();
+            var broc_product  = $('#broc_product').val();
+            var broc_fullname = $('#broc_fullname').val();
+            var broc_email    = $('#broc_email').val();
+            var _token        = $('input[name="_token"]').val();
+            var data = {
+                broc_product,
+                broc_fullname,
+                broc_email,
+                _token
+            };
+            $.ajax($(this).attr('action'), 
+            {
+                dataType: 'json', // type of response data
+                method: "POST",
+                data: data,
+                success: function (data,status,xhr) {   // success callback function
+                   $('#emailRequestModal').modal('hide');
+                   alert("Thank you for providing your name and email. The brochure will now start downloading...");
+                   window.location = data.url;
+                },
+                error: function (jqXhr, textStatus, errorMessage) { // error callback 
+                    alert('Error: ' + errorMessage);
+                }
+            });
         });
     })
 </script>
