@@ -59,18 +59,24 @@
  								<div class="prod-btn">
 									<img src="{{ url('img/buttons/button.png') }}">
 
-								       
+								@if(!empty($key->brochure_path))
 								<a href="/pdf/{{$key->brochure_path}}"  target="_blank" download class="yellow-btn">Download Product Brochure Pdf</a>
-					
+								@endif
+								@if(!empty($key->safety_path))
 								<a href="/pdf/{{$key->safety_path}}" target="_blank" download class="yellow-btn" >Safety data Sheets (SDS)</a>
-								
+								@endif
+								@if(!empty($key->technical_path))
 								<a href="/pdf/{{$key->technical_path}}" target="_blank" download class="yellow-btn">Technical Data Sheet</a>
-							
+								@endif
 									<a href="" class="yellow-btn">Color Calculators</a>	
 								</div>				
 							</div>
 							<div class="right-bx col-md-7 col-sm-12 col-12">
-								<div class="title">{{$key->ParentData ? $key->ParentData['name'] :$key->name}}</div>
+								<div class="title">
+								<a href="/product/{{ $key->slug_name }}">
+									{{$key->ParentData ? $key->ParentData['name'] :$key->name}}
+								</a>
+								</div>
 								<div class="sub-title"></div>
 								<div class="desc">{!! $key->description !!}</div>
 								<div class="regular-price">
@@ -118,7 +124,24 @@
 								</div>
 								<div class="flex-txt">
 									<div class="sml-ttl">Color</div>
-									<div class="sml-desc">white, black, aluminum, baby blue, baby pink, bright red, caterpillar yellow, chocolate brown, crystal blue, crystal green, international red, ivory, jade green, lemon yellow, maple, maroon, medium gray, moly orange, nile green, royal blue, silver gray</div>
+									@if($key->UsedAttribute->count() > 0)
+									<div class="sml-desc">Available in
+										@if($key->UsedAttribute->count() > 20 )
+											{{ $key->UsedAttribute->count() }} color {{$key->UsedAttribute->count() > 1 ? 's':'' }}
+										@else 
+											@foreach( $key->UsedAttribute as $attrib)
+											@php
+											$color_name = \App\Attribute::where('id',$attrib->attribute_id)->where('variable_id',1)->pluck('name')->first();
+											@endphp
+											@if(!empty($color_name))
+											{{$color_name. ', '}}
+											@endif
+											@endforeach
+									 @endif
+									 </div>
+									 @else 
+									 <div class="sml-desc">No available colors. </div>
+									@endif
 								</div>
 								<div class="flex-txt">
 									<div class="sml-ttl">Application</div>
