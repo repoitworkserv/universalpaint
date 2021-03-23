@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use DB;
 use Config;
 use Validator;
 use Auth;
@@ -25,6 +26,7 @@ use App\ProductImages;
 use App\UserTypes;
 use App\ProductUserPrice;
 use App\PostMetaData;
+use App\Attribute;
 
 class ProductController extends Controller
 {
@@ -116,8 +118,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {	
-    	 $validator = Validator::make($request->all(), [
+    {	 
+		$validator = Validator::make($request->all(), [
 			'prodcode'            => 'required',						
 			'prodname'            => 'required',
 			'proddesc'            => 'required',
@@ -162,13 +164,14 @@ class ProductController extends Controller
 			$newproduct->list_tab = $request->howtouse.','.$request->aboutbrand.','.$request->deliveropt;
 			$newproduct->howtousetab_details = $request->htu_desc;
 			$newproduct->deliveryopt_tab_details = $request->delopt_desc;
-			
+ 			
 			//single product
 			if($product_type == 'single'){
 				
-			
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
+
 	            if($request->hasfile('upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -187,6 +190,68 @@ class ProductController extends Controller
 		                }	
 					}
 				}
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+		                $brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+		                $brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
+		
+		                if ($brochure_check) {
+		                    $brochure_new_filename   = $this->getRegExp($brochure_filename); 
+		                    $brochure_post_path      = public_path('pdf');	
+		                    $brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+		                } else {
+		                    $message = 'Brochure Invalid File Type';
+		                }	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+ 				if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				
+
 				
 				$newproduct->quantity 		 = $request->single_product_qty;
 				$newproduct->price 			 = $request->single_product_price;
@@ -201,20 +266,22 @@ class ProductController extends Controller
 				$newproduct->shipping_weight = $request->single_shipping_weight;
 				$newproduct->shipping_height = $request->single_shipping_height;
 				$newproduct->keywords		 = $request->single_keywords;
-
-				//new fields
-				$newproduct->where_to_use	= $request->single_where_to_use;
-				$newproduct->area		 	= $request->single_area;
-				$newproduct->best_used_for	= $request->single_best_used_for;
-				$newproduct->features		= $request->single_features;
-				$newproduct->coverage		= $request->single_coverage;
-				$newproduct->finish			= $request->single_finish;
-				$newproduct->application	= $request->single_application;
-				$newproduct->packaging		= $request->single_packaging;
-
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
 				}
+
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
+				}
+
 				if($newproduct->save()){  
 					//product category saving
 					$category = $request->categorylist;
@@ -249,7 +316,8 @@ class ProductController extends Controller
 				$count_product  = count($request->variation_product_qty);
 				//start for parent saving
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
 	            if($request->hasfile('parent_upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -268,6 +336,66 @@ class ProductController extends Controller
 		                }	
 					}
 				}
+
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+						$brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
+		
+						if ($brochure_check) {
+							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
+							$brochure_post_path      = public_path('pdf');	
+							$brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+						} else {
+							$message = 'Brochure Invalid File Type';
+						}	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+					if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
+					}
+				}
 				
 				$newproduct->quantity 		 = $request->parent_product_qty;
 				$newproduct->price 			 = $request->parent_product_price;
@@ -283,19 +411,20 @@ class ProductController extends Controller
 				$newproduct->shipping_height = $request->parent_shipping_height;
 				$newproduct->keywords		 = $request->parent_keywords;
 				
-				//new fields
-				$newproduct->where_to_use	= $request->parent_where_to_use;
-				$newproduct->area		 	= $request->parent_area;
-				$newproduct->best_used_for	= $request->parent_best_used_for;
-				$newproduct->features		= $request->parent_features;
-				$newproduct->coverage		= $request->parent_coverage;
-				$newproduct->finish			= $request->parent_finish;
-				$newproduct->application	= $request->parent_application;
-				$newproduct->packaging		= $request->parent_packaging;
-
-				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
+				}
+
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
 				}
 				// end for parent saving
 			
@@ -492,17 +621,39 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-       $productdetails = Product::with('ProductCategoryData')->find($id);  
-	   
-	   if (empty($productdetails)){
-			abort(404);
-		}
-	   $subproduct 		= Product::where('parent_id',$id)
-	   					->with('ProductVariableData')
-	   					->with('ProductAttributeData')
-	   					->with('ProductUserPrice')->get(); 
+
+			$subproduct 	= Product::where('parent_id',$id)
+			->with('ProductVariableData')
+			->with('ProductAttributeData')
+			->with('ProductUserPrice')->paginate(10); 
+			if(isset($request->form_search_variation) && !empty($request->form_search_variation)) {
+				$search_attrib = Attribute::where("name",$request->form_search_variation)->orWhere("name","like","%".$request->form_search_variation."%")->pluck('name')->toArray();
+				
+				if($search_attrib) {
+					$search_subproduct = DB::table('product')
+					->select('product.id')
+					->join('product_attribute','product_attribute.product_id', '=','product.id')
+					->join('attribute','attribute.id', '=','product_attribute.attribute_id')
+					->where('product.parent_id',$id)
+					->where(function($query) use($search_attrib) {
+							for ($i = 0; $i < count($search_attrib); $i++){
+								$query->orwhere('attribute.name', 'like',  '%' . $search_attrib[$i] .'%');
+							}      
+					})->get();
+					$subproduct_data = collect($search_subproduct)->map(function($x){ return (array) $x; })->toArray(); 
+					$subproduct = Product::where('parent_id',$id)
+					  ->whereIn('id',$subproduct_data)
+						->with('ProductVariableData')
+						->with('ProductAttributeData')
+						->with('ProductUserPrice')->paginate(10); 
+				}
+			}
+      $productdetails = Product::with('ProductCategoryData')->find($id);  
+	  	if (empty($productdetails)){
+				abort(404);
+			}
 	   $productcategory = ProductCategory::where('product_id',$id)->get();
 	   $productvariable = ProductVariable::where('product_id',$id)->get(); //print_r($productvariable->toArray()); exit();
 	   $productothers   = ProductOthers::where('product_id',$id)->where('prodothers_type','overview')->get();
@@ -515,9 +666,10 @@ class ProductController extends Controller
        $product_type 	= Config::get('constants.product_type');
 	   $discount_type = Config::get('constants.discount_type');
 	   $DateNow        = date('m/d/Y');
+		 $product_id = $id;
 	   $id = Auth::id();
 	   $uimage = UserImages::where('user_id',$id)->with('ImageData')->get();
-       return view('admin.master-record.product.edit',compact('uimage','productdetails','productcategory','productvariable','product_type','subproduct','variablelist','brandlist','categorylist','discount_type','productothers','productimages','usertypes','productuserprice'));
+       return view('admin.master-record.product.edit',compact('product_id','uimage','productdetails','productcategory','productvariable','product_type','subproduct','variablelist','brandlist','categorylist','discount_type','productothers','productimages','usertypes','productuserprice'));
     }
 
     /**
@@ -529,7 +681,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-		
     	$validator = Validator::make($request->all(), [
             'prodcode'            => 'required',
 		  	'prodname'            => 'required',
@@ -576,7 +727,9 @@ class ProductController extends Controller
 			if($product_type == 'single'){
 				
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
+
 	            if($request->hasfile('upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -593,6 +746,66 @@ class ProductController extends Controller
 		                } else {
 		                    $message = 'Invalid File Type';
 		                }	
+					}
+				}
+
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+						$brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
+		
+						if ($brochure_check) {
+							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
+							$brochure_post_path      = public_path('pdf');	
+							$brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+						} else {
+							$message = 'Brochure Invalid File Type';
+						}	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+					if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
 					}
 				}
             	$brand_slugname = Brand::where('id',$request->prod_brandname)->first()['slug_name'];
@@ -623,6 +836,17 @@ class ProductController extends Controller
 				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
+				}
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
 				}
 				if($newproduct->save()){  
 					//product category saving
@@ -674,7 +898,9 @@ class ProductController extends Controller
 				
 				//start for parent saving
 				$new_filename = '';
-	            $allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$allowedfileExtension   =['JPG','PNG','JPEG','jpg','png','jpeg'];
+				$wordallowedfileExtension   =['docx','DOCX','doc','DOC','pdf','PDF'];
+
 	            if($request->hasfile('parent_upload_image')) {
 	            	
 					//check if file exist or there is changes in upload 
@@ -693,6 +919,66 @@ class ProductController extends Controller
 		                }	
 					}
 				}
+
+				//brochure pdf
+				$brochure_new_filename = '';
+				if($request->hasfile('brochure_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->brochure_img->getClientOriginalName())){
+						$brochure_upload_pdf   = $request->file('brochure_img');
+						$brochure_filename           = $brochure_upload_pdf->getClientOriginalName();
+						$brochure_extension          = $brochure_upload_pdf->getClientOriginalExtension();
+						$brochure_check              = in_array($brochure_extension,$wordallowedfileExtension);
+		
+						if ($brochure_check) {
+							$brochure_new_filename   = $this->getRegExp($brochure_filename); 
+							$brochure_post_path      = public_path('pdf');	
+							$brochure_upload_pdf->move($brochure_post_path, $brochure_new_filename);
+						} else {
+							$message = 'Brochure Invalid File Type';
+						}	
+					}
+				}
+
+				//safety pdf
+				$safety_new_filename = '';
+					if($request->hasfile('safety_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->safety_img->getClientOriginalName())){
+						$safety_upload_pdf   = $request->file('safety_img');
+						$safety_filename           = $safety_upload_pdf->getClientOriginalName();
+						$safety_extension          = $safety_upload_pdf->getClientOriginalExtension();
+						$safety_check              = in_array($safety_extension,$wordallowedfileExtension);
+		
+						if ($safety_check) {
+							$safety_new_filename   = $this->getRegExp($safety_filename); 
+							$safety_post_path      = public_path('pdf');	
+							$safety_upload_pdf->move($safety_post_path, $safety_new_filename);
+						} else {
+							$message = 'Safety Sheet Invalid File Type';
+						}	
+					}
+				}
+
+				//technical pdf
+				$technical_new_filename = '';
+				if($request->hasfile('technical_img')) {
+					//check if file exist or there is changes in upload 
+					if(!file_exists(public_path('pdf').$request->technical_img->getClientOriginalName())){
+						$technical_upload_pdf   = $request->file('technical_img');
+						$technical_filename           = $technical_upload_pdf->getClientOriginalName();
+						$technical_extension          = $technical_upload_pdf->getClientOriginalExtension();
+						$technical_check              = in_array($technical_extension,$wordallowedfileExtension);
+		
+						if ($technical_check) {
+							$technical_new_filename   = $this->getRegExp($technical_filename); 
+							$technical_post_path      = public_path('pdf');	
+							$technical_upload_pdf->move($technical_post_path, $technical_new_filename);
+						} else {
+							$message = 'Technical Sheet Invalid File Type';
+						}	
+					}
+				}
 				$brand_slugname = Brand::where('id',$request->prod_brandname)->first()['slug_name'];
 				$newproduct->slug_name  = $brand_slugname.'-'.preg_replace('~[\\\\/:*?"<>|]~','',$parent_slug);
 				$newproduct->quantity 		 = $request->parent_product_qty;
@@ -708,19 +994,19 @@ class ProductController extends Controller
 				$newproduct->shipping_weight = $request->parent_shipping_weight;
 				$newproduct->shipping_height = $request->parent_shipping_height;
 				$newproduct->keywords		 = $request->parent_keywords;
-
-				//new fields
-				$newproduct->where_to_use	= $request->parent_where_to_use;
-				$newproduct->area		 	= $request->parent_area;
-				$newproduct->best_used_for	= $request->parent_best_used_for;
-				$newproduct->features		= $request->parent_features;
-				$newproduct->coverage		= $request->parent_coverage;
-				$newproduct->finish			= $request->parent_finish;
-				$newproduct->application	= $request->parent_application;
-				$newproduct->packaging		= $request->parent_packaging;
-				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
+				}
+				if(!empty($brochure_new_filename)){
+					$newproduct->brochure_path  = $brochure_new_filename;
+				}
+
+				if(!empty($safety_new_filename)){
+					$newproduct->safety_path  = $safety_new_filename;
+				}
+
+				if(!empty($technical_new_filename)){
+					$newproduct->technical_path  = $technical_new_filename;
 				}
 				// end for parent saving
 				
@@ -832,23 +1118,23 @@ class ProductController extends Controller
 
 							$new_prod_id = $subproduct[$m];
 							
-							//existing product
-							$exsproduct = Product::where('parent_id',$id)->get();
-							if($exsproduct->count() > 0){
-								//checking from existing to new records
-								//delete if not match
-								foreach($exsproduct as $exsprod){
-									$is_exist = '0';	
-									for($ep=0;$ep<count($subproduct);$ep++){
-										if($subproduct[$ep] == $exsprod->id){
-											$is_exist = '1';
-										}
-									}
-									if($is_exist == '0'){
-										Product::where('id',$exsprod->id)->delete();
-									}
-								}
-							}
+							// //existing product
+							// $exsproduct = Product::where('parent_id',$id)->get();
+							// if($exsproduct->count() > 0){
+							// 	//checking from existing to new records
+							// 	//delete if not match
+							// 	foreach($exsproduct as $exsprod){
+							// 		$is_exist = '0';	
+							// 		for($ep=0;$ep<count($subproduct);$ep++){
+							// 			if($subproduct[$ep] == $exsprod->id){
+							// 				$is_exist = '1';
+							// 			}
+							// 		}
+							// 		if($is_exist == '0'){
+							// 			Product::where('id',$exsprod->id)->delete();
+							// 		}
+							// 	}
+							// }
 							
 							
 						
@@ -1030,9 +1316,9 @@ class ProductController extends Controller
 										
 										
 										$newproductuserprice->product_id = $new_prod_id;
-										$newproductuserprice->user_types_id = $utype_id_child[$init_arrkey];
-										$newproductuserprice->price = $utype_discntval_child[$init_arrkey];
-										$newproductuserprice->discount_type = $utype_discnt_type_child[$init_arrkey];
+										$newproductuserprice->user_types_id = isset($utype_id_child[$init_arrkey]) ? $utype_id_child[$init_arrkey] : "";
+										$newproductuserprice->price = isset($utype_discntval_child[$init_arrkey]) ? $utype_discntval_child[$init_arrkey] : "";
+										$newproductuserprice->discount_type = isset($utype_discnt_type_child[$init_arrkey]) ? $utype_discnt_type_child[$init_arrkey] : "" ;
 										$newproductuserprice->updated_at = date('Y-m-d');
 										
 										$newproductuserprice->save();
@@ -1042,11 +1328,10 @@ class ProductController extends Controller
 							
 						}
 						$message = 'New Product successfully Updated!';
-				   		return redirect()->action('Admin\ProductController@index')->with('success',$message);
-
+						return redirect()->back()->with('status','success')->with('msg',$message);
 
 					}else{
-						return redirect()->withInput()->back()->with('error',$message);	
+						return redirect()->withInput()->back()->with('status','error')->with('msg',$message);
 					}
 				}
 				
@@ -1058,7 +1343,7 @@ class ProductController extends Controller
         //error on save      
     	//dd(redirect()->withInput()->back()->with('error', $message));
     	$message = 'Please Check your Inputs data';
-        return redirect()->withInput()->back()->with('error', $message);
+        return redirect()->withInput()->back()->with('status','error')->with('msg',$message);
     }
 
     /**
@@ -1276,6 +1561,33 @@ class ProductController extends Controller
 		}
 		return true;
 	}
+
+	public function delete_variation(Request $request) {
+		$product_id = (int)$request->product_id;
+		$attr_id    = (int)$request->attr_id;
+		$product    = Product::find($product_id);
+		if($product->delete()) {
+			$product_attr = ProductAttribute::where('product_id',$product_id)->where('attribute_id',$attr_id);
+			$product_attr->delete();
+			return response()->json([
+				'message' => 'Variation deleted successfully!'
+			]);
+		} else {
+			return response()->json([
+				'message' => 'Error deleting Variation!'
+			]);
+		}
+
+	}
 	
+	//Update Product Attri
+	public function updateAttri(Request $request)
+	{
+		$multiproduct = Product::where('id', $request->prodid);
+		if($multiproduct){
+			$multiproduct->update(['quantity' => $request->attriqty, 'price' => $request->attriprice]);
+			return redirect()->back();
+		}
+	}
 
 }

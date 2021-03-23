@@ -25,9 +25,8 @@ use App\ShippingGngRates;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 
-define('MERCHANT_ID', 'RICHDON');
-define('MERCHANT_PASSWORD', 'LKMnf94ncp21ccxa');
 class CheckoutController extends Controller
 {
     private $paypal_client;
@@ -41,76 +40,46 @@ class CheckoutController extends Controller
 
     public function index(Request $request)
     {
-
-
-        
-        $uid = Auth::id();
-        $usermail = User::where('id', $uid)->get();
-        $useraddress = UserAddress::where('user_id', $uid)->get(); 
-        $shipping = ShippingGngRates::all();
-        $cart = $request->session()->get('cart');
-        
-        // print_r($cart);die();
+        $shipping_location = ShippingGngRates::all();
+        $cart = $request->session()->get('gocart');
         $message = 'Shop now';
         if(empty($cart)){
-            return redirect('products')->with('error', $message);
+            return redirect('cart')->with('error', $message);
         }
         else {
-            
             $sub_total = 0;
+            $discount = 0;
+            $total = 0;
+            $shipping_fee = 0;
+            $shipping_weight = 0;
             for ($i=0; $i < count($cart); $i++) {
-                $cart[$i]['product_data'] = Product::where('id', $cart[$i]['id'])->first();
+                //$cart[$i]['product_details'] = Product::where('id', $cart[$i]['id'])->first();
                 // print_r($cart[$i]);
-                if ($cart[$i]['sale_price'] != 0) {
-                    $sub_total += $cart[$i]['qty'] * $cart[$i]['sale_price'];
-                } else {
-                    $sub_total += $cart[$i]['qty'] * $cart[$i]['price'];
+                foreach($cart[$i]['product_details'] as $product) {
+                    $is_sale = $product['is_sale'] ;
+                    $sub_total += $is_sale ? $product['qty'] * $product['sale_price'] : $product['qty'] * $product['price'];
+                    $discount += $product['discount_type'] == 'Fix' ? $product['discount'] : ($is_sale ? $product['sale_price'] * $product['discount'] / 100 : $product['price'] * $product['discount'] / 100);
+                    $shipping_weight += $product['shipping_weight'];
                 }
             }
-            //removed temporary 20200924
-            // for ($n=0; $n < count($shipping); $n++) {
-            //     if(stripos($shipping[$n]['location'], $useraddress[0]['province']) !== FALSE){
-            //         $userhomeaddress = $shipping[$n]['location'];
-            //         $useridaddress = $shipping[$n]['id'];
-            //     }
-            //     //dd($userhomeaddress);
-            // }
-            // dd($cart);
-        }        
-        
-        // die();
-        $uid = Auth::id();
-        return view('user/product/checkout', compact('sub_total', 'shipping', 'uid', 'useraddress','usermail','userhomeaddress', 'useridaddress','cart'));
+            $total = $sub_total + $shipping_fee - $discount;
+        }
+        //dd($cart);
+        return view('user.product.checkout', compact('sub_total', 'total','discount','shipping_fee','shipping_weight','shipping_location','cart' ));
     }
 
-    public function payment_dragonpay(Request $request) 
-    {
-        $uid = Auth::id();
+    public function send_checkoutDetails(Request $request)
+    {        
+        $validator = Validator::make($request->all(), [
+			'billing_first_name'  => 'required',						
+			'billing_last_name'   => 'required',
+			'billing_address'            => 'required',
+			'billing_email'         => 'required',
+			'billing_mobile'		  => 'required',
+            'billing_city'	=> 'required',
+            'billing_note' => 'required',
 
-        $usermail = User::where('id', $uid)->get();
-        $settings =  Settings::get();
-        $billing_validator = array(
-            'billing_first_name'          => 'required',
-            'billing_last_name'           => 'required',
-            'billing_address'             => 'required',
-            'billing_email'               => 'required|email',
-            'billing_mobile'              => 'required',
-            'billing_city'                => 'required'
-        );
-        $shipping_validator = array(
-            'shipping_first_name'          => 'required',
-            'shipping_last_name'           => 'required',
-            'shipping_address'             => 'required',
-            'shipping_email'               => 'required|email',
-            'shipping_mobile'              => 'required',
-            'shipping_city'                => 'required'
-        );
-        if($request->is_shipping == 'true') {
-            $check_valid = array_merge($billing_validator,$shipping_validator);
-        } else {
-            $check_valid = $billing_validator;
-        }
-        $validator = Validator::make($request->all(), $check_valid);
+		]);
         $message = '';
         if ($validator->fails()) {
             foreach ($validator->errors()->all() as $error) {
@@ -118,34 +87,19 @@ class CheckoutController extends Controller
             }
             $status = false;
         } else {
+            $order_id = date("Y-m-d").'-'.str_random(12);
             $cart = $request->session()->get('cart');
-            $sub_total = 0;
-            $total_volume = 0;
-            $total_weight = 0;
-            for ($i=0; $i < count($cart); $i++) {
-                $price = $cart[$i]['sale_price'] == '' || $cart[$i]['sale_price'] == 0 ? $cart[$i]['price'] : $cart[$i]['sale_price'];
-                $cart[$i]['product_data'] = Product::where('id', $cart[$i]['id'])->first();
-                $discount_type = $cart[$i]['product_data'];
-                $sub_total += $cart[$i]['qty'] * $price;
-                $total_weight += $cart[$i]['shipping_weight'];
-                $total_volume += ($cart[$i]['shipping_width'] * $cart[$i]['shipping_length'] * $cart[$i]['shipping_height']) * $cart[$i]['qty'];
-            }
-            $location = $request->shipping_city ? $request->shipping_city : $request->billing_city;
-            $shipping_rate = $this->calculate_shipping($location, $total_volume, $total_weight);
-            $order_id = str_random(12);
-            $order_description = 'Customer ID: ' . Auth::id() . ' Sub Total: ' . $sub_total . ' Shipping: ' . $shipping_rate . ' Total Amount: '. number_format(($sub_total + $shipping_rate), 2, '.', '');
             $order = new Order;
             $order->order_code              = $order_id; 
-            $order->customer_id             = Auth::id();
-            $order->payment_type            = 'dragonpay'; 
+            $order->customer_id             = '';
+            $order->payment_type            = 'queue'; 
             $order->invoice_no              = '';
         	$order->ref_no					= '';
             $order->status                  = 'pending';
-            $order->amount                  = $sub_total;
-            $order->amount_shipping         = $shipping_rate;
-            $order->amount_total            = $sub_total + $shipping_rate;
+            $order->amount                  = '';
+            $order->amount_shipping         = '';
+            $order->amount_total            = '';
             $order->amount_discount         = '';
-            
             if($order->save()) {
                 $cart = $request->session()->get('cart');
                 foreach ($cart as $item) {
@@ -154,30 +108,13 @@ class CheckoutController extends Controller
                     $order_item->seller_id          = '1';
                     $order_item->product_name       = $item['name'];
                     if(!empty($item['product_attribute'])){
-                        
-                        $variants_details = array();
-                        for($i = 0; $i < count($item['product_attribute']); $i++){
-                            $variants_details[] = Attribute::where('id', $item['product_attribute'][$i])->first()['name'];
-                            //array_push($variants_details, $value);
-                        } 
-                        $order_item->product_details = join(', ', $variants_details).' '.$item['description'];
+                        $order_item->product_details = Attribute::where('id', $item['product_attribute'])->first()['name'];
                     } else {
                         $order_item->product_details    = $item['description'];
                     }
                     $order_item->quantity           = $item['qty'];
                     $order_item->price              = $item['price'];
                     $order_item->discount           = $item['discount'];
-                    $order_item->discount_type      = $item['discount_type'];
-                    if($discount_type->discount_type == 'percentage') {
-                        $order_item->total_amount = $item['price'] - $item['price'] * ($item['discount'] / 100 );
-                    }
-                    elseif ($discount_type->discount_type == 'fix'){
-                        $order_item->total_amount = $item['sale_price']  * $item['qty'];
-                    }
-                    else {
-                        $order_item->total_amount = $item['price'] * $item['qty'];
-                    }
-                    //dd('new_order', $order_item, 'item',$item);
                     $order_item->save();
                 }
                 $order_checkout_detail = new OrderCheckoutDetails;
@@ -190,86 +127,89 @@ class CheckoutController extends Controller
                 $order_checkout_detail->contact_no          = $request->billing_mobile;
                 $order_checkout_detail->note                = $request->billing_note;
                 $order_checkout_detail->save();
-                if($request->is_shipping == 'true') {
-                    $order_checkout_detail = new OrderCheckoutDetails;
-                    $order_checkout_detail->order_id            = $order->id;
-                    $order_checkout_detail->reference           = 'shipping';
-                    $order_checkout_detail->lot_house_no        = $request->shipping_address;
-                    $order_checkout_detail->city                = $request->shipping_city;
-                    $order_checkout_detail->lname               = $request->shipping_last_name;
-                    $order_checkout_detail->fname               = $request->shipping_first_name;
-                    $order_checkout_detail->contact_no          = $request->shipping_mobile;
-                    $order_checkout_detail->note                = $request->shipping_note;
-                    $order_checkout_detail->save();
+                $status = true;
+                $data = array(
+                    'fullname' 	 => $request->billing_first_name,
+                    'email' => $request->billing_email,
+                    'titlesubject' => $order->order_code,
+                    'status' => $order->status,
+                    'payment_type' => $order->payment_type,
+                    'order_code' => $order->order_code,
+                );
+                $settings =  Settings::get();
+                $order_details = Order::where('order_code',$order_id)->with('OrderItemData')->get();
+                Mail::send('user.emailorder', compact('data', 'user_content', 'order_details'), function ($message) use($data, $settings, $order_details) {
+                    dd($settings);
+                            $message->sender($settings[0]['email_address']);
+                            $message->to($data['email'])->subject($data['titlesubject']);
+                            //$message->embed(public_path() . '/img/banner-email.png');
+                        });
+                    
+                        if (Mail::failures()) {
+                            print_r("asd"); exit();
+                        }
+                    }
                 }
+            Session::forget('cart');
+            echo json_encode(array('status' => $status, 'message' => $message));
+    }
+
+    public function payment_dragonpay(Request $request) 
+    {
+        $message = '';
+        $status = false;
+        $validator = Validator::make($request->all(), [
+			'first_name'        => 'required',	
+            'last_name'         => 'required',						
+			'contact_num'       => 'required|numeric',
+			'email_add'         => 'required|email',
+			'complete_add'      => 'required',
+			'shipping_location' => 'required',
+            'total_weight'	    => 'required|numeric',
+            'subtotal'          => 'required|numeric',
+            'discount'          => 'required|numeric',
+            'shipping'          => 'required|numeric',
+            'total'             => 'required|numeric',
+
+		]);
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."<br />";
             }
+        } else {
+            $uid = 123;
+            $cart = $request->session()->get('gocart');
+            $payment_type = 'Dragonpay';
+            $sub_total = $request->sub_total;
+            $total_weight = $request->total_weight;
+            $total = number_format(($request->total), 2, '.', '');
+            $total_volume = 0;
+            $shipping_rate = $request->shipping;
+            $order_id = str_random(12);
+            $order_description = 'Customer ID: ' . $uid . 
+            ' Sub Total: ' . $sub_total . 
+            ' Shipping: ' . $shipping_rate . 
+            ' Total Amount: '. $total;
             $parameters = array(
-                'merchantid' => MERCHANT_ID,
+                'merchantid' =>  env("DG_MERCHANT_ID", ""),
                 'txnid' => $order_id,
-                'amount' => number_format(($sub_total + $shipping_rate), 2, '.', ''),
+                'amount' => $total,
                 'ccy' => 'PHP',
                 'description' => $order_description,
-                'email' => $request->billing_email,
+                'email' => $request->shipping_email
             );
-            
-            $parameters['key'] = MERCHANT_PASSWORD;
+            $request->session()->put('checkout_details',$request->all());
+                
+            $parameters['key'] = env("DG_MERCHANT_PASSWORD", "");
             $digest_string = implode(':', $parameters);
             unset($parameters['key']);
             $parameters['digest'] = sha1($digest_string);
-            $url = 'http://test.dragonpay.ph/Pay.aspx?';
-    
+            $url = App::environment('local') ||  App::environment('staging')  ? 'http://test.dragonpay.ph/Pay.aspx?' : 'http://dragonpay.ph/Pay.aspx?';
             $url .= http_build_query($parameters, '', '&');  
             $message = $url;
             $status = true;
         }
-            $datas = array(['fullname' => $usermail[0]['name'],'emailadd'=>$usermail[0]['email']]);
-       		Mail::send('user.onlineregister', compact('datas'), function ($message) use($settings, $datas) {
-           	$message->sender($settings[0]['email_address']);
-            $message->to($datas[0]['emailadd'])->subject('Order Pending');
-            $message->embed(public_path() . '/img/banner-email.png');
-
-        });
-    
-        if (Mail::failures()) {
-            print_r("asd"); exit();
-        }
-        Session::forget('cart');
         echo json_encode(array('status' => $status, 'message' => $message));
-
-    }
-
-    public function payment_dragonpay_postback(Request $request)
-    {
-        switch ($_POST['status']) {
-            case 'S': 
-                $status = 'success';
-                break;
-            case 'F': 
-                $status = 'failure';
-                break;
-            case 'P': 
-                $status = 'pending';
-                break;
-            case 'U': 
-                $status = 'unknown';
-                break;
-            case 'R': 
-                $status = 'refund';
-                break;
-            case 'K': 
-                $status = 'chargeback';
-                break;
-            case 'V': 
-                $status = 'void';
-                break;
-            case 'A': 
-                $status = 'authorized';
-                break;
-        }
-
-        Order::where('order_code',$_POST['txnid'])->update(['status'=>$status]);
-
-        echo "result=OK";
     }
 
     public function payment_dragonpay_return(Request $request)
@@ -277,7 +217,7 @@ class CheckoutController extends Controller
         switch ($_GET['status']) {
             case 'S': 
                 $status = 'success';
-                $message = 'Your Order has been successfully placed. Thank you';
+                $message = 'Your Order has been successfully placed.';
                 break;
             case 'F': 
                 $status = 'failure';
@@ -308,103 +248,41 @@ class CheckoutController extends Controller
                 $message = 'Transaction status is pending';
                 break;
         }
+        $uid = Auth::id();
+        $order_code = $_GET['txnid'];
+        $refno = $_GET['refno'];
+        $payment_type = 'Dragonpay';
+        $checkout_details =  $request->session()->get('checkout_details');
+        $cart = $request->session()->get('gocart');
 
-        Order::where('order_code',$_GET['txnid'])->update(['status'=>$status]);
-    	Order::where('order_code',$_GET['txnid'])->update(['ref_no'=>$_GET['refno']]);
-    	$uid = Auth::id();
-    	$txnid = $_GET['txnid'];
-    	$refno = $_GET['refno'];
-		Session::forget('cart');
-        $request->session()->flash('status', $message);
-        return view('user.thankyou',compact('refno','uid','txnid','message'));
-    }
+        if($checkout_details && $cart) {
+            $check_order_code = Order::where('order_code',$order_code)->count();
+            if($check_order_code > 0 ) {
+                return redirect('/checkout')->with('error','Error! Order Code already exists! Please try reloading the page!');
+            }
+            $process_result = $this->processsOrder($request,$checkout_details,$order_code,$payment_type);
+            if($process_result['status']) {
+                $customer_name = $checkout_details['first_name'] .' '. $checkout_details['last_name'];
+                $data = array(
+                    'cart' => $cart,
+                    'subtotal' => $checkout_details['subtotal'],
+                    'discount' => $checkout_details['discount'],
+                    'shipping' => $checkout_details['shipping'],
+                    'total' => $checkout_details['total'],
+                );
+                $this->send_email($data,$customer_name,$checkout_details['email_add'],$order_code);  
+                Session::forget('gocart');
+                Session::forget('checkout_details');
+                return view('user.thankyou',compact('refno','uid','order_code','message'));
 
-    public function payment_paypal_create_b01112019(Request $request) 
-    {
-        $cart = $request->session()->get('cart');
-        $sub_total = 0;
-        $list = array();
-        $total_volume = 0;
-        $total_weight = 0;
-        foreach ($cart as $item) {
-            $price = $item['sale_price'] == '' || $item['sale_price'] == 0 ? $item['price'] : $item['sale_price'];
-            array_push($list, array(
-                'name'=>$item['name'],
-                'description'=>$item['description'],
-                'quantity'=>$item['qty'],
-                'price'=>$price,
-                'tax'=>'0.00',
-                'sku'=>$item['id'],
-                'currency'=> 'PHP'));
-            $sub_total += $price * $item['qty'];
-            $total_weight += $item['shipping_weight'];
-            $total_volume += ($item['shipping_width'] * $item['shipping_length'] * $item['shipping_height']) * $item['qty'];
+            } else {
+                $message = "Error Placing Order. Sorry for inconvenience. Please try again";
+                return redirect('/checkout')->with('error',$message);
+            } 
+        } else {
+            $message = "Error Placing Order. Sorry for inconvenience. Please try again";
+            return redirect('/checkout')->with('error',$message);
         }
-        $location = $request->shipping_city ? $request->shipping_city : $request->billing_city;
-        $shipping_rate = $this->calculate_shipping($location, $total_volume, $total_weight);
-        
-        $data = "grant_type=client_credentials";
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/oauth2/token");
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_USERPWD, "$this->paypal_client:$this->paypal_secret");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Accept: application/json',
-            'Accept-Language: en_US',
-            'Content-Type: application/x-www-form-urlencoded',
-        ));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response  = json_decode(curl_exec($ch), true);
-        curl_close($ch);
-        // print_r($response);die();
-        $access_token = $response['access_token'];
-
-        $data = array(
-            'intent' => 'sale',
-            'redirect_urls' => array(
-                'return_url' => 'gng.dev.com',
-                'cancel_url' => 'gng.dev.com'
-            ),
-            'payer' => array(
-                'payment_method' => 'paypal'
-            ),
-            'transactions' => array(
-                array(
-                    'amount' => array(
-                        'total' => number_format(($sub_total + $shipping_rate), 2),
-                        'currency' => 'PHP',
-                        'details' => array(
-                            'subtotal' => number_format($sub_total, 2),
-                            'tax' => 0.00,
-                            'shipping' => $shipping_rate,
-                            'handling_fee' => 0.00,
-                            'shipping_discount' => 0.00,
-                            'insurance' => 0.00
-                        )
-                    ),
-                    'description' => 'test description',
-                    'item_list' => array(
-                        'items' => $list
-                    )
-                )
-            )
-        );
-        $data = json_encode($data);
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/payments/payment");
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Accept: application/json',
-            'Accept-Language: en_US',
-            'Content-Type: application/json',
-            'Authorization: Bearer '.$access_token,
-        ));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result  = curl_exec($ch);
-        curl_close($ch);
-        echo json_encode($result); 
     }
 
     public function payment_paypal_create(Request $request) 
@@ -751,4 +629,221 @@ class CheckoutController extends Controller
 
          return number_format($shipping, 2);
     }
-}
+
+    public function fetch_shipping_rate(Request $request) {
+        $estimated_shipping = $this->calculate_shipping($request->shipping_location,0,$request->total_weight);
+
+        if(!empty($estimated_shipping)) {
+            $status = true;
+        } else {
+            $status = false;
+            $estimated_shipping = 'TBA';
+        }
+        echo json_encode(['status'=>'true', 'estimated_shipping' => $estimated_shipping]);
+    }
+
+    public function cod_order(Request $request)
+    {
+        $message = '';
+        $validator = Validator::make($request->all(), [
+			'first_name'  => 'required',	
+            'last_name'  => 'required',						
+			'contact_num'   => 'required|numeric',
+			'email_add'            => 'required|email',
+			'complete_add'         => 'required',
+			'shipping_location'		  => 'required',
+            'total_weight'	=> 'required|numeric',
+            'subtotal' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'shipping' => 'required|numeric',
+            'total' => 'required|numeric',
+
+		]);
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."<br />";
+            }
+            return redirect()->back()->with('error',$message);
+        } else {
+            $order_id = str_random(12);
+            $refno = '';
+            $payment_type = 'CashOnDelivery';
+            $check_order_code = Order::where('order_code',$order_id)->count();
+            if($check_order_code > 0 ) {
+                return redirect()->back()->with('error','Error! Order Code already exists! Please try reloading the page!');
+            }
+            $process_result = $this->processsOrder($request,$request,$order_id,$payment_type);
+            if($process_result['status']) {
+                $customer_name = $request->first_name .' '. $request->last_name;
+                $cart = $request->session()->get('gocart');
+                $data = array(
+                    'cart' => $cart,
+                    'subtotal' => $request->subtotal,
+                    'discount' => $request->discount,
+                    'shipping' => $request->shipping,
+                    'total' => $request->total,
+                );
+                $this->send_email($data,$customer_name,$request->email_add,$order_id);
+                return redirect("/cod-return?order_code={$order_id}&refno=&status=S");
+
+            } else {
+                $message = "Error Placing Order. Sorry for inconvenience. Please try again";
+                return redirect()->back()->with('error',$message);
+            } 
+            echo json_encode(array('status' => $process_result['status'], 'message' => $message));
+        }
+    }
+
+    private function processsOrder($orig_request,$request,$order_id,$payment_type) {
+        $usermail               = isset($request->email_add) ? $request->email_add : $request['email_add'] ;
+        $uadd                   = isset($request->complete_add) ? $request->complete_add :  $request['complete_add'];
+        $shipping_address       = isset($request->complete_add) ? $request->complete_add :  $request['complete_add'];
+        $shipping_first_name    = isset($request->first_name) ? $request->first_name :  $request['first_name'];
+        $shipping_last_name     = isset($request->last_name) ? $request->last_name :  $request['last_name'];
+        $shipping_mobile        = isset($request->contact_num) ? $request->contact_num :  $request['contact_num'];
+        $shipping_note          = isset($request->shipping_note) ? $request->shipping_note :  $request['shipping_note'];
+        $shipping_email         = isset($request->email_add) ? $request->email_add :  $request['email_add'];
+        $shipping_location      = isset($request->shipping_location) ? $request->shipping_location :  $request['shipping_location'];
+        $shipping_city          = ShippingGngRates::where('id', $shipping_location)->pluck('location')->first();
+        $sub_total              = isset($request->subtotal) ? $request->subtotal :  $request['subtotal'];
+        $total_weight           = isset($request->total_weight) ? $request->total_weight :  $request['total_weight'];
+        $shipping_rate          = isset($request->shipping) ? $request->shipping :  $request['shipping'];
+        $total_discount         = isset($request->discount) ? $request->discount :  $request['discount'];
+        $amount_total           = isset($request->total) ? $request->total :  $request['total'];
+        $cart                   = $orig_request->session()->get('gocart');
+        $status                 = true;
+        $total_volume           = 0;
+        $location               = $shipping_city;
+        $order                          = new Order;
+        $order->order_code              = $order_id; 
+        $order->customer_id             = 0;
+        $order->payment_type            = $payment_type; 
+        $order->invoice_no              = '';
+        $order->status                  = 'pending';
+        $order->amount                  = $sub_total;
+        $order->amount_shipping         = $shipping_rate;
+        $order->amount_total            = $amount_total;
+        $order->amount_discount         = $total_discount;
+        $order->created_at              = date('Y-m-d h:i:s');
+        $order->updated_at              = date('Y-m-d h:i:s');
+              
+        if($order->save()) {
+
+            for ($i=0; $i < count($cart); $i++) {
+                foreach($cart[$i]['product_details'] as $item) {
+                    $order_item = new OrderItem;
+                    $order_item->order_id           = $order->id;
+                    $order->seller_id               = 0;
+                    $order_item->product_name       = $item['name'];
+                    $order_item->product_details    = $item['description'];
+                    $order_item->quantity           = $item['qty'];
+                    $order_item->color              = $item['color'];
+                    $order_item->liter              = $item['liter'];
+                    $price                          = $item['is_sale'] && $item['sale_price'] > 0 ? $item['sale_price'] : $item['price'];
+                    $order_item->price              = $price;
+                    $order_item->discount           = $item['discount'];
+                    $order_item->discount_type      = $item['discount_type'];
+                    if($order_item->discount_type == 'percentage') {
+                        $order_item->total_amount       = ($price - ($price * ($item['discount'] / 100 ))) * $item['qty'];
+                        $amount_total                   += $order_item->total_amount;
+                        $total_discount                 +=  ($price * ($item['discount'] / 100 )) * $item['qty'];
+                    }
+                    elseif ($order_item->discount_type == 'fix'){
+                        $order_item->total_amount       = ($price - $item['discount']) * $item['qty'];
+                        $amount_total                   += $order_item->total_amount;
+                        $total_discount                 +=  $item['discount'] * $item['qty'];
+                    }
+                    else {
+                        $order_item->total_amount       = $price * $item['qty'];
+                        $amount_total                   += $order_item->total_amount;
+                    }
+                    $order_item->save();
+                }
+            }
+
+            $order_checkout_detail = new OrderCheckoutDetails;
+            $order_checkout_detail->order_id            = $order->id;
+            $order_checkout_detail->reference           = 'shipping';
+            $order_checkout_detail->lot_house_no        = $shipping_address;
+            $order_checkout_detail->city                = $shipping_city;
+            $order_checkout_detail->lname               = $shipping_last_name;
+            $order_checkout_detail->fname               = $shipping_first_name;
+            $order_checkout_detail->contact_no          = $shipping_mobile;
+            $order_checkout_detail->note                = $shipping_note;
+
+            $order_checkout_detail->save();
+
+        } else {
+            $status = false;
+        }
+
+        return array('status' => $status);
+    }
+
+    public function cod_return(Request $request) {
+        switch ($_GET['status']) {
+            case 'S': 
+                $status = 'success';
+                $message = 'Your Order has been successfully placed!';
+                break;
+            case 'F': 
+                $status = 'failure';
+                $message = 'Problem has occur';
+                break;
+            case 'P': 
+                $status = 'pending';
+                $message = 'Transaction status is pending';
+                break;
+            case 'U': 
+                $status = 'unknown';
+                $message = 'Problem has occur';
+                break;
+            case 'R': 
+                $status = 'refund';
+                $message = 'Transaction status is pending';
+                break;
+            case 'K': 
+                $status = 'chargeback';
+                $message = 'Transaction status is pending';
+                break;
+            case 'V': 
+                $status = 'void';
+                $message = 'Transaction status is pending';
+                break;
+            case 'A': 
+                $status = 'authorized';
+                $message = 'Transaction status is pending';
+                break;
+        }
+        $uid = Auth::id();
+        $order_code = $_GET['order_code'];
+        $refno = '';
+
+        //Order::where('order_code',$_GET['txnid'])->update(['status'=>$status]);
+        if(explode("-",$_GET['order_code'])[0] == 'prm' && Order::where('order_code',$_GET['order_code'])->where('status', 'success')->exists()){
+            $user = User::find($uid);
+            $user->role_id = 5;
+            $user->save();            
+            $message = "After your payment has been confirmed. For more inquiries, you may send us an email at sales@universalpaint.net.";
+        }
+        if($status == 'failure') 
+        {
+            return redirect('cancelled');
+        }        
+        //Order::where('order_code',$_GET['txnid'])->update(['status'=>$status]);
+        Session::forget('gocart');
+        Session::save();        
+       
+        $request->session()->flash('status', $message);        
+        return view('user.thankyou',compact('refno','uid','order_code','message'));
+    }
+
+    private function send_email($data,$customer_name, $customer_email, $order_code) {
+        Mail::send('user.emailorder',$data,function($message) use($customer_email,$order_code) {
+           $message->to($customer_email)->subject
+              ('Universal Paint Order Status: ' . $order_code);
+           $message->from('sales@universalpaint.net','Universal Paint');
+        });
+    }
+
+}   

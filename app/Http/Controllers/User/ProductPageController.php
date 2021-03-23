@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Mail;
 
 //Model
 use App\PaymentMethod;
@@ -33,7 +34,7 @@ use DB;
 use Config;
 use App\UserProfile;
 use Session;
-use File;  
+use File;
 
 class ProductPageController extends Controller
 {
@@ -182,8 +183,10 @@ class ProductPageController extends Controller
 
     }
     
-    public function details($slug_name)
+    public function details($slug_name, Request $request)
     { 
+        // $productAttributes = array();        
+        $cart = $request->session()->get('cart');
         $product = Product::with(['BrandData'=>function($query){
                 $query->with('ProductByBrand');
             }])
@@ -222,25 +225,32 @@ class ProductPageController extends Controller
         // $user_type_id = User::where('id', $uid)->first()['users_type_id'];
 		$product_rev = Product::where('parent_id',0)->where('slug_name',$slug_name); 
         $product_id = ($product->count() > 0 ? $product_rev->get()[0]->id : 0);
+        $product_parent_id = ($product->count() > 0 ? $product_rev->get()[0]->parent_id : 0);
         $img_gal = ProductImages::where('product_id', $product_id)->get();
 		$prod_rev_row = ProductReviewsandRating::where('user_id',$uid)->where('product_id',$product_id);
 		$prod_rev = $prod_rev_row->get();
 		$prod_rev_count = $prod_rev_row->count();
 		$paginate_count = (!empty($uid)) ? 6 : 3;
 		$prod_rev_list = ProductReviewsandRating::where('product_id',$product_id)->with('UserProfileData')->paginate($paginate_count);
-        $user_type = Auth::user()['users_type_id'];
+        $user_type = (Auth::user()) ? Auth::user()['users_type_id'] : [];
         $userBrands = UserBrands::where('user_id',$uid)->pluck('brand_id')->all();
-        $user_product_price = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['price'];
-        $user_product_discount_type = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['discount_type'];
+        if(!empty($user_type)) {
+            $user_product_price = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['price'];
+            $user_product_discount_type = ProductUserPrice::where('product_id', $product_id)->where('user_types_id',$user_type)->first()['discount_type'];
+        } else {
+            $user_product_price  = 0;
+            $user_product_discount_type = 0;
+        }
         $user_condition = UserBrands::where('user_id', $uid)->where('brand_id', Product::with('BrandData')->findOrFail($product_id)->BrandData['id'])->get()->isEmpty();
         $query = ProductReviewsandRating::where('product_id', $product_id)->count();
         //dd($product[0]->ProductCategoryData[rand(0,(count($product[0]->ProductCategoryData) - 1))]['SameCategoryProduct']);
-        $category = '';        
+        $productAttributes = $product[0]->UsedAttribute;
+        $category='';        
         if($product[0]->interior == 1) {
             $category = 'interior';
         }
         if($product[0]->exterior == 1 ) {
-            $category .=  ' & exterior';
+            $category .=  '  exterior';
         }
 
         if($product[0]->industrial == 1) {
@@ -250,15 +260,39 @@ class ProductPageController extends Controller
         if($product[0]->surface_preparation == 1 ) {
             $category .=  'Surface Preparation';
         }
+        $sub_category = array();
+        foreach($product as $item ){                
+            if(!empty($item->ProductCategoryData)) {
+                foreach($item->ProductCategoryData as $item) {                        
+                    $sub_cat = Category::where('id','=',$item->category_id)->get();
+                    array_push($sub_category,$sub_cat[0]->name);
+                }
+            }
+        }
 
+        $subproduct 	= Product::where('parent_id',$product_id)
+        ->with('ProductVariableData')
+        ->with('ProductAttributeData')
+        ->with('ProductUserPrice')->get(); 
+      // dd($product);
+
+        if($request->color_swatches) {
+            $prod_attrib = array(
+                'parent_id' => isset($request->parent_id) ? $request->parent_id : $product_parent_id,
+                'product_name' => $request->prod_name,
+            );            
+
+            $cart = $request->session()->get('cart');     
+            $preselected_colors = $request->session()->get('preselected-colors');    
+            return view('user.product.details', compact('uid','category', 'cart','preselected_colors', 'sub_category','cart', 'prod_attrib', 'user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+        }
         $color_count = $product[0]->UsedAttribute->count();
         if($color_count >5 )
-        {
-                        
-            return view('user.color-swatches.index');
-        }else{
-            return view('user.product.details', compact('uid','category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
-        }                
+        {                        
+            return view('user.color-swatches.index',compact('product_id','productAttributes'));
+        }else{                          
+            return view('user.product.details', compact('uid','category','cart','sub_category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
+        }           
     }
 
     public function removeFilters(Request $request, $type, $filter, $name){
@@ -499,8 +533,9 @@ class ProductPageController extends Controller
 
 
 	public function productvariance(Request $request)
-    {
-    	$uid = Auth::id();
+    {        
+        
+        $uid = Auth::id();              
         $product = Product::where('parent_id', $request->parent_id)
             ->with('ParentData')
             ->withCount(['ProductAttributeData' => function ($query) use($request){
@@ -511,13 +546,14 @@ class ProductPageController extends Controller
             ->get();
             $userprice = ProductUserPrice::where('product_id', $product[0]['id'])->get();
         	$user_type_id = User::where('id', $uid)->first()['users_type_id'];
-    		$url =  url('/img/products/');
+            $url =  url('/img/products/');            
         	$value = array(
             	"url" =>  $url,
             	"product_child" => $product,
             	"user_type_id" =>  $user_type_id,
             	"pricetype" => $userprice,
-            );        
+            );            
+            
         echo json_encode($value);
         // print_r($product);
     }
@@ -652,391 +688,61 @@ class ProductPageController extends Controller
 		echo json_encode(array('status'=>'success'));
 	}
 
-    public function interior()
-    {        
-        $searchKey = '1';
-        
-        $interior_door;
-        $interior_wall;
-        $interior_floor;
-        $interior_ceiling;
-        $interior_furniture;
-        $interior_automative;
+    /*
+    Create Function for Prduct Category Fetching RMM
+    */
+    public function sub_category(Request $request)
+    {                
+        $searchCat = $request->category;
+        /** Change to Dynamic once records are cleansed */
+        $sub_cat_search = array(
+            'Concrete and Cement Boards',
+            'Metal and Steel',
+            'Wood'
+        );
 
-        //door
-        $param = 'door';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
+        $return_sub_cat = array();
+        
+        $sub_cat = Category::where(function($q)use($sub_cat_search){
+            $q->whereIn('name', $sub_cat_search);
         })->get();          
 
+        if($sub_cat){                        
+            foreach($sub_cat as $item)
+            {
+                $producCategory = ProductCategory::where(function($q)use($sub_cat, $item){
+                    $q->where('category_id','=',$item->id);
+                })->get()->lists('product_id')->toArray();    
+                $return_sub_cat[$item->name] = array(
+                    'slug_name' => $item->slug_name,
+                    'product' => Product::where(function($q) use($producCategory, $searchCat){                    
+                        $q->where($searchCat,'=',1);
+                        $q->wherein('id',$producCategory);                    
+                    })->get()
+                );                                
+            }                            
+        }                      
+		$uid = Auth::id();
+        return view('user.sub-category.index', compact('return_sub_cat','searchCat','uid'));
+    }
+    /*
+    Create Function for Prduct Sub Category Fetching RMM
+    */
+    function sub_category_list(Request $request){
+        $param_sub_category = $request->sub_category;
+        $category = $request->category;
+
+        /** Change to Dynamic once records are cleansed */
+        $cat = Category::where(function($q)use($param_sub_category){            
+            $q->where('slug_name','=', $param_sub_category);
+        })->get();                          
         if($cat){
             
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();        
-            // $interior_door = Product::whereIn('id',$producCategory)->get();
-            $interior_door = Product::where(function($q) use($producCategory){
-                $q->where('interior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //wall
-        $param = 'wall';        
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $interior_wall = Product::where(function($q) use($producCategory){
-                $q->where('interior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //floor
-        $param = 'floor';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();  
-                              
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $interior_floor = Product::where(function($q) use($producCategory){
-                $q->where('interior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //ceiling
-        $param = 'ceiling';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-    
-            $interior_ceiling  = Product::where(function($q) use($producCategory){
-                $q->where('interior','=',1);
-                $q->wherein('id',$producCategory);
-            })->get();
-        }
-        
-        //furniture
-        $param = 'furniture';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $interior_furniture = Product::where(function($q) use($producCategory){
-                $q->where('interior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //automative
-        $param = 'automative';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        
-        if($cat != null){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $interior_automative = Product::where(function($q) use($producCategory){
-                $q->where('interior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }               
-
-		$uid = Auth::id();
-        return view('user.interior.index', compact('interior_door','interior_wall', 'interior_floor','interior_ceiling','interior_furniture','interior_automative','uid'));
-    }
-
-    public function exterior()
-    {
-        $searchKey = '1';
-                        
-        $exterior_door;
-        $exterior_wall;
-        $exterior_floor;
-        $exterior_ceiling;
-        $exterior_furniture;
-        $exterior_automative;
-        $exterior_roof;
-
-        //door
-        $param = 'door';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();          
-
-        if($cat){
-            
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();                    
-            $exterior_door = Product::where(function($q) use($producCategory){
-                $q->where('exterior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //wall
-        $param = 'wall';        
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $exterior_wall = Product::where(function($q) use($producCategory){
-                $q->where('exterior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //floor
-        $param = 'floor';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();  
-                              
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $exterior_floor = Product::where(function($q) use($producCategory){
-                $q->where('exterior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //ceiling
-        $param = 'ceiling';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-    
-            $exterior_ceiling  = Product::where(function($q) use($producCategory){
-                $q->where('exterior','=',1);
-                $q->wherein('id',$producCategory);
-            })->get();
-        }
-        
-        //furniture
-        $param = 'furniture';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $exterior_furniture = Product::where(function($q) use($producCategory){
-                $q->where('exterior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-        
-        //automative
-        $param = 'automative';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        
-        if($cat != null){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $exterior_automative = Product::where(function($q) use($producCategory){
-                $q->where('exterior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }         
-
-        //roof
-        $param = 'roof';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        
-        if($cat != null){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $exterior_roof = Product::where(function($q) use($producCategory){
-                $q->where('exterior','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }         
-
-
-		$uid = Auth::id();
-        return view('user.exterior.index', compact('exterior_door','exterior_wall', 'exterior_floor','exterior_ceiling','exterior_furniture','exterior_automative','exterior_roof','uid'));        
-    }
-
-    public function industrial()
-    { 
-        $param = 'door';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $industrial_door = Product::where(function($q) use($producCategory){
-                $q->where('industrial','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-
-
-        $param = 'floor';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $industrial_floor = Product::where(function($q) use($producCategory){
-                $q->where('industrial','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-
-
-        $param = 'Road and sidewalk';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $industrial_road_and_sidewalk = Product::where(function($q) use($producCategory){
-                $q->where('industrial','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-
-		$uid = Auth::id();
-        return view('user.industrial.index', compact('industrial_door','industrial_floor','industrial_road_and_sidewalk','uid'));
-    }
-    public function surfacePreparation()
-    {
-        $param = 'door';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $surface_preparation_door = Product::where(function($q) use($producCategory){
-                $q->where('surface_preparation','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-
-
-        $param = 'floor';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $surface_preparation_floor = Product::where(function($q) use($producCategory){
-                $q->where('surface_preparation','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-
-
-        $param = 'wall';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();                
-        if($cat){
-            $producCategory = ProductCategory::where(function($q)use($cat){
-                $q->where('category_id','=',$cat[0]->id);
-            })->get()->lists('product_id')->toArray();
-
-            $surface_preparation_wall = Product::where(function($q) use($producCategory){
-                $q->where('surface_preparation','=',1);
-                $q->wherein('id',$producCategory);
-
-            })->get();
-        }
-
-		$uid = Auth::id();
-        return view('user.surface-preparation.index', compact('surface_preparation_door','surface_preparation_wall','surface_preparation_floor','uid'));
-    }
-
-    public function interior_door()
-    {
-        $param = 'door';
-        $cat = Category::where(function($q)use($param){            
-            $q->where('name','=', $param);
-        })->get();          
-        $producCategory;
-        if($cat){
-            
-            $producCategory = ProductCategory::where(function($q)use($cat){
+            $producCategory = ProductCategory::where(function($q)use($cat){                
                 $q->where('category_id','=',$cat[0]->id);
             })->get()->lists('product_id')->toArray(); 
-        }
+        }        
+
         $product = Product::with(['BrandData'=>function($query){
             $query->with('ProductByBrand');
         }])
@@ -1064,27 +770,29 @@ class ProductPageController extends Controller
             $query->where('user_id', Auth::id());
         }])        
         ->where('parent_id','=',0)
-        ->where('interior','=',1)
+        ->where($category,'=',1)
         ->wherein('id',$producCategory)
         ->get();        
         $uid = Auth::id();             
-        $category;        
-        if($product[0]->interior == 1) {
-            $category = 'interior';
-        }
-        if($product[0]->exterior == 1 ) {
-            $category .=  ' & exterior';
-        }
-        return view('user.interior-door.index', compact('uid','category','product'));
+        // $category;        
+        // if($product[0]->interior == 1) {
+        //     $category = 'interior';
+        // }
+        // if($product[0]->exterior == 1 ) {
+        //     $category .=  ' & exterior';
+        // }
+        return view('user.sub-category.list', compact('uid','category','param_sub_category', 'product'));
     }
+
 
     public function color_swatches() 
     {
         $param = 'blue';
+        
         $cat_blue = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
         })->get();                                    
-    
+     
         $param = 'ACCENTS';
         $cat_accents = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
@@ -1133,10 +841,14 @@ class ProductPageController extends Controller
         $param = 'Yellow';
         $cat_yellow = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
-        })->get();    
-
-
-        return view('user.color-swatches.index', compact('uid',
+        })->get();
+       
+        $param = '';
+        $cat_regColors = Attribute::where(function($q)use($param){            
+            $q->where('cat_color','=', $param);
+        })->get();
+               
+        return view('user.color-swatches.index', compact(
         'cat_blue',
         'cat_accents',
         'cat_brown',
@@ -1147,7 +859,332 @@ class ProductPageController extends Controller
         'cat_orange',
         'cat_red',
         'cat_violet',
-        'cat_yellow'
+        'cat_yellow',
+        'cat_regColors'
         ));
+    }
+
+    public function paintResultFromQueryString(Request $request)
+    {
+        $search_name = $request->paint;
+
+        $result = Product::where(function ($q) use ($search_name) {
+            $q->where('name', '=', $search_name);
+        })->get();
+
+        return json_encode(array('data' => $result));
+    }
+
+    public function paintSuggestion(Request $request)
+    {
+        $surfaceType = $request->surfaceType;
+        $surfaceLocation = $request->surfaceLocation;
+        $category = array(
+            'WOOD' => '22',
+            'METAL AND STEEL' => '21',
+            'CONCRETE' => '20'
+        );
+
+        $producCategory = ProductCategory::where(function ($q) use ($category, $surfaceType) {
+            $q->where('category_id', '=', $category[$surfaceType]);
+        })->get()
+          ->lists('product_id')
+          ->toArray();
+
+        $result = Product::where(function ($q) use ($producCategory, $surfaceLocation) {
+            $q->where($surfaceLocation, '=', 1);
+            $q->whereIn('id', $producCategory);
+        })->get();
+
+        return json_encode(array('data' => $result));
+    }
+
+    public function allProducts()
+    {
+        $category = array(
+            'Concrete and Cement Boards',
+            'Metal and Steel',
+            'Wood'
+        );
+
+        $allProducts = array(
+            'Interior',
+            'Exterior',
+            'Surface_Preparation',
+            'Industrial'
+        );
+
+        $result = array();
+
+        $productCategory = Category::where(function ($q) use ($category) {
+            $q->whereIn('name', $category);
+        })->get();
+
+        foreach ($allProducts as $product) {
+            foreach ($productCategory as $item) {
+                $producCategory = ProductCategory::where(function ($q) use ($item) {
+                    $q->where('category_id', '=', $item->id);
+                })->get()
+                  ->lists('product_id')
+                  ->toArray();
+
+                $response[trim($item->name)][$product] = array(
+                    'slug_name' => $item->slug_name,
+                    'product' => Product::where(function ($q) use ($producCategory, $product) {
+                        $q->where($product, '=', 1)
+                          ->wherein('id', $producCategory); 
+                    })->get(),
+                    'sub_category' => trim($item->name)
+                );
+            }
+        }
+
+        return view('user.sub-category.all-product', compact('response','allProducts'));
+    }
+
+    public function preselectedColors(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'color_names' => 'required',
+            'color_ids' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            return Redirect::back()->withErrors($validator->errors())->with(array('status'=>'error','msg'=>$message));   
+        } else {
+            $product = Product::find($request->product_id);
+
+            $request->session()->forget('preselected-colors');
+            $request->session()->push('preselected-colors', $request->all()); 
+            return redirect('/product/'.$product->slug_name.'?color_swatches=true');
+        }
+    }
+
+    public function fetch(Request $request){
+    $query = $request->get('query');
+    $attributes = ProductAttribute::where('attribute_id','=',intval($query))->with('proddata')->get();
+    $result = '<option value>Select Product</option>';
+    $has_data = false;
+
+    foreach($attributes as $attribute) {
+        if( $attribute->proddata !== null) {
+            $prod_id = $attribute->proddata->id;
+            $parent_id = $attribute->proddata->parent_id;
+            $product = Product::find($parent_id);
+            $prod_name = (!empty($product->name)) ? $product->name : $product->product_code;
+            if(!empty($prod_name)) {
+                $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>'; 
+                $has_data = true;
+            }
+        }
+    }
+    if($has_data) echo $result;
+    else echo '<option value>No product Available</value>';
+    }
+
+    //GET
+    public function getfetch(Request $request){
+        $prodid = $request->get('query');
+        //dd($prodid);
+        $parentProduct = Product::where('id', $request->get('query'))->first()['price'];
+        $index = $request;
+        echo json_encode($parentProduct);
+    }
+
+    public function requestQuote(Request $request) {
+        $cart = Session::get('gocart');
+        return view('user.request-a-quote.index', compact('cart'));
+    }
+
+    public function quoteSent(Request $request)
+    {
+        //dd($request->all(),Session::get('requestqoute'));
+        $cart = Session::get('gocart');
+        $name = $request->name;
+        $cnum = $request->cnum;
+        $eadd = $request->eadd;
+
+        $data = array(
+            'cart' => $cart,
+            'name' => $name,
+        );
+
+        $this->send_email($data,$name,$eadd);
+        if (Mail::failures()) {
+            echo json_encode("Error sending quote to your email. Please contact customer service.");
+        } else {
+            Session::forget('gocart');
+            echo json_encode("Quote sent. Kindly check your email.");
+        }
+    }
+
+    private function send_email($data,$customer_name, $customer_email) {
+        Mail::send('user.request-quote',$data,function($message) use($customer_email) {
+           $message->to($customer_email)->subject
+              ('Universal Paint Quote Request');
+           $message->from('sales@universalpaint.net','Universal Paint');
+        });
+    }
+
+    public function orderSent(Request $request)
+    {
+        Session::get('cart');
+        //dd($request->all(),Session::get('requestqoute'));
+        $requestqoute = Session::get('cart');
+        $name = $request->name;
+        $cnum = $request->cnum;
+        $eadd = $request->eadd;
+        Mail::send('user.send-order', compact('name', 'cnum', 'requestqoute'), function ($message) use($eadd) {
+            $message->sender($eadd);
+            $message->to($eadd);
+        });
+        Mail::send('user.send-order', compact('name', 'cnum', 'requestqoute'), function ($message) use($eadd) {
+            $message->sender($eadd);
+            $message->to('daphne.itworkserv@gmail.com');
+        });
+    
+        if (Mail::failures()) {
+            print_r("asd"); exit();
+        } else {
+            Session::forget('cart');
+            Session::forget('gocart');
+        }
+    }
+
+    //product go to cart
+    public function gotocart(Request $request)
+    {
+     
+    }
+
+    public function checkout(Request $request)
+    {
+        $sub_total = '300'; 
+        $products = $request->product;
+        //dd($products);
+        $arrprod = array();
+        Session::forget('cart');
+        //$request->session()->push('cart',$products);
+        foreach($products as $index){
+            $arrprod[] = array(
+                'colorvar' => $index["colorvar"],
+                'productid'=>  $index["productid"],
+                'productname' => $index["productname"],
+                'productsize' => $index["productsize"],
+                'volumeprice' => $index["volumeprice"],
+            );
+        }
+        //dd($arrprod);
+         $request->session()->push('cart', $arrprod);
+        return redirect('/checkout');
+        //return json_encode($sub_total);
+    }
+
+    public function checkoutView(Request $request)
+    {
+        return view('user.product.checkout');
+    }
+
+    public function getSubProductVariance(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'prod_attr_id' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+            $prod_attr_id   = (int)$request->prod_attr_id;
+            $prod_attr_data = ProductAttribute::where("id","=",$prod_attr_id)->first();
+
+            $attr_id     = $prod_attr_data->attribute_id;
+            $prod_id     = $prod_attr_data->product_id;
+            $parent_id   = Product::where('id',"=",$prod_id)->pluck('parent_id');
+            $liters      = [];
+
+            $subproducts = DB::table('product AS p')
+                            ->join('product_attribute AS pa','pa.product_id','=','p.id')
+                            ->join('attribute AS a','a.id','=','pa.attribute_id')
+                            ->join('variable AS v','v.id','=','a.variable_id')
+                            ->selectRaw("p.id,p.price,p.quantity,a.name")
+                            ->where('p.parent_id','=',$parent_id)
+                            ->where('v.name','=','Liters')
+                            ->get();
+
+            foreach($subproducts as $subproduct) {
+                $prod_attrs = DB::table('product_attribute AS pa')
+                                ->join('attribute AS a','pa.attribute_id','=','a.id')
+                                ->selectRaw('pa.*,a.*')
+                                ->where('pa.product_id','=',$subproduct->id)
+                                ->get();
+
+                if($prod_attrs[0]->attribute_id  == $attr_id) {
+                    array_push($liters, ["attrib_id" => $attr_id, "product_id" => $subproduct->id, "liters" => $prod_attrs[1]->name]);
+                }
+            }
+
+            echo json_encode($liters);
+        }
+    }
+
+    public function getColorDetails(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'color_name' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+            $attrs = Attribute::where('name', '=', $request->color_name)->first();
+            echo json_encode($attrs);
+        }
+    }
+
+    public function getSubProductDetails(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+            $prod = Product::where('id', '=', $request->product_id)->first();
+            echo json_encode($prod);
+        }
+    }
+
+    public function getProductAttrib(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'attrib_id' => 'required'
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            echo json_encode(array('status'=>false,'msg'=>$message)); 
+        } else {
+
+            $product_id = (int)$request->product_id;
+            $attrib_id = (int)$request->attrib_id;
+            $product_attrib = ProductAttribute::where('product_id','=',$product_id)->where('attribute_id','=',$attrib_id)->first();
+            if(!empty($product_attrib) && $product_attrib !== null)  { echo json_encode($product_attrib); }
+            else { echo json_encode(array("status" => false,"msg" => "Error! Cannot fetch product attributes")); }
+        }
     }
 }

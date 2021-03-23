@@ -16,62 +16,45 @@
 Route::auth();
 
 // USER ROUTES
-
-
-// NEW PAGES
-
-// Route::get('/product-category/interior', function () {
-// 	return view('user.interior.index');
-// });
-Route::get('/product-category/interior', 'User\ProductPageController@interior');
-Route::get('/product-category/exterior', 'User\ProductPageController@exterior');
-//Industrial
-Route::get('/product-category/industrial', 'User\ProductPageController@industrial');
-//
-Route::get('/product-category/surface-preparation', 'User\ProductPageController@surfacePreparation');
-
-Route::get('/product-category/interior/door', 'User\ProductPageController@interior_door');
-
-// Route::get('/product-category/interior/door', function () {
-// 	return view('user.interior-door.index');
-// });
-
-Route::get('/product-category/exterior/door', function () {
-	return view('user.exterior-door.index');
-});
-
-Route::get('/product-category/interior/wall', function () {
-	return view('user.interior-wall.index');
-});
-
-Route::get('/product-category/exterior/wall', function () {
-	return view('user.exterior-wall.index');
-});
-
-// Route::get('/product-category/exterior', function () {
-// 	return view('user.exterior.index');
-// });
-
 Route::get('/product-category/brands', 'User\BrandController@index');
+Route::get('/product-category/brands/{sub_category}', 'User\BrandController@sub_category_list');
+
+Route::get('/product-category/all-products', 'User\ProductPageController@allProducts');
+Route::get('/product-category/{category}', 'User\ProductPageController@sub_category');
+Route::get('/product-category/{category}/{sub_category}', 'User\ProductPageController@sub_category_list');
 
 Route::get('/color-swatches', 'User\ProductPageController@color_swatches');
-// Route::get('/color-swatches', function () {
-// 	return view('user.color-swatches.index');
-// });
 
 Route::get('/contact-us', function () {
 	return view('user.contact-us.index');
 });
 
-Route::get('/request-a-quote', function () {
-	return view('user.request-a-quote.index');
+// Route::get('/request-a-quote', 'User\ProductPageController@requestQuote');
+
+Route::get('/how-to-paint', function () {
+	return view('user.how-to-paint.index');
 });
+
+Route::get('/paint-calculator', function () {
+	return view('user.paint-calculator.index');
+});
+Route::get('/paintCalculatorResult/{surfaceLocation}/{surfaceType}', 'User\ProductPageController@paintSuggestion');
+Route::get('/paintCalculatorResult/{paint}', 'User\ProductPageController@paintResultFromQueryString');
 
 Route::get('/product-category/brands/aquaGuard-elastomeric-paint ', function () {
 	return view('user.brand-1.index');
 });
+//Email Request Quote
+Route::post('request-a-qoute/send-qoute', 'User\ProductPageController@quoteSent')->name('sendmail.quote');
+Route::post('checkout/sending-order', 'User\ProductPageController@orderSent')->name('sendmail.order');
 
-
+Route::get('products/checkout', 'User\CheckoutController@index');
+Route::get('/under-maintenance', function () {
+	return view('user.under-maintenance.index');
+});
+//Email To User
+Route::get('/email_user', 'User\HomePageController@email_request');
+Route::post('/email_user_pdf', 'User\HomePageController@email_request_pdf');
 
 //login
 Route::get('/', 'User\HomePageController@index');
@@ -80,43 +63,59 @@ Route::post('register-customer', 'User\RegisterController@register_customer');
 
 //Interior
 // Route::get('/product-category/interior', 'User\InteriorController@index');
-Route::get('/product-category/interior/search', 'User\InteriorController@search');
-Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
+// Route::get('/product-category/interior/search', 'User\InteriorController@search');
+// Route::get('/product-category/interior/{id}', 'User\InteriorController@details');
 
+Route::post('/autocomplete/fetch', 'User\ProductPageController@fetch')->name('autocomplete.fetch');
+Route::post('/autocomplete/getfetch', 'User\ProductPageController@getfetch')->name('autocomplete.getfetch');
+Route::post('/subproduct-variance','User\ProductPageController@getSubProductVariance');
+Route::post('/get-colordetails','User\ProductPageController@getColorDetails');
+Route::post('/get-subproductdetails','User\ProductPageController@getSubProductDetails');
+Route::post('/get-productattrib','User\ProductPageController@getProductAttrib');
+// Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');
-Route::get('/product-category/exterior/search', 'User\ExteriorPageController@search');
-Route::get('/product-category/exterior/{id}', 'User\ExteriorPageController@details');
+// Route::get('/product-category/exterior/search', 'User\ExteriorPageController@search');
+// Route::get('/product-category/exterior/{id}', 'User\ExteriorPageController@details');
 
 //products
 Route::get('/products', 'User\ProductPageController@index');
 Route::get('/products/search', 'User\ProductPageController@search');
 Route::get('/product/{id}', 'User\ProductPageController@details');
+Route::post('/preselect-colors', 'User\ProductPageController@preselectedColors');
 Route::post('/product-variance', 'User\ProductPageController@productvariance');
+Route::post('/preselected-colors', 'User\ProductPageController@preselectedColors');
 Route::post('/product-view', 'User\ProductPageController@productview');
 Route::post('/add-cart', 'User\CartController@addcart');
+Route::post('/color-add-cart', 'User\CartController@coloraddtocart');
+Route::post('/color-swatches-add-cart', 'User\CartController@colorSwatchesAddToCart');
 Route::post('/remove-cart', 'User\CartController@removecart');
 Route::post('/check-cart', 'User\CartController@checkcart');
 Route::get('/get-shipping-rate', 'User\CartController@get_shipping');
-Route::get('/checkout', 'User\CheckoutController@index');
+Route::get('/cart', 'User\CartController@index');
 Route::group(['middleware' => ['auth']], function () {  
 	Route::get('logout', 'Admin\AuthController@getSignOut');
-	Route::get('/cart', 'User\CartController@index');
-	// Route::get('/checkout', 'User\CheckoutController@index');
+	// Route::get('/cart', 'User\CartController@index');
 }); 
+Route::post('/checkout-details', 'User\CheckoutController@send_checkoutDetails');
 Route::post('/checkout-dragonpay','User\CheckoutController@payment_dragonpay');
-Route::post('/checkout-dragonpaypostback','User\CheckoutController@payment_dragonpay_postback');
 Route::get('/checkout-dragonpayreturn','User\CheckoutController@payment_dragonpay_return');
+Route::post('/fetch-shipping-rate', 'User\CheckoutController@fetch_shipping_rate');
 // Route::post('/checkout-validate', 'User\CheckoutController@validate_customer_detail');
 Route::post('/checkout-paypal-create', 'User\CheckoutController@payment_paypal_create');
 Route::post('/checkout-paypal-execute', 'User\CheckoutController@payment_paypal_execute');
+Route::post('/order-cod', 'User\CheckoutController@cod_order');
+Route::get('/cod-return', 'User\CheckoutController@cod_return');
+
 Route::get('/delfilt/{type}/{filter}/{name}', 'User\ProductPageController@removeFilters');
 Route::get('/putfilt/{type}/{filter}/{name}', 'User\ProductPageController@putFilters');
 Route::get('/getclear/{type}/{sess_name}', 'User\ProductPageController@clearAllFilters');
 Route::post('/product/add-wishlist', 'User\ProductPageController@add_wishlist');
 //cart
 // Route::get('/cart', 'User\ProductPageController@cart');
-// Route::get('/checkout', 'User\ProductPageController@checkout');
+//Route::get('/checkout', 'User\ProductPageController@checkoutView');
+//Route::post('/checkout', 'User\ProductPageController@checkout');
+  Route::get('/checkout','User\CheckoutController@index');
 // Route::post('/add_to_cart', 'User\ProductPageController@add_to_cart');
 // Route::post('/remove_product_from_cart', 'User\ProductPageController@remove_product_from_cart');
 // Route::post('/adjust_product_quantity', 'User\ProductPageController@adjust_product_quantity');
@@ -161,7 +160,8 @@ Route::resource('product', 'User\ProductPageController@product_ratings');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function () {    
         
     Route::get('logout', 'Admin\AuthController@getSignOut');
-
+	//product attri route
+	Route::post('edit', 'Admin\ProductController@updateAttri');
 	Route::resource('email-template', 'Admin\EmailTemplateController');
 	Route::post('email-template-update', 'Admin\EmailTemplateController@update');
 	Route::post('image_upl','Admin\UserController@image_upl');
@@ -244,10 +244,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('product/{id}', [
 		'uses' => 'Admin\ProductController@update'
 	]);
+	Route::get('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
+	Route::post('product/{id}/edit', [
+		'uses' => 'Admin\ProductController@edit'
+	]);
 	Route::delete('product/product-image/{id}', [
 		'uses' => 'Admin\ProductController@deleteImage'
 	]);
 	Route::delete('product/{id}', 'Admin\ProductController@destroy');
+	Route::delete('product-delete-variation','Admin\ProductController@delete_variation');
 	//Subscriber
 	Route::resource('subscriber', 'Admin\SubscriberController');
 	Route::resource('subscriber/status', 'Admin\SubscriberController@status_update');
@@ -262,7 +269,6 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth'], function () {
 	Route::resource('manage-addressbook', 'Customer\ProfileController@manage_address');
 	Route::resource('manage-creditcard', 'Customer\ProfileController@manage_creditcard');
 	Route::get('orders', 'User\OrderPageController@index');
-
 	Route::post('update_profile','Customer\ProfileController@update_profile');
 	Route::post('update_address','Customer\ProfileController@address_details');
 	Route::post('update_creditcard','Customer\ProfileController@update_ccdetails');

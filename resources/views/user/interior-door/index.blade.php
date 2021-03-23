@@ -63,7 +63,6 @@
 								<div class="title">{{$key->ParentData ? $key->ParentData['name'] :$key->name}}</div>
 								<div class="sub-title"></div>
 								<div class="desc">{!! $key->description !!}</div>
-								<div class="feat-ttl">BEST FEATURES</div>                    
 								<div class="regular-price">
 									@if($key->is_sale == 1)
 										@if($key->product_type == 'single')

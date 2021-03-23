@@ -630,7 +630,9 @@ $(document).ready(function () {
 
     	$('input#e_price19').val($(this).data('shippingprice20'));
 
-    	
+        if($(this).data('shippingstatus') == "1")
+    	$('input#e_status').attr('checked', true);
+        else $('input#e_status').attr('checked', false);
 
     })
 
@@ -1350,15 +1352,19 @@ $('.edit-attrb').click(function () {
 
     attrbdesc = $(this).data('attrbdesc');
 
-    variabletype = $(this).data('variabletype');
+    attr_catcolor =  $(this).data('catcolor');
+    
+    attr_red =  $(this).data('rattr');
 
-    cat_color = $(this).data('catcolor');
+    attr_green = $(this).data('gattr');
 
-    r_attr = $(this).data('rattr');
+    attr_blue = $(this).data('battr');
 
-    g_attr = $(this).data('gattr');
+    attr_variable_type = $(this).data('variabletype');
 
-    b_attr = $(this).data('battr');
+    attr_best_selling = $(this).data('attrbbestselling') == "1" ? true : false ;
+
+
 
 
 
@@ -1374,8 +1380,34 @@ $('.edit-attrb').click(function () {
 
     edit_attrb_opt = '<option>Select Variable</option>';
 
+    edit_attrb_cat_color =  '<option>Select Category Color</option>';
 
+    if(attr_catcolor == "Red") edit_attrb_cat_color += '<option value="Red" selected >Red</option>';
+    else edit_attrb_cat_color += '<option value="Red" >Red</option>';
 
+    if(attr_catcolor == "Blue") edit_attrb_cat_color += '<option value="Blue" selected >Blue</option>';
+    else edit_attrb_cat_color += '<option value="Blue" >Blue</option>';
+
+    if(attr_catcolor == "Yellow") edit_attrb_cat_color += '<option value="Yellow" selected >Yellow</option>';
+    else edit_attrb_cat_color += '<option value="Yellow" >Yellow</option>';
+
+    if(attr_catcolor == "Green") edit_attrb_cat_color += '<option value="Green" selected >Green</option>';
+    else edit_attrb_cat_color += '<option value="Green" >Green</option>';
+
+    if(attr_catcolor == "White") edit_attrb_cat_color += '<option value="White" selected >White</option>';
+    else edit_attrb_cat_color += '<option value="White" >White</option>';
+
+    if(attr_catcolor == "Gray") edit_attrb_cat_color += '<option value="Gray" selected >Gray</option>';
+    else edit_attrb_cat_color += '<option value="Gray" >Gray</option>';
+
+    if(attr_catcolor == "Brown") edit_attrb_cat_color += '<option value="Brown" selected >Brown</option>';
+    else edit_attrb_cat_color += '<option value="Brown" >Brown</option>';
+
+    if(attr_catcolor == "Purple") edit_attrb_cat_color += '<option value="Purple" selected >Purple</option>';
+    else edit_attrb_cat_color += '<option value="Purple" >Purple</option>';
+
+    if(attr_catcolor == "Orange") edit_attrb_cat_color += '<option value="Orange" selected >Orange</option>';
+    else edit_attrb_cat_color += '<option value="Orange" >Orange</option>';
 
     if (str_id_arr.length > 0) {
 
@@ -1389,7 +1421,11 @@ $('.edit-attrb').click(function () {
 
     }
 
-
+    if(attr_variable_type == "Color") {
+        $(".color_attrib").css("display","block");
+    } else {
+        $(".color_attrib").css("display","none");
+    }
 
     $('#edit_attrb_name').val(attrbname);
 
@@ -1399,22 +1435,25 @@ $('.edit-attrb').click(function () {
 
     $('#edit_variable_name').html(edit_attrb_opt);
 
-    $('#edit_attrb_catcolor').val(cat_color);
+    $('#edit_attrb_catcolor').html(edit_attrb_cat_color);
+    
+    $('#edit_attrb_red').val(attr_red);
 
-    $('#edit_attrb_red').val(r_attr);
+    $('#edit_attrb_green').val(attr_green);
 
-    $('#edit_attrb_green').val(g_attr);
+    $('#edit_attrb_blue').val(attr_blue);
 
-    $('#edit_attrb_blue').val(b_attr);
+    $('#edit_attrb_best_selling').attr('checked',attr_best_selling);
 
     $('#editAttributeForm').attr('action', base_url + '/admin/attribute/' + attrbid);
 
-    
-    if(variabletype == 'Color') {
-        $(".color_attrib").css("display","block");
-    }else{
-        $(".color_attrib").css("display","none");
-    }
+
+
+
+
+
+
+
 
     $('#editAttributeModal').modal('show');
 
@@ -1431,5 +1470,4 @@ $('.revaction').click(function(){
 	$('#rating_modal').modal('show');
 
 });
-
 

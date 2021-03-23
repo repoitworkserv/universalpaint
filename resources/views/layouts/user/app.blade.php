@@ -55,40 +55,14 @@
     <div class="wrapper" id="loading-container">
         <header id="theme-header" class="theme-header fixed-half">
             <div class="header-content">
-                <!-- <div class="logo">
-                    <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
-                </div>
-                <div class="nav-container">
-                    <div class="navigation-social">
-                        <div id="header-contact">
-                            <p class="smll-text">follow and like us on</p>
-                            <a href="https://www.facebook.com/"><img src="{{ url('img/FB.png') }}"></a>
-                            <a href="https://www.facebook.com/"><img src="{{ url('img/IG.png') }}"></a>
-                        </div>
-                        <div id="main-nav">
-                            <a href="/">Home</a>
-                            <div class="subnav">
-                                <button class="subnavbtn">Products <i class="fa fa-caret-down"></i></button>
-                                <div class="subnav-content">
-                                  <a href="/product-category/interior">Interior</a>
-                                  <a href="/product-category/exterior">Exterior</a>
-                                  <a href="/product-category/surface-preparation">Surface Preaparation</a>
-                                  <a href="/product-category/industrial">Industrial</a>
-                                </div>
-                              </div>                             
-                            <a href="#">Request a Quote</i> </a>
-                            <a href="#">Contact Us</a>       
-                        </div> 
-                    </div>
-                </div> -->
                 <div class="logo">
                     <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
                 </div>
                 <div class="nav-wrapper">
                     <div class="header-contact">
                         <p class="smll-text">follow and like us on</p>
-                        <a href="https://www.facebook.com/"><img src="{{ url('img/FB.png') }}"></a>
-                        <a href="https://www.facebook.com/"><img src="{{ url('img/IG.png') }}"></a>
+                        <a href="https://www.facebook.com/universalpaintph/"><img src="{{ url('img/FB.png') }}"></a>
+                        <a href="https://www.instagram.com/universalpaintph/"><img src="{{ url('img/IG.png') }}"></a>
                     </div>
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,79 +76,116 @@
                             </div>
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Home</a>
+                                    <a class="nav-link" href="/">Home</a>
                                 </li>
                                 <li class="nav-item dropdown product-after">
                                     <a class="nav-link " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Products <i class="fa fa-caret-down"></i>
                                     </a>
-                                    <div class="row dropdown-menu product-after" aria-labelledby="navbarDropdownMenuLink">
-                                        <div  style="padding-left: 0px!important;">
-                                            <a class="dropdown-item" href="/product-category/interior">Interior</a>
-                                            <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
-                                            <a class="dropdown-item" href="/product-category/surface-preparation">Surface Preparation</a>
-                                            <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
-                                            <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <a href="/product-category/brands">All Brands</a>
+                                    <div class="row dropdown-menu product-after"  aria-labelledby="navbarDropdownMenuLink">
+                              
+
+                                    <div class="container">
                                         <div class="row">
-                                            @foreach($brands as $item)
-                                                @if($item->name == 'Other')
-                                                @else<a class="dropdown-item" href="/product-category/brands/{{$item->slug_name}}">{{$item->name}}</a>
+                                                <div class="col-lg-4">
+                                                    <h2><a href="/product-category/all-products">All Products</a></h2>
+                                                    <hr>
+                                                    <a class="dropdown-item" href="/product-category/interior">Interior</a>
+                                                    <a class="dropdown-item" href="/product-category/exterior">Exterior</a>
+                                                    <a class="dropdown-item" href="/product-category/surface_preparation">Surface Preparation</a>
+                                                    <a class="dropdown-item" href="/product-category/industrial">Industrial</a>
+                                                    <div class="row dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4" style="padding-bottom: 20px">
+                                                <h2><a href="/product-category/brands">All Brands</a></h2>
+                                                <hr>
+                                                <!-- @if(!empty($brands))
+                                                <div class="row  responsive-item"  >
+                                                    @foreach($brands as $item)
+                                                        @if($item->name == 'Other')
+                                                        @else<a class="dropdown-item" style="overflow-wrap: break-word; white-space: initial;" href="/product-category/brands/{{$item->slug_name}}">{{$item->name}}</a>
+                                                        @endif
+                                                        @endforeach
+                                                </div>
+                                                @endif -->
+                                                @if(!empty($brands))
+                                                <div class="row">
+                                                <hr>
+                                                @for ($i = 0; $i < sizeof($brands); $i++)
+                                                    @if ($i < 9)
+                                                    @if($brands[$i]->name != 'Other' && $brands[$i]->name != 'Universal Paint')
+                                                         <a class="dropdown-item" href="/product-category/brands/{{$brands[$i]->slug_name}}"> {{$brands[$i]->name}}</a>     
+                                                    @endif
+                                                    @endif
+                                                @endfor
+                                                </div>
                                                 @endif
-                                            @endforeach
+                                            </div> 
+                                            <div class="col-lg-4 seventh-column-dropdown">
+                                                @if(!empty($brands))
+                                                <div class="row">
+                                                @for ($i = 0; $i < sizeof($brands); $i++)
+                                                    @if ($i > 8)        
+                                                    <a class="dropdown-item" href="/product-category/brands/{{$brands[$i]->slug_name}}"> {{$brands[$i]->name}}</a>     
+                                                    @endif
+                                                @endfor
+                                                </div>
+                                                @endif
+                                            </div> 
+                                          
                                         </div>
-                                    </div>
+                                     </div>                         
+                                     
+                                    
                                     </div>
 
                                 </li>
+                                <!-- <li class="nav-item regular-text">
+                                    <a class="nav-link" href="/request-a-quote/">Request a Quote</a>
+                                </li> -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/request-a-quote">Request a qoute</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/contact-us">Contact us</a>
+                                    <a class="nav-link" href="/contact-us/">Contact us</a>
                                 </li>
                             </ul>
                         </div>
                     </nav>
                 </div> <!-- nav-wrapper -->
             </div> <!-- header content -->
-        </header>
+        </header>        
         @yield('content')
         <!-- Sixth Section -->
-        <div id="sixth-section" style="background-image: url('{{ url('img/footer_bgs.png') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
+        <div id="sixth-section" style="background-image: url('{{ url('img/getHelp.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
             <div class="container">
                 <div class="heading-bx">
-                    <div class="thumbnail-desc">get expert help</div>
+                    <div class="thumbnail-desc">Get expert help</div>
                 </div>
                 <div class="block">
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">REQUEST COLOR BROCHURES</div>
-                            <div class="desc">click to request a brochure</div>
+                            <div class="ttl">REQUEST PRODUCT BROCHURE</div>
+                            <div class="desc">click to request a product</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/under-maintenance/" target="_blank" class="btns">Request now</a>
                         </div>
                     </div>
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">HOW TO PAINT GUIDE & TIPS FOR PAINTING</div>
+                            <div class="ttl">HOW TO PAINT? <br> GUIDE & TIPS FOR PAINTING</div>
                             <div class="desc">See the proper way to paint</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/how-to-paint" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">
                         <div class="top-con">
-                            <div class="ttl">COLOR CHARTS</div>
+                            <div class="ttl">COLOR DEPOT</div>
                             <div class="desc">click here to see online color charts</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/color-swatches" target="_blank" class="btns">Read More</a>
                         </div>
                     </div>
                     <div class="widget-box">
@@ -183,7 +194,7 @@
                             <div class="desc">click to compute how much paint you will need for your project</div>
                         </div>
                         <div class="btn-con">
-                            <a href="#" class="btns">Read More</a>
+                            <a href="/paint-calculator" target="_blank" class="btns">Calculate Now</a>
                         </div>
                     </div>
                 </div>
@@ -195,12 +206,26 @@
                     <div class="thumbnail-logo"><img src="{{ url('img/logo_nav.png') }}"></div>
                     <div class="text-con">
                         <img src="{{ url('img/001-placeholder.png') }}">
-                        <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippine</div>
+                        <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippines</div>
                     </div>
-                    <div class="text-con">
-                        <img src="{{ url('img/002-phone-call.png') }}">
-                        <div class="sml-txt">+632 8646 8701, +632 8646 3571 </br> +632 8646 8967,+63917 106 4579 </br>fax no. +632 8646 8329</div>
-                    </div>
+
+                    <div class="text-con">                                                                      
+                            <div class="sml-txt">
+                                <div class="txt_detail">
+                                    <img src="http://universalpaint.net/img/002-phone-call.png"> 
+                                    <p class="txt_detail-info">(+632) 8997 8777 <br/> 
+                                        (+632) 8646 8801 <br/> 
+                                        (+632) 8646 8701 <br/> 
+                                        (+632) 8646 3571 <br/>
+                                        (+632) 8646 8967 </br>
+                                    </p>
+                                </div>
+                                <div class="txt_detail">
+                                    <img src="http://universalpaint.net/img/003-fax-no.png">
+                                    <p class="txt_detail-info">(+632) 8646 8329</p>
+                                </div>
+                            </div>
+                        </div>                                        
                 </div>
                 <div class="bot-con">
                     <div class="footer-terms">
@@ -221,10 +246,9 @@
 <!-- JavaScripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{{ URL::asset('static/plugins/slickslider/slick/slick.js') }}"></script>
-<script src="scripts/jquery-3.5.1.min.js"></script>
+<script src="/scripts/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/script.js"></script>
+<script src="/js/slick.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
@@ -239,9 +263,9 @@
             speed: 300,
             slidesToShow: 1,
             slidesToScroll: 1,
-            autoplay: false,
+            autoplay: true,
             fade: true,
-            autoplaySpeed: 2000,
+            autoplaySpeed: 5000,
             pauseOnHover: false,
             pauseOnFocus: false,
             responsive: [{
@@ -261,7 +285,7 @@
             slidesToScroll: 1,
             autoplay: true,
             fade: true,
-            autoplaySpeed: 2000,
+            autoplaySpeed: 5000,
             pauseOnHover: false,
             pauseOnFocus: false,
             responsive: [{

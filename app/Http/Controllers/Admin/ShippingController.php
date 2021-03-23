@@ -84,6 +84,7 @@ class ShippingController extends Controller
             $shipping->below18kg    = $request->price17;
             $shipping->below19kg    = $request->price18;
         	$shipping->below20kg	= $request->price19;
+            $shipping->status       = isset($request->status) ? 1 : 0;
             $shipping->save();
             $message = 'Shipping is successfuly added';
 
@@ -128,6 +129,7 @@ class ShippingController extends Controller
         	$shipping->below18kg    = $request->e_price17;
         	$shipping->below19kg    = $request->e_price18;
         	$shipping->below20kg	= $request->e_price19;
+            $shipping->status       = isset($request->e_status) ? 1 : 0;
             $shipping->save();
             $message = 'Shipping is successfuly updated';
 

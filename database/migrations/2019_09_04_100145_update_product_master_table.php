@@ -13,7 +13,7 @@ class UpdateProductMasterTable extends Migration
     public function up()
     {
         //
-        Schema::getConnection()->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+        // DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
     	Schema::table('product', function (Blueprint $table) {
             $table->text('description')->change();
             $table->text('howtousetab_details')->change();

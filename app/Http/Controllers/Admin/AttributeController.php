@@ -32,7 +32,7 @@ class AttributeController extends Controller
     public function index(Request $request)
     {
        $variablelist = Variable::get();
-       
+
 	   $attributelist       = Attribute::where(function($q) use($request){
 				$q->where('name','like', '%'.$request->search_item);
         })->paginate(10);
@@ -77,6 +77,7 @@ class AttributeController extends Controller
                 $message .= $error."\r\n";
             }
         } else { 
+            $best_selling = (isset($request->best_selling) && $request->best_selling == "on") ? 1 : 0;
 			$attrb = new Attribute;
 			$attrb->variable_id  = $request->attrb_variable_name;
             $attrb->name  = $request->attrb_name;
@@ -84,11 +85,12 @@ class AttributeController extends Controller
             $attrb->r_attr  = $request->attrb_red;
             $attrb->g_attr  = $request->attrb_green;
             $attrb->b_attr  = $request->attrb_blue;
-			$attrb->description  = $request->attrb_description;
+            $attrb->description  = $request->attrb_description;
+            $attrb->best_selling = $best_selling;
 			$attrb->created_at = date('Y-m-d h:i:s');
 			if($attrb->save()){
 				$message = 'New Attribute successfully added!';
-				return redirect()->action('Admin\AttributeController@index')->with('success',$message);
+				return redirect()->back()->with('success',$message);
 			}
         }
         //error on save       
@@ -137,6 +139,7 @@ class AttributeController extends Controller
                 $message .= $error."\r\n";
             }
         } else {
+            $best_selling = (isset($request->edit_attrb_best_selling) && $request->edit_attrb_best_selling == "on") ? 1 : 0;
 			$attribute = Attribute::where('id',$id)->get(); 
 			$n_attribute = $attribute[0];
 			$n_attribute->variable_id  = $request->edit_variable_name;
@@ -145,11 +148,12 @@ class AttributeController extends Controller
             $n_attribute->r_attr  = $request->edit_attrb_red;
             $n_attribute->g_attr  = $request->edit_attrb_green;
             $n_attribute->b_attr  = $request->edit_attrb_blue;
-			$n_attribute->description  = $request->edit_attrb_description;
+            $n_attribute->description  = $request->edit_attrb_description;
+            $n_attribute->best_selling  = $best_selling;
 			$n_attribute->updated_at = date('Y-m-d h:i:s');
 			if($n_attribute->save()){
 			$message = 'Attribute successfully updated!'; 
-			   return redirect()->action('Admin\AttributeController@index')->with('success',$message);
+			   return redirect()->back()->with('success',$message);
 			}
         }
         //error on save       

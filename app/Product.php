@@ -30,6 +30,9 @@ class Product extends Model
 		'list_tab',
 		'howtousetab_details',
 		'deliveryopt_tab_details',
+		'brochure_path',
+		'safety_path',
+		'technical_path',
 		'created_at',
 		'update_at'
     ];

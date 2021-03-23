@@ -227,27 +227,7 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
     
 //PRODUCT DETAIL END
 
-//CART
-    $('.remove-cart').on('click', function () {
-        var cart_id = $(this).data('index')
-        var Token = $('input[name="_token"]').val();
-        $.ajax({
-            url: '/remove-cart',
-            method: "post",
-            dataType: "json",
-            data: {
-                cart_id: cart_id,
-                _token: Token
-            },
-            success: function (data) {
-                console.log('ok');
-                location.reload();
-            },
-            error: function(){
-                console.log('error');
-            }
-        });
-    })
+
 
     function check_existing_qty(classcntnt) {
         var Token = $('input[name="_token"]').val();

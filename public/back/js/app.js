@@ -229,7 +229,8 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
 //CART
     $('.remove-cart').on('click', function () {
-        var cart_id = $(this).data('index')
+        var cart_id = $(this).data('index');
+        console.log($cart_id);
         var Token = $('input[name="_token"]').val();
         $.ajax({
             url: '/remove-cart',
