@@ -828,6 +828,19 @@ span.remove, .remove_gallery{
 
 }
 
+.checkbox_status {
+    display: inline !important;
+}
+
+#ec_show_image {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+#howToPaintContentsTbl {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
 
 
   

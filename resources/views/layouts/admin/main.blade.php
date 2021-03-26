@@ -200,6 +200,9 @@ desired effect
             <li @php echo (Request::segment(2) == 'post') ? "class='active'" : ""; @endphp>
               <a href="{!! URL::action('Admin\ReviewsandRatingController@index') !!}"><i class="fa fa-circle-o"></i> Reviews and Rating</a>
             </li>
+            <li @php echo (Request::segment(2) == 'how-to-paint') ? "class='active'" : ""; @endphp>
+              <a href="{!! URL::to('/admin/how-to-paint') !!}"><i class="fa fa-circle-o"></i>How to Paint</a>
+            </li>
             <li @php echo (Request::segment(2) == 'email_template') ? "class='active'" : ""; @endphp>
               <a href="{!! URL::action('Admin\EmailTemplateController@index') !!}"><i class="fa fa-circle-o"></i>Email Template</a>
             </li>
@@ -444,7 +447,6 @@ window.setTimeout(function() {
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
             ],
-          height:200,
         });
 	}
 	window.load = summernote_txtarea();

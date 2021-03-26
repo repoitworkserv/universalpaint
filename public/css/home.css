@@ -2260,6 +2260,14 @@ a.btn.white {
     font-size: x-large;
 }
 
+#how-to-paint .accordion-content .row {
+    margin-top: 15px;
+}
+
+#how-to-paint .accordion-content .left img {
+    width: 100%;
+}
+
 @media only screen and (max-width: 767px) {
 
     .cart-label {
