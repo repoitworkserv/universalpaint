@@ -31,9 +31,7 @@ Route::get('/contact-us', function () {
 
 // Route::get('/request-a-quote', 'User\ProductPageController@requestQuote');
 
-Route::get('/how-to-paint', function () {
-	return view('user.how-to-paint.index');
-});
+Route::get('/how-to-paint','User\HowToPaintController@index');
 
 Route::get('/paint-calculator', function () {
 	return view('user.paint-calculator.index');
@@ -258,7 +256,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	//Subscriber
 	Route::resource('subscriber', 'Admin\SubscriberController');
 	Route::resource('subscriber/status', 'Admin\SubscriberController@status_update');
-	
+	Route::get('/how-to-paint','Admin\HowToPaintController@index');
+	Route::post('/how-to-paint/store','Admin\HowToPaintController@store');
+	Route::post('/how-to-paint/show-content','Admin\HowToPaintController@show_content');
+	Route::post('/how-to-paint/add-content','Admin\HowToPaintController@add_content');
+	Route::post('/how-to-paint/update','Admin\HowToPaintController@update');
+	Route::post('/how-to-paint/update-content','Admin\HowToPaintController@update_content');
+	Route::delete('/how-to-paint/destroy/{id}','Admin\HowToPaintController@destroy');
+	Route::delete('/how-to-paint/destroy-content/{id}','Admin\HowToPaintController@destroy_content');
 	
 });
 

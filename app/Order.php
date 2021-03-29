@@ -18,7 +18,7 @@ class Order extends Model
 		'amount_total',
 		'amount_discount',
 		'created_at',
-		'update_at'
+		'updated_at'
     ];
 
     protected $hidden = [];
