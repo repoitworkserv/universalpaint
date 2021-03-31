@@ -51,7 +51,7 @@
 				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Blue">
 					<div class="color-picker">
 						<div class="color-box" style="background-color:#0045C7;"></div>
-						<div class="ttl">Blue</div>
+						<div class="ttl">Blues</div>
 					</div>
 				</div>
 				<div class="tablinks col-lg-1 col-md-4 col-sm-6 col-12" data-color="Green">

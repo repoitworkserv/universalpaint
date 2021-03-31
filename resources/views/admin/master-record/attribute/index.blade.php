@@ -155,6 +155,12 @@
 								data-attrbdesc = "{{ $att->description }}" 
 								data-attrbbestselling = "{{ $att->best_selling }}" 
 								data-variabletype="{{ $att->VariableData['name'] }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
+
+								<form action="{{ URL::action('Admin\AttributeController@destroy', $att->id) }}" method="POST">
+										<input type="hidden" name="_method" value="POST">
+										<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+										<a id="alert{{$att->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
+								</form>
                         	</td>
                         </tr>
                         <tr>

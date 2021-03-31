@@ -59,11 +59,17 @@
                     <a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
                 </div>
                 <div class="nav-wrapper">
+                    @php 
+                    $Page = \App\Post::find(1);
+                    @endphp
+                    @if(isset($Page->GetMetaData('social_media_icons', 'post')['meta_value']) && $Page->GetMetaData('social_media_icons', 'post')['meta_value'])                
                     <div class="header-contact">
-                        <p class="smll-text">follow and like us on</p>
-                        <a href="https://www.facebook.com/universalpaintph/"><img src="{{ url('img/FB.png') }}"></a>
-                        <a href="https://www.instagram.com/universalpaintph/"><img src="{{ url('img/IG.png') }}"></a>
+                        <p class="smll-text">folow and like us on</p>
+                        @foreach(explode(',', $Page->GetMetaData('social_media_icons', 'post')['meta_value']) as $icon)
+                        <a href="{{\App\Post::findOrFail($icon)->button_link}}"><img src="{!! asset('img/post/') !!}/{!! \App\Post::findOrFail($icon)->featured_image; !!}"></a>   
+                        @endforeach
                     </div>
+                    @endif
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -203,29 +209,85 @@
         <div id="footer">
             <div class="container">
                 <div class="top-con">
-                    <div class="thumbnail-logo"><img src="{{ url('img/logo_nav.png') }}"></div>
-                    <div class="text-con">
-                        <img src="{{ url('img/001-placeholder.png') }}">
-                        <div class="sml-txt">53 F. Pasco Ave, Santolan, Pasig, 1610 Metro Manila, Philippines</div>
-                    </div>
+                    <div class ="col-lg-3 col-md-3 col-sm-12">
+                        @php
+                        $PostMetaData = \App\PostMetaData::where('meta_key','footer_left_col')->orWhere('meta_key','footer_right_col')->orWhere('meta_key','footer_mid_col')->paginate(10);
+                        @endphp
+                        @foreach($PostMetaData as $metadata)
+                        @if($metadata->meta_key == 'footer_left_col' )
+                        @php 
+                        $postIDs = explode(',',$metadata->meta_value);
+                        @endphp
 
+                        @foreach($postIDs as $id)
+                        @php
+                        $id = (int)$id;
+                        $post  = \App\Post::where('id',$id)->first();
+                        @endphp
+                        @if(!empty($post))
+                        <div class="thumbnail-logo"><img src="{{ url('img/post/'.$post->featured_image) }}"></div>
+                        @if($post->displayed_post_content == 1)
+                        <div class="sml-txt">{!! $post->post_content !!}</div>
+                        @endif
+                        @endif
+                        @endforeach
+                        @endif
+                        @endforeach
+                    </div>
+                    <div class ="col-lg-6 col-md-6 col-sm-12">
+                        @foreach($PostMetaData as $metadata)
+                        @if($metadata->meta_key == 'footer_mid_col' )
+                        @php 
+                        $postIDs = explode(',',$metadata->meta_value);
+                        @endphp
+
+                        @foreach($postIDs as $id)
+                        @php
+                        $id = (int)$id;
+                        $post  = \App\Post::where('id',$id)->first();
+                        @endphp
+                        @if(!empty($post))
+                        <div class="text-con">
+                            <img src="{{ url('img/post/'.$post->featured_image) }}">
+                            @if($post->displayed_post_content == 1)
+                            <div class="sml-txt">{!! $post->post_content !!}</div>
+                            @endif
+                        </div>
+                        @endif
+                        @endforeach
+                        @endif
+                        @endforeach
+                    </div> 
+                    <div class ="col-lg-3 col-md-3 col-sm-12">
                     <div class="text-con">                                                                      
                             <div class="sml-txt">
+                                @foreach($PostMetaData as $metadata)
+                                @if($metadata->meta_key == 'footer_right_col' )
+                                @php 
+                                $postIDs = explode(',',$metadata->meta_value);
+                                @endphp
+
+                                @foreach($postIDs as $id)
+                                @php
+                                $id = (int)$id;
+                                $post  = \App\Post::where('id',$id)->first();
+                                @endphp
+                                @if(!empty($post))
                                 <div class="txt_detail">
-                                    <img src="http://universalpaint.net/img/002-phone-call.png"> 
-                                    <p class="txt_detail-info">(+632) 8997 8777 <br/> 
-                                        (+632) 8646 8801 <br/> 
-                                        (+632) 8646 8701 <br/> 
-                                        (+632) 8646 3571 <br/>
-                                        (+632) 8646 8967 </br>
+                                    <img src="{{ url('img/post/'.$post->featured_image) }}"> 
+                                    @if($post->displayed_post_content == 1)
+                                    <p class="txt_detail-info">
+                                    {!! $post->post_content !!}
                                     </p>
+                                    @endif
                                 </div>
-                                <div class="txt_detail">
-                                    <img src="http://universalpaint.net/img/003-fax-no.png">
-                                    <p class="txt_detail-info">(+632) 8646 8329</p>
-                                </div>
+                                @endif
+                                @endforeach
+                                @endif
+                                @endforeach
                             </div>
-                        </div>                                        
+                    </div>  
+                    </div>                                      
                 </div>
                 <div class="bot-con">
                     <div class="footer-terms">

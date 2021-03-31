@@ -302,7 +302,18 @@ $(document).ready(function () {
 
         }
 
+        if($(this).data('is_featured') === 0) {
 
+            $('input#e_is_featured').val($(this).data('is_featured')).prop('checked',false);
+
+        } else {
+
+            $('input#e_is_featured').val($(this).data('is_featured')).prop('checked',true);
+
+        }
+
+        var rank = $(this).data('rank') == 0 ? "" :  $(this).data('rank');
+        $('input#e_rank').val(rank);
 
         img_name = $(this).data('featuredimg');
 
@@ -656,33 +667,36 @@ $(document).ready(function () {
 
         $('input#e_featured_image_value').val($(this).data('image'));
 
+        $('select#e_background_color').val($(this).data('background_color'));
+
+
         if($(this).data('displayedpostcontent') === 0) {
 
-            $('input#e_displayed_post_content').val($(this).data('displayedpostcontent')).prop('checked',true);
+            $('input#e_displayed_post_content').val($(this).data('displayedpostcontent')).prop('checked',false);
 
         } else {
 
-            $('input#e_displayed_post_content').val($(this).data('displayedpostcontent')).prop('checked',false);
+            $('input#e_displayed_post_content').val($(this).data('displayedpostcontent')).prop('checked',true);
 
         }
 
         if($(this).data('displayedbutton') === 0) {
 
-            $('input#e_displayed_button').val($(this).data('displayedbutton')).prop('checked',true);
+            $('input#e_displayed_button').val($(this).data('displayedbutton')).prop('checked',false);
 
         } else {
 
-            $('input#e_displayed_button').val($(this).data('displayedbutton')).prop('checked',false);
+            $('input#e_displayed_button').val($(this).data('displayedbutton')).prop('checked',true);
 
         }
 
         if($(this).data("displayedtitle") === 0) {
 
-            $('input#e_displayed_title').val($(this).data('displayedtitle')).prop('checked',true);
+            $('input#e_displayed_title').val($(this).data('displayedtitle')).prop('checked',false);
 
         } else {
 
-            $('input#e_displayed_title').val($(this).data('displayedtitle')).prop('checked',false);
+            $('input#e_displayed_title').val($(this).data('displayedtitle')).prop('checked',true);
 
         }
 
@@ -693,8 +707,6 @@ $(document).ready(function () {
         $('input#e_featured_banner_value').val($(this).data('bannerimage'));
 
         //$('textarea#e_post_content').val($(this).data('postcontent'));
-
-       
 
        $('textarea#e_post_content').summernote('code',$(this).data('postcontent'));
 
@@ -718,14 +730,13 @@ $(document).ready(function () {
 
                 '<button type="button" class="btn btn-danger btn-block remove-post-image"><span class="fa fa-trash"></span> Remove</button>';
 
-        } else if ($(this).data('image') != '' && fileExtension == 'png') {
+        } else if ($(this).data('image') != '') {
 
             image_container = '<img src="/img/post/' + $(this).data('image') + '" class="img-thumbnail post-img">' +
 
                 '<button type="button" class="btn btn-danger btn-block remove-post-image"><span class="fa fa-trash"></span> Remove</button>';
 
         }
-
 
 
         $('#editMdl .panel .panel-body .xtra').append(image_container);
@@ -993,6 +1004,71 @@ $(document).ready(function () {
                 }
 
             });
+
+        }
+
+    });
+
+
+    $('#add-social-media-icon').on('click', function () {
+
+        if ($('#socialmediaicon-post-list').val() == 0) {
+
+
+
+        } else {
+
+            var old_val = $('.social-media-icon-array-meta').val();
+
+            if (old_val == '') {
+
+                var new_socialmediaicon = $('#socialmediaicon-post-list').val();
+
+            } else {
+
+                var new_socialmediaicon = old_val + ',' + $('#socialmediaicon-post-list').val();
+
+            }
+            
+            $('.social-media-icon-array-meta').val(new_socialmediaicon);
+
+            var Token = $('input[name="_token"]').val();
+
+            $.ajax({
+
+                url: '/admin/page/updatemetadata',
+
+                method: "post",
+
+                dataType: "json",
+
+                data:
+
+                {
+
+                    _token: Token,
+
+                    meta_value: new_socialmediaicon,
+
+                    meta_key: 'social_media_icons',
+
+                    meta_type: "post_array",
+
+                    source_id: 1,
+
+                    source_type: 'post',
+
+                },
+
+                success: function (data) {
+                    alert(data);
+                    location.reload();
+
+                }
+
+            });
+
+
 
         }
 

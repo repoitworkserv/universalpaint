@@ -437,6 +437,7 @@ window.setTimeout(function() {
 	//Summer note WYSIWYG
 	function summernote_txtarea(){
 		$('.proddesc, .htu_desc,.delopt_desc,.ovrview_desc, .content_txt,.content_txt_edit').summernote({
+      height: 300,
 			toolbar: [
                 ['headline', ['style']],
                 ['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],

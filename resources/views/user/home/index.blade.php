@@ -17,23 +17,42 @@
     #fourth-section .slick-prev::before {
         content: url('img/left_white.png');
     }
+
+
 </style>
 <div id="first-section">
     <div class="banner-content">
+
+    @php 
+        if($Page->GetMetaData('banner', 'post')['meta_value']) {
+            $x = 0;
+            foreach(explode(',', $Page->GetMetaData('banner', 'post')['meta_value']) as $banner) {
+    @endphp
         <div>
-            <div class="banner-slide first" style="background-image: url('img/1.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+            <style>
+                .banner-{{$x}} .container .widget-box:after {
+                    background-color: {{ \App\Post::findOrFail($banner)->background_color}} !important;
+                    border: 10px solid  {{ \App\Post::findOrFail($banner)->background_color}} !important;
+                }
+            </style>
+            <div class="banner-slide banner-{{$x}}" style="background-image: url('img/post/{{\App\Post::findOrFail($banner)->featured_banner}}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                 <div class="container">
-                    <div class="widget-box">
-                        <div class="heading">Premium quality white without the premium cost?</div>
+                    <div class="widget-box" style="background-color: {{ \App\Post::findOrFail($banner)->background_color}} !important">
+                        <div class="heading">{{\App\Post::findOrFail($banner)->post_title}}</div>
                         <div class="desc">
-                            Click here to know how Universal PLUS delivers white without the premium price tag.
+                          {!! \App\Post::findOrFail($banner)->post_content !!}
                         </div>
-                        <a href="/product-category/brands/universal-professional-architectural-paint" class="btn white">READ MORE</a>
+                        <a href="{{\App\Post::findOrFail($banner)->button_link}}" class="btn white">{{ \App\Post::findOrFail($banner)->button_name }}</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div>
+        @php
+            $x++;
+            };
+        };
+    @endphp
+        <!-- <div>
             <div class="banner-slide second" style="background-image: url('img/2.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                 <div class="container">
                     <div class="widget-box">
@@ -71,7 +90,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <!-- Third Section -->
@@ -200,34 +219,33 @@
             <div class="thumbnail-desc">What to paint</div>
         </div>
         <div class="block">
-            <div class="align-bx row-bx">                
-                <a href="/product-category/surface_preparation" class="widget-box" style="background-image: url('img/surface.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                    <div class="color-desc light-gray">
-                        <div class="ttl">Preparation</div>
+        @php 
+            if($Page->GetMetaData('product_category', 'category')['meta_value']) {
+                $x = 0;                           
+                $colors         = ["light-gray", "brown", "blue-green", "orange"];
+                foreach(explode(',', $Page->GetMetaData('product_category', 'category')['meta_value']) as $category) {
+        @endphp                                
+            @php 
+                $ctr = $x % 2;
+                $rand_color_key = rand(0,3);
+            @endphp
+            @if($ctr == 0)
+            <div class="align-bx row-bx">      
+            @endif          
+                <a href="/product-category/{{str_replace('-','_',\App\Category::findOrFail($category)->slug_name)}}" class="widget-box" style="background-image: url('img/category/{{\App\Category::findOrFail($category)->featured_img}}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+                    <div class="color-desc {{$colors[$rand_color_key]}}">
+                        <div class="ttl">{{\App\Category::findOrFail($category)->name}}</div>
                         <div class="desc"></div>
                     </div>
                 </a>
-                <a href="/product-category/interior" class="widget-box" style="background-image: url('img/p2.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                    <div class="color-desc brown">
-                        <div class="ttl">Interior Paint</div>
-                        <div class="desc"></div>
-                    </div>
-                </a>
-            </div>            
-            <div class="align-bx row-bx">
-                <a href="/product-category/exterior" class="widget-box" style="background-image: url('img/p1.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                    <div class="color-desc blue-green">
-                        <div class="ttl">exterior paint</div>
-                        <div class="desc"></div>
-                    </div>
-                </a>
-                <a href="/product-category/industrial" class="widget-box" style="background-image: url('img/industrial.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-                    <div class="color-desc orange">
-                        <div class="ttl">Industrial Paint</div>
-                        <div class="desc"></div>
-                    </div>
-                </a>
-            </div>
+            @if($ctr) 
+            </div>   
+            @endif 
+         @php
+            $x++;
+            };
+        };
+        @endphp
         </div>
     </div>
 </div>

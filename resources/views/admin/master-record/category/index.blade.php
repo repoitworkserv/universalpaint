@@ -36,8 +36,8 @@
                                     <label>Parent Category</label>
                                     <select class="form-control" name="category_parent" id="category_parent">
                                         <option>--- Category ---</option>
-                                        @if(!empty($Category[0]))
-                                            @foreach( $Category as $list )
+                                        @if(!empty($AllCategory[0]))
+                                            @foreach( $AllCategory as $list )
                                                 @if($list->id != 1)
                                                     <option value="{{ $list->id }}">{{ $list->name }}</option>
                                                     @foreach($list->SubCategory as $subcat)
@@ -220,8 +220,8 @@
 		                                                <label>Parent Category</label>
 		                                                <select class="form-control" name="e_category_parent" id="e_category_parent">
 		                                                    <option>--- Category ---</option>
-		                                                    @if(!empty($Category[0]))
-		                                                        @foreach( $Category as $list )
+		                                                    @if(!empty($AllCategory[0]))
+		                                                        @foreach( $AllCategory as $list )
 		                                                            @if($list->id != 1)
 		                                                                <option value="{{ $list->id }}">{{ $list->name }}</option>
 		                                                                @foreach($list->SubCategory as $subcat)
