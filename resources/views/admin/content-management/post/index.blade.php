@@ -34,6 +34,16 @@
                                     <textarea name="post_content" id="post_content" class="form-control content_txt" rows="3" placeholder="Enter ..."></textarea>
                                 </div>
                                 <div class="form-group">
+                                    <label>Content Background Color</label>
+                                    <select class="form-control" name="background_color" id="background_color">
+                                        <option value="">--- SELECT COLOR ---</option>
+                                        <option value="#94978C">light gray</option>
+                                        <option value="#8b3238">brown</option>
+                                        <option value="#8aa4bc">blue green</option>
+                                        <option value="#f15a29">orange</option>
+                                    </select>
+		                        </div>
+                                <div class="form-group">
                                     <label>Button Name</label>
                                     <input type="text" name="button_name" id="button_name" class="form-control" />
                                 </div>
@@ -85,7 +95,8 @@
                                                     {{ $list->post_content }}
                                                 </td>
                                                 <td>
-                                                    <a class="badge bg-orange edit-post" data-postid="{{$list->id}}" data-displayedtitle="{{ $list->displayed_title }}" data-displayedpostcontent="{{ $list->displayed_post_content }}" data-displayedbutton="{{ $list->displayed_button }}" data-buttonname="{{$list->button_name}}" data-buttonlink="{{ $list->button_link }}" data-posttitle="{{$list->post_title}}" data-postname="{{$list->post_name}}" data-postcontent="{{$list->post_content}}" data-image="{{$list->featured_image}}"  data-bannerimage="{{$list->featured_banner}}">
+                                                    <a class="badge bg-orange edit-post" data-postid="{{$list->id}}" data-displayedtitle="{{ $list->displayed_title }}" data-displayedpostcontent="{{ $list->displayed_post_content }}" 
+                                                    data-background_color="{{ $list->background_color }}" data-displayedbutton="{{ $list->displayed_button }}" data-buttonname="{{$list->button_name}}" data-buttonlink="{{ $list->button_link }}" data-posttitle="{{$list->post_title}}" data-postname="{{$list->post_name}}" data-postcontent="{{$list->post_content}}" data-image="{{$list->featured_image}}"  data-bannerimage="{{$list->featured_banner}}">
                                                         <span class="fa fa-edit"></span> Edit
                                                     </a>
 														<form action="{{ URL::action('Admin\PostController@destroy', $list->id) }}" method="POST">
@@ -132,7 +143,17 @@
 		                                        </div>
 		                                        <div class="form-group">
 		                                            <label>Content</label>
-		                                            <textarea name="e_post_content" id="e_post_content" class="form-control content_txt_edit" rows="10" placeholder="Enter ..."></textarea>
+		                                            <textarea name="e_post_content" id="e_post_content" class="form-control" rows="10" placeholder="Enter ..."></textarea>
+		                                        </div>
+                                                <div class="form-group">
+                                                    <label>Content Background Color</label>
+                                                    <select class="form-control" name="e_background_color" id="e_background_color">
+                                                        <option value="">--- SELECT COLOR ---</option>
+                                                        <option value="#94978C">light gray</option>
+                                                        <option value="#8b3238">brown</option>
+                                                        <option value="#8aa4bc">blue green</option>
+                                                        <option value="#f15a29">orange</option>
+                                                    </select>
 		                                        </div>
                                                 <div class="form-group">
                                                     <label>Button Name</label>

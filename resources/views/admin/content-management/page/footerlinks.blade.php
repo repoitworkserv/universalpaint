@@ -19,7 +19,7 @@
             					<select class="form-control" id="display_colmn" name="display_colmn" required="required">
             						<option value="footer_left_col">Footer Left Column</option>
             						<option value="footer_right_col">Footer Right Column</option>
-									<option value="footer_icon" >Footer Icon Column</option>
+												<option value="footer_mid_col" >Footer Middle Column</option>
             					</select>
 				            </div>
 				            <div class="form-group">
@@ -49,12 +49,12 @@
 									
 		                    			<tr>
 		                    				<td>{{$pmd->display_name}}</td>
-											@if($pmd->meta_key == 'footer_left_col' || $pmd->meta_key == 'footer_right_col')
+											@if($pmd->meta_key == 'footer_left_col')
 		                    				<td>Footer Left Column</td>
 											@elseif($pmd->meta_key == 'footer_right_col')
 											<td>Footer Right Column</td>
 											@else
-											<td>Footer Icon</td>
+											<td>Footer Middle Column</td>
 											@endif
 		                    				<td>{{$pmd->paste_lnk}}</td>
 		                    				<td>
@@ -112,15 +112,72 @@
 <script type="text/javascript" src="{{URL::asset('static/bootstrap-toggle-master/js/bootstrap-toggle.min.js')}}"></script>
 <script>
 $(document).ready(function() {
+	var Token = $('input[name="_token"]').val();
+	page_id = $('.pageid').data('pageid');
+	$('.edit-link').on('click',function(){
+		metadata_id = $(this).data('metadata-id');
+		if(metadata_id){
+			$.ajax({
+					url: base_url + '/admin/page/lnk-info',
+					method: 'post',
+					dataType: "json",
+					data: {_token : Token,lnk_id:metadata_id},
+					success: function (data) {    
+						$('#link_id').val(metadata_id);   
+							$('#lnk_name').val(data.display_name);
+							$('#paste_lnk').val(data.paste_lnk);
+							arr_opt = ['footer_left_col','footer_right_col', 'footer_mid_col'];
+							arr_opt_txt = ['Left','Right', 'Middle'];
+							opt_html =  '';
+							console.log(arr_opt.length);
+							for(x=0;x<arr_opt.length;x++){
+								issel = (data.meta_key == arr_opt[x]) ? 'selected' : '';
+								opt_html += '<option '+issel+' value="'+arr_opt[x]+'">Footer '+arr_opt_txt[x]+' Column</option>';
+							}
+							$('#display_colmn').html(opt_html);
+							$('#btn_ftr_lnk').html('Update Footer Links');
+							$('.wrap-btn a').remove();
+							$('.wrap-btn').append('<a href="'+base_url+'/admin/page/edit/'+page_id+'" class="btn btn-gold btn-md">Cancel</a>');
+						
+					}
+			});	
+		}
+  });
 
-//Delete product
-$("a[id*=alert]").on("click", function(){
-
-    if(confirm("Do you want to delete this item?")){
-        $(this).parent('form').submit();
+	$('.add-post-to-link').on('click',function(){
+		metadata_id = $(this).data('metadata-id');
+		$('#lnk_id_to_add').val(metadata_id);
+	})
+	
+	$('.remove_post').on('click',function(){
+		if(confirm("Do you want to delete this item?")){
+			post_id = $(this).data('postid');
+			postmetadatid = $(this).data('postmetadatid');
+			if(post_id){
+				$.ajax({
+						url: base_url + '/admin/page/lnk-add_post',
+						method: 'post',
+						dataType: "json",
+						data: {_token : Token,tag_lnk:'remove',post_id_metaval:postmetadatid,post_ist:post_id},
+						success: function (data) {    
+							if(data == 'success'){
+								location.reload();
+							}
+						}
+				});	
+			}
     }
-    
-});
+		
+	});
+
+	//Delete product
+	$("a[id*=alert]").on("click", function(){
+
+		if(confirm("Do you want to delete this item?")){
+				$(this).parent('form').submit();
+		}
+
+	});
 
 });
 </script>

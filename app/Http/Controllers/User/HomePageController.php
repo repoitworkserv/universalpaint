@@ -16,6 +16,7 @@ use App\PostMetaData;
 use App\Product;
 use App\UserBrands;
 use App\Brand;
+use App\Category;
 
 use Mail;
 use App\Settings;
@@ -50,6 +51,7 @@ class HomePageController extends Controller
         $user_type = (Auth::user()) ? Auth::user()['users_type_id'] : [];
         $userBrands = UserBrands::where('user_id',$uid)->pluck('brand_id')->all();
         $brands = Brand::get();
+        $PostMetaData = PostMetaData::where('meta_key','footer_left_col')->orWhere('meta_key','footer_right_col')->orWhere('meta_key','footer_mid_col')->paginate(10);
         $colors = array(
             array(
                 'name' => 'Whites </br>& Neutrals',
@@ -68,7 +70,7 @@ class HomePageController extends Controller
                 'color' => '#7E7999'
             ),
             array(
-                'name' => 'Blue',
+                'name' => 'Blues',
                 'color' => '#0045C7'
             ),
             array(
@@ -87,8 +89,8 @@ class HomePageController extends Controller
                 'name' => 'Reds',
                 'color' => '#A8312F'
             ),           
-        );        
-        return view('user.home.index', compact('Page', 'Post', 'Product','uid', 'user_type','userBrands','brands','colors'));
+        );
+        return view('user.home.index', compact('Page', 'Post', 'Product','uid', 'user_type','userBrands','brands','colors','PostMetaData'));
     }
 
     public function email_request_pdf(Request $request)

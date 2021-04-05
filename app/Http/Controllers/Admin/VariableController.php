@@ -175,7 +175,16 @@ class VariableController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $var_data = Variable::findOrFail($id);
+        if($var_data->delete()) {
+            $status = 'success';
+            $message = 'Variable successfully deleted!';
+        } else {
+            $status = 'error';
+            $message = 'Error deleting Variable!';
+        }
+        
+        return redirect()->back()->with($status, $message);
     }
 
 
