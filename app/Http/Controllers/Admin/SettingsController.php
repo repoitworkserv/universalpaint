@@ -168,6 +168,9 @@ class SettingsController extends Controller
 
             $settings->product_brochure_pdf = $new_filename;
             $message  = $settings->save() ? "Product Brochure PDF successfully saved" : "Error saving Product Brochure PDF";
+        } else if ($request->brochure_form_action == "DELETE") {
+            $settings->product_brochure_pdf = "";
+            $message  = $settings->save() ? "Product Brochure PDF successfully deleted" : "Error deleting Product Brochure PDF";
         }
 
         return redirect()->back()->with('status',$message);

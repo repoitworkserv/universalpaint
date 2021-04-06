@@ -128,12 +128,16 @@
 								<div class="col-md-12 col-sm-12 col-xs-12">
 									<div class="form-group">
 										<label>PDF @if(!empty($settings['product_brochure_pdf']))<a href="{{URL::to('/')}}/img/product_brochure/{{$settings['product_brochure_pdf']}}">{{URL::to('/')}}/img/product_brochure/{{$settings['product_brochure_pdf']}}</a> @endif </label>
+										<input type="hidden" id="brochure_form_action" name="brochure_form_action" value="UPDATE">
 										<input type="file" accept="application/pdf" class="form-control" name="product_brochure" id="product_brochure" />
 									</div>
 									<div class="row">
 										<div class="col-md-12 col-sm-12 col-xs-12 text-right">
 											<button type="submit" class="btn btn-gold product_brochure_btn_sbmt" data-tags="brochure">
 																Submit
+															</button>
+											<button class="btn btn-danger delete_brochure" data-tags="brochure">
+																Delete
 															</button>
 										</div>
 									</div>
@@ -176,6 +180,14 @@
 	            }
 	        }
 	    });
+	});
+
+	$('.delete_brochure').click(function(e) {
+		if(confirm("Are you sure you want to delete?")) {
+			e.preventDefault();
+			$('#brochure_form_action').val("DELETE");
+			$('#brochureform').submit();
+		}
 	});
 	
 	
