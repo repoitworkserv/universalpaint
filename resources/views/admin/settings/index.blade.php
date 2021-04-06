@@ -127,7 +127,7 @@
 							<div class="row">
 								<div class="col-md-12 col-sm-12 col-xs-12">
 									<div class="form-group">
-										<label>PDF @if(!empty($settings['product_brochure_pdf']))<a href="{{URL::to('/')}}/img/product_brochure/{{$settings['product_brochure_pdf']}}">{{URL::to('/')}}/img/product_brochure/{{$settings['product_brochure_pdf']}}</a> @endif </label>
+										<label>PDF @if(!empty($settings['product_brochure_pdf']))<a id="brochure_link" href="{{URL::to('/')}}/img/product_brochure/{{$settings['product_brochure_pdf']}}">{{URL::to('/')}}/img/product_brochure/{{$settings['product_brochure_pdf']}}</a> @endif </label>
 										<input type="hidden" id="brochure_form_action" name="brochure_form_action" value="UPDATE">
 										<input type="file" accept="application/pdf" class="form-control" name="product_brochure" id="product_brochure" />
 									</div>
