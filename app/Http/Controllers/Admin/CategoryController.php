@@ -262,8 +262,11 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $array_data = PostMetaData::where('meta_key','product_category')->orWhere('meta_value', $id)->first();
-        $product_data = ProductCategory::where('category_id', $id)->first();
-        $product_data = isset($product_data['category_id']) ? $product_data['category_id'] : "";
+        $product_data = ProductCategory::where('category_id', $id)->get();
+        foreach($product_data as $data) {
+            $data->delete();
+        }
+      //  $product_data = isset($product_data['category_id']) ? $product_data['category_id'] : "";
         $message = '';
         $category = explode(',', $array_data->meta_value);
         switch($id) {
@@ -271,10 +274,10 @@ class CategoryController extends Controller
                 $status = 'info';
                 $message = 'Category are already use Please delete first in Home Page located in Products Categories';
                 break;
-            case($product_data == $id):
-                $status = 'info';
-                $message = 'Product Category already exists';
-                break;
+            // case($product_data == $id):
+            //     $status = 'info';
+            //     $message = 'Product Category already exists';
+            //     break;
 
             default:
                 $delete =  Category::find($id)->delete();
