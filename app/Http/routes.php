@@ -219,6 +219,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	
 	Route::resource('settings','Admin\SettingsController');
 	Route::post('settings/setting_save','Admin\SettingsController@setting_save');
+	Route::post('settings/brochure_save','Admin\SettingsController@product_brochure_save');
 	
 	/*Variable*/
 	Route::any('variable', 'Admin\VariableController@index');

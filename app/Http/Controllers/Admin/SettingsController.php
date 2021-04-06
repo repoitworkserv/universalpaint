@@ -141,4 +141,36 @@ class SettingsController extends Controller
 		}
 		
 	}
+
+    public function product_brochure_save(Request $request) {
+        $new_filename           = '';
+        $allowedfileExtension   = ['PDF', 'pdf'];
+        $brochure_path          = public_path('img/product_brochure');
+        $message                = '';
+
+        $settings = Settings::first();
+        if($request->hasFile('product_brochure')) {
+            $brochure_pdf       = $request->file('product_brochure');
+            $filename           = $brochure_pdf->getClientOriginalName();
+            $extension          = $brochure_pdf->getClientOriginalExtension();
+            $check              = in_array($extension,$allowedfileExtension);
+
+            if ($check) {
+                if (is_file($brochure_path.$settings->product_brochure_pdf)) {
+                    unlink($brochure_path.$settings->product_brochure_pdf);
+                }
+                $new_filename = time() . '-' . str_replace(' ', '-',$filename);
+                $request->file('product_brochure')->move($brochure_path, $new_filename);
+            } else {
+                $message = 'Invalid File Type'; 
+                return redirect()->back()->with('status',$message);
+            }
+
+            $settings->product_brochure_pdf = $new_filename;
+            $message  = $settings->save() ? "Product Brochure PDF successfully saved" : "Error saving Product Brochure PDF";
+        }
+
+        return redirect()->back()->with('status',$message);
+        
+    }
 }

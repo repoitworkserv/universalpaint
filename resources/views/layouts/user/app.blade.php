@@ -64,7 +64,7 @@
                     @endphp
                     @if(isset($Page->GetMetaData('social_media_icons', 'post')['meta_value']) && $Page->GetMetaData('social_media_icons', 'post')['meta_value'])                
                     <div class="header-contact">
-                        <p class="smll-text">folow and like us on</p>
+                        <p class="smll-text">follow and like us on</p>
                         @foreach(explode(',', $Page->GetMetaData('social_media_icons', 'post')['meta_value']) as $icon)
                         <a href="{{\App\Post::findOrFail($icon)->button_link}}"><img src="{!! asset('img/post/') !!}/{!! \App\Post::findOrFail($icon)->featured_image; !!}"></a>   
                         @endforeach
@@ -173,7 +173,15 @@
                             <div class="desc">click to request a product</div>
                         </div>
                         <div class="btn-con">
-                            <a href="/under-maintenance/" target="_blank" class="btns">Request now</a>
+                            @php 
+                            $settings = \App\Settings::first();
+                            $product_brochure = isset($settings["product_brochure_pdf"]) && !empty($settings["product_brochure_pdf"]) ? URL::to('/')."/img/product_brochure/".$settings["product_brochure_pdf"] : "";
+                            @endphp 
+                            @if(!empty($product_brochure))
+                            <a href="{{$product_brochure}}" target="_blank" class="btns">Request now</a>
+                            @else 
+                            Request now
+                            @endif 
                         </div>
                     </div>
                     <div class="widget-box">
