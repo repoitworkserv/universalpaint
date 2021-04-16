@@ -842,5 +842,9 @@ span.remove, .remove_gallery{
     word-wrap: break-word;
 }
 
+#brochure_link {
+    word-break: break-all;
+}
+
 
   
