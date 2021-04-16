@@ -1418,6 +1418,7 @@ a.btn.white {
     text-transform: uppercase;
     text-align: center;
     margin-left: 30px;
+    border: 1px solid black;
 }
 
 
@@ -2266,6 +2267,14 @@ a.btn.white {
 
 #how-to-paint .accordion-content .left img {
     width: 100%;
+}
+
+.hide-content {
+    display: none;
+}
+
+.show-content {
+    display: block;
 }
 
 @media only screen and (max-width: 767px) {
