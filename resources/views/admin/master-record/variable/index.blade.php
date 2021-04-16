@@ -82,6 +82,11 @@
                         	<td>{{ $vl->description }}</td>
                         	<td>
                         		<a class="badge bg-orange edit-variable" data-varid="{{ $vl->id }}" data-varname="{{ $vl->name }}" data-vardesc = "{{ $vl->description }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
+														<form action="{{ URL::action('Admin\VariableController@destroy', $vl->id) }}" method="POST">
+																<input type="hidden" name="_method" value="POST">
+																<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+																<a id="alert{{$vl->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
+														</form>
                         	</td>
                         </tr>
                         <tr><td colspan="3"></td></tr>

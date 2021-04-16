@@ -168,6 +168,15 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $attr_data = Attribute::findOrFail($id);
+        if($attr_data->delete()) {
+            $status = 'success';
+            $message = 'Attribute successfully deleted!';
+        } else {
+            $status = 'error';
+            $message = 'Error deleting Attribute!';
+        }
+        
+        return redirect()->back()->with($status, $message);
     }
 }

@@ -71,21 +71,25 @@ class PostController extends Controller
                 }
             }
            
+            $displayed_title        = $request->has('displayed_title') ? 1 : 0;
+            $displayed_post_content = $request->has('displayed_post_content') ? 1 : 0;
+            $displayed_button       = $request->has('displayed_button') ? 1 : 0;
 
             $post_name = str_replace(' ', '-', trim(strtolower($request->post_title)));
             $post_name_count = Post::where('post_title', '=', $request->post_title)->count();
             $postdata = new Post;
-            $postdata->post_title           = $request->post_title;
-            $postdata->post_name            = $post_name;
-            $postdata->post_type            = 'post';
-            $postdata->post_content         = $request->post_content;
-            $postdata->displayed_title          = $request['displayed_title'];
-            $postdata->displayed_post_content   = $request['displayed_post_content'];
-            $postdata->displayed_button         = $request['displayed_button'];
-            $postdata->button_name          = $request->button_name;
-            $postdata->button_link          = $request->button_link;
-            $postdata->featured_image       = $new_filename;
-            $postdata->featured_banner      = $newbanner_filename;
+            $postdata->post_title               = $request->post_title;
+            $postdata->post_name                = $post_name;
+            $postdata->post_type                = 'post';
+            $postdata->post_content             = $request->post_content;
+            $postdata->displayed_title          = $displayed_title;
+            $postdata->displayed_post_content   = $displayed_post_content;
+            $postdata->background_color         = $request->background_color;
+            $postdata->displayed_button         = $displayed_button;
+            $postdata->button_name              = $request->button_name;
+            $postdata->button_link              = $request->button_link;
+            $postdata->featured_image           = $new_filename;
+            $postdata->featured_banner          = $newbanner_filename;
             if ($postdata->save()) {
                 $message = 'Post is successfully save';
             }
@@ -168,21 +172,25 @@ class PostController extends Controller
                 }
             }
 
+            $e_displayed_title        = $request->has('e_displayed_title') ? 1 : 0;
+            $e_displayed_post_content = $request->has('e_displayed_post_content') ? 1 : 0;
+            $e_displayed_button       = $request->has('e_displayed_button') ? 1 : 0;
 			$detail = urldecode($request->e_post_content);
 			/*$dom = new \domdocument();
 			$dom->loadHtml($detail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             $detail = $dom->savehtml();*/
             $postdata_0 = Post::find($request->e_post_id);
-            $postdata_0->post_title           = $request->e_post_title;
-            $postdata_0->post_name            = $post_name;
-            $postdata_0->post_content         = $detail;
-            $postdata_0->displayed_title          = $request['e_displayed_title'];
-            $postdata_0->displayed_post_content   = $request['e_displayed_post_content'];
-            $postdata_0->displayed_button         = $request['e_displayed_button'];
-            $postdata_0->button_name          = $request->e_button_name;
-            $postdata_0->button_link          = $request->e_button_link;
-            $postdata_0->featured_image       = $new_filename;
-            $postdata_0->featured_banner      = $newbanner_filename;
+            $postdata_0->post_title               = $request->e_post_title;
+            $postdata_0->post_name                = $post_name;
+            $postdata_0->post_content             = $detail;
+            $postdata_0->displayed_title          = $e_displayed_title;
+            $postdata_0->displayed_post_content   = $e_displayed_post_content;
+            $postdata_0->displayed_button         = $e_displayed_button;
+            $postdata_0->background_color         = $request->e_background_color;
+            $postdata_0->button_name              = $request->e_button_name;
+            $postdata_0->button_link              = $request->e_button_link;
+            $postdata_0->featured_image           = $new_filename;
+            $postdata_0->featured_banner          = $newbanner_filename;
             if ($postdata_0->save()) {
                 $status = 'success';
                 $message = 'Post is successfully updated';

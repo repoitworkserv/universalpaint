@@ -31,9 +31,7 @@ Route::get('/contact-us', function () {
 
 // Route::get('/request-a-quote', 'User\ProductPageController@requestQuote');
 
-Route::get('/how-to-paint', function () {
-	return view('user.how-to-paint.index');
-});
+Route::get('/how-to-paint','User\HowToPaintController@index');
 
 Route::get('/paint-calculator', function () {
 	return view('user.paint-calculator.index');
@@ -193,6 +191,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('page/link-save', 'Admin\PageController@lnk_store');
 	Route::post('page/lnk-info','Admin\PageController@get_lnk_info');
 	Route::post('page/lnk-add_post','Admin\PageController@link_manage_post');
+	Route::post('page/store-contact-us','Admin\PageController@store_contactus');
+	Route::post('page/add-contact-us-post','Admin\PageController@add_contact_us_post');
 	Route::resource('reviews-and-rating', 'Admin\ReviewsandRatingController');
 	Route::post('reviews-and-rating/review-action', 'Admin\ReviewsandRatingController@review_ratings');
 	Route::resource('shipping', 'Admin\ShippingController');
@@ -219,6 +219,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	
 	Route::resource('settings','Admin\SettingsController');
 	Route::post('settings/setting_save','Admin\SettingsController@setting_save');
+	Route::post('settings/brochure_save','Admin\SettingsController@product_brochure_save');
 	
 	/*Variable*/
 	Route::any('variable', 'Admin\VariableController@index');
@@ -226,6 +227,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('variable/{id}', [
         'uses' => 'Admin\VariableController@update'
 	]);
+	Route::post('variable-delete/{id}', 'Admin\VariableController@destroy');
 	
 	/*Attribute*/
 	Route::any('attribute', 'Admin\AttributeController@index');
@@ -233,6 +235,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('attribute/{id}', [
         'uses' => 'Admin\AttributeController@update'
 	]);
+	Route::post('attribute-delete/{id}', 'Admin\AttributeController@destroy');
 	
 	/*Product*/
 	Route::resource('product', 'Admin\ProductController');
@@ -258,7 +261,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	//Subscriber
 	Route::resource('subscriber', 'Admin\SubscriberController');
 	Route::resource('subscriber/status', 'Admin\SubscriberController@status_update');
-	
+	Route::get('/how-to-paint','Admin\HowToPaintController@index');
+	Route::post('/how-to-paint/store','Admin\HowToPaintController@store');
+	Route::post('/how-to-paint/show-content','Admin\HowToPaintController@show_content');
+	Route::post('/how-to-paint/add-content','Admin\HowToPaintController@add_content');
+	Route::post('/how-to-paint/update','Admin\HowToPaintController@update');
+	Route::post('/how-to-paint/update-content','Admin\HowToPaintController@update_content');
+	Route::delete('/how-to-paint/destroy/{id}','Admin\HowToPaintController@destroy');
+	Route::delete('/how-to-paint/destroy-content/{id}','Admin\HowToPaintController@destroy_content');
 	
 });
 

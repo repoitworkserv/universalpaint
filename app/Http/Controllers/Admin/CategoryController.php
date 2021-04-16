@@ -24,6 +24,7 @@ class CategoryController extends Controller
         $search_item = ($request->search_item) ? $request->search_item : '';
         if(empty($search_item)){
             $Category  = Category::paginate(10);
+            $AllCategory  = Category::get();
         }
         else {
             $Category   = Category::where(function($q) use($request){
@@ -32,10 +33,16 @@ class CategoryController extends Controller
                     $q->orWhere('description','like', '%'.$request->search_item. '%');
                 }
             })->paginate(10);
+            $AllCategory   = Category::where(function($q) use($request){
+                if($request->search_item){
+                        $q->where('name','like', '%'.$request->search_item. '%');
+                        $q->orWhere('description','like', '%'.$request->search_item. '%');
+                    }
+                })->get();
         }
         $id = Auth::id();
         $uimage = UserImages::where('user_id',$id)->with('ImageData')->get();
-        return view('admin.master-record.category.index', compact('uimage','Category','search_item'));
+        return view('admin.master-record.category.index', compact('uimage','Category','AllCategory','search_item'));
     }
 
     public function store(Request $request)
@@ -232,17 +239,16 @@ class CategoryController extends Controller
             } else {
                 $checkdesc = 1;
             }
-			
-			
+						
             $category = Category::find($request->e_category_id);
-            $category->name                 = $request->e_category_name;
-            $category->description          = $request->e_category_description;
-            $category->parent_id            = $request->e_category_parent;
-            $category->displayed_name       = $check;
+            $category->name                  = $request->e_category_name;
+            $category->description           = $request->e_category_description;
+            $category->parent_id             = $request->e_category_parent;
+            $category->displayed_name        = $check;
             $category->displayed_discription = $checkdesc;
-			$category->featured_img         = $new_filename;
-			$category->featured_img_banner  = $new_filename_banner;
-			$category->featured_img_bg  = $new_filename_background;
+			$category->featured_img          = $new_filename;
+			$category->featured_img_banner   = $new_filename_banner;
+			$category->featured_img_bg       = $new_filename_background;
             $category->save();
             $message = 'Category is successfuly updated';
 
@@ -256,7 +262,11 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $array_data = PostMetaData::where('meta_key','product_category')->orWhere('meta_value', $id)->first();
-        $product_data = ProductCategory::where('category_id', $id)->first()['category_id'];
+        $product_data = ProductCategory::where('category_id', $id)->get();
+        foreach($product_data as $data) {
+            $data->delete();
+        }
+      //  $product_data = isset($product_data['category_id']) ? $product_data['category_id'] : "";
         $message = '';
         $category = explode(',', $array_data->meta_value);
         switch($id) {
@@ -264,10 +274,10 @@ class CategoryController extends Controller
                 $status = 'info';
                 $message = 'Category are already use Please delete first in Home Page located in Products Categories';
                 break;
-            case($product_data == $id):
-                $status = 'info';
-                $message = 'Product Category already exists';
-                break;
+            // case($product_data == $id):
+            //     $status = 'info';
+            //     $message = 'Product Category already exists';
+            //     break;
 
             default:
                 $delete =  Category::find($id)->delete();
