@@ -153,6 +153,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/contact-us/">Contact us</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/cart">Cart</a>
+                                </li>
                             </ul>
                         </div>
                     </nav>

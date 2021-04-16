@@ -11,7 +11,7 @@
 	@endif
 	@if(session()->has('success'))
 	<div class="form-message" style= "display:block">
-		<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{session()->get('success')}}</div>
+		<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{!!session()->get('success')!!}</div>
 	</div>
 	@endif
 		<div class="heading">Color Charts and Brochures</div>
@@ -355,7 +355,7 @@
 		<input type="hidden" name="colorNameP" id="colorNameP">
 	  	<input type="hidden" name="colorChoose" id="colorChoose">
 		<input type="hidden" name="colorCss" id="colorCss">
-        <button class="btn btn-primary">Add</button>
+        <button id="modal_add" class="btn btn-primary">Add</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
 	  </form>
@@ -383,6 +383,7 @@ $(document).ready(function (){
 			$('#colorNameP').val($(this).data('name'));
 			$('.modal-header').css("background-color", rgb);
 			$('.modal-body').css("background-color", rgb);
+			$('#modal_add').hide();
 			if($('.btn-secondary').on('click') || $('.btn-primary').on('click')){
 			$(this).removeClass('color-selected')
 			var query = $('#colorChoose').val();
@@ -434,7 +435,6 @@ $(document).ready(function (){
 			data: send_data,
 			dataType: "json",
 			success:function(data){
-				console.log(data.id);
 				var response = {
 					prod_attr_id: data.id,
 					_token
@@ -444,13 +444,17 @@ $(document).ready(function (){
 					method: "post",
 					dataType: "json",
 					data: response,
+					beforeSend: function() {
+						$('#product_liters').parent().show();
+						$('#product_liters').html('<option value><i class="fa fa-spinner fa-spin"></i>Loading</option>');
+					},
 					success: function (data) {        
-						console.log(data);  
 						if(data.status == false) {
 								alert(data.msg);
+								$('#product_liters').html('<option value><i class="fa fa-spinner fa-spin"></i>Error getting available Liters</option>');
 						} else {
 							if(data !== null && data.length !== 0) {
-								$('#product_liters').html('<option value>Select Liters</option');
+								$('#product_liters').html('<option value>Select Liters</option>');
 								$.each(data,function(key,value) {
 									$('#product_liters').append(
 											'<option value="' + data[key].product_id + '">' + data[key].liters + '</option>'
@@ -479,16 +483,19 @@ $(document).ready(function (){
 														} else {
 																$('.prod_qty').attr('max',data.quantity);
 																$('.product_price_single').val(data.price);
+																$('#modal_add').show();
 														}
 												}
 										},
 										error: function(e) {
+												$('#product_liters').html('<option value><i class="fa fa-spinner fa-spin"></i>Error getting available Liters</option>');
 												console.log(e);
 										}
 									});
 								});
 							} else {
 								$('#product_liters').parent().hide();
+								$('#modal_add').show();
 							}
 						}
 					},

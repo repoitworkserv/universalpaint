@@ -973,6 +973,7 @@ class ProductPageController extends Controller
     $attributes = ProductAttribute::where('attribute_id','=',intval($query))->with('proddata')->get();
     $result = '<option value>Select Product</option>';
     $has_data = false;
+    $arr_checker = [];
 
     foreach($attributes as $attribute) {
         if( $attribute->proddata !== null) {
@@ -980,8 +981,9 @@ class ProductPageController extends Controller
             $parent_id = $attribute->proddata->parent_id;
             $product = Product::find($parent_id);
             $prod_name = (!empty($product->name)) ? $product->name : $product->product_code;
-            if(!empty($prod_name)) {
+            if(!empty($prod_name) && !in_array($prod_name, $arr_checker)) {
                 $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>'; 
+                array_push($arr_checker, $prod_name);
                 $has_data = true;
             }
         }

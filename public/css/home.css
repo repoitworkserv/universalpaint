@@ -2277,6 +2277,10 @@ a.btn.white {
     display: block;
 }
 
+.view_cart {
+    text-decoration: underline;
+}
+
 @media only screen and (max-width: 767px) {
 
     .cart-label {

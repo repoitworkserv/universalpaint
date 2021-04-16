@@ -157,11 +157,11 @@ class CartController extends Controller
                 } else {
                     $request->session()->push('gocart', $item);
                 }
-                $message = "Item is successfully added to cart";
+                $message = 'Item is successfully added to cart! &nbsp;&nbsp; <a href="/cart" class="view_cart"> View Cart </a>';
             }
             else {
                 $request->session()->push('gocart', $item);
-                $message = "Item is successfully added to cart";
+                $message = 'Item is successfully added to cart! &nbsp;&nbsp; <a href="/cart" class="view_cart"> View Cart </a>';
             }
             return redirect()->back()->with('success', $message);
         }
