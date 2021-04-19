@@ -288,7 +288,7 @@ class ProductPageController extends Controller
         }
         $color_count = $product[0]->UsedAttribute->count();
         if($color_count >5 )
-        {                        
+        {
             return view('user.color-swatches.index',compact('product_id','productAttributes'));
         }else{                          
             return view('user.product.details', compact('uid','category','cart','sub_category','user_product_price','user_product_discount_type','product_id','product','img_gal','query','user_condition','prod_rev_list', 'slug_name','prod_rev','user_type','product_rev','highprice','minsaleprice','prod_rev_list','userBrands'));
@@ -847,7 +847,11 @@ class ProductPageController extends Controller
         $cat_regColors = Attribute::where(function($q)use($param){            
             $q->where('cat_color','=', $param);
         })->get();
-               
+
+        $cat_bestSelling = Attribute::where(function($q)use($param){
+            $q->where('best_selling','=', 1);
+        })->get();
+
         return view('user.color-swatches.index', compact(
         'cat_blue',
         'cat_accents',
@@ -860,7 +864,8 @@ class ProductPageController extends Controller
         'cat_red',
         'cat_violet',
         'cat_yellow',
-        'cat_regColors'
+        'cat_regColors',
+        'cat_bestSelling'
         ));
     }
 
@@ -968,6 +973,7 @@ class ProductPageController extends Controller
     $attributes = ProductAttribute::where('attribute_id','=',intval($query))->with('proddata')->get();
     $result = '<option value>Select Product</option>';
     $has_data = false;
+    $arr_checker = [];
 
     foreach($attributes as $attribute) {
         if( $attribute->proddata !== null) {
@@ -975,8 +981,9 @@ class ProductPageController extends Controller
             $parent_id = $attribute->proddata->parent_id;
             $product = Product::find($parent_id);
             $prod_name = (!empty($product->name)) ? $product->name : $product->product_code;
-            if(!empty($prod_name)) {
+            if(!empty($prod_name) && !in_array($prod_name, $arr_checker)) {
                 $result .= '<option value="'.$prod_id.'">'.$prod_name.' </option>'; 
+                array_push($arr_checker, $prod_name);
                 $has_data = true;
             }
         }
