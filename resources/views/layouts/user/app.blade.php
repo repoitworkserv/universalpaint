@@ -154,7 +154,8 @@
                                     <a class="nav-link" href="/contact-us/">Contact us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/cart">Cart</a>
+                                    <a class="nav-link cart-icon-link" href="/cart">Cart</a>
+                                    <a class="nav-link cart-icon-img" href="/cart"> <img class="cart-icon" src="{!! asset('img/cart-icon.png') !!}"></a>
                                 </li>
                             </ul>
                         </div>

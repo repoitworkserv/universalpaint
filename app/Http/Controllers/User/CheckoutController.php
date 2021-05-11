@@ -260,7 +260,7 @@ class CheckoutController extends Controller
             if($check_order_code > 0 ) {
                 return redirect('/checkout')->with('error','Error! Order Code already exists! Please try reloading the page!');
             }
-            $process_result = $this->processsOrder($request,$checkout_details,$order_code,$payment_type);
+            $process_result = $this->processsOrder($request,$checkout_details,$order_code,$payment_type,$refno);
             if($process_result['status']) {
                 $customer_name = $checkout_details['first_name'] .' '. $checkout_details['last_name'];
                 $data = array(
@@ -694,7 +694,7 @@ class CheckoutController extends Controller
         }
     }
 
-    private function processsOrder($orig_request,$request,$order_id,$payment_type) {
+    private function processsOrder($orig_request,$request,$order_id,$payment_type,$refno = "") {
         $usermail               = isset($request->email_add) ? $request->email_add : $request['email_add'] ;
         $uadd                   = isset($request->complete_add) ? $request->complete_add :  $request['complete_add'];
         $shipping_address       = isset($request->complete_add) ? $request->complete_add :  $request['complete_add'];
@@ -716,6 +716,7 @@ class CheckoutController extends Controller
         $location               = $shipping_city;
         $order                          = new Order;
         $order->order_code              = $order_id; 
+        $order->ref_no                  = $refno;
         $order->customer_id             = 0;
         $order->payment_type            = $payment_type; 
         $order->invoice_no              = '';

@@ -167,6 +167,7 @@
                                                                     </div>
 
                                                                     @php    
+                                                                    $liters      = [];
                                                                     $parent_id   = $product_id;
                                                                     $subproducts = \App\Product::where('parent_id','=',$parent_id)->get();
 
@@ -174,43 +175,43 @@
                                                                         
                                                                         $prod_attr_data   = \App\ProductAttribute::where('product_id','=',$subproduct->id)->where('attribute_id','=',$color_data->id)->first();
                                                                         if($prod_attr_data !== null && !empty($prod_attr_data)) {
-                                                                            break;
+                                                                               
+                                                                            $attr_id     = $color_data->id;
+                                                                            $prod_id     = $prod_attr_data->product_id;
+
+                                                                            $variations  = \DB::table('product AS p')
+                                                                                            ->join('product_attribute AS pa','pa.product_id','=','p.id')
+                                                                                            ->join('attribute AS a','a.id','=','pa.attribute_id')
+                                                                                            ->join('variable AS v','v.id','=','a.variable_id')
+                                                                                            ->selectRaw("p.id,p.price,p.quantity,a.name")
+                                                                                            ->where('p.id','=',$prod_id)
+                                                                                            ->where('v.name','=','Liters')
+                                                                                            ->get();
+
+                                                                            foreach($variations as $variation) {
+                                                                                $prod_attrs = \DB::table('product_attribute AS pa')
+                                                                                                ->join('attribute AS a','pa.attribute_id','=','a.id')
+                                                                                                ->selectRaw('pa.*,a.*')
+                                                                                                ->where('pa.product_id','=',$variation->id)
+                                                                                                ->get();
+
+                                                                                if($prod_attrs[0]->attribute_id  == $attr_id) {
+                                                                                    array_push($liters, ["attrib_id" => $attr_id, "product_id" => $variation->id, "liters" => $prod_attrs[1]->name]);
+                                                                                }
+                                                                            }
                                                                         }
 
                                                                     }
-
-                                                                    $attr_id     = $color_data->id;
-                                                                    $prod_id     = $prod_attr_data->product_id;
-                                                                    $liters      = [];
-
-                                                                    $variations  = \DB::table('product AS p')
-                                                                                    ->join('product_attribute AS pa','pa.product_id','=','p.id')
-                                                                                    ->join('attribute AS a','a.id','=','pa.attribute_id')
-                                                                                    ->join('variable AS v','v.id','=','a.variable_id')
-                                                                                    ->selectRaw("p.id,p.price,p.quantity,a.name")
-                                                                                    ->where('p.id','=',$prod_id)
-                                                                                    ->where('v.name','=','Liters')
-                                                                                    ->get();
-
-                                                                    foreach($variations as $variation) {
-                                                                        $prod_attrs = \DB::table('product_attribute AS pa')
-                                                                                        ->join('attribute AS a','pa.attribute_id','=','a.id')
-                                                                                        ->selectRaw('pa.*,a.*')
-                                                                                        ->where('pa.product_id','=',$variation->id)
-                                                                                        ->get();
-
-                                                                        if($prod_attrs[0]->attribute_id  == $attr_id) {
-                                                                            array_push($liters, ["attrib_id" => $attr_id, "product_id" => $variation->id, "liters" => $prod_attrs[1]->name]);
-                                                                        }
-                                                                    }
-
+                                                                 
+                                                                    
+                                                                    
                                                                     @endphp
                                                 
                                                                     <div class="option-field">
                                                                         <input type="hidden" name="product_liters[]" class="product_liters" value="" />
                                                                         <input type="hidden" name="product_prices[]" class="product_price" value="" />
                                                                         @if(!empty($liters))
-                                                                        <select id="product_liters" class="product_liters form-control">
+                                                                        <select id="product_liters" class="product_liters form-control" required>
                                                                             <option value="">Select </option>
                                                                             @foreach($liters as $liter) 
                                                                             <option value="{{$liter['product_id']}}">{{ $liter['liters']}} </option>
@@ -467,9 +468,11 @@
                                         if(data.quantity == 0) {
                                             $('.prod_qty').val(data.quantity);
                                             alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+                                            $('#gotocart').hide();
                                         } else {
                                             $('.prod_qty').attr('max',data.quantity);
                                             $('.product_price_single').val(data.price);
+                                            $('#gotocart').show();
                                         }
                                     }
                                 },
@@ -508,9 +511,11 @@
                     if(data.quantity == 0) {
                         $('.prod_qty').val(data.quantity);
                         alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+                        $('#gotocart').hide();
                     } else {
                         dropdown.parent().next().find('.prod_qty').attr('max',data.quantity);
                         dropdown.parent().find('input[name="product_prices[]"]').val(data.price);
+                        $('#gotocart').show();
                     }
                 }
             },
