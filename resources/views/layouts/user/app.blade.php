@@ -165,12 +165,12 @@
                                     @endif
                                     <a class="nav-link cart-icon-link" href="/cart">Cart
 
-                                    @if($cart_items > 0  && !Request::is('checkout'))
+                                    @if($cart_count > 0  && !Request::is('checkout'))
                                         ({{ $cart_count }})
                                     @endif
                                     
                                     </a>
-                                    <a class="nav-link cart-icon-img" href="/cart"> <img class="cart-icon" src="{!! asset('img/cart-icon.png') !!}"> @if($cart_items > 0 && !Request::is('checkout'))
+                                    <a class="nav-link cart-icon-img" href="/cart"> <img class="cart-icon" src="{!! asset('img/cart-icon.png') !!}"> @if($cart_count > 0 && !Request::is('checkout'))
                                             ({{ $cart_count }})
                                             
                                             @endif</a>

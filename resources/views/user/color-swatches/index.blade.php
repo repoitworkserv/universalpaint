@@ -93,7 +93,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(isset($color->attributeData->cat_color) && (strtolower(trim($color->attributeData->cat_color)) == 'white' || strtolower(trim($color->attributeData->cat_color)) == 'off whites'))
-									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="@if(isset($color->attributeData->cat_color) && ($color->attributeData->cat_color == 'OFF WHITES' || $color->attributeData->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
@@ -101,7 +101,7 @@
 						@endif
 						@if(!empty($cat_off_whites))
 							@foreach($cat_off_whites as $color)
-								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
+								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );" style="@if(isset($color->cat_color) && ($color->cat_color == 'OFF WHITES' || $color->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );" }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
 							@endforeach
@@ -291,7 +291,7 @@
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
 								@if(isset($color->attributeData->best_selling) && $color->attributeData->best_selling)
-									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="@if(isset($color->cat_color) && ($color->cat_color == 'OFF WHITES' || $color->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
+									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="@if(isset($color->attributeData->cat_color) && ($color->attributeData->cat_color == 'OFF WHITES' || $color->attributeData->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
 								@endif
