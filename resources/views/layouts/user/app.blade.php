@@ -165,20 +165,12 @@
                                     @endif
                                     <a class="nav-link cart-icon-link" href="/cart">Cart
 
-                                    @if($cart_items > 0)
+                                    @if($cart_items > 0  && !Request::is('checkout'))
                                         ({{ $cart_count }})
                                     @endif
                                     
                                     </a>
                                     <a class="nav-link cart-icon-img" href="/cart"> <img class="cart-icon" src="{!! asset('img/cart-icon.png') !!}"> @if($cart_items > 0 && !Request::is('checkout'))
-                                            @php 
-                                                $cart_items = Session::get('gocart');
-                                                $cart_count = 0;
-                                                foreach($cart_items as $item) {
-                                                    $cart_count += count($item['product_details']);
-                                                }
-
-                                            @endphp 
                                             ({{ $cart_count }})
                                             
                                             @endif</a>
