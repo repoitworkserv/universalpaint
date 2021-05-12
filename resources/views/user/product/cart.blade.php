@@ -51,7 +51,7 @@
 				<div class="row col-sm-12 row-item mb-3 cart-color-details" > 
 					<div class="cart-color-name" >{{ $item['color_name'] }} </div>
 				</div>
-				<div class="row col-sm-12 row-item mb-3" id="row-content-{{$x}}" data-id="{{ $item['product_attribute'] }}">
+				<div class="row col-sm-12 row-item mb-6" id="row-content-{{$x}}" data-id="{{ $item['product_attribute'] }}">
 					<div class="cart-color-details">
 						<div class="cart-item" style="border:1px solid black; background-color: {{$item['css_color']}};"><br>
 							<div class="cart-img hidden-xs" style="height:100px; font-weight: bold;text-align: center;"></div>
@@ -74,7 +74,7 @@
 												@if($prod_data['image'])
 												<img src="img/products/{!!$prod_data['image']!!}" alt="" onerror="this.src='img/no_image.png'">
 												@endif
-											<div class="cart-product-name"><p >{!! $prod_data['name'] !!}  X {{$prod_data['qty']}}</p></div>
+											<div class="cart-product-name"><a href="{{URL::to('/').'/product/'.$prod_data['slug_name']}}"><p >{!! $prod_data['name'] !!}  X {{$prod_data['qty']}}</p></a></div>
 										</div>
 										</div>
 										<input type="hidden" name="pricerow-{{$x}}" id="price-{{$x}}">
@@ -165,25 +165,25 @@ $('.cart-add-paint').click(function() {
 // 	})
 // 	$('.subtotal').text('P '+subtotal.toFixed(2));
 // });
-$('.container .row  a').on('click', function(e) {
-	var query = $(this).data('id'), values = [];
-	var dataindex = $(this).data('index');
-	var qt = '#prod-row-'+dataindex;
-	$(function(){
+// $('.container .row  a').on('click', function(e) {
+// 	var query = $(this).data('id'), values = [];
+// 	var dataindex = $(this).data('index');
+// 	var qt = '#prod-row-'+dataindex;
+// 	$(function(){
 
 	 
-	});
-	if(!$(this).hasClass('active')){
-		console.log($(qt));
-		$(qt+' a').removeClass('active').addClass('inactive');
-		$(this).removeClass('inactive').addClass('active');
-		$(qt).find('a').each(function (index, value){
-			if($(value).hasClass('active') == false){
-				$(value).addClass('inactive');
-			}
-		})
-	} 
-});
+// 	});
+// 	if(!$(this).hasClass('active')){
+// 		console.log($(qt));
+// 		$(qt+' a').removeClass('active').addClass('inactive');
+// 		$(this).removeClass('inactive').addClass('active');
+// 		$(qt).find('a').each(function (index, value){
+// 			if($(value).hasClass('active') == false){
+// 				$(value).addClass('inactive');
+// 			}
+// 		})
+// 	} 
+// });
 
 //CART
 $('.remove-cart').on('click', function () {

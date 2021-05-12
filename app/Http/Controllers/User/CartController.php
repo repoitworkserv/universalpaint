@@ -53,6 +53,7 @@ class CartController extends Controller
             $item = [
                 'id' => $product[0]['id'],    
                 'name' => $product[0]['name'],
+                'slug_name' => $product[0]['slug_name'],
                 'qty' => 1,                    
                 'price' => $product[0]['price'],
                 'discount' => $product[0]['discount'],
@@ -125,6 +126,7 @@ class CartController extends Controller
                     [ 
                         'id' => $product['id'],    
                         'name' => $product_name,
+                        'slug_name' => $product['slug_name'],
                         'image' => $parent_product_img !== null ? $parent_product_img[0] : "",
                         'qty' => $quantity,          
                         'price' => $product['price'],
@@ -211,6 +213,7 @@ class CartController extends Controller
                             [ 
                                 'id' => $product['id'],    
                                 'name' => $product['name'],
+                                'slug_name' => $product['slug_name'],
                                 'image' => $product['featured_image'],
                                 'qty' => $quantity[$key],                    
                                 'price' => isset($request->product_prices) ? floatval($request->product_prices[$key]) : $product['price'],
@@ -241,6 +244,7 @@ class CartController extends Controller
                         [ 
                             'id' => $product['id'],    
                             'name' => $product['name'],
+                            'slug_name' => $product['slug_name'],
                             'image' => $product['featured_image'],
                             'qty' => $quantity[0],                    
                             'price' => $product['price'],

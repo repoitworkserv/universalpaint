@@ -2093,6 +2093,7 @@ a.btn.white {
 .cart-item {
     width: 220px;
     height: 165px;
+    margin-right: 10px;
 }
 
 .cart-item-img > img {
@@ -2298,6 +2299,10 @@ a.btn.white {
 #preselectcolor_form {
     margin-left: 40px;
     margin-bottom: 20px;
+}
+
+.mb-6 {
+    margin-bottom: 6rem!important
 }
 
 @media only screen and (max-width: 767px) {
