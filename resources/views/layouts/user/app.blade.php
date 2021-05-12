@@ -154,10 +154,10 @@
                                     <a class="nav-link" href="/contact-us/">Contact us</a>
                                 </li>
                                 <li class="nav-item">
+                                    @php  $cart_count = 0; @endphp
                                     @if(Session::has('gocart'))
                                     @php 
                                         $cart_items = Session::get('gocart');
-                                        $cart_count = 0;
                                         foreach($cart_items as $item) {
                                             $cart_count += count($item['product_details']);
                                         }
