@@ -30,6 +30,7 @@
 			<br><br><br><br><br><br>
 				@php $x=0; @endphp
 				@if($cart)
+				@php $total_subtotal = 0.00 @endphp 
 					<div class="row col-sm-12 col-lg-12 row-item" > 
 						<div class="cart-label" >
 							<p>Select Paint Options to proceed</p> 
@@ -40,10 +41,17 @@
 				@endif
 				@if($cart)
 				@foreach($cart as $item)
+
+				@php
+				$price = $item['product_details'][0]['is_sale'] !== 0 ?  $item['product_details'][0]['sale_price'] : $item['product_details'][0]['price'];
+				$qty   = $item['product_details'][0]['qty'];
+				$subtotal = $price * $qty;
+				$total_subtotal += $subtotal;
+				@endphp 
 				<div class="row col-sm-12 row-item mb-3 cart-color-details" > 
 					<div class="cart-color-name" >{{ $item['color_name'] }} </div>
 				</div>
-				<div class="row col-sm-12 row-item mb-3" id="row-content-{{$x}}" data-id="{{ $item['product_attribute'] }}">
+				<div class="row col-sm-12 row-item mb-6" id="row-content-{{$x}}" data-id="{{ $item['product_attribute'] }}">
 					<div class="cart-color-details">
 						<div class="cart-item" style="border:1px solid black; background-color: {{$item['css_color']}};"><br>
 							<div class="cart-img hidden-xs" style="height:100px; font-weight: bold;text-align: center;"></div>
@@ -66,7 +74,7 @@
 												@if($prod_data['image'])
 												<img src="img/products/{!!$prod_data['image']!!}" alt="" onerror="this.src='img/no_image.png'">
 												@endif
-											<div class="cart-product-name"><p >{!! $prod_data['name'] !!}  X {{$prod_data['qty']}}</p></div>
+											<div class="cart-product-name"><a href="{{URL::to('/').'/product/'.$prod_data['slug_name']}}"><p >{!! $prod_data['name'] !!}  X {{$prod_data['qty']}}</p></a></div>
 										</div>
 										</div>
 										<input type="hidden" name="pricerow-{{$x}}" id="price-{{$x}}">
@@ -84,7 +92,7 @@
 						</select>
 					</div> -->
 					<input type="hidden" name="price-color" id="price-color-{{$x}}" class="price-color">
-					<div class="col-sm-1 col-lg-1 ml-5"><div class="list-price-{{$x}} pricelist">P 0.00</div><br></div>
+					<div class="col-sm-1 col-lg-1 ml-5"><div class="list-price-{{$x}} pricelist">P{{number_format($subtotal,2)}}</div><br></div>
 				</div>
 				@php $x++; @endphp
 				<div class="row col-sm-12 row-item mb-3 cart-add-paint" > Add another paint </div>		
@@ -109,7 +117,7 @@
 				<div class="col-sm-2 col-lg-7">
 
 				</div>
-				<div class="col-sm-8 col-lg-3 cart-subtotal-label">Subtotal <span class="subtotal ml-5">P 0.00</span></div>
+				<div class="col-sm-8 col-lg-3 cart-subtotal-label">Subtotal <span class="subtotal ml-5">P {{number_format($total_subtotal,2)}}</span></div>
 				<div class="col-sm-1"><br>
 				<!-- <button onclick="window.location='{{ url("/checkout") }}'" class="btn checkout-order" >Checkout</button> -->
 				<!-- <button href="{!! url('/checkout') !!}" class="btn checkout-order">Checkout</button> -->
@@ -144,38 +152,38 @@ $('.cart-add-paint').click(function() {
 	window.location = "{{URL::to('/color-swatches')}}";
 });
 
-$('.select-option').click(function() {
-	var price = parseFloat($(this).data('price'));
-	var qty = parseFloat($(this).data('qty'));
-	var total_price = price * qty;
-	var p_index = $(this).data('index');
-	var subtotal = 0.00;
-	$('.list-price-'+p_index).text("P"+total_price.toFixed(2));
+// $('.select-option').click(function() {
+// 	var price = parseFloat($(this).data('price'));
+// 	var qty = parseFloat($(this).data('qty'));
+// 	var total_price = price * qty;
+// 	var p_index = $(this).data('index');
+// 	var subtotal = 0.00;
+// 	$('.list-price-'+p_index).text("P"+total_price.toFixed(2));
 
-	$('.pricelist').each(function() {
-		subtotal += parseFloat($(this).text().replace('P',''));
-	})
-	$('.subtotal').text('P '+subtotal.toFixed(2));
-});
-$('.container .row  a').on('click', function(e) {
-	var query = $(this).data('id'), values = [];
-	var dataindex = $(this).data('index');
-	var qt = '#prod-row-'+dataindex;
-	$(function(){
+// 	$('.pricelist').each(function() {
+// 		subtotal += parseFloat($(this).text().replace('P',''));
+// 	})
+// 	$('.subtotal').text('P '+subtotal.toFixed(2));
+// });
+// $('.container .row  a').on('click', function(e) {
+// 	var query = $(this).data('id'), values = [];
+// 	var dataindex = $(this).data('index');
+// 	var qt = '#prod-row-'+dataindex;
+// 	$(function(){
 
 	 
-	});
-	if(!$(this).hasClass('active')){
-		console.log($(qt));
-		$(qt+' a').removeClass('active').addClass('inactive');
-		$(this).removeClass('inactive').addClass('active');
-		$(qt).find('a').each(function (index, value){
-			if($(value).hasClass('active') == false){
-				$(value).addClass('inactive');
-			}
-		})
-	} 
-});
+// 	});
+// 	if(!$(this).hasClass('active')){
+// 		console.log($(qt));
+// 		$(qt+' a').removeClass('active').addClass('inactive');
+// 		$(this).removeClass('inactive').addClass('active');
+// 		$(qt).find('a').each(function (index, value){
+// 			if($(value).hasClass('active') == false){
+// 				$(value).addClass('inactive');
+// 			}
+// 		})
+// 	} 
+// });
 
 //CART
 $('.remove-cart').on('click', function () {

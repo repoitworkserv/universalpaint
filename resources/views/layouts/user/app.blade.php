@@ -154,7 +154,26 @@
                                     <a class="nav-link" href="/contact-us/">Contact us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/cart">Cart</a>
+                                    @php  $cart_count = 0; @endphp
+                                    @if(Session::has('gocart'))
+                                    @php 
+                                        $cart_items = Session::get('gocart');
+                                        foreach($cart_items as $item) {
+                                            $cart_count += count($item['product_details']);
+                                        }
+                                    @endphp 
+                                    @endif
+                                    <a class="nav-link cart-icon-link" href="/cart">Cart
+
+                                    @if($cart_count > 0  && !Request::is('checkout'))
+                                        ({{ $cart_count }})
+                                    @endif
+                                    
+                                    </a>
+                                    <a class="nav-link cart-icon-img" href="/cart"> <img class="cart-icon" src="{!! asset('img/cart-icon.png') !!}"> @if($cart_count > 0 && !Request::is('checkout'))
+                                            ({{ $cart_count }})
+                                            
+                                            @endif</a>
                                 </li>
                             </ul>
                         </div>

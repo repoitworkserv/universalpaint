@@ -1289,11 +1289,13 @@ $('.sharebtn').on('click',function(){
             let surfaceCondition = $("#surface-condition").text();
             let perLiter;
 
-            if (surfaceCondition === "NEW PAINT") {
-                perLiter = 6.25;
-            } else {
-                perLiter = 7.5;
-            }
+            // if (surfaceCondition === "NEW PAINT") {
+            //     perLiter = 6.25;
+            // } else {
+            //     perLiter = 7.5;
+            // }
+            
+            perLiter = 4;
 
             let liter;
             let sqm = $("#area-in-sqm").val();

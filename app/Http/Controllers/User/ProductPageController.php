@@ -818,10 +818,13 @@ class ProductPageController extends Controller
             $q->where('cat_color','=', $param);
         })->get();    
            
-        $param = 'OFF WHITES';
-        $cat_off_whites = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
+        $params = ['OFF WHITES', 'White'];
+
+        $cat_off_whites = Attribute::where(function($q)use($params){          
+            foreach($params as $param) {
+                $q->orWhere('cat_color','=', $param);
+            }
+        })->get();
         
         $param = 'Orange';
         $cat_orange = Attribute::where(function($q)use($param){            

@@ -289,7 +289,7 @@
     padding-bottom: 12px;">
                     <div class="button-group">
                         <button type="submit" class="btn btn-warning">Request</button>                        
-                        <a href="#" class="btn" data-dismiss="modal" >CLOSE</a>                        
+                        <button id="button_close" class="btn btn-warning" data-dismiss="modal" >CLOSE</button>                        
                     </div>
                 </div>
             </form>
@@ -302,6 +302,10 @@
 
 <script>
     $(document).ready(function() {
+        $('#button_close').click(function() {
+            $('#broc_fullname').val("");
+            $('#broc_email').val("");
+        });
         $('.download_pdf').click(function() {
             var product_id = $(this).data('id');
             $('#broc_product').val(product_id);
@@ -325,6 +329,8 @@
                 method: "POST",
                 data: data,
                 success: function (data,status,xhr) {   // success callback function
+                    $('#broc_fullname').val("");
+                    $('#broc_email').val("");
                    $('#emailRequestModal').modal('hide');
                    alert("Thank you for providing your name and email. The brochure will now start downloading...");
                    window.location = data.url;
