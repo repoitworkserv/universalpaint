@@ -31,13 +31,6 @@
 				@php $x=0; @endphp
 				@if($cart)
 				@php $total_subtotal = 0.00 @endphp 
-					<div class="row col-sm-12 col-lg-12 row-item" > 
-						<div class="cart-label" >
-							<p>Select Paint Options to proceed</p> 
-							<p>{{$x+1}}&nbsp;CHOOSE YOUR UNIVERSAL PAINT PRODUCT</p> 
-							<p>PAINTS HERE</p> 
-						</div>
-					</div>
 				@endif
 				@if($cart)
 				@foreach($cart as $item)
