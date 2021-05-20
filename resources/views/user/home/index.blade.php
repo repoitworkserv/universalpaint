@@ -264,7 +264,7 @@
     padding-bottom: 12px;"><h4 class="modal-title">Enter Email Info</h4></div>
                 <div class="panel-body" style="background: #fff;
     padding-top: 26px;
-    padding-left: 26px;"> 
+    padding-left: 26px; padding-right: 26px;"> 
                 	<div class="row">      
                                   		
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -288,7 +288,8 @@
     padding-top: 12px;
     padding-bottom: 12px;">
                     <div class="button-group">
-                        <button type="submit" class="btn btn-warning">Request</button>                        
+                        <button type="submit" class="btn btn-warning" style="
+    margin-right: 20px;">Request</button>                        
                         <button id="button_close" class="btn btn-warning" data-dismiss="modal" >CLOSE</button>                        
                     </div>
                 </div>

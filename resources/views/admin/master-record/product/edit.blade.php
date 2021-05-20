@@ -70,15 +70,18 @@
                            @php
                            $interior_checked = 'checked';
                            @endphp	
-                           @elseif($productdetails->exterior == 1)										
+                           @endif
+                           @if($productdetails->exterior == 1)										
                            @php
                            $exterior_checked = 'checked';
                            @endphp	
-                           @elseif($productdetails->surface_preparation == 1)	
+                           @endif
+                           @if($productdetails->surface_preparation == 1)	
                            @php
                            $surface_preparation_checked = 'checked';
                            @endphp	
-                           @elseif($productdetails->industrial == 1)
+                           @endif
+                           @if($productdetails->industrial == 1)
                            @php
                            $industrial_checked = 'checked';
                            @endphp	

@@ -178,8 +178,8 @@ p {
 }
 
 .seventh-column-dropdown {
-    display: flex;
-    align-items: center
+    margin-top: 110px;
+    align-items: center;
 }
 
 .dropdown-menu.product-after:after {
@@ -2237,12 +2237,12 @@ a.btn.white {
     background: rgba(221,32,50,255);
     border-color: rgba(221,32,50,255);
     width: 100%;
+    margin-bottom: 10px;
 }
 
 .checkout-buttons > #btn-request-quote {
     width: 100%;
 }
-
 
 #dragonpay-button {
     background: url('/img/dragonpay_logo.png');
@@ -2255,8 +2255,8 @@ a.btn.white {
     cursor: pointer;
     border-radius: 4px;
     padding: 5px;
-    margin: 10px 0;
     width: 100%;
+    margin-bottom: 10px;
 
 }
 #dragonpay-button:hover {

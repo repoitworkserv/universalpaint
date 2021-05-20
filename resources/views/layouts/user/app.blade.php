@@ -115,6 +115,9 @@
                                                         @endforeach
                                                 </div>
                                                 @endif -->
+                                                @php 
+                                                $brands = \App\Brand::where('hide_brand',0)->get();
+                                                @endphp 
                                                 @if(!empty($brands))
                                                 <div class="row">
                                                 <hr>
