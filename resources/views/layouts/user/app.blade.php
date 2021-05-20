@@ -131,7 +131,7 @@
                                                 </div>
                                                 @endif
                                             </div> 
-                                            <div class="col-lg-4 seventh-column-dropdown">
+                                            <div class="col-lg-4 seventh-column-dropdown" @if(Request::is('cart')) style="margin-top: 70px !important;" @endif >
                                                 @if(!empty($brands))
                                                 <div class="row">
                                                 @for ($i = 0; $i < sizeof($brands); $i++)
