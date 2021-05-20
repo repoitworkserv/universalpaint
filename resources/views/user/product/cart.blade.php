@@ -88,8 +88,8 @@
 					<div class="col-sm-1 col-lg-1 ml-5"><div class="list-price-{{$x}} pricelist">P{{number_format($subtotal,2)}}</div><br></div>
 				</div>
 				@php $x++; @endphp
-				<div class="row col-sm-12 row-item mb-3 cart-add-paint" > Add another paint </div>		
 				@endforeach		
+				<div class="row col-sm-12 row-item mb-3 cart-add-paint" > Add another paint </div>		
 				@else 
 				<div class="page-header">
 					<h5>Shopping Cart</h5>
