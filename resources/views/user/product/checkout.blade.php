@@ -151,8 +151,13 @@
                 </div>
                 <div class="row col-lg-12 checkout-buttons">
                     <div class="form-error" style="display:none"></div>
+                    @if(isset($paymentMethod['cashondelivery']['enable']) && $paymentMethod['cashondelivery']['enable'] == "1")
                     <button type="submit" class="btn btn-primary send-request" id="btn-checkoutdetails">Cash on Delivery</button>
+                    @endif
+
+                    @if(isset($paymentMethod['dragonpay']['enable']) || isset($paymentMethod['dragonpay']['sandbox']) )
                     <div id="dragonpay-button"></div>
+                    @endif
                     <button class="btn btn-secondary request-quote" id="btn-request-quote">Request a Quote</button>
                 </div>
             </div>

@@ -1288,12 +1288,13 @@ $('.sharebtn').on('click',function(){
         function computePerLiter() {
             let surfaceCondition = $("#surface-condition").text();
             let perLiter;
+            let sqmDivisor;
 
-            // if (surfaceCondition === "NEW PAINT") {
-            //     perLiter = 6.25;
-            // } else {
-            //     perLiter = 7.5;
-            // }
+            if (surfaceCondition === "NEW PAINT") {
+                sqmDivisor = 25;
+            } else {
+                sqmDivisor = 30;
+            }
             
             perLiter = 4;
 
@@ -1301,7 +1302,7 @@ $('.sharebtn').on('click',function(){
             let sqm = $("#area-in-sqm").val();
 
             if (isFinite(sqm)) {
-                liter = Math.ceil(sqm / perLiter);
+                liter = Math.ceil((sqm /sqmDivisor) * perLiter);
             }
 
             $(".liter").text(liter);
