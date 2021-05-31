@@ -3355,20 +3355,20 @@ only screen and (max-width: 992px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
 	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr { 
+	#cart table, thead, tbody, th, td, tr { 
 		display: block; 
 	}
 	
 	/* Hide table headers (but not display: none;, for accessibility) */
-	thead tr { 
+	#cart thead tr { 
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
 	}
 	
-	tr { border: 1px solid #ccc; }
+	#cart tr { border: 1px solid #ccc; }
 	
-	td { 
+	#cart td { 
 		/* Behave  like a "row" */
 		border: none;
 		border-bottom: 1px solid #eee; 
@@ -3376,7 +3376,7 @@ only screen and (max-width: 992px),
 		padding-left: 50%; 
 	}
 	
-	td:before { 
+	#cart td:before { 
 		/* Now like a table header */
 		position: absolute;
 		/* Top/left values mimic padding */
@@ -3390,12 +3390,12 @@ only screen and (max-width: 992px),
 	/*
 	Label the data
 	*/
-	td:nth-of-type(1):before { content: "Color"; font-weight: 800; }
-	td:nth-of-type(2):before { content: "Image"; font-weight: 800;  }
-	td:nth-of-type(3):before { content: "Item"; font-weight: 800;  }
-	td:nth-of-type(4):before { content: "No. of Liters"; font-weight: 800;  }
-	td:nth-of-type(5):before { content: "Quantity"; font-weight: 800;  }
-	td:nth-of-type(6):before { content: "Price"; font-weight: 800;  }
+	#cart td:nth-of-type(1):before { content: "Color"; font-weight: 800; }
+	#cart td:nth-of-type(2):before { content: "Image"; font-weight: 800;  }
+	#cart td:nth-of-type(3):before { content: "Item"; font-weight: 800;  }
+	#cart td:nth-of-type(4):before { content: "No. of Liters"; font-weight: 800;  }
+	#cart td:nth-of-type(5):before { content: "Quantity"; font-weight: 800;  }
+	#cart td:nth-of-type(6):before { content: "Price"; font-weight: 800;  }
 
     .size-volume {
         margin-right: 0px;
