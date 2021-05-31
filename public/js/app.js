@@ -464,37 +464,40 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
         var Token = $('input[name="_token"]').val();
 
-        $.ajax({
+        if(confirm("Are you sure you want to remove?")) {
+            $.ajax({
 
-            url: '/remove-cart',
+                url: '/remove-cart',
 
-            method: "post",
+                method: "post",
 
-            dataType: "json",
+                dataType: "json",
 
-            data: {
+                data: {
 
-                cart_id: cart_id,
+                    cart_id: cart_id,
 
-                _token: Token
+                    _token: Token
 
-            },
+                },
 
-            success: function (data) {
+                success: function (data) {
 
-                console.log('ok');
+                    console.log('ok');
 
-                location.reload();
+                    location.reload();
 
-            },
+                },
 
-            error: function(){
+                error: function(){
 
-                console.log('error');
+                    console.log('error');
 
-            }
+                }
 
-        });
+            });
+
+        }
 
     })
 
@@ -502,21 +505,31 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
     function check_existing_qty(classcntnt) {
 
-        var Token = $('input[name="_token"]').val();
+        var _token = $('input[name="_token"]').val();
 
-        var cart_id = $(classcntnt).data('index');
+        var cart_index = $(classcntnt).data('index');
 
-        var qty = $(classcntnt).val();
+        var newqty = $(classcntnt).val();
 
-        var newqty = $(classcntnt);
+        var color =  $(classcntnt).data('color');
 
-        var price_container = newqty.parent('td').prev();
+        var liter = $(classcntnt).data('liter');
 
-        var price = price_container.children('.latest-price').html().replace(/[^\d.-]/g, '');
+        var price =  $(classcntnt).data('price');
 
-        var totalme = 0;
+        var totalsubtotal = $('.subtotal').text().replace('P','').replace(',','').trim();
 
-        // var price = parseFloat(newqty.parent('td').prev().find('span').html());
+        var data  = {
+            _token,
+            cart_index,
+            newqty, 
+            liter,
+            color,
+            price,
+            totalsubtotal
+        }
+
+        console.log(data);
 
         $.ajax({
 
@@ -526,56 +539,13 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
             dataType: "json",
 
-            data: {
-
-                cart_id: cart_id,
-
-                qty: qty,
-
-                _token: Token
-
-            },
+            data,
 
             success: function (data) {
-
-                // console.log(data);
-
-                if (parseInt(qty) > parseInt(data.quantity)) {
-
-                    newqty.val(data.quantity);
-
-
-
-                    // newqty.parent('td').next().html('&#8369; ' + (price * parseFloat(data.quantity)).toFixed(2));
-
-                    newqty.parent('td').next().html(format2((price * parseFloat(data.quantity)), '&#8369; '));
-
-
-
-                } else {
-
-                    // newqty.parent('td').next().html('&#8369; ' + (price * parseFloat(qty)).toFixed(2));
-
-                    newqty.parent('td').next().html(format2((price * parseFloat(qty)), '&#8369; '));
-
-                    
-
-                    for(var carts = 0; carts < $('table.cart-table:eq(0) tbody tr').length; carts++){
-
-                        totalme += parseFloat($('table.cart-table:eq(0) tbody').find('tr').eq(carts).find('td').eq(5).html().replace(/[^0-9.]/gi,''));
-
-                    }
-
-                    $('.sub-total').val((totalme));
-
-                    $('table.cart-table:eq(1) tbody tr td:eq(1)').html('&#8369; '+(totalme));
-
-                    
-
-                }
-
-                $('#shipping-location').trigger('change');
-
+                var new_subtotal_price = data.subtotal;
+                var new_total_subtotal = data.subtotal_total;
+                $('.list-price-'+cart_index).text('P'+new_subtotal_price); 
+                $('.subtotal').text('P '+new_total_subtotal);
             }
 
         });
@@ -584,15 +554,14 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
 
 
-    $('.cart-qty-cntn .cart-qty').on('change keyup', function () {
-
+    $('#cart .cart-qty').on('change keyup', function () {
         check_existing_qty($(this));
 
     })
 
     
 
-    $('.cart-qty-cntn .qty-minus').on('click', function () {
+    $('#cart .qty-minus').on('click', function () {
 
         var item_qty = $(this).prev().val();
 
@@ -610,7 +579,7 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
     
 
-    $('.cart-qty-cntn .qty-plus').on('click', function () {
+    $('#cart .qty-plus').on('click', function () {
 
         var item_qty = $(this).next().val();
 

@@ -86,7 +86,7 @@
                                                                         @endphp
                                                                         <td>{{ $index['liter'] }}</td>
                                                                         <td>{{$index['qty']}}</td>
-                                                                        <td>{{ $totalprice }} </td>
+                                                                        <td>{{ number_format($totalprice,2) }} </td>
                                                                     </tr>
                                                                     @endforeach
                                                                 @endfor
@@ -114,7 +114,7 @@
                             <Label>Subtotal</Label>
                         </div>
                         <div class="col-lg-3">
-                            <span id="subtotal"> P{{$sub_total}} </span>
+                            <span id="subtotal"> P{{number_format($sub_total,2)}} </span>
                             <input type="hidden" name="subtotal" value="{{$sub_total}}" />
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                             <Label>Estimated Total</Label>
                         </div>
                         <div class="col-lg-3">
-                            <span id="total"> P{{$total}} </span>
+                            <span id="total"> P{{number_format($total,2)}} </span>
                             <input type="hidden" name="total" value="{{$total}}" />
                         </div>
                     </div>
@@ -183,6 +183,10 @@ $(document).ready(function (){
 	// 		}
 	// 	});
 	// });
+
+    var formatNumber = function(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
 
     $('#dragonpay-button').on('click', function() {
         var billing_address = document.getElementById('complete_add').value, 
@@ -289,11 +293,11 @@ $(document).ready(function (){
                         setTimeout(function(){$('.form-error').fadeOut() }, 2000);
                     } else {
                         var shipping_fee = parseFloat(data.estimated_shipping).toFixed(2);
-                        var subtotal = parseFloat($('#subtotal').text().replace('P','')).toFixed(2);
-                        var discount = parseFloat($('#discount').text().replace('P','')).toFixed(2);
+                        var subtotal = parseFloat($('input[name=subtotal]').val()).toFixed(2);
+                        var discount = parseFloat($('input[name=discount]').val()).toFixed(2);
                         var total = parseFloat(subtotal) + parseFloat(shipping_fee) - discount;
                         $('#shipping').text(shipping_fee);
-                        $('#total').html('P'+total.toFixed(2));
+                        $('#total').html('P'+formatNumber(total.toFixed(2)));
                         $('input[name=shipping]').val(shipping_fee);
                         $('input[name=subtotal]').val(subtotal);
                         $('input[name=total]').val(total.toFixed(2));

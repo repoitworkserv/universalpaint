@@ -257,7 +257,7 @@
                                                 <div class="option-field mt-2">
                                                     <input type="hidden" name="product_liters[]" class="product_liters_single" value="" />
                                                     <input type="hidden" name="product_prices[]" class="product_price_single" value="" />
-                                                    <select id="product_liters" class="form-control">
+                                                    <select id="product_liters" class="form-control" required>
                                                         <option value="">Select </option>
                                                     <select>                                                                                                        
                                                 </div>

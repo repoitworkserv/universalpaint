@@ -119,6 +119,7 @@ class CartController extends Controller
             $parent_product_img = Product::where('name','=',$product_name)->pluck('featured_image');
             $product = Product::find($productid);
             $item = [
+                'product_id'       => $productid,
                 'product_attribute' => $attribute,
                 'css_color' => $csscolor,
                 'color_name' => $colorname,
@@ -146,16 +147,16 @@ class CartController extends Controller
             ];
             if ($request->session()->has('gocart')) {
                 $cart = $request->session()->get('gocart');
-                $key = array_search($colorname, array_column($cart, 'color_name'));
+                $key = array_search($productid, array_column($cart, 'product_id'));
                 if($key !== false) {
                     foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
-                        if($item['product_details'][0]['id'] == $cart_item['id']) {
+                        if($item['product_details'][0]['color'] == $cart_item['color'] && $item['product_details'][0]['liter'] == $cart_item['liter']) {
                             $cart[$key]['product_details'][$cart_item_key]['qty'] += $quantity;
+                            $request->session()->put('gocart', $cart);
                         } else {
-                            array_push($cart[$key]['product_details'],$item['product_details'][0]);
+                            $request->session()->push('gocart', $item);
                         }
                     }
-                    $request->session()->put('gocart', $cart);
                 } else {
                     $request->session()->push('gocart', $item);
                 }
@@ -206,6 +207,7 @@ class CartController extends Controller
             if(!empty($colornames)) {
                 foreach($colornames as $key => $colorname) {
                     $item = [
+                        'product_id'       => $productid,
                         'product_attribute' => $color_ids[$key],
                         'css_color' => $csscolor[$key],
                         'color_name' => $colorname,
@@ -237,6 +239,7 @@ class CartController extends Controller
             } else {
 
                 $item = [
+                    'product_id'       => $productid,
                     'product_attribute' => 0,
                     'css_color' => "none",
                     'color_name' => "none",
@@ -273,16 +276,16 @@ class CartController extends Controller
 
         if ($request->session()->has('gocart')) {
             $cart = $request->session()->get('gocart');
-            $key = array_search($item['color_name'], array_column($cart, 'color_name'));
+            $key = array_search($item['product_id'], array_column($cart, 'product_id'));
             if($key !== false) {
-                    foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
-                        if($item['product_details'][0]['id'] == $cart_item['id']) {
-                            $cart[$key]['product_details'][$cart_item_key]['qty'] += $item['product_details'][0]['qty'];
-                        } else {
-                            array_push($cart[$key]['product_details'],$item['product_details'][0]);
-                        }
+                foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
+                    if($item['product_details'][0]['color'] == $cart_item['color'] && $item['product_details'][0]['liter'] == $cart_item['liter']) {
+                        $cart[$key]['product_details'][$cart_item_key]['qty'] += $item['product_details'][0]['qty'];
+                        $request->session()->put('gocart', $cart);
+                    } else {
+                        $request->session()->push('gocart', $item);
                     }
-                $request->session()->put('gocart', $cart);
+                }
             } else {
                 $request->session()->push('gocart', $item);
             }
@@ -297,7 +300,6 @@ class CartController extends Controller
 
     public function addCartMultipleColors(Request $request) {
 
-        dd($request->all());
         if(!Auth::user()) {
 
             $item = [
@@ -354,17 +356,32 @@ class CartController extends Controller
 
     public function checkcart(Request $request)
     {
-        $cart = $request->session()->get('cart');
-        $selected_item = $cart[$request->cart_id];
-        $selected_product = Product::where('id', $selected_item['id'])->first();
-        $cart = $request->session()->get('cart');
-        if($request->qty > $selected_product['quantity']) {
-            $cart[$request->cart_id]['qty'] = $selected_product['quantity'];
-        } else {
-            $cart[$request->cart_id]['qty'] = $request->qty;
+        if ($request->session()->has('gocart')) {
+            $cart          = $request->session()->get('gocart');
+            $key           = $request->cart_index;
+            $color         = $request->color;
+            $liter         = $request->liter;
+            $old_qty       = $cart[$key]['product_details'][0]['qty']; 
+            $new_qty       = (float)$request->newqty;
+            $price         = (float)$request->price;
+            $totalsubtotal = (float) $request->totalsubtotal;
+            $oldsubtotal   =  $price * $old_qty;
+            $newsubtotal   =  $price * $new_qty;
+            $totalsubtotal =  $totalsubtotal - $oldsubtotal;
+            $totalsubtotal =  $totalsubtotal + $newsubtotal;
+            foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
+                if($color == $cart_item['color'] && $liter == $cart_item['liter']) {
+                    $cart[$key]['product_details'][$cart_item_key]['qty']   = $new_qty;
+                    $request->session()->put('gocart', $cart);
+                }
+            }
         }
-        $request->session()->put('cart', $cart);
-        echo json_encode($selected_product);
+        echo json_encode(
+            array(
+                "subtotal"       => number_format($newsubtotal,2),
+                "subtotal_total" => number_format($totalsubtotal,2)
+            )
+        );
     }
 
     public function get_shipping(Request $request) 
