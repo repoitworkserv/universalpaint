@@ -290,7 +290,7 @@
                     <div class="button-group">
                         <button type="submit" class="btn btn-warning" style="
     margin-right: 20px;">Request</button>                        
-                        <button id="button_close" class="btn btn-warning" data-dismiss="modal" >CLOSE</button>                        
+                        <button id="button_close" class="btn btn-warning" data-dismiss="modal" >Close</button>                        
                     </div>
                 </div>
             </form>

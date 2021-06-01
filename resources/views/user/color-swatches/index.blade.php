@@ -457,7 +457,7 @@ $(document).ready(function (){
 								$('#product_liters').html('<option value>Select Liters</option>');
 								$.each(data,function(key,value) {
 									$('#product_liters').append(
-											'<option value="' + data[key].product_id + '">' + data[key].liters + '</option>'
+											'<option value="' + data[key].liters + '">' + data[key].liters + '</option>'
 									);
 								}); 
 								$('#product_liters').unbind('change');
