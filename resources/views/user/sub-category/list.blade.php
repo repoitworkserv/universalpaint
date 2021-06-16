@@ -127,7 +127,7 @@
 									@if($key->UsedAttribute->count() > 0)
 									<div class="sml-desc">Available in
 										@if($key->UsedAttribute->count() > 20 )
-											{{ $key->UsedAttribute->count() }} color {{$key->UsedAttribute->count() > 1 ? 's':'' }}
+											{{ $key->UsedAttribute->count() }} color{{$key->UsedAttribute->count() > 1 ? 's':'' }}
 										@else 
 											@foreach( $key->UsedAttribute as $attrib)
 											@php
