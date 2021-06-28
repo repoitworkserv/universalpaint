@@ -377,12 +377,6 @@
 									                        '</span>'+	
 									                    '</div>'+
 									                    '<div class="row">'+
-									                        '<label class="col-md-4 col-sm-4 col-xs-12">Birth Date</label>'+
-									                        ' <span class="col-md-8 col-sm-8 col-xs-12"> '+
-									                        	checkout_details[cd].birth_date+
-									                        '</span>'+	
-									                    '</div>'+
-									                    '<div class="row">'+
 									                       ' <label class="col-md-4 col-sm-4 col-xs-12">Contact Number</label>'+
 									                         '<span class="col-md-8 col-sm-8 col-xs-12"> '+
 									                        	checkout_details[cd].contact_no+

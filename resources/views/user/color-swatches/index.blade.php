@@ -86,6 +86,9 @@
 				</div>
 			</div>
 		</div>
+		@php 
+			$color_count = 0;
+		@endphp 
 		<div class="color-section row">
 			<div id="White" class="tabcontent">
 				<div class="box-widget">
@@ -96,6 +99,7 @@
 									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="@if(isset($color->attributeData->cat_color) && ($color->attributeData->cat_color == 'OFF WHITES' || $color->attributeData->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -104,12 +108,13 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="@if(isset($color->cat_color) && ($color->cat_color == 'OFF WHITES' || $color->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );" }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Grey" class="tabcontent">
+			<div id="Grey" class="tabcontent  @if($color_count <= 8 ) mt-0 @endif">
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -118,6 +123,7 @@
 									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -126,12 +132,13 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Brown" class="tabcontent">
+			<div id="Brown" class="tabcontent  @if($color_count <= 8 ) mt-0 @endif" >
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -140,6 +147,7 @@
 									<div class="color-box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -148,20 +156,22 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Purple" class="tabcontent">
+			<div id="Purple" class="tabcontent  @if($color_count <= 8 ) mt-0 @endif">
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
 							@foreach($productAttributes as $color)
-								@if(isset($color->attributeData->cat_color) &&  strtolower(trim($color->attributeData->cat_color)) == 'violet')
+								@if(isset($color->attributeData->cat_color) &&  (strtolower(trim($color->attributeData->cat_color)) == 'purple' || strtolower(trim($color->attributeData->cat_color)) == 'violet'))
 									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -170,12 +180,13 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Blue" class="tabcontent">
+			<div id="Blue" class="tabcontent @if($color_count <= 8 ) mt-0 @endif" >
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -192,12 +203,13 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Green" class="tabcontent">
+			<div id="Green" class="tabcontent @if($color_count <= 8 ) mt-0 @endif">
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -206,6 +218,7 @@
 									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}"  data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -214,12 +227,13 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Yellow" class="tabcontent">
+			<div id="Yellow" class="tabcontent @if($color_count <= 8 ) mt-0 @endif">
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -228,6 +242,7 @@
 									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -241,7 +256,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="Orange" class="tabcontent">
+			<div id="Orange" class="tabcontent @if($color_count <= 8 ) mt-0 @endif">
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -250,6 +265,7 @@
 									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -258,12 +274,13 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Red" class="tabcontent">
+			<div id="Red" class="tabcontent @if($color_count <= 8 ) mt-0 @endif">
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -280,12 +297,13 @@
 								<div class="color-box box col-lg-1 col-md-2 col-sm-3 col-4" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>
 				</div>
 			</div>
-			<div id="Regular-Colors" class=" tabcontent hide-content">
+			<div id="Regular-Colors" class=" tabcontent hide-content @if($color_count <= 8 ) mt-0 @endif">
 				<div class="box-widget">
 					<div class="color-picker row">
 						@if(!empty($productAttributes))
@@ -294,6 +312,7 @@
 									<div class="color-box box" data-id="{{ $color->attributeData->id }}" data-name="{{ $color->attributeData->name }}" data-rcolor="{{ $color->attributeData->r_attr }}" data-gcolor="{{ $color->attributeData->g_attr }}" data-bcolor="{{ $color->attributeData->b_attr }}" data-parent-id="{{ $color->parent_id }}" data-product-id="{{ $color->product_id }}" style="@if(isset($color->attributeData->cat_color) && ($color->attributeData->cat_color == 'OFF WHITES' || $color->attributeData->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->attributeData->r_attr }}, {{ $color->attributeData->g_attr }}, {{ $color->attributeData->b_attr }} );">
 										<div class="title">{{ $color->attributeData->name }}</div>
 									</div>
+									@php $color_count++; @endphp
 								@endif
 							@endforeach
 						@endif
@@ -302,6 +321,7 @@
 								<div class="color-box box" data-id="{{ $color->id }}" data-name="{{ $color->name }}" data-rcolor="{{ $color->r_attr }}" data-gcolor="{{ $color->g_attr }}" data-bcolor="{{ $color->b_attr }}" style="@if(isset($color->cat_color) && ($color->cat_color == 'OFF WHITES' || $color->cat_color == 'White')) {{'color: #848484;'}} @endif background-color:rgb({{ $color->r_attr }}, {{ $color->g_attr }}, {{ $color->b_attr }} );">
 									<div class="title">{{ $color->name }}</div>
 								</div>
+								@php $color_count++; @endphp
 							@endforeach
 						@endif
 					</div>

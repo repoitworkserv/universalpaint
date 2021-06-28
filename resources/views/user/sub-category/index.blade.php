@@ -4,7 +4,7 @@
 
 <div id="product-page">
 	<div class="container">
-		<div class="sub-navigation">{{ ucfirst( str_replace("_", " ", $searchCat)) }} Products</div>
+		<div class="sub-navigation">{{ ucwords( str_replace("_", " ", $searchCat)) }} Products</div>
 		<div class="product-tile">
         @if(!empty($return_sub_cat))
             @foreach($return_sub_cat as $key => $val)

@@ -86,6 +86,17 @@
                            $industrial_checked = 'checked';
                            @endphp	
                            @endif
+
+                           @php 
+                           $is_featured = $productdetails->is_featured ? 'checked' : "";
+                           @endphp
+                           <div class="form-group">
+                              <div class="row">
+                                 <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" {{$is_featured}} name="is_featured" value="{{$productdetails->is_featured}}" /> <strong>Feature Product</strong> 
+                                 </div>
+                              </div>
+                           </div>
                            <div class="form-group">
                               <label for="prodname">Product Parent Category</label><br />
                               <div class="row">

@@ -142,7 +142,7 @@
 							<td>{{ $att->cat_color }}</td>
                         	<td>{{ $att->name }}</td>
                         	<td>{{ $att->description }}</td>
-                        	<td>{{ $att->VariableData['name'] }}</td>
+                        	<td>{{ isset($att->VariableData['name']) ?  $att->VariableData['name'] : '' }}</td>
                         	<td>
                         		<a class="badge bg-orange edit-attrb" 
 								data-attrb_varid="{{ $att->variable_id }}" 
@@ -154,7 +154,7 @@
 								data-battr="{{ $att->b_attr }}" 
 								data-attrbdesc = "{{ $att->description }}" 
 								data-attrbbestselling = "{{ $att->best_selling }}" 
-								data-variabletype="{{ $att->VariableData['name'] }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
+								data-variabletype="{{ isset($att->VariableData['name']) ?  $att->VariableData['name'] : '' }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
 
 								<form action="{{ URL::action('Admin\AttributeController@destroy', $att->id) }}" method="POST">
 										<input type="hidden" name="_method" value="POST">

@@ -35,6 +35,7 @@ class AttributeController extends Controller
 
 	   $attributelist       = Attribute::where(function($q) use($request){
 				$q->where('name','like', '%'.$request->search_item);
+                $q->orWhere('cat_color','like','%'.$request->search_item);
         })->paginate(10);
         $id = Auth::id();
        $search_item = ($request->search_item) ? $request->search_item : '';

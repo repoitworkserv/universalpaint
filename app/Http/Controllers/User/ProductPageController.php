@@ -717,7 +717,8 @@ class ProductPageController extends Controller
                     'slug_name' => $item->slug_name,
                     'product' => Product::where(function($q) use($producCategory, $searchCat){                    
                         $q->where($searchCat,'=',1);
-                        $q->wherein('id',$producCategory);                    
+                        $q->wherein('id',$producCategory);
+                        $q->where('is_featured','=',1);                    
                     })->get()
                 );                                
             }                            
@@ -821,9 +822,7 @@ class ProductPageController extends Controller
         $params = ['OFF WHITES', 'White'];
 
         $cat_off_whites = Attribute::where(function($q)use($params){          
-            foreach($params as $param) {
-                $q->orWhere('cat_color','=', $param);
-            }
+                $q->whereIn('cat_color', $params);
         })->get();
         
         $param = 'Orange';
@@ -836,10 +835,10 @@ class ProductPageController extends Controller
             $q->where('cat_color','=', $param);
         })->get();        
         
-        $param = 'Violet';
+        $param = ['Violet','Purple'];
         $cat_violet = Attribute::where(function($q)use($param){            
-            $q->where('cat_color','=', $param);
-        })->get();        
+            $q->whereIn('cat_color', $param);
+        })->get();    
         
         $param = 'Yellow';
         $cat_yellow = Attribute::where(function($q)use($param){            
@@ -940,13 +939,13 @@ class ProductPageController extends Controller
                     'slug_name' => $item->slug_name,
                     'product' => Product::where(function ($q) use ($producCategory, $product) {
                         $q->where($product, '=', 1)
-                          ->wherein('id', $producCategory); 
+                          ->wherein('id', $producCategory)
+                          ->where('is_featured', '=', 1);
                     })->get(),
                     'sub_category' => trim($item->name)
                 );
             }
         }
-
         return view('user.sub-category.all-product', compact('response','allProducts'));
     }
 

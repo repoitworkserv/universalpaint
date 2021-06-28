@@ -222,11 +222,11 @@ class CheckoutController extends Controller
             );
             $request->session()->put('checkout_details',$request->all());
                 
-            $parameters['key'] =isset($this->paymentMethod['dragonpay']['sandbox']) ? $this->paymentMethod['dragonpay']['password_sandbox'] :  $this->paymentMethod['dragonpay']['password_live'];
+            $parameters['key'] =isset($this->paymentMethod['dragonpay']['sandbox']) && $this->paymentMethod['dragonpay']['sandbox'] == "1" ? $this->paymentMethod['dragonpay']['password_sandbox'] :  $this->paymentMethod['dragonpay']['password_live'];
             $digest_string = implode(':', $parameters);
             unset($parameters['key']);
             $parameters['digest'] = sha1($digest_string);
-            $url = isset($this->paymentMethod['dragonpay']['sandbox']) ? env("DG_SANDBOX_URL", "") : env("DG_LIVE_URL", "");
+            $url = isset($this->paymentMethod['dragonpay']['sandbox']) && $this->paymentMethod['dragonpay']['sandbox'] == "1" ? env("DG_SANDBOX_URL", "") : env("DG_LIVE_URL", "");
             $url .= http_build_query($parameters, '', '&');  
             $message = $url;
             $status = true;

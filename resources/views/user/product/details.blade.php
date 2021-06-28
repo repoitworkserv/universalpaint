@@ -20,6 +20,7 @@
                                 $proddesc = '';
                                 $howtouse = '';
                                 $delvry_opt = '';
+                                $color_count = 0;
                                 $sub_cat = implode( ", ", $sub_category );
                             @endphp                            
                             @foreach($product as $key)  
@@ -129,7 +130,19 @@
                                         </div>
                                         <div class="flex-txt">
                                             <div class="sml-ttl">Color</div>
-                                            <div class="sml-desc">Available in {{ $key->UsedAttribute->count() }} color {{$key->UsedAttribute->count() > 1 ? 's':'' }}</div>
+                                            @foreach($key->UsedVariables as $list)
+                                                @if(strtolower($list->VariableData['name']) == 'color')
+                                                    @foreach($key->UsedAttribute as $attri)
+                                                        @if($attri->AttributeData['variable_id'] == $list->VariableData['id'])
+                                                            @php 
+                                                                $color_count++;
+                                                            @endphp 
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                            <div class="sml-desc"> @if($color_count >= 1) available in {{ $color_count }} color{{$color_count > 1 ? 's':'' }} 
+                                            @else no available colors @endif</div>
                                         </div>
                                         <div class="flex-txt">
                                             <div class="sml-ttl">Application</div>
