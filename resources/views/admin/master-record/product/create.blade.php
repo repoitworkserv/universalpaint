@@ -46,7 +46,7 @@
                 					<div class="form-group">
 		            					<label for="prodname">Brand Name</label>
 		            					<select class="form-control" name="prod_brandname" required>
-		            						<option value="0">--- Select Brand ---</option>
+		            						<option value="">--- Select Brand ---</option>
 		            						@foreach($brandlist as $bl)
 							            		<option value="{{$bl->id}}">{{$bl->name}}</option>
 							            	@endforeach
@@ -60,6 +60,13 @@
 	            					<input id="prodname" name="prodname" required class="form-control" type="text"  value="{!! old('prodname') !!}">
 					            </div>								
 				            </div>
+										<div class="form-group">
+											<div class="row">
+													<div class="col-md-3 col-sm-6 col-xs-12">
+														<input type="checkbox" name="is_featured" value="" /> <strong>Feature Product</strong> 
+													</div>
+											</div>
+										</div>
 							<div class="form-group">
 								<label for="prodname">Product Parent Category</label><br />
 								<div class="row">

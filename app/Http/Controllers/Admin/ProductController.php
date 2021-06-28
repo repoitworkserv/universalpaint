@@ -49,6 +49,7 @@ class ProductController extends Controller
 		$search_item = ($request->search_item) ? $request->search_item : '';
 		$search_brand = ($request->search_brand) ? $request->search_brand : '';
 		$productlist = Product::with('ProductOverview')->where('parent_id',0)->orderby('id','desc')->paginate(10);
+		
  
 		$terms = explode(" ", $search_item);
 		$brand_id = Brand::get();
@@ -282,6 +283,8 @@ class ProductController extends Controller
 					$newproduct->technical_path  = $technical_new_filename;
 				}
 
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
+
 				if($newproduct->save()){  
 					//product category saving
 					$category = $request->categorylist;
@@ -434,10 +437,9 @@ class ProductController extends Controller
 				if(!empty($technical_new_filename)){
 					$newproduct->technical_path  = $technical_new_filename;
 				}
+
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
 				// end for parent saving
-			
-				
-				
 				
 				if($count_product > 0){ 
 					if($newproduct->save()){
@@ -856,6 +858,8 @@ class ProductController extends Controller
 				if(!empty($technical_new_filename)){
 					$newproduct->technical_path  = $technical_new_filename;
 				}
+
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
 				if($newproduct->save()){  
 					//product category saving
 					$category = $request->categorylist;
@@ -1024,6 +1028,8 @@ class ProductController extends Controller
 				if(!empty($technical_new_filename)){
 					$newproduct->technical_path  = $technical_new_filename;
 				}
+
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
 				// end for parent saving
 				
 				if($count_product > 0){ 

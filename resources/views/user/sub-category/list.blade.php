@@ -125,7 +125,7 @@
 								<div class="flex-txt">
 									<div class="sml-ttl">Color</div>
 									@if($key->UsedAttribute->count() > 0)
-									<div class="sml-desc">Available in
+									<div class="sml-desc">available in
 										@if($key->UsedAttribute->count() > 20 )
 											{{ $key->UsedAttribute->count() }} color{{$key->UsedAttribute->count() > 1 ? 's':'' }}
 										@else 
@@ -140,7 +140,7 @@
 									 @endif
 									 </div>
 									 @else 
-									 <div class="sml-desc">No available colors. </div>
+									 <div class="sml-desc">no available colors </div>
 									@endif
 								</div>
 								<div class="flex-txt">

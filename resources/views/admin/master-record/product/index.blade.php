@@ -72,11 +72,11 @@
 
                       @foreach( $productlist as $pl )
 						<tr role="row" class="odd">
-            <td><button class="view_product_btn cpointer btn btn-info" data-all="{{$pl->ProductOverview}}" data-howtouse="{{$pl->howtousetab_details}}" data-deliveryopt="{{$pl->deliveryopt_tab_details}}" data-rating="{{$pl->rating}}" data-quantity="{{$pl->quantity}}" data-productcode="{{$pl->product_code}}" data-producttype="{{$pl->product_type}}" data-desc="{{$pl->description}}" data-price="{{number_format($pl->price, 2)}}" data-orderid="{{$pl->id}}" data-featuredImage="{{$pl->featured_image}}" data-name="{{$pl->name}}" data-branddesc="{{$pl->BrandData['description']}}" data-brand="{{$pl->BrandData['name']}}"/>Preview</td>
+            <td><button class="view_product_btn cpointer btn btn-info" data-all="{{$pl->ProductOverview}}" data-howtouse="{{$pl->howtousetab_details}}" data-deliveryopt="{{$pl->deliveryopt_tab_details}}" data-rating="{{$pl->rating}}" data-quantity="{{$pl->quantity}}" data-productcode="{{$pl->product_code}}" data-producttype="{{$pl->product_type}}" data-desc="{{$pl->description}}" data-price="{{number_format($pl->price, 2)}}" data-orderid="{{$pl->id}}" data-featuredImage="{{$pl->featured_image}}" data-name="{{$pl->name}}" data-branddesc="{{isset($pl->BrandData['description']) ? $pl->BrandData['description'] : '' }}" data-brand="{{isset($pl->BrandData['name']) ? $pl->BrandData['name'] : '' }}"/>Preview</td>
 							            <td>{{ $pl->product_code }}</td>
                         	<td>{{ $pl->name }}</td>
                         	<td>{{ $pl->product_type }}</td>
-                        	<td>{{ $pl->BrandData['name'] }}</td>
+                        	<td>{{ isset($pl->BrandData['name']) ? $pl->BrandData['name'] : ""  }}</td>
                         	<td>{{ ($pl->is_sale == 1 ? 'Yes' : 'No') }}</td>
                         	<td>
                         		<a target="_blank" href="{!! URL::action('Admin\ProductController@edit', $pl->id) !!}" class="badge bg-orange edit-product" ><i class="	fa fa-pencil-square-o"></i> Edit</a>

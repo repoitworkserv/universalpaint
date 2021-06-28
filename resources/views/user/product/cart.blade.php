@@ -147,9 +147,9 @@
 						<div class="col-sm-11 col-lg-4 cart-review-order-label">Review your order, then checkout at UNIVERSALPAINT.net</div>
 					</div>
 					<div class="cart-buttons mb-5 mt-5">
-						<div><button> FIND PAINTS IN STORE</button></div>
+						<!-- <div><button> FIND PAINTS IN STORE</button></div> -->
 						<div>
-								<button>
+								<button id="print_cart">
 									<div class="cart-print-button">
 											<div>PRINT</div>
 											<div>
@@ -237,6 +237,54 @@
    	$('#cart-checkout-btn').click(function() {
    		window.location = '/checkout';
    	});
+
+		 $('#print_cart').click(function() {
+				CreatePDFfromHTML();
+		 });
+
+		//Create PDf from HTML...
+		function CreatePDFfromHTML() {
+			// $('#cart').css('margin-top', '0px');
+			$('#theme-header ').css('position','absolute');
+			$('.remove-cart').hide();
+			$('#print_cart').hide();
+			$('#cart-checkout-btn').hide();
+			$('#sixth-section').hide();
+			$('.navbar-nav').hide();
+			$('.cart-review-order-label').hide();
+			$('.cart-privacy-policy-row').hide();
+			$('.cart-add-paint').hide();
+			var HTML_Width = $("#app-layout").width();
+			var HTML_Height = $("#app-layout").height();
+			var top_left_margin = 1;
+			var PDF_Width = HTML_Width + (top_left_margin * 2);
+			var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+			var canvas_image_width = HTML_Width;
+			var canvas_image_height = HTML_Height;
+
+			var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+			html2canvas($("#app-layout")[0]).then(function (canvas) {
+					var imgData = canvas.toDataURL("image/jpeg", 1.0);
+					console.log(imgData);
+					var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+					pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+					for (var i = 1; i <= totalPDFPages; i++) { 
+							pdf.addPage(PDF_Width, PDF_Height);
+							pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+					}
+					pdf.save("UniversalPaintShoppingList.pdf");
+					$('#theme-header ').css('position','fixed');
+					$('.remove-cart').show();
+					$('#print_cart').show();
+					$('#cart-checkout-btn').show();
+					$('#sixth-section').show();
+					$('.navbar-nav').show();
+					$('.cart-privacy-policy-row').show();
+					$('.cart-review-order-label').show();
+					$('.cart-add-paint').show();
+			});
+		}
    })
 </script>
 @endsection

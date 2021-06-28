@@ -717,7 +717,8 @@ class ProductPageController extends Controller
                     'slug_name' => $item->slug_name,
                     'product' => Product::where(function($q) use($producCategory, $searchCat){                    
                         $q->where($searchCat,'=',1);
-                        $q->wherein('id',$producCategory);                    
+                        $q->wherein('id',$producCategory);
+                        $q->where('is_featured','=',1);                    
                     })->get()
                 );                                
             }                            
@@ -940,13 +941,13 @@ class ProductPageController extends Controller
                     'slug_name' => $item->slug_name,
                     'product' => Product::where(function ($q) use ($producCategory, $product) {
                         $q->where($product, '=', 1)
-                          ->wherein('id', $producCategory); 
+                          ->wherein('id', $producCategory)
+                          ->where('is_featured', '=', 1);
                     })->get(),
                     'sub_category' => trim($item->name)
                 );
             }
         }
-
         return view('user.sub-category.all-product', compact('response','allProducts'));
     }
 
