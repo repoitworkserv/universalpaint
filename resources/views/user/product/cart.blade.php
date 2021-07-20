@@ -37,7 +37,7 @@
 											<th>Color</th>
 											<th>Image</th>
 											<th>Item</th>
-											<th>No. of Liters</th>
+											<th>Liters/Paint Type</th>
 											<th>Quantity</th>
 											<th>Price</th>
 									</tr>

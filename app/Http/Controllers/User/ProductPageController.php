@@ -1111,34 +1111,39 @@ class ProductPageController extends Controller
         } else {
             $prod_attr_id   = (int)$request->prod_attr_id;
             $prod_attr_data = ProductAttribute::where("id","=",$prod_attr_id)->first();
+            $product_id     = $request->product_id;
+            $parent_id      = Product::where('id',"=",$product_id)->pluck('parent_id');
+            $variations     = [];
+            $search_attrib  = $request->color_name;
 
-            $attr_id     = $prod_attr_data->attribute_id;
-            $prod_id     = $prod_attr_data->product_id;
-            $parent_id   = Product::where('id',"=",$prod_id)->pluck('parent_id');
-            $liters      = [];
-
-            $subproducts = DB::table('product AS p')
-                            ->join('product_attribute AS pa','pa.product_id','=','p.id')
-                            ->join('attribute AS a','a.id','=','pa.attribute_id')
-                            ->join('variable AS v','v.id','=','a.variable_id')
-                            ->selectRaw("p.id,p.price,p.quantity,a.name")
-                            ->where('p.parent_id','=',$parent_id)
-                            ->where('v.name','=','Liters')
-                            ->get();
+            $search_subproduct = DB::table('product')
+            ->select('product.id')
+            ->join('product_attribute','product_attribute.product_id', '=','product.id')
+            ->join('attribute','attribute.id', '=','product_attribute.attribute_id')
+            ->where('product.parent_id',$parent_id)
+            ->where(function($query) use($search_attrib) {
+                    $query->orwhere('attribute.name', '=', $search_attrib);
+            })->get();
+            $subproduct_data = collect($search_subproduct)->map(function($x){ return (array) $x; })->toArray(); 
+            $subproducts = Product::where('parent_id',$parent_id)
+              ->whereIn('id',$subproduct_data)
+                ->with('ProductVariableData')
+                ->with('ProductAttributeData')
+                ->with('ProductUserPrice')->get();
 
             foreach($subproducts as $subproduct) {
-                $prod_attrs = DB::table('product_attribute AS pa')
-                                ->join('attribute AS a','pa.attribute_id','=','a.id')
-                                ->selectRaw('pa.*,a.*')
-                                ->where('pa.product_id','=',$subproduct->id)
-                                ->get();
+                $attributes = "";
+                foreach($subproduct->ProductAttributeData as $variation) {
+                    $attrib = Attribute::find($variation->attribute_id);
 
-                if($prod_attrs[0]->attribute_id  == $attr_id) {
-                    array_push($liters, ["attrib_id" => $attr_id, "product_id" => $subproduct->id, "liters" => $prod_attrs[1]->name]);
+                    $attributes .= isset($attrib->name) && !empty($attrib->name) && $attrib->name !== $search_attrib  ? $attrib->name .' ' : '';
+                }
+                if(!empty($attributes)) {
+                    array_push($variations, ["attrib_id" => $prod_attr_id, "product_id" => $subproduct->id, "liters" => $attributes]);
                 }
             }
 
-            echo json_encode($liters);
+            echo json_encode($variations);
         }
     }
 

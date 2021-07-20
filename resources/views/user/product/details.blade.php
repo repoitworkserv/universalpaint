@@ -180,9 +180,9 @@
                                                                     </div>
 
                                                                     @php    
-                                                                    $liters      = [];
-                                                                    $parent_id   = $product_id;
-                                                                    $subproducts = \App\Product::where('parent_id','=',$parent_id)->get();
+                                                                    $paintTypesliters  = [['product_id' => "", 'variation' => "Select" ]];
+                                                                    $parent_id         = $product_id;
+                                                                    $subproducts       = \App\Product::where('parent_id','=',$parent_id)->get();
 
                                                                     foreach($subproducts as $subproduct) {
                                                                         
@@ -192,46 +192,57 @@
                                                                             $attr_id     = $color_data->id;
                                                                             $prod_id     = $prod_attr_data->product_id;
 
+
                                                                             $variations  = \DB::table('product AS p')
                                                                                             ->join('product_attribute AS pa','pa.product_id','=','p.id')
                                                                                             ->join('attribute AS a','a.id','=','pa.attribute_id')
                                                                                             ->join('variable AS v','v.id','=','a.variable_id')
                                                                                             ->selectRaw("p.id,p.price,p.quantity,a.name")
                                                                                             ->where('p.id','=',$prod_id)
-                                                                                            ->where('v.name','=','Liters')
-                                                                                            ->get();
+                                                                                            ->where(function($q) {
 
+                                                                                                $q->where('v.name','=','Liters');
+                                                                                                $q->orWhere('v.name', '=', 'Paint type');
+                                                                                            })   
+                                                                                            ->get();
                                                                             foreach($variations as $variation) {
                                                                                 $prod_attrs = \DB::table('product_attribute AS pa')
                                                                                                 ->join('attribute AS a','pa.attribute_id','=','a.id')
                                                                                                 ->selectRaw('pa.*,a.*')
                                                                                                 ->where('pa.product_id','=',$variation->id)
                                                                                                 ->get();
-
                                                                                 if($prod_attrs[0]->attribute_id  == $attr_id) {
-                                                                                    array_push($liters, ["attrib_id" => $attr_id, "product_id" => $variation->id, "liters" => $prod_attrs[1]->name]);
+
+                                                                                    $varKey = array_search($variation->id, array_column($paintTypesliters, 'product_id'));
+
+                                                                                    if(!empty($varKey)) {
+                                                                                    
+                                                                                        $paintTypesliters[$varKey]['variation'] .= ' '. $variation->name;
+                                                                                    } else {
+                                                                                        array_push($paintTypesliters, ["product_id" => $variation->id, "variation" => $variation->name]);
+                                                                                    }
                                                                                 }
+
                                                                             }
                                                                         }
 
                                                                     }
                                                                  
-                                                                    
-                                                                    
                                                                     @endphp
+
                                                 
                                                                     <div class="option-field">
                                                                         <input type="hidden" name="product_liters[]" class="product_liters" value="" />
                                                                         <input type="hidden" name="product_prices[]" class="product_price" value="" />
-                                                                        @if(!empty($liters))
+                                                                        @if(!empty($paintTypesliters))
                                                                         <select id="product_liters" class="product_liters form-control" required>
-                                                                            <option value="">Select </option>
-                                                                            @foreach($liters as $liter) 
-                                                                            <option value="{{$liter['product_id']}}">{{ $liter['liters']}} </option>
+                                                                            @foreach($paintTypesliters as $typeLiter) 
+                                                                            <option value="{{$typeLiter['product_id']}}">{{ $typeLiter['variation']}} </option>
                                                                             @endforeach
                                                                         <select>        
                                                                         @endif                                                                                                
                                                                     </div>
+
                                                                     <div id="quantity_id_multiple" class="quantity-select">    
                                                                         <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]">                                                    
                                                                     </div>
@@ -274,6 +285,15 @@
                                                         <option value="">Select </option>
                                                     <select>                                                                                                        
                                                 </div>
+
+                                                <div class="option-field mt-2">
+                                                    <input type="hidden" name="product_liters[]" class="product_liters_single" value="" />
+                                                    <input type="hidden" name="product_prices[]" class="product_price_single" value="" />
+                                                    <select id="product_liters" class="form-control" required>
+                                                        <option value="">Select </option>
+                                                    <select>                                                                                                        
+                                                </div>
+
                                             @endif
                                             </div>                                            
                                             <div class="sml-ttl">

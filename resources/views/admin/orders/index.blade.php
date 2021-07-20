@@ -296,7 +296,7 @@
 	                                    <th>Description</th>
 	                                    <th>Quantity</th>
 																			<th>Color</th>
-																			<th>Liter</th>
+																			<th>Liter/Type</th>
 	                                    <th>Price</th>
 <!-- 	                                    <th>Discount</th> -->
 	                                    <th>Amount</th>
