@@ -85,6 +85,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="btnProceedDiv">
+			@if(isset($product_id)) 
+			<form id="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
+				{!! csrf_field() !!}
+				<input type="hidden" name="product_id" id="product_id" value="{{$product_id}}">
+				<button type="submit" id="multple-colors-proceed" class="btn btn-default">Select and Proceed</button>
+			</form>
+			@else
+			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
+			@endif
+		</div>
 		</div>
 		@php 
 			$color_count = 0;
@@ -329,7 +340,7 @@
 			</div>
 
 		</div>
-		<div>
+		<div class="btnProceedDiv">
 			@if(isset($product_id)) 
 			<form id="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
 				{!! csrf_field() !!}

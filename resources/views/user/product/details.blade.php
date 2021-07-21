@@ -267,15 +267,6 @@
                                                         <option value="">Select </option>
                                                     <select>                                                                                                        
                                                 </div>
-
-                                                <div class="option-field mt-2">
-                                                    <input type="hidden" name="product_liters[]" class="product_liters_single" value="" />
-                                                    <input type="hidden" name="product_prices[]" class="product_price_single" value="" />
-                                                    <select id="product_liters" class="form-control" required>
-                                                        <option value="">Select </option>
-                                                    <select>                                                                                                        
-                                                </div>
-
                                             @endif
                                             </div>                                            
                                             <div class="sml-ttl">
@@ -415,8 +406,11 @@
         var color_name = $("option:selected", this).text();
         var color_id = 0;
         var _token = $('input[name=_token').val();
+        var product_id = $('#product_id').val();
         var data = {
             prod_attr_id,
+            color_name,
+            product_id, 
             _token
         }
 

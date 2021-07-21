@@ -1112,7 +1112,8 @@ class ProductPageController extends Controller
             $prod_attr_id   = (int)$request->prod_attr_id;
             $prod_attr_data = ProductAttribute::where("id","=",$prod_attr_id)->first();
             $product_id     = $request->product_id;
-            $parent_id      = Product::where('id',"=",$product_id)->pluck('parent_id');
+            $parent_id      = Product::where('id',"=",$product_id)->pluck('parent_id')[0];
+            $parent_id      = $parent_id == 0 ? $product_id : $parent_id;
             $variations     = [];
             $search_attrib  = $request->color_name;
 
