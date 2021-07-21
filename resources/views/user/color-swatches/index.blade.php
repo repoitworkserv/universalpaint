@@ -87,10 +87,10 @@
 			</div>
 			<div class="btnProceedDiv">
 			@if(isset($product_id)) 
-			<form id="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
+			<form class="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
 				{!! csrf_field() !!}
 				<input type="hidden" name="product_id" id="product_id" value="{{$product_id}}">
-				<button type="submit" id="multple-colors-proceed" class="btn btn-default">Select and Proceed</button>
+				<button type="submit" class="multple-colors-proceed btn btn-default">Select and Proceed</button>
 			</form>
 			@else
 			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
@@ -342,10 +342,10 @@
 		</div>
 		<div class="btnProceedDiv">
 			@if(isset($product_id)) 
-			<form id="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
+			<form class="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
 				{!! csrf_field() !!}
 				<input type="hidden" name="product_id" id="product_id" value="{{$product_id}}">
-				<button type="submit" id="multple-colors-proceed" class="btn btn-default">Select and Proceed</button>
+				<button type="submit" class="multple-colors-proceed btn btn-default">Select and Proceed</button>
 			</form>
 			@else
 			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
@@ -439,13 +439,13 @@ $(document).ready(function (){
 			}
 		});
 	} else {
-		$('#multple-colors-proceed').click(function(e) {
+		$('.multple-colors-proceed').click(function(e) {
 			e.preventDefault();
 			$('.color-selected').each(function() {
-				$('#preselectcolor_form').append('<input type="hidden" name="color_ids[]" class="color_id" value="'+$(this).data("id")+'">');
-				$('#preselectcolor_form').append('<input type="hidden" name="color_names[]" class="color_name" value="'+$(this).data("name")+'">');
+				$('.preselectcolor_form').append('<input type="hidden" name="color_ids[]" class="color_id" value="'+$(this).data("id")+'">');
+				$('.preselectcolor_form').append('<input type="hidden" name="color_names[]" class="color_name" value="'+$(this).data("name")+'">');
 			});
-			$('#preselectcolor_form').submit();
+			$('.preselectcolor_form').submit();
 			
 		})
 	}
