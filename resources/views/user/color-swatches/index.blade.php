@@ -85,6 +85,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="btnProceedDiv">
+			@if(isset($product_id)) 
+			<form class="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
+				{!! csrf_field() !!}
+				<input type="hidden" name="product_id" id="product_id" value="{{$product_id}}">
+				<button type="submit" class="multple-colors-proceed btn btn-default">Select and Proceed</button>
+			</form>
+			@else
+			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
+			@endif
+		</div>
 		</div>
 		@php 
 			$color_count = 0;
@@ -329,12 +340,12 @@
 			</div>
 
 		</div>
-		<div>
+		<div class="btnProceedDiv">
 			@if(isset($product_id)) 
-			<form id="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
+			<form class="preselectcolor_form" action="{!! URL::action('User\ProductPageController@preselectedColors') !!}" method="post" accept-charset="UTF-8"  enctype="multipart/form-data"> 
 				{!! csrf_field() !!}
 				<input type="hidden" name="product_id" id="product_id" value="{{$product_id}}">
-				<button type="submit" id="multple-colors-proceed" class="btn btn-default">Select and Proceed</button>
+				<button type="submit" class="multple-colors-proceed btn btn-default">Select and Proceed</button>
 			</form>
 			@else
 			<button id="proceedQuote" class="btn btn-default"><a href="{{ url('/cart') }}" >Select and Proceed</a> </button>
@@ -358,12 +369,13 @@
 	  {!! csrf_field() !!}
 		<div class="colorSwatches" width="100%"></div>
 		<input type="hidden" id="productName" name="productName" value>
+		<input type="hidden" id="product_liters_text" name="product_liters_text" value>
 			<div class="form-group">
         <label for="product-reasearch" class="col-form-label">Product:</label>
 				<select class="form-control"  id="productId" name="productId" required></select>
       </div>
 			<div class="form-group">
-        <label for="product-reasearch" class="col-form-label">Liters:</label>
+        <label for="product-reasearch" class="col-form-label">Liters/Type:</label>
 				<select class="form-control"  id="product_liters" name="product_liters"></select>
       </div>
 			<div class="form-group">
@@ -427,13 +439,13 @@ $(document).ready(function (){
 			}
 		});
 	} else {
-		$('#multple-colors-proceed').click(function(e) {
+		$('.multple-colors-proceed').click(function(e) {
 			e.preventDefault();
 			$('.color-selected').each(function() {
-				$('#preselectcolor_form').append('<input type="hidden" name="color_ids[]" class="color_id" value="'+$(this).data("id")+'">');
-				$('#preselectcolor_form').append('<input type="hidden" name="color_names[]" class="color_name" value="'+$(this).data("name")+'">');
+				$('.preselectcolor_form').append('<input type="hidden" name="color_ids[]" class="color_id" value="'+$(this).data("id")+'">');
+				$('.preselectcolor_form').append('<input type="hidden" name="color_names[]" class="color_name" value="'+$(this).data("name")+'">');
 			});
-			$('#preselectcolor_form').submit();
+			$('.preselectcolor_form').submit();
 			
 		})
 	}
@@ -457,6 +469,8 @@ $(document).ready(function (){
 			success:function(data){
 				var response = {
 					prod_attr_id: data.id,
+					product_id: data.product_id,
+					color_name: $('#colorName').text(),
 					_token
 				};
 				$.ajax({
@@ -468,22 +482,24 @@ $(document).ready(function (){
 						$('#product_liters').parent().show();
 						$('#product_liters').html('<option value><i class="fa fa-spinner fa-spin"></i>Loading</option>');
 					},
-					success: function (data) {        
+					success: function (data) {     
 						if(data.status == false) {
 								alert(data.msg);
 								$('#product_liters').html('<option value><i class="fa fa-spinner fa-spin"></i>Error getting available Liters</option>');
 						} else {
 							if(data !== null && data.length !== 0) {
-								$('#product_liters').html('<option value>Select Liters</option>');
+								$('#product_liters').html('<option value>Select Liter/Paint Type</option>');
 								$.each(data,function(key,value) {
 									$('#product_liters').append(
-											'<option value="' + data[key].liters + '">' + data[key].liters + '</option>'
+											'<option value="' + data[key].product_id + '">' + data[key].liters + '</option>'
 									);
 								}); 
 								$('#product_liters').unbind('change');
 								$('#product_liters').on('change', function(e) {
 									var product_id = $(this).val();
 									var liter      = $("option:selected",this).text();
+									$('#productId option:selected').val(product_id);
+									$('#product_liters_text').val(liter);
 									$('.product_liters_single').val(liter);
 									$.ajax({
 										url: '/get-subproductdetails',
@@ -493,7 +509,8 @@ $(document).ready(function (){
 												product_id,
 												_token
 										},
-										success: function (data) {          
+										success: function (data) {        
+											console.log(data);  
 												if(data.status == false) {
 														alert(data.msg);
 												} else {

@@ -115,11 +115,11 @@ class CartController extends Controller
             $csscolor = $request->colorCss;
             $colorname = $request->colorNameP;
             $quantity  = $request->quantity;
-            $liter    = isset($request->product_liters) ? $request->product_liters : "";
+            $liter    = isset($request->product_liters_text) ? $request->product_liters_text : "";
             $parent_product_img = Product::where('name','=',$product_name)->pluck('featured_image');
             $product = Product::find($productid);
             $item = [
-                'product_id'       => $productid,
+                'product_id'       => $product["parent_id"] !== 0 ? $product["parent_id"]  : $productid,
                 'product_attribute' => $attribute,
                 'css_color' => $csscolor,
                 'color_name' => $colorname,
@@ -147,10 +147,10 @@ class CartController extends Controller
             ];
             if ($request->session()->has('gocart')) {
                 $cart = $request->session()->get('gocart');
-                $key = array_search($productid, array_column($cart, 'product_id'));
+                $key = array_search($item['product_id'], array_column($cart, 'product_id'));
                 if($key !== false) {
                     foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
-                        if($item['product_details'][0]['color'] == $cart_item['color'] && $item['product_details'][0]['liter'] == $cart_item['liter']) {
+                        if($item['product_details'][0]['color'] == $cart_item['color'] && trim($item['product_details'][0]['liter']) == trim($cart_item['liter'])) {
                             $cart[$key]['product_details'][$cart_item_key]['qty'] += $quantity;
                             $request->session()->put('gocart', $cart);
                         } else {

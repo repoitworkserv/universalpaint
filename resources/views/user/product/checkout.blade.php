@@ -68,7 +68,7 @@
                                                                     <th style="width: 10px">#</th>
                                                                     <th>Product Name</th>
                                                                     <th>Color</th>
-                                                                    <th>Liter</th>
+                                                                    <th>Liters/Paint Type</th>
                                                                     <th>Qty</th>
                                                                     <th>Price</th>
                                                                 </tr>

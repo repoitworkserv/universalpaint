@@ -2299,9 +2299,16 @@ a.btn.white {
     text-decoration: underline;
 }
 
-#preselectcolor_form {
+.preselectcolor_form {
     margin-left: 40px;
     margin-bottom: 20px;
+    text-align: center;
+    align-items: center;
+}
+
+.btnProceedDiv {
+    text-align: center;
+    align-items: center;
 }
 
 .mb-6 {
