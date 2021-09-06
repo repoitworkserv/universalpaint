@@ -26,6 +26,7 @@ class CartController extends Controller
     { 
         $shipping = ShippingGngRates::all();
         $cart = $request->session()->get('gocart');
+        //dd($cart);
         $arr_color = [];
         $uid = Auth::id();
         return view('user/product/cart', compact('cart', 'uid'));
@@ -170,6 +171,87 @@ class CartController extends Controller
         }
         
     }
+
+    public function addToCartFromListing(Request $request){
+        $message = '';
+
+        $validator = Validator::make($request->all(), [
+            'productId'   => 'required',
+            'productName' => 'required',
+            'quantity' => 'required'
+        ]);
+        $message = '';
+        if($validator->fails()){
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+            return redirect()->back()->with('error', $message);
+        } else {
+            $productid = $request->productId;
+            $product_name = $request->productName;
+            $attribute = $request->colorChoose;
+            $csscolor = $request->colorCss;
+            $colorname = $request->colorNameP;
+            $quantity  = $request->quantity;
+            $liter    = isset($request->productLiters) ? $request->productLiters : "";
+            $parent_product_img = Product::where('name','=',$product_name)->pluck('featured_image');
+            $product = Product::find($productid);
+            $item = [
+                'product_id'       => $product["parent_id"] !== 0 ? $product["parent_id"]  : $productid,
+                'product_attribute' => $attribute,
+                'css_color' => $csscolor,
+                'color_name' => $colorname,
+                'product_details' => [
+                    [ 
+                        'id' => $product['id'],    
+                        'name' => $product_name,
+                        'slug_name' => $product['slug_name'],
+                        'image' => $parent_product_img !== null ? $parent_product_img[0] : "",
+                        'qty' => $quantity,          
+                        'price' => $product['price'],
+                        'discount' => $product['discount'],
+                        'discount_type' => $product['discount_type'],
+                        'sale_price' => $product['sale_price'],
+                        'description' =>  $product['description'],
+                        'color'       => $colorname,
+                        'liter' => $liter,
+                        'shipping_weight' => $product['shipping_weight'],
+                        'shipping_height' => $product['shipping_height'],
+                        'shipping_length' => $product['shipping_length'],
+                        'shipping_width' => $product['shipping_width'],
+                        'is_sale' => $product['is_sale'],
+                    ]
+                ]
+            ];
+            if ($request->session()->has('gocart')) {
+                $cart = $request->session()->get('gocart');
+                $key = array_search($item['product_id'], array_column($cart, 'product_id'));
+                if($key !== false) {
+                    foreach($cart[$key]['product_details'] as $cart_item_key => $cart_item) { 
+                        if($item['product_details'][0]['color'] == $cart_item['color'] && trim($item['product_details'][0]['liter']) == trim($cart_item['liter'])) {
+                            $cart[$key]['product_details'][$cart_item_key]['qty'] += $quantity;
+                            $request->session()->put('gocart', $cart);
+                        } else {
+                            $request->session()->push('gocart', $item);
+                        }
+                    }
+                } else {
+                    $request->session()->push('gocart', $item);
+                }
+                $message = 'Item is successfully added to cart! &nbsp;&nbsp; <a href="/cart" class="view_cart"> View Cart </a>';
+            }
+            else {
+                $request->session()->push('gocart', $item);
+                $message = 'Item is successfully added to cart! &nbsp;&nbsp; <a href="/cart" class="view_cart"> View Cart </a>';
+            }
+
+            return response()->json([
+                'status'=>'success','msg'=>$message
+            ]);
+        }
+        
+    }
+
 
     public function addcart(Request $request)
     {

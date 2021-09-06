@@ -274,7 +274,6 @@ class ProductPageController extends Controller
         ->with('ProductVariableData')
         ->with('ProductAttributeData')
         ->with('ProductUserPrice')->get(); 
-      // dd($product);
 
         if($request->color_swatches) {
             $prod_attrib = array(
@@ -744,7 +743,15 @@ class ProductPageController extends Controller
             })->get()->lists('product_id')->toArray(); 
         }        
 
-        $product = Product::with(['BrandData'=>function($query){
+        $product = DB::table('product')
+        ->select('product.id')
+        ->where('parent_id','=',0)
+        ->where($category,'=',1)
+        ->wherein('product.id',$producCategory)
+        ->get();
+        $subproduct_data = collect($product)->map(function($x){ return (array) $x; })->toArray(); 
+        $product = \App\Product::whereIn('id',$subproduct_data)
+        ->with(['BrandData'=>function($query){
             $query->with('ProductByBrand');
         }])
         ->with(['UsedVariables'=>function($query){
@@ -753,11 +760,14 @@ class ProductPageController extends Controller
         ->with(['UsedAttribute'=>function($query){
             $query->with('AttributeData');
         }])
+        ->with('AttributesData')
         ->with(['ParentData'=>function($query){
             $query->with('BrandData');
         }])
-        ->with(['ChildData'=>function($query){
-            $query->groupBy('featured_image');
+        ->with(['ChildData' => function($q) {
+            $q->with(['AttributesData' => function($q) {
+                $q->with('VariableData');
+            }]);
         }])
         ->with(['ProductCategoryData'=>function($query){            
             $query->with(['SameCategoryProduct'=>function($querytwo){
@@ -769,19 +779,11 @@ class ProductPageController extends Controller
         ->with('ProductOverview')
         ->with(['ProductWishlist'=>function($query){
             $query->where('user_id', Auth::id());
-        }])        
-        ->where('parent_id','=',0)
-        ->where($category,'=',1)
-        ->wherein('id',$producCategory)
-        ->get();        
-        $uid = Auth::id();             
-        // $category;        
-        // if($product[0]->interior == 1) {
-        //     $category = 'interior';
-        // }
-        // if($product[0]->exterior == 1 ) {
-        //     $category .=  ' & exterior';
-        // }
+        }])
+        ->get();   
+
+        $uid = Auth::id();
+ 
         return view('user.sub-category.list', compact('uid','category','param_sub_category', 'product'));
     }
 
@@ -1200,6 +1202,230 @@ class ProductPageController extends Controller
             $product_attrib = ProductAttribute::where('product_id','=',$product_id)->where('attribute_id','=',$attrib_id)->first();
             if(!empty($product_attrib) && $product_attrib !== null)  { echo json_encode($product_attrib); }
             else { echo json_encode(array("status" => false,"msg" => "Error! Cannot fetch product attributes")); }
+        }
+    }
+
+    public function getColors(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails())
+        {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+
+            return response()->json([
+                'status'=>false,'msg'=>$message
+            ]);
+        } else 
+        {
+            $colors_data = [];
+            $product_id  = $request->product_id;    
+            $subproducts = Product::where('parent_id',$product_id)
+            ->whereHas('AttributesData', function($q) {
+                $q->whereHas('VariableData', function($q) {
+                    $q->where('name','=','Color');
+                }, '!=', '');
+            },'!=','')
+            ->with(['AttributesData' => function($q) {
+                $q->whereHas('VariableData', function($q) {
+                    $q->where('name','=','Color');
+                }, '!=', '');
+            }])
+            ->limit(20)
+            ->get(); 
+
+            foreach($subproducts as $subproduct) {
+                foreach($subproduct["AttributesData"] as $attrib) {
+                    $colors_data[$attrib->name] = $attrib->name;
+                } 
+            } 
+            
+            $colors_data = array_unique($colors_data);
+
+            return response()->json($colors_data);
+
+
+        }
+
+    }
+
+    public function getFullColors(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails())
+        {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+
+            return response()->json([
+                'status'=>false,'msg'=>$message
+            ]);
+        } else 
+        {
+            $product_id  = $request->product_id;    
+            $product = Product::where('id',$product_id)
+            ->with(['UsedAttribute'=>function($query){
+                $query->with('AttributeData');
+            }])
+            ->first();
+
+            return response()->json($product->UsedAttribute);
+
+        }
+
+    }
+
+    public function getColorCss(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'selected_color' => 'required'
+        ]);
+        $message = '';
+        if($validator->fails())
+        {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+
+            return response()->json([
+                'status'=>false,'msg'=>$message
+            ]);
+        } else 
+        {
+            $product_id      = $request->product_id;    
+            $selected_color  = $request->selected_color;
+            $subproduct      = Product::where('parent_id',$product_id)
+            ->whereHas('AttributesData', function($q) use($selected_color) {
+                $q->where('name',$selected_color);
+            }, '!=','' )
+            ->with(['AttributesData' => function($q) {
+               $q->whereHas('VariableData', function($q) {
+                    $q->where('name','=','Color');
+                }, '!=', '');
+            }])
+            ->first(); 
+
+            return response()->json($subproduct);
+        }
+    }
+
+    public function getLiters(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'product_id'     => 'required',
+            'selected_color' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails())
+        {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+
+            return response()->json([
+                'status'=>false,'msg'=>$message
+            ]);
+        } else 
+        {
+            $liters_data    = [];
+            $product_id     = $request->product_id;  
+            $selected_color = $request->selected_color;
+            $subproduct     = DB::table('product')
+            ->select('product.id')
+            ->join('product_attribute','product_attribute.product_id', '=','product.id')
+            ->join('attribute','attribute.id', '=','product_attribute.attribute_id')
+            ->where('product.parent_id',$product_id)
+            ->where(function($query) use($selected_color) {
+                    $query->orwhere('attribute.name', '=', $selected_color);
+            })->get();
+            $subproduct_data = collect($subproduct)->map(function($x){ return (array) $x; })->toArray(); 
+            $subproducts = \App\Product::where('parent_id',$product_id)
+            ->whereIn('id',$subproduct_data)
+                ->with('ProductVariableData')
+                ->with('ProductAttributeData')
+                ->with('ProductUserPrice')->get();
+
+            foreach($subproducts as $subproduct) {
+                $attributes = "";
+                $liters_data[$subproduct->id] = '';
+                foreach($subproduct->ProductAttributeData as $variation) {
+                    $attrib = \App\Attribute::find($variation->attribute_id);
+
+                    $attributes .= isset($attrib->name) && !empty($attrib->name) && $attrib->name !== $selected_color  ? $attrib->name .' ' : '';
+                }
+                if(!empty($attributes)) {
+                    $liters_data[$subproduct->id] .= $attributes.' ';
+                }
+            }
+                          
+            
+            return response()->json($liters_data);
+        }
+    }
+
+    public function getVariationDetails(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'product_id'     => 'required',
+            'subproduct_id' => 'required',
+        ]);
+        $message = '';
+        if($validator->fails())
+        {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+
+            return response()->json([
+                'status'=>false,'msg'=>$message
+            ]);
+        } else 
+        {
+            $product_id     = $request->product_id;  
+            $subproduct_id  = $request->subproduct_id;
+            $subproducts    = Product::where('id', $subproduct_id)
+            ->where('parent_id',$product_id)
+            ->first(); 
+            return response()->json($subproducts);
+        }
+
+    }
+
+    public function getLitersNoColors(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'product_id'     => 'required',
+        ]);
+        $message = '';
+        if($validator->fails())
+        {
+            foreach ($validator->errors()->all() as $error) {
+                $message .= $error."\r\n";
+            }
+
+            return response()->json([
+                'status'=>false,'msg'=>$message
+            ]);
+        } else {
+            $product_id     = $request->product_id;  
+            $subproducts    = Product::where('parent_id',$product_id)
+            ->whereHas('AttributesData', function($q) {
+                $q->where('name', '!=', '');
+            }, '!=','' )
+            ->with(['AttributesData' => function($q) {
+                $q->with('VariableData');
+            }])->get(); 
+            
+            return response()->json($subproducts);
         }
     }
 }

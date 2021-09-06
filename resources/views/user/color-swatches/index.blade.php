@@ -384,9 +384,9 @@
       </div>
     </div>
       <div class="modal-footer">
-		<input type="hidden" name="colorNameP" id="colorNameP">
+			<input type="hidden" name="colorNameP" id="colorNameP">
 	  	<input type="hidden" name="colorChoose" id="colorChoose">
-		<input type="hidden" name="colorCss" id="colorCss">
+			<input type="hidden" name="colorCss" id="colorCss">
         <button id="modal_add" class="btn btn-primary">Add</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>

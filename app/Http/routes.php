@@ -70,6 +70,12 @@ Route::post('/subproduct-variance','User\ProductPageController@getSubProductVari
 Route::post('/get-colordetails','User\ProductPageController@getColorDetails');
 Route::post('/get-subproductdetails','User\ProductPageController@getSubProductDetails');
 Route::post('/get-productattrib','User\ProductPageController@getProductAttrib');
+Route::post('/get-colors','User\ProductPageController@getColors');
+Route::post('/get-full-colors','User\ProductPageController@getFullColors');
+Route::post('/get-color-css','User\ProductPageController@getColorCss');
+Route::post('/get-liters','User\ProductPageController@getLiters');
+Route::post('/get-variation-details','User\ProductPageController@getVariationDetails');
+Route::post('/get-liters-nocolors','User\ProductPageController@getLitersNoColors');
 // Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');
@@ -87,6 +93,7 @@ Route::post('/product-view', 'User\ProductPageController@productview');
 Route::post('/add-cart', 'User\CartController@addcart');
 Route::post('/color-add-cart', 'User\CartController@coloraddtocart');
 Route::post('/color-swatches-add-cart', 'User\CartController@colorSwatchesAddToCart');
+Route::post('/addtocart-from-listing','User\CartController@addToCartFromListing');
 Route::post('/remove-cart', 'User\CartController@removecart');
 Route::post('/check-cart', 'User\CartController@checkcart');
 Route::get('/get-shipping-rate', 'User\CartController@get_shipping');

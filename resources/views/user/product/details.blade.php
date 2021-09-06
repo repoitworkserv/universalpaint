@@ -335,13 +335,19 @@
                                             <div class="sml-ttl sml-ttl-fifteen">
                                                 <input type="hidden" id="var-count" value="{{count($key->UsedVariables)}}">
                                                 <div id="quantity_id" class="quantity-select">                                                    
-                                                    <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]">                                                    
+                                                    <!-- <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]"> -->
+                                                    <input type="number" class="prod_qty numbers-only" max="{{$key->quantity}}" min="@if($key->quantity > 0){{'1'}}@else{{'0'}}@endif" data-cartid="cart_id" value="@if($key->quantity > 0){{'1'}}@else{{'0'}}@endif" name="quantity" required>                                                           
                                                 </div>
                                             </div>
                                             @endif
-                                                <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10 pt-2">
                                                     <div class="flex-txt">
-                                                        <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
+                                                        @if($key->quantity <= 0)		
+                                                            <span class="error_message_listing" style="visibility: visible">OUT OF STOCK!</span>   
+                                                        @else
+                                                            <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
+                                                            <span class="error_message_listing">OUT OF STOCK!</span>       
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
