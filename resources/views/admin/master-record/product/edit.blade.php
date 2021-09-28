@@ -618,7 +618,8 @@
                                                             <div class="col-md-3 col-sm-3 col-sm-12">
                                                                <div class="form-group">
                                                                   <label >Is Sale?</label>
-                                                                  <input  name="variation_product_issale[]" class="" type="checkbox" {{$sp->is_sale == 1 ? 'checked' : ''}}  value="1">
+                                                                  <input name="variation_product_issale_input[]" class="is_sale_checkbox" type="checkbox" {{$sp->is_sale == 1 ? 'checked' : '' }}  value="1">
+																						<input type="hidden" name="variation_product_issale[]" value="{{$sp->is_sale}}">
                                                                </div>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-sm-12">
@@ -1300,6 +1301,7 @@
    	                							'<div class="form-group">'+
    					            					'<label >Is Sale?</label>'+
    					            					'<input  name="variation_product_issale[]" class="" type="checkbox"  value="1">'+
+                                             '<input type="hidden" name="variation_product_issale[]" value="1">' +
    									           ' </div>'+
    	                						'</div>'+
    	                						'<div class="col-md-3 col-sm-3 col-sm-12">'+
@@ -1601,5 +1603,15 @@
    		// Do nothing!
    	}
     	});
+
+       $('.is_sale_checkbox').change( function() {
+		var input_hidden = $(this).next();
+         if($(this).is(':checked')) {
+            input_hidden.val(1);
+         } else {
+            input_hidden.val(0);
+         }
+      });
+
 </script>
 @stop

@@ -2354,6 +2354,21 @@ a.btn.white {
     margin-top: 0px !important;
 }
 
+.error_message_listing {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    font-weight: 600;
+    color: red;
+}
+
+.loading_cart_product_list {
+    display:none;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
 @media only screen and (max-width: 767px) {
 
     .cart-label {

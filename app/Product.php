@@ -107,4 +107,9 @@ class Product extends Model
 	{
 		return $this->hasMany('App\ProductUserPrice', 'product_id', 'id');
 	}
+
+	public function AttributesData() {
+		return $this->belongsToMany('App\Attribute','product_attribute','product_id','attribute_id');
+	}
+
 }
