@@ -26,7 +26,6 @@ class CartController extends Controller
     { 
         $shipping = ShippingGngRates::all();
         $cart = $request->session()->get('gocart');
-        //dd($cart);
         $arr_color = [];
         $uid = Auth::id();
         return view('user/product/cart', compact('cart', 'uid'));
@@ -238,15 +237,23 @@ class CartController extends Controller
                 } else {
                     $request->session()->push('gocart', $item);
                 }
-                $message = 'Item is successfully added to cart! &nbsp;&nbsp; <a href="/cart" class="view_cart"> View Cart </a>';
+                $message = 'Item added to cart! &nbsp; <a href="/cart" class="view_cart"> View Cart </a>';
             }
             else {
                 $request->session()->push('gocart', $item);
-                $message = 'Item is successfully added to cart! &nbsp;&nbsp; <a href="/cart" class="view_cart"> View Cart </a>';
+                $message = 'Item added to cart! &nbsp;<a href="/cart" class="view_cart"> View Cart </a>';
+            }
+
+            $cart_count = 0;
+            $cart_items = Session::get('gocart');
+            foreach($cart_items as $item) {
+                $cart_count += count($item['product_details']);
             }
 
             return response()->json([
-                'status'=>'success','msg'=>$message
+                'status'=>'success',
+                'cart' => $cart_count,
+                'msg'=>$message
             ]);
         }
         

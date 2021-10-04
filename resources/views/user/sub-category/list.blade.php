@@ -220,7 +220,7 @@
 									</div>
 									<div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
 										<div class="flex-txt">
-											<button name="add_to_cart" class="button addtocart_from_listing gotocart" tabindex="-1">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
+											<button name="add_to_cart" class="button addtocart_from_listing gotocart" tabindex="-1">ADD TO CART<i class="fas fa-shopping-bag"></i></button>
 											<img class="loading_cart_product_list" src="{{URL::asset('img/loading.gif')}}" width="30" height="10"/>
 											@if($key->ChildData->count() <= 0 && $key->UsedAttribute->count() <= 0 && $key->quantity <= 0)		
 												<span class="error_message_listing" style="visibility: visible">OUT OF STOCK!</span>   

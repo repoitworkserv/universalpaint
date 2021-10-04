@@ -1755,7 +1755,16 @@ $('.sharebtn').on('click',function(){
                     },
                     success: function (response) {
                         if(response.status == "success") {
-                            window.location = "/cart";
+                            if(response.cart > 0) {
+                                $('.cart-icon-img').html(`<img class="cart-icon" src="http://localhost:8000/img/cart-icon.png">(${response.cart})`);
+                                $('.error_message_listing').html(response.msg);
+                                $('.error_message_listing').show();
+                                $('.error_message_listing').css('visibility','visible');
+                                setTimeout(function() {
+                                    $('.error_message_listing').hide();
+                                    $('.error_message_listing').css('visibility','hidden');
+                                },5000);
+                            }
                         } else {
                             alert("Error adding to cart! Sorry for the inconvenience.Please try again later.");
                         }
