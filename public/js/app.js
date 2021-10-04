@@ -1756,7 +1756,7 @@ $('.sharebtn').on('click',function(){
                     success: function (response) {
                         if(response.status == "success") {
                             if(response.cart > 0) {
-                                $('.cart-icon-img').html(`<img class="cart-icon" src="http://localhost:8000/img/cart-icon.png">(${response.cart})`);
+                                $('.cart-icon-img').html(`<img class="cart-icon" src="/img/cart-icon.png">(${response.cart})`);
                                 $('.error_message_listing').html(response.msg);
                                 $('.error_message_listing').show();
                                 $('.error_message_listing').css('visibility','visible');
