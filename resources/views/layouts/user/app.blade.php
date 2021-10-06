@@ -188,7 +188,7 @@
         </header>        
         @yield('content')
         <!-- Sixth Section -->
-        <div id="sixth-section" style="background-image: url('{{ url('img/getHelp.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
+        <div id="sixth-section" style="background-image: url('{{ url('img/footer_img.png') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
             <div class="container">
                 <div class="heading-bx">
                     <div class="thumbnail-desc">Get expert help</div>
