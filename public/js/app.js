@@ -1471,87 +1471,88 @@ $('.sharebtn').on('click',function(){
                 },
                 success: function (response) {
                     response.forEach(function(item) {
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "white" ) {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                        if(item.attribute_data !== null) {
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "white" ) {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                whites.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            whites.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "gray") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "gray") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                greys.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            greys.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "brown") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "brown") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                browns.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            browns.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "purple") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "purple") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                purples.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            purples.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "blue") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "blue") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                blues.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            blues.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "green") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "green") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                greens.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            greens.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "yellow") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "yellow") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                yellows.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            yellows.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "orange") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "orange") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                oranges.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            oranges.children().children().append(html);
-                        }
-                        if(item.attribute_data.cat_color.trim().toLowerCase() == "red") {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "red") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                reds.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            reds.children().children().append(html);
-                        }
-                        if(item.attribute_data.best_selling) {
-                            html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
-                            if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
-                                html += 'color: #848484;';
+                            if(item.attribute_data.best_selling) {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                regs.children().children().append(html);
                             }
-                            html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
-                            regs.children().children().append(html);
                         }
-
                     });
 
                     jQuery('.color-modal').click(function() {
