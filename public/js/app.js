@@ -1553,6 +1553,7 @@ $('.sharebtn').on('click',function(){
                                 regs.children().children().append(html);
                             }
                         }
+                        jQuery('#view-all-colors').trigger('click');
                     });
 
                     jQuery('.color-modal').click(function() {

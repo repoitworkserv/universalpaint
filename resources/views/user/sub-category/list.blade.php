@@ -157,7 +157,11 @@
 														@endif
 												@endforeach
 											@endforelse
-											@if(!empty(trim($colors))) Available in {{$colors}} @else No available colors.  @endif 
+											@if(!empty(trim($colors)))
+											 	available in {{rtrim($colors,", ")}} 
+											@else
+											 No available colors.  
+											@endif 
 									 	@endif
 									 </div>
 									 @else 

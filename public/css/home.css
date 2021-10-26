@@ -559,8 +559,8 @@ a.btn.white {
 }
 
 #fourth-section .widget-box .bg-img {
-    height: 126%;
-    margin-top: -115px;
+    height: 140%;
+    margin-top: -90px;
 }
 
 #fourth-section .widget-box #left {
@@ -2536,7 +2536,7 @@ a.btn.white {
         width: 350px;
         height: 350px;
         left: 0px;
-        top: 320px;
+        top: 315px;
     }
     #first-section .banner-slide.first .widget-box:after {
         top: 430px;
@@ -3113,7 +3113,7 @@ a.btn.white {
         width: 300px;
         height: 300px;
         left: 0px;
-        top: 260px;
+        top: 357px;
     }
     a.btn, a.btn.white {
         z-index: 9;
