@@ -344,6 +344,10 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
         }
 
+        if($(this).attr('max') !== undefined && parseInt($(this).attr('max')) < $(this).val()) {
+            $(this).val($(this).attr('max'));
+        }
+
         check_qty();
 
     })
