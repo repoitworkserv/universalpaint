@@ -2374,6 +2374,10 @@ a.btn.white {
     text-align: center;
 }
 
+.header_print {
+    display:none;
+}
+
 @media only screen and (max-width: 767px) {
 
     .cart-label {
