@@ -71,7 +71,7 @@
 								@if(!empty($key->technical_path))
 								<a href="/pdf/{{$key->technical_path}}" target="_blank" download class="yellow-btn">Technical Data Sheet</a>
 								@endif
-									<a href="" class="yellow-btn">Color Calculators</a>	
+									<a href="/paint-calculator?paint={{$key->name}}" class="yellow-btn">Color Calculators</a>	
 								</div>				
 							</div>
 							<div class="right-bx col-md-7 col-sm-12 col-12">
@@ -157,7 +157,11 @@
 														@endif
 												@endforeach
 											@endforelse
-											@if(!empty(trim($colors))) Available in {{$colors}} @else No available colors.  @endif 
+											@if(!empty(trim($colors)))
+											 	available in {{rtrim($colors,", ")}} 
+											@else
+											 No available colors.  
+											@endif 
 									 	@endif
 									 </div>
 									 @else 
@@ -220,7 +224,7 @@
 									</div>
 									<div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
 										<div class="flex-txt">
-											<button name="add_to_cart" class="button addtocart_from_listing gotocart" tabindex="-1">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
+											<button name="add_to_cart" class="button addtocart_from_listing gotocart" tabindex="-1">ADD TO CART<i class="fas fa-shopping-bag"></i></button>
 											<img class="loading_cart_product_list" src="{{URL::asset('img/loading.gif')}}" width="30" height="10"/>
 											@if($key->ChildData->count() <= 0 && $key->UsedAttribute->count() <= 0 && $key->quantity <= 0)		
 												<span class="error_message_listing" style="visibility: visible">OUT OF STOCK!</span>   

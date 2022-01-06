@@ -390,12 +390,16 @@ class UserController extends Controller
 	public function update_profile(Request $request,$id)
     {
 		$message = 'User Edit failed to save!';
-        $arr_validator = array('role_id'       => 'required',
-				                'usertypes_id' 	=> 'required',
-				                // 'name'          => 'required',
-				                'first_name'          => 'required',
-				                'last_name'          => 'required',
-				                'emailadd'      => 'required|email', );
+    $arr_validator = array('role_id'       => 'required',
+													'usertypes_id' 	 => 'required',
+													// 'name'          => 'required',
+													'first_name'     => 'required',
+													'last_name'      => 'required',
+													'emailadd'       => 'required|email', );
+
+		$passwd  = $request->password;
+		$confpasswd = $request->confpassword;
+
 		if(!empty($passwd) && !empty($confpasswd)){
 			$arr_merger = array(
 							'password'      => 'required|min:8',
@@ -422,8 +426,7 @@ class UserController extends Controller
 
             if(!empty($passwd) && !empty($confpasswd)){
                 $user->password   = bcrypt($request->password);
-            }            
-
+            }          
             if($user->save()){
                 //success on save
                 $uid = Auth::user()->id;

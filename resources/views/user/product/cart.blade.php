@@ -43,8 +43,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									@php $x=0; @endphp
-									@php $total_subtotal = 0.00 @endphp 
+									@php $x=0; $ctr = 0; @endphp
+									@php $total_subtotal = 0.00;
+                  $Page = \App\Post::find(1);
+                  @endphp
 									@foreach($cart as $key => $item)
 									@php
 									$price = $item['product_details'][0]['is_sale'] !== 0 ?  $item['product_details'][0]['sale_price'] : $item['product_details'][0]['price'];
@@ -52,6 +54,32 @@
 									$subtotal = $price * $qty;
 									$total_subtotal += $subtotal;
 									@endphp 
+									@if($ctr == 9)
+									<tr class="header_print cart-color-details-tr">
+									<td colspan="6">
+									</td>
+									</tr>
+									<tr class="header_print cart-color-details-tr">
+									<td colspan="6">
+										<div style="display:flex; justify-content:space-between;margin-top: 20px;">
+											<div style="margin-top: 30px; margin-bottom: 40px; margin-left: -235px;">
+												<a href="/"><img src="{{ url('img/logo_nav.png') }}" alt="UNIVERSAL PAINT"></a>
+											</div>
+                    @if(isset($Page->GetMetaData('social_media_icons', 'post')['meta_value']) && $Page->GetMetaData('social_media_icons', 'post')['meta_value'])                
+											<div class="header-contact" style="margin-right: -217px;">
+													<p class="smll-text">follow and like us on</p>
+													@foreach(explode(',', $Page->GetMetaData('social_media_icons', 'post')['meta_value']) as $icon)
+													<a href="{{\App\Post::findOrFail($icon)->button_link}}"><img src="{!! asset('img/post/') !!}/{!! \App\Post::findOrFail($icon)->featured_image; !!}"></a>   
+													@endforeach
+											</div>
+                    @endif
+										</div>
+									</td>
+									</tr>
+									@php $ctr = 1; @endphp
+									@else 
+									@php $ctr++;  @endphp
+									@endif
 									@if(isset($item['product_details'][0]))
 									<tr class="cart-color-details-tr">
 											<td colspan="6">
@@ -254,6 +282,7 @@
 			$('.cart-review-order-label').hide();
 			$('.cart-privacy-policy-row').hide();
 			$('.cart-add-paint').hide();
+			$('.header_print').show();
 			var HTML_Width = $("#app-layout").width();
 			var HTML_Height = $("#app-layout").height();
 			var top_left_margin = 1;
@@ -283,6 +312,7 @@
 					$('.cart-privacy-policy-row').show();
 					$('.cart-review-order-label').show();
 					$('.cart-add-paint').show();
+					$('.header_print').hide();
 			});
 		}
    })

@@ -345,7 +345,7 @@
                                                         @if($key->quantity <= 0)		
                                                             <span class="error_message_listing" style="visibility: visible">OUT OF STOCK!</span>   
                                                         @else
-                                                            <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
+                                                            <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">ADD TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
                                                             <span class="error_message_listing">OUT OF STOCK!</span>       
                                                         @endif
                                                     </div>

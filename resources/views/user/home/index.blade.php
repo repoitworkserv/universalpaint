@@ -38,7 +38,7 @@
             <div class="banner-slide banner-{{$x}}" style="background-image: url('img/post/{{\App\Post::findOrFail($banner)->featured_banner}}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                 <div class="container">
                     <div class="widget-box" style="background-color: {{ \App\Post::findOrFail($banner)->background_color}} !important">
-                        <div class="heading">{{\App\Post::findOrFail($banner)->post_title}}</div>
+                        <div class="heading" style="font-size: 28px!important">{{\App\Post::findOrFail($banner)->post_title}}</div>
                         <div class="desc">
                           {!! \App\Post::findOrFail($banner)->post_content !!}
                         </div>

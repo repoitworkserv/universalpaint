@@ -559,8 +559,8 @@ a.btn.white {
 }
 
 #fourth-section .widget-box .bg-img {
-    height: 126%;
-    margin-top: -115px;
+    height: 140%;
+    margin-top: -90px;
 }
 
 #fourth-section .widget-box #left {
@@ -2361,12 +2361,21 @@ a.btn.white {
     margin-left: 20px;
     font-weight: 600;
     color: red;
+    font-style: italic;
 }
 
 .loading_cart_product_list {
     display:none;
     margin-left: 5px;
     margin-top: 5px;
+}
+
+.cart-table > thead > tr {
+    text-align: center;
+}
+
+.header_print {
+    display:none;
 }
 
 @media only screen and (max-width: 767px) {
@@ -2408,6 +2417,23 @@ a.btn.white {
         width: 100%;
         height: 70px;
         margin-left:0px;
+    }
+
+    #product-page-list .right-bx .flex-txt .sml-ttl {
+        width: 50%;
+    }
+
+    .gotocart {
+        margin-top: 20px;
+    }
+
+    #quantity_id input {
+        margin-left: 40px;
+    }
+
+    #color-swatches .tab {
+        display: flex;
+        flex-wrap: nowrap;
     }
 }
 
@@ -2514,7 +2540,7 @@ a.btn.white {
         width: 350px;
         height: 350px;
         left: 0px;
-        top: 320px;
+        top: 315px;
     }
     #first-section .banner-slide.first .widget-box:after {
         top: 430px;
@@ -3091,7 +3117,7 @@ a.btn.white {
         width: 300px;
         height: 300px;
         left: 0px;
-        top: 260px;
+        top: 357px;
     }
     a.btn, a.btn.white {
         z-index: 9;
