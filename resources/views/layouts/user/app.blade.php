@@ -50,6 +50,7 @@
     <script>
         var base_url = "{{URL::to('/')}}";
     </script>
+    @if(config('app.env') !== 'local')
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CPQZKG0HGQ"></script>
     <script>
@@ -59,6 +60,7 @@
 
         gtag('config', 'G-CPQZKG0HGQ');
     </script>"
+    @endif
 </head>
 
 <body id="app-layout">
