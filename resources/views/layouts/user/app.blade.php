@@ -50,7 +50,15 @@
     <script>
         var base_url = "{{URL::to('/')}}";
     </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CPQZKG0HGQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-CPQZKG0HGQ');
+    </script>"
 </head>
 
 <body id="app-layout">
