@@ -10,7 +10,11 @@
     <h1>
       Pages
     </h1>
-    
+
+    <?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
+
     @if (session('status'))
         <br>
         <div class="alert alert-success">
@@ -43,10 +47,12 @@
                                             <tr>
                                                 <td>{{ $list->post_title }}</td>
                                                 <td>
+                                                    @if(in_array(5.3, $myPermit))
                                                     <a href="
                                                     {!! URL::action('Admin\PageController@edit',$list->id) !!}" class="badge bg-orange">
                                                         <span class="fa fa-edit"></span> Edit
                                                     </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr>

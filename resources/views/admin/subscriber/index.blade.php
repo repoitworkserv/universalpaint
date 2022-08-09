@@ -20,6 +20,9 @@
 	        </div>
 	    @endif
 	    
+			<?php 
+      	$myPermit = explode(",",Auth::user()->permission);
+    	?>
 	
 	  </section>
 	  <section class="content">
@@ -64,7 +67,9 @@
                         	<td>{{ $sl->email_address }}</td>
                         	<td><strong>{{ ($sl->is_subscribe == 1 ) ? 'subscriber' : '-' }}</strong></td>
                         	<td>
+														@if(in_array(8.3, $myPermit))
                         		<a class="badge bg-orange edit-subscribe" data-subsid="{{ $sl->id }}" data-tostatus="{{ ($sl->is_subscribe == 1 ) ? '0' : '1' }}" > {{ ($sl->is_subscribe == 1 ) ? 'unsubscribe' : 'subscribe' }}</a>
+														@endif
                         	</td>
                         </tr>
                         <tr role="row">

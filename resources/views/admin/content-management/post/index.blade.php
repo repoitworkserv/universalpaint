@@ -12,6 +12,10 @@
     </h1>
     @include('flash-message')
 
+    <?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
+
   </section>
   <section class="content">
     <div class="row">
@@ -71,9 +75,11 @@
                                     <label for="featured_banner">Banner</label>
                                     <input type="file" class="form-control" name="featured_banner" id="featured_banner" />
                                 </div>
+                                @if(in_array(5.2, $myPermit))
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-gold pull-right">Add Post</button>
                                 </div>
+                                @endif
                             </form>
                         </div>
                         <div class="col-lg-7">
@@ -95,15 +101,19 @@
                                                     {{ $list->post_content }}
                                                 </td>
                                                 <td>
+                                                    @if(in_array(5.1, $myPermit))
                                                     <a class="badge bg-orange edit-post" data-postid="{{$list->id}}" data-displayedtitle="{{ $list->displayed_title }}" data-displayedpostcontent="{{ $list->displayed_post_content }}" 
                                                     data-background_color="{{ $list->background_color }}" data-displayedbutton="{{ $list->displayed_button }}" data-buttonname="{{$list->button_name}}" data-buttonlink="{{ $list->button_link }}" data-posttitle="{{$list->post_title}}" data-postname="{{$list->post_name}}" data-postcontent="{{$list->post_content}}" data-image="{{$list->featured_image}}"  data-bannerimage="{{$list->featured_banner}}">
-                                                        <span class="fa fa-edit"></span> Edit
+                                                        <span class="fa fa-edit"></span> View
                                                     </a>
-														<form action="{{ URL::action('Admin\PostController@destroy', $list->id) }}" method="POST">
+                                                    @endif
+                                                    @if(in_array(5.4, $myPermit))
+													<form action="{{ URL::action('Admin\PostController@destroy', $list->id) }}" method="POST">
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                                         <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                                                     </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr>
@@ -191,7 +201,9 @@
                                     </div>
                                     <div class="panel-footer" style="text-align: right">
                                         <div class="button-group">
+                                            @if(in_array(5.3, $myPermit))
                                             <button type="submit" class="btn btn-success">Update</button>
+                                            @endif
                                             <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>

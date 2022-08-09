@@ -139,13 +139,17 @@ desired effect
         $myPermit = explode(",",Auth::user()->permission);
       ?>
       <ul class="sidebar-menu" data-widget="tree">
-        
-        <li @php echo (Request::segment(2) == 'dashboard') ? "class='active'" : ""; @endphp>
-          <a href="{!! URL::action('Admin\DashboardController@index') !!}"><i class="fa fa-credit-card"></i> <span>Dashboard</span></a>
-        </li>
+        @if(in_array(1, $myPermit))
+          <li @php echo (Request::segment(2) == 'dashboard') ? "class='active'" : ""; @endphp>
+            <a href="{!! URL::action('Admin\DashboardController@index') !!}"><i class="fa fa-credit-card"></i> <span>Dashboard</span></a>
+          </li>
+        @endif
+        @if(in_array(2.1, $myPermit))
         <li @php echo (Request::segment(2) == 'orders') ? "class='active'" : ""; @endphp>
           <a href="{!! URL::action('Admin\OrderController@index') !!}"><i class="fa fa-shopping-cart"></i> <span>Orders</span></a>
         </li>
+        @endif
+        @if(in_array(3.1, $myPermit))
         <li class="treeview @php echo in_array(Request::segment(2), $masterRecord) ? 'active' : ''; @endphp dropdown">
           <a href="#">
             <i class="fa fa-book"></i>
@@ -175,13 +179,14 @@ desired effect
             <li @php echo (Request::segment(2) == 'shipping') ? "class='active'" : ""; @endphp><a href="{!! URL::action('Admin\ShippingController@index') !!}"><i class="fa fa-circle-o"></i> Shipping</a></li>
           </ul>
         </li>
+        @endif
 
-        @if(in_array(17, $myPermit))
+        @if(in_array(4.1, $myPermit))
         <li @php echo (Request::segment(2) == 'payment-method') ? "class='active'" : ""; @endphp>
           <a href="{!! URL::action('Admin\PaymentMethodController@index') !!}"><i class="fa fa-credit-card"></i> <span>Payment Methods</span></a>
         </li>
         @endif
-
+        @if(in_array(5.1, $myPermit))
         <li class="treeview @php echo in_array(Request::segment(2), $contentManagement) ? 'active' : ''; @endphp dropdown">
           <a href="#">
             <i class="fa fa-file-text"></i>
@@ -208,8 +213,8 @@ desired effect
             </li>
           </ul>
         </li>
-        
-        @if(in_array(21, $myPermit))
+        @endif
+        @if(in_array(6.1, $myPermit))
         <li class="treeview @php echo (Request::segment(2) == 'users') ? 'active' : ''; @endphp dropdown">
           <a href="#">
             <i class="fa fa-user"></i>
@@ -226,12 +231,12 @@ desired effect
         </li>
         @endif
         
-        @if(in_array(17, $myPermit))
+        @if(in_array(7.1, $myPermit))
         <li @php echo (Request::segment(2) == 'settings') ? "class='active'" : ""; @endphp>
           <a href="{!! URL::action('Admin\SettingsController@index') !!}"><i class="fa fa-cog"></i> <span>Settings</span></a>
         </li>
         @endif
-        @if(in_array(17, $myPermit))
+        @if(in_array(8.1, $myPermit))
         <li @php echo (Request::segment(2) == 'subscriber') ? "class='active'" : ""; @endphp>
           <a href="{!! URL::action('Admin\SubscriberController@index') !!}"><i class="fa fa-newspaper-o"></i> <span>Subscriber</span></a>
         </li>

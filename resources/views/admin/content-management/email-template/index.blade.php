@@ -18,6 +18,10 @@
         </div>
     @endif
 
+    <?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
+
 </section>
 <section class="content">
 <div class="row">
@@ -54,7 +58,9 @@
                                     <input type="file" class="form-control" name="image_template" id="image_template" />
                                 </div>
                                 <div class="form-group">
+                                    @if(in_array(5.2, $myPermit))
                                     <button type="submit" class="btn btn-gold pull-right">Add Post</button>
+                                    @endif
                                 </div>
                             </form>
                         </div>
@@ -81,9 +87,11 @@
                                                     {{ $list->type }}
                                                 </td>
                                                 <td>
+                                                    @if(in_array(5.3, $myPermit))
                                                     <a class="badge bg-orange edit-post" data-postid="{{$list->id}}" data-posttitle="{{$list->post_title}}" data-type="{{$list->post_type}}" data-postname="{{$list->post_name}}" data-postcontent="{{$list->post_content}}" data-image="{{$list->image_template}}">
                                                         <span class="fa fa-edit"></span> Edit
                                                     </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr>

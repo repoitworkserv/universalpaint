@@ -14,10 +14,13 @@ use App\Variable;
 
 class VariableController extends Controller
 {
+
+    public $moduleIndex = 3.1;
+
     public function __construct()
     {
         //check permission
-   
+        $this->middleware('uac:'.$this->moduleIndex);
  
     	//sidebar session
 		session(['getpage' => 'variable']); 

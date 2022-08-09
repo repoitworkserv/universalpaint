@@ -13,10 +13,13 @@ use App\Subscriber;
 
 class SubscriberController extends Controller
 {
+
+    public $moduleIndex = 8.1;
+
     public function __construct()
     {
         //check permission
-   
+        $this->middleware('uac:'.$this->moduleIndex);
  
     	//sidebar session
 		session(['getpage' => 'subscriber']); 

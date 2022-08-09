@@ -55,7 +55,7 @@ Route::get('/email_user', 'User\HomePageController@email_request');
 Route::post('/email_user_pdf', 'User\HomePageController@email_request_pdf');
 
 //login
-Route::get('/', 'User\HomePageController@index');
+Route::get('/', 'User\HomePageController@index')->name('home');
 Route::post('login', 'Auth\AuthController@postAjaxLogin');
 Route::post('register-customer', 'User\RegisterController@register_customer');
 
@@ -104,13 +104,13 @@ Route::group(['middleware' => ['auth']], function () {
 }); 
 Route::post('/checkout-details', 'User\CheckoutController@send_checkoutDetails');
 Route::post('/checkout-dragonpay','User\CheckoutController@payment_dragonpay');
-Route::get('/checkout-dragonpayreturn','User\CheckoutController@payment_dragonpay_return');
+Route::get('/checkout-dragonpayreturn','User\CheckoutController@payment_dragonpay_return')->name('dragonpay.return');
 Route::post('/fetch-shipping-rate', 'User\CheckoutController@fetch_shipping_rate');
 // Route::post('/checkout-validate', 'User\CheckoutController@validate_customer_detail');
 Route::post('/checkout-paypal-create', 'User\CheckoutController@payment_paypal_create');
 Route::post('/checkout-paypal-execute', 'User\CheckoutController@payment_paypal_execute');
 Route::post('/order-cod', 'User\CheckoutController@cod_order');
-Route::get('/cod-return', 'User\CheckoutController@cod_return');
+Route::get('/cod-return', 'User\CheckoutController@cod_return')->name('cod.return');
 
 Route::get('/delfilt/{type}/{filter}/{name}', 'User\ProductPageController@removeFilters');
 Route::get('/putfilt/{type}/{filter}/{name}', 'User\ProductPageController@putFilters');
@@ -211,7 +211,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
     Route::resource('users', 'Admin\UserController');
 	Route::get('profile', [
 			'uses'=>'Admin\UserController@profile'
-	]);
+	])->name('admin_profile');
 	Route::post('update_profile/{id}', [
 			'uses'=>'Admin\UserController@update_profile'
 	]);

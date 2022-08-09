@@ -30,7 +30,7 @@
           <div class="box">
             <div class="box-header">
               <div class="col-xs-2">
-                @if(in_array(22, $myPermit))
+                @if(in_array(6.2, $myPermit))
                 <a href="{!! URL::action('Admin\RoleController@create') !!}" class="btn btn-block btn-gold">
                   <i class="fa fa-plus-circle"></i> Add New Role
                 </a>
@@ -73,13 +73,13 @@
                         <td>{{ $role->created_at }}</td>                        
                         <td>
 
-                          @if(in_array(23, $myPermit))
+                          @if(in_array(6.3, $myPermit))
                             <a href="{!! URL::action('Admin\RoleController@edit', $role->id) !!}" class="badge bg-orange">
                             <span class="fa fa-edit"></span> Edit
                             </a> &nbsp;
                           @endif
 
-                          @if(in_array(24, $myPermit))
+                          @if(in_array(6.4, $myPermit))
                             <form class="pull-left" style="margin-right:5px;" action="{{ URL::action('Admin\RoleController@destroy', $role->id) }}" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />

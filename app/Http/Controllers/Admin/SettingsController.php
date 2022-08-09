@@ -14,10 +14,13 @@ use App\Settings;
 
 class SettingsController extends Controller
 {
+
+    public $moduleIndex = 7.1;
+
     public function __construct()
     {
         //check permission
-   
+        $this->middleware('uac:'.$this->moduleIndex);
  
     	//sidebar session
 		session(['getpage' => 'settings']); 

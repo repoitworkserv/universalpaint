@@ -22,6 +22,9 @@
 		</div>
     @endif
 
+		<?php 
+      $myPermit = explode(",",Auth::user()->permission);
+    ?>
   
 	</section>
 	<section class="content">
@@ -59,9 +62,11 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12 col-sm-12 col-xs-12 text-right">
+								@if(in_array(7.2, $myPermit))
 									<div class="btn btn-gold mode_btn_sbmt" data-tags="mode">
 	                    			Submit
-	                    		</div>
+	                </div>
+								@endif
 								</div>
 							</div>
 						</form>
@@ -100,9 +105,11 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12 col-sm-12 col-xs-12 text-right">
+									@if(in_array(7.2, $myPermit))
 									<div class="btn btn-gold email_btn_sbmt" data-tags="email">
 	                    			Submit
-	                    		</div>
+	                </div>
+									@endif
 								</div>
 							</div>
 						</form>
@@ -133,12 +140,16 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12 col-sm-12 col-xs-12 text-right">
+											@if(in_array(7.2, $myPermit))
 											<button type="submit" class="btn btn-gold product_brochure_btn_sbmt" data-tags="brochure">
 																Submit
 															</button>
+											@endif
+											@if(in_array(7.3, $myPermit))
 											<button class="btn btn-danger delete_brochure" data-tags="brochure">
 																Delete
 															</button>
+											@endif
 										</div>
 									</div>
 								</div>

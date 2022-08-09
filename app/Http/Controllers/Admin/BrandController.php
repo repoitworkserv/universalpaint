@@ -19,6 +19,12 @@ use App\PostMetaData;
 
 class BrandController extends Controller
 {
+    public $moduleIndex = 3.1;
+
+    public function __construct() 
+    {   
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
     public function index(Request $request)
     {
         $search_item = ($request->search_item) ? $request->search_item : '';

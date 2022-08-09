@@ -27,6 +27,14 @@ use App\EmailTemplate;
 
 class OrderController extends Controller
 {
+
+		public $moduleIndex = 2.1;
+
+		public function __construct() 
+		{   
+				$this->middleware('uac:'.$this->moduleIndex);
+		}
+		
     public function index(Request $request)
     {
 		// print_r($_POST);

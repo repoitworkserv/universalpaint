@@ -11,6 +11,10 @@
       Category
     </h1>
     @include('flash-message')
+    <?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
+
   </section>
   <section class="content">
     <div class="row">
@@ -79,7 +83,9 @@
                                     
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                    @if(in_array(3.2, $myPermit))
                                     <button type="submit" class="btn btn-gold pull-right">Add Category</button>
+                                    @endif
                                 </div>
                             </form>
                         </div>
@@ -118,13 +124,15 @@
                                                 <td>{{ $list->description }}</td>
                                                 <td>
                                                     <a class="badge bg-green edit-category" data-catid="{{$list->id}}" data-name="{{$list->name}}" data-displayeddescription="{{$list->displayed_discription}}" data-displayedname="{{$list->displayed_name}}" data-description="{{$list->description}}" data-parentid="{{$list->parent_id}}" data-featuredimg="{{$list->featured_img}}" data-featuredimgbackground="{{$list->featured_img_bg}}" data-featuredimgbanner="{{$list->featured_img_banner}}">
-                                                        <span class="fa fa-edit"></span> Edit
+                                                        <span class="fa fa-edit"></span> View
                                                     </a>
+                                                    @if(in_array(3.4, $myPermit))
                                                     <form action="{{ URL::action('Admin\CategoryController@destroy', $list->id) }}" method="POST">
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                                         <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                                                     </form>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr><td colspan="3"></td></tr>
@@ -154,13 +162,15 @@
                                                                     <td>{{ $subsubcat->description }}</td>
                                                                     <td>
                                                                         <a class="badge bg-green edit-category" data-catid="{{$subsubcat->id}}" data-name="{{$subsubcat->name}}" data-displayeddescription="{{$subcat->displayed_discription}}" data-displayedname="{{$subcat->displayed_name}}" data-description="{{$subsubcat->description}}" data-parentid="{{$subsubcat->parent_id}}" data-featuredimg="{{$subsubcat->featured_img}}" data-featuredimgbackground="{{$subsubcat->featured_img_bg}}" data-featuredimgbanner="{{$subsubcat->featured_img_banner}}">
-                                                                            <span class="fa fa-edit"></span> Edit
+                                                                            <span class="fa fa-edit"></span> View
                                                                         </a>
+                                                                        @if(in_array(3.4, $myPermit))
                                                                         <form action="{{ URL::action('Admin\CategoryController@destroy', $subsubcat->id) }}" method="POST">
                                                                             <input type="hidden" name="_method" value="DELETE">
                                                                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                                                             <a id="alert{{$subsubcat->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                                                                         </form>
+                                                                        @endif
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -258,7 +268,9 @@
                                         <div class="panel-footer" style="text-align: right">
                                             <div class="button-group">
                                                 {!! csrf_field() !!}   
+                                                @if(in_array(3.3, $myPermit))
                                                 <button type="submit" class="btn btn-success">Update</button>
+                                                @endif
                                                 <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>

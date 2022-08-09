@@ -20,6 +20,14 @@ use App\Category;
 
 class PageController extends Controller
 {
+
+    public $moduleIndex = 5.1;
+
+    public function __construct() 
+    {   
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
+
     public function index()
     {
         $Pages = Post::where('post_type', 'page')->paginate(10);

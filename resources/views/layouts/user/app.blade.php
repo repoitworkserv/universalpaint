@@ -61,6 +61,13 @@
         gtag('config', 'G-CPQZKG0HGQ');
     </script>"
     @endif
+
+    @if(config('app.env') !== 'local' && (\Request::route()->getName() == "cod.return" || \Request::route()->getName() == "dragonpay.return" ))
+    <!-- Event snippet for Universal Paint Home_Page view conversion page -->
+     <script> 
+        gtag('event', 'conversion', {'send_to': 'AW-413103693/sP5DCMWQy44DEM3s_cQB'}); 
+    </script>
+    @endif
 </head>
 
 <body id="app-layout">
