@@ -50,6 +50,7 @@
 <p class="center" style="margin: auto;border-style: none;padding: 10px;text-align: center;color: gray;font-family: \'Asap\';font-size: small;">
 Fullname: {{ $data['fullname'] }} <br>
 Email: {{ $data['email'] }}
+@if(isset($data['contact_number'])) Contact Number: {{ $data['contact_number'] }} @endif
 </p>
 <p class="center" style="margin: auto;border-style: none;padding: 10px;text-align: center;color: gray;font-family: \'Asap\';font-size: small;">Powered by iTWorks Global Solutions</p>
 </div>
