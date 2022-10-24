@@ -17,6 +17,9 @@
         {!! nl2br(session('status')) !!}
         </div>
     @endif
+    <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   	?>  
 
   </section>
 <form action="{{ URL::action('Admin\UserController@store') }}" method="post" accept-charset="UTF-8">  
@@ -105,17 +108,18 @@
               <input type="password" id="confpassword" name="confpassword" class="form-control" placeholder="Enter Confirm Password" required="">
             </div>
           </div>
-		  <div class="col-md-6"> 
+		  <!-- <div class="col-md-6"> 
            	<div class="form-group">
 	            <label for="role">User Types</label>
-	            <select class="form-control" name="usertypes_id" id="usertypes_id" data-parsley-required="true" required>
+	            <select class="form-control" name="usertypes_id" id="usertypes_id">
 	            	<option value="" disabled selected>Select User Types</option>
+                <option value="Admin">Admin</option>
 	            @foreach ($utype_list as $key => $val)
 	            	<option value="{{ $key }}">{{ $val }}</option>
 	            @endforeach
 	            </select>
 	          </div> 
-			</div> 
+			</div>  -->
 		 <div class="col-md-6">
 	          <div class="form-group">
 	            <label for="role">Role</label>
@@ -132,7 +136,9 @@
         <!-- /.box-body -->
 
         <div class="box-footer text-right">
+          @if(in_array(6.2, $myPermit))
           <button type="submit" class="btn btn-gold"><i class="fa fa-save"></i> Save</button>
+          @endif
           <a href="{!! URL::action('Admin\UserController@index') !!}"><button type="button" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</button></a>
         </div>
       

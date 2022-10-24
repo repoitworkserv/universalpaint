@@ -11,8 +11,9 @@
 	    </h1>
 	
 		@include('flash-message')
-	    
-	
+		<?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   	?>  
 	  </section>
 	  <section class="content">
       <div class="row">
@@ -589,7 +590,9 @@
                 			
                 			
 			                <div class="form-group text-right">
-			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: none;">Save Product</button>    
+											@if(in_array(3.2, $myPermit))
+			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: none;">Save Product</button>
+											@endif
 			                </div>
 				                
 				        

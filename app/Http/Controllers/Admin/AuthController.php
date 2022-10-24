@@ -31,7 +31,6 @@ class AuthController extends Controller
 		
 		if(!empty($credential['email']) && !empty($credential['password'])){
 			if($result = \Auth::attempt($credential, $rememberMe)){
-
 				if(!empty(Auth::user()->permission)){
 					return redirect('admin/dashboard');
 				} else {

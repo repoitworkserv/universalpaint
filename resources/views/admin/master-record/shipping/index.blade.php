@@ -11,6 +11,9 @@
       Shipping Rate
     </h1>
     @include('flash-message')
+    <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   	?>  
   </section>
   <section class="content">
     <div class="row">
@@ -45,7 +48,9 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-right">
+                                    @if(in_array(3.3, $myPermit))
                                     <button type="submit" class="btn btn-gold pull-right">Update Shipping Dimension</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -79,8 +84,10 @@
                                     </div></div>
                                 @endfor
                                 <div class="text-right">
+                                    @if(in_array(3.2, $myPermit))
                                         {!! csrf_field() !!}
                                     <button type="submit" class="btn btn-gold pull-right">Add Shipping</button>
+                                    @endif
                                 </div>
                             </form>
                         </div>
@@ -130,13 +137,15 @@
                                                     data-shippingprice19="{{$list->below19kg}}" 
                                                     data-shippingprice20="{{$list->below20kg}}"
                                                     data-shippingstatus="{{$list->status}}">
-                                                        <span class="fa fa-edit"></span> Edit
+                                                        <span class="fa fa-edit"></span> View
                                                     </a>
+                                                    @if(in_array(3.4, $myPermit))
                                                     <form action="{{ URL::action('Admin\ShippingController@destroy', $list->id) }}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                                    <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
-                                                </form>
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                        <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
+                                                    </form>
+                                                    @endif
                                                 </td>
                                                 {{-- @endif --}}
                                             </tr>
@@ -189,7 +198,9 @@
                                         </div>
                                         <div class="panel-footer" style="text-align: right">
                                             <div class="button-group">
+                                                @if(in_array(3.3, $myPermit))
                                                 <button type="submit" class="btn btn-success">Update</button>
+                                                @endif
                                                 <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>

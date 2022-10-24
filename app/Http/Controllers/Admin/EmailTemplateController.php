@@ -18,6 +18,13 @@ use App\EmailTemplate;
 
 class EmailTemplateController extends Controller
 {
+
+    public $moduleIndex = 5.1;
+
+    public function __construct() 
+    {   
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
     //
     public function index()
     {

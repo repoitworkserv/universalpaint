@@ -10,6 +10,9 @@
 	      Product
 	    </h1>
 @include('flash-message')
+<?php 
+  $myPermit = explode(",",Auth::user()->permission);
+?>
 	  </section>
 	  <section class="content">
       <div class="row">
@@ -79,12 +82,14 @@
                         	<td>{{ isset($pl->BrandData['name']) ? $pl->BrandData['name'] : ""  }}</td>
                         	<td>{{ ($pl->is_sale == 1 ? 'Yes' : 'No') }}</td>
                         	<td>
-                        		<a target="_blank" href="{!! URL::action('Admin\ProductController@edit', $pl->id) !!}" class="badge bg-orange edit-product" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
+                        		<a target="_blank" href="{!! URL::action('Admin\ProductController@edit', $pl->id) !!}" class="badge bg-orange edit-product" ><i class="	fa fa-pencil-square-o"></i> View</a>
+                            @if(in_array(3.4, $myPermit))
                             <form action="{{ URL::action('Admin\ProductController@destroy', $pl->id) }}" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                 <a id="alert{{$pl->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                             </form>
+                            @endif
                         	</td>
                         </tr>
                         <tr>

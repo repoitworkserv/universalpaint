@@ -14,6 +14,9 @@
       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('msg') }}
    </div>
    @endif
+   <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   ?>
 </section>
 <section class="content">
    <div class="row">
@@ -768,7 +771,9 @@
                            </div>
                            <div class="form-group text-right">
                               <!--<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: {{($productdetails->product_type == 'multiple') && ($subproduct->count() > 0) ? 'inline' : 'none'}};">Save Product</button>-->
+                              @if(in_array(3.3, $myPermit))
                               <button class="btn btn-gold btn-md btn_saveprod" type="button" >Save Product</button>        
+                              @endif
                            </div>
                         </div>
                      </div>

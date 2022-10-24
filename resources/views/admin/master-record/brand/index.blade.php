@@ -11,6 +11,9 @@
       Brand
     </h1>
     @include('flash-message')
+    <?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
   </section>
   <section class="content">
     <div class="row">
@@ -46,7 +49,9 @@
                                     
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                    @if(in_array(3.2, $myPermit))
                                     <button type="submit" class="btn btn-gold pull-right">Add Brand</button>
+                                    @endif
                                 </div>
                             </form>
                         </div>
@@ -81,12 +86,14 @@
                                                 <td>{{ $list->description }}</td>
                                                 <td>
                                                     <a class="badge bg-orange edit-brand" data-catid="{{$list->id}}"  data-hide="{{$list->hide_brand}}" data-name="{{$list->name}}" data-slug="{{$list->slug_name}}" data-description="{{$list->description}}" data-featuredimg="{{$list->featured_img}}" data-featuredimgbanner="{{$list->featured_img_banner}}">
-                                                        <span class="fa fa-edit"></span> Edit
+                                                        <span class="fa fa-edit"></span> View
                                                     </a>
+                                                    @if(in_array(3.4, $myPermit))
                                                     <form action="{{ URL::action('Admin\BrandController@destroy', $list->id) }}" method="POST">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                                     <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
+                                                    @endif
                                                 </form>
                                                 </td>
                                             </tr>
@@ -147,7 +154,9 @@
                                         </div>
                                         <div class="panel-footer" style="text-align: right">
                                             <div class="button-group">
+                                                @if(in_array(3.3, $myPermit))
                                                 <button type="submit" class="btn btn-success">Update</button>
+                                                @endif
                                                 <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>

@@ -19,7 +19,11 @@
 	        <div class="alert alert-{{$class}}">
 	        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('msg') }}
 	        </div>
-	    @endif
+	@endif
+
+    <?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
 
   </section>
   <section class="content">
@@ -55,7 +59,9 @@
                                     <input type="text" name="supplier_address" value="{!! old('supplier_address') !!}" id="supplier_address" class="form-control" placeholder="Enter ...">
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                    @if(in_array(3.2, $myPermit))
                                     <button type="submit" class="btn btn-gold pull-right">Add Supplier</button>
+                                    @endif
                                 </div>
                             </form>
                         </div>
@@ -76,22 +82,18 @@
                                             <tr>
                                                 <td>{{ $list->name }}</td>
                                                 <td>{{ $list->description }}</td>
-                                                @if($list->id == 1)
-                                                <td>
-                                                    &nbsp;
-                                                </td>
-                                                @else
                                                 <td>
                                                     <a class="badge bg-orange edit-supplier" data-catid="{{$list->id}}" data-name="{{$list->name}}" data-code="{{$list->supplier_code}}" data-contactno="{{$list->contact_no}}" data-address="{{$list->address}}" data-email="{{$list->email}}">
-                                                        <span class="fa fa-edit"></span> Edit
+                                                        <span class="fa fa-edit"></span> View
                                                     </a>
+                                                    @if(in_array(3.4, $myPermit))
                                                     <form action="{{ URL::action('Admin\SupplierController@destroy', $list->id) }}" method="POST">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                                    <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
-                                                </form>
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                        <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
+                                                    </form>
+                                                    @endif
                                                 </td>
-                                                @endif
                                             </tr>
                                             <tr><td colspan="3"></td></tr>
                                         @endforeach
@@ -136,7 +138,9 @@
                                         </div>
                                         <div class="panel-footer" style="text-align: right">
                                             <div class="button-group">
+                                                @if(in_array(3.3, $myPermit))
                                                 <button type="submit" class="btn btn-success">Update</button>
+                                                @endif
                                                 <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>

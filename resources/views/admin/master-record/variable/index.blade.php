@@ -10,6 +10,9 @@
 	      Variable
 	    </h1>
 		@include('flash-message')
+		<?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
 	  </section>
 	  <section class="content">
       <div class="row">
@@ -45,7 +48,9 @@
             					<textarea name="variable_description" class="form-control" rows="5" id="variable_description"></textarea>
 				            </div>
 			                <div class="form-group text-right">
-			            		<button class="btn btn-gold btn-md" type="submit">Add Variable</button>    
+											@if(in_array(3.2, $myPermit))
+			            		<button class="btn btn-gold btn-md" type="submit">Add Variable</button>  
+											@endif  
 			                </div>
 				                
 				        
@@ -81,12 +86,14 @@
                         	<td>{{ $vl->name }}</td>
                         	<td>{{ $vl->description }}</td>
                         	<td>
-                        		<a class="badge bg-orange edit-variable" data-varid="{{ $vl->id }}" data-varname="{{ $vl->name }}" data-vardesc = "{{ $vl->description }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
+                        		<a class="badge bg-orange edit-variable" data-varid="{{ $vl->id }}" data-varname="{{ $vl->name }}" data-vardesc = "{{ $vl->description }}" ><i class="	fa fa-pencil-square-o"></i> View</a>
+														@if(in_array(3.4, $myPermit))
 														<form action="{{ URL::action('Admin\VariableController@destroy', $vl->id) }}" method="POST">
 																<input type="hidden" name="_method" value="POST">
 																<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 																<a id="alert{{$vl->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
 														</form>
+														@endif
                         	</td>
                         </tr>
                         <tr><td colspan="3"></td></tr>
@@ -136,7 +143,9 @@
 	                
 	                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
 	                  <input id="edit_variable_id" name="edit_variable_id" class="form-control" type="hidden"  value="">
+										@if(in_array(3.3, $myPermit))
 	                  <button type="submit" class="btn btn-gold">Update</button>
+										@endif
 	                  <button type="button" class="btn btn-default modcancel" data-dismiss="modal">Cancel</button>
 	                </div>
 	              </div>

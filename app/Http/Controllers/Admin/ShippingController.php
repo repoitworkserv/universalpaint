@@ -18,6 +18,15 @@ use App\ShippingGngRates;
 
 class ShippingController extends Controller
 {
+
+    public $moduleIndex = 3.1;
+
+    public function __construct()
+    {
+        //check permission
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
+
     public function index()
     {
         $ShippingDimension      = ShippingDimension::get();

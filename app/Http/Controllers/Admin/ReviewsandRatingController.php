@@ -16,6 +16,12 @@ use App\UserImages;
 
 class ReviewsandRatingController extends Controller
 {
+    public $moduleIndex = 5.1;
+
+    public function __construct() 
+    {   
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
     /**
      * Display a listing of the resource.
      *

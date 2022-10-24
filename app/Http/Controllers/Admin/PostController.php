@@ -17,6 +17,13 @@ use App\PostMetaData;
 
 class PostController extends Controller
 {
+    public $moduleIndex = 5.1;
+
+    public function __construct() 
+    {   
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
+    
     public function index()
     {
         $Post       = Post::where('post_type', 'post')->paginate(10);

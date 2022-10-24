@@ -8,6 +8,9 @@
       How to Paint
    </h1>
    @include('flash-message')
+   <?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
 </section>
 <section class="content">
    <div class="row">
@@ -60,9 +63,11 @@
                               </div>
                            </div>
                         </div>
+                        @if(in_array(5.2, $myPermit))
                         <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                            <button type="submit" class="btn btn-gold pull-right">Add Title</button>
                         </div>
+                        @endif
                   </form>
                   </div>
                </div>
@@ -96,14 +101,18 @@
                         <tr data-toggle="collapse" data-target="#cat{{$x}}" class="accordion-toggle table-row-toggle" aria-expanded="false">
                            <td>{{ $list->title }}</td>
                            <td>
+                              @if(in_array(5.1, $myPermit))
                               <a class="badge bg-green edit-howtopaint-title" data-id="{{$list->id}}" data-parent_id="{{$list->parent_id}}" data-title="{{$list->title}}" data-status="{{$list->status}}">
-                              <span class="fa fa-edit"></span> Edit
+                              <span class="fa fa-edit"></span> View
                               </a>
+                              @endif
+                              @if(in_array(5.4, $myPermit))
                               <form action="{{ URL::to('admin/how-to-paint/destroy', $list->id) }}" method="POST">
                                  <input type="hidden" name="_method" value="DELETE">
                                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                  <a id="alert{{$list->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                               </form>
+                              @endif
                            </td>
                         </tr>
                         <tr>
@@ -121,34 +130,46 @@
                                        <tr class="show_content" style="cursor:pointer" data-id="{{$subtitle->id}}">
                                           <td>&nbsp;&nbsp;&nbsp;{{ $subtitle->title }}</td>
                                           <td>
+                                             @if(in_array(5.2, $myPermit))
                                             <a href="#" class="badge bg-green add-content" data-id="{{$subtitle->id}}" data-title="{{$subtitle->title}}"> 
                                               <span class="fa fa-edit"></span> Add
                                             </a>
+                                            @endif
+                                            @if(in_array(5.3, $myPermit))
                                              <a class="badge bg-green edit-howtopaint-title" data-id="{{$subtitle->id}}" data-parent_id="{{$subtitle->parent_id}}" data-title="{{$subtitle->title}}" data-status="{{$subtitle->status}}">
                                              <span class="fa fa-edit"></span> Edit
                                              </a>
+                                             @endif
+                                             @if(in_array(5.4, $myPermit))
                                              <form action="{{ URL::action('Admin\HowToPaintController@destroy', $subtitle->id) }}" method="POST">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                                 <a id="alert{{$subtitle->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                                              </form>
+                                             @endif
                                           </td>
                                        </tr>
                                        @foreach($subtitle->SubTitles as $subsub)
                                           <tr class="show_content" style="cursor:pointer" data-id="{{$subsub->id}}">
                                              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $subsub->title }}</td>
                                              <td>
+                                             @if(in_array(5.2, $myPermit))
                                              <a href="#" class="badge bg-green add-content" data-id="{{$subsub->id}}" data-title="{{$subsub->title}}"> 
                                                 <span class="fa fa-edit"></span> Add
                                              </a>
+                                             @endif
+                                             @if(in_array(5.3, $myPermit))
                                                 <a class="badge bg-green edit-howtopaint-title" data-id="{{$subsub->id}}" data-parent_id="{{$subsub->parent_id}}" data-title="{{$subsub->title}}" data-status="{{$subsub->status}}">
                                                 <span class="fa fa-edit"></span> Edit
                                                 </a>
+                                             @endif
+                                             @if(in_array(5.4, $myPermit))
                                                 <form action="{{ URL::action('Admin\HowToPaintController@destroy', $subsub->id) }}" method="POST">
                                                    <input type="hidden" name="_method" value="DELETE">
                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                                    <a id="alert{{$subsub->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                                                 </form>
+                                             @endif
                                              </td>
                                           </tr>
                                        @endforeach
@@ -273,7 +294,9 @@
                               <div class="panel-footer" style="text-align: right">
                                  <div class="button-group">
                                     {!! csrf_field() !!}   
+                                    @if(in_array(5.3, $myPermit))
                                     <button type="submit" class="btn btn-success">Update</button>
+                                    @endif
                                     <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                  </div>
                               </div>
@@ -379,7 +402,9 @@
                               <div class="panel-footer" style="text-align: right">
                                  <div class="button-group">
                                     {!! csrf_field() !!}   
+                                    @if(in_array(5.3, $myPermit))
                                     <button type="submit" class="btn btn-success">Update</button>
+                                    @endif
                                     <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                  </div>
                               </div>
@@ -426,6 +451,8 @@
       $('.show_content').on('click', function() {
          var id      = $(this).data('id');
          var _token  = $('input[name="_token"]').val();
+         var edit_permit    = '<?php echo  in_array(5.3, $myPermit) ?>';
+         var delete_permit  = '<?php echo  in_array(5.4, $myPermit) ?>';
          if (id && _token) { 
             $.ajax({
                url: base_url + '/admin/how-to-paint/show-content',
@@ -440,18 +467,24 @@
                     html += '<tr>' +
                      '<td>' + '<img width="233" height="156" src="'+image_val+'">' + '</td>' +
                      '<td>' + value.content + '</td>' +
-                     '<td>' + 
+                     '<td>';
+
+                     if(edit_permit) {
+                        html +=
                            '<a class="badge bg-green edit-howtopaint-content" data-id="'+ value.id+'" data-how_to_paint_id="' +value.how_to_paint_id+ '" data-image="'+ value.image +'" data-status="' +value.status+ '">' +
                            '<span class="fa fa-edit"></span> Edit' +
-                           '</a>' +
+                           '</a>';
+                     }
+                     if(delete_permit) {
+                        html += 
                            '<form action="{{url('/')}}/admin/how-to-paint/destroy-content/'+value.id+'" method="POST">' +
                               '<input type="hidden" name="_method" value="DELETE">' +
                               '<input type="hidden" name="_token" value="' +_token+ '" />' +
                               '<a id="delete-' +value.id+ '" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>' +
-                           '</form>' +
-                     
-                     '</td>' +
-                     '</tr>';
+                           '</form>';
+                     }
+
+                     html += '</td>' + '</tr>';
                      $('#howToPaintContentsTbl').find('tbody').html(html);
                      $('.edit-howtopaint-content').click(function() {
                         var id              = $(this).data('id');

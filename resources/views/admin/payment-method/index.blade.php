@@ -18,6 +18,10 @@
         </div>
     @endif
 
+    <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   	?>  
+
   </section><br>
 
     <div class="col-md-8">
@@ -59,9 +63,9 @@
                   @endphp
                   <input {{ $myStatus }} data-toggle="toggle" type="checkbox" id="enable" name="enable" value="1" data-size="mini" data-onstyle="primary">
               </div>
-
+              @if(in_array(4.2, $myPermit))
               <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-
+              @endif
             </form>
 
           </div>
@@ -131,8 +135,9 @@
               </div>
             </div>
 
-
+              @if(in_array(4.2, $myPermit))
               <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+              @endif
 
             </form>
 
@@ -161,8 +166,9 @@
               <label for="" >Bank Details</label>
                 <textarea id="bank-editor" name="details" required class="form-control"><?php echo  isset($paymentMethod['bank_deposit']['details']) ? $paymentMethod['bank_deposit']['details'] : '' ; ?></textarea>
               </div>
-
+                @if(in_array(4.2, $myPermit))
                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+               @endif
             </form>
           </div>
 

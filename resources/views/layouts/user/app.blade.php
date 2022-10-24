@@ -50,7 +50,24 @@
     <script>
         var base_url = "{{URL::to('/')}}";
     </script>
+    @if(config('app.env') !== 'local')
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CPQZKG0HGQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-CPQZKG0HGQ');
+    </script>"
+    @endif
+
+    @if(config('app.env') !== 'local' && (\Request::route()->getName() == "cod.return" || \Request::route()->getName() == "dragonpay.return" ))
+    <!-- Event snippet for Universal Paint Home_Page view conversion page -->
+     <script> 
+        gtag('event', 'conversion', {'send_to': 'AW-413103693/sP5DCMWQy44DEM3s_cQB'}); 
+    </script>
+    @endif
 </head>
 
 <body id="app-layout">

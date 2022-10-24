@@ -17,6 +17,10 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('status') }}
         </div>
     @endif
+
+		<?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    ?>
     
 
   </section>
@@ -112,7 +116,7 @@
                                         		
                                         	@endphp
                                         	
-	                                        	@if($is_cancel == 0)
+	                                        	@if(in_array(2.2, $myPermit) && $is_cancel == 0)
 	                                        	<select class="order-stat" data-orderid_stat = "{{$o->id}}">
 	                                        		<option value="pending" {{$p}} {{(($o->status == 'pending') ? 'selected' : '' )}}>Pending</option>
 	                                        		<option value="on_process" {{$op}} {{(($o->status == 'on_process') ? 'selected' : '' )}}>On Process</option>

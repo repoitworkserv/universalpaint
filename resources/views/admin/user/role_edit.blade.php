@@ -18,6 +18,10 @@
         </div>
     @endif
 
+    <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+    ?>
+
   </section>
 
   <div class="col-md-8 content">
@@ -48,12 +52,11 @@
           </div>
 
           <?php
-            $DivUser = "hide";
-            $DivAdmin = "hide";
-            $Permission = array();
-            if(strpos($RoleID->role_name, 'Admin') !== false){
-              $DivAdmin = "";
-              $Permission = explode(",",$RoleID->permission);
+            $DivUser = "";
+            $DivAdmin = "";
+            $Permission = explode(",",$RoleID->permission);
+            if(strpos($RoleID->role_name, 'Customer') !== false){
+              $DivAdmin = "hide";
             } else {
               $DivUser = "";
             }
@@ -71,88 +74,11 @@
 
               <div class="col-md-6">
                 <div class="panel panel-primary">
-                  <div class="panel-heading">Inventory</div>
+                  <div class="panel-heading">Dashboard</div>
                   <div class="panel-body">
-                   
                     <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="1" <?=(in_array(1,$Permission)) ? "checked" : "" ?>> <span>View List</span>
+                      <input type="checkbox" name="roleUser[]" value="1" <?=(in_array(1,$Permission)) ? "checked" : "" ?>> <span>View</span>
                     </div>
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="2" <?=(in_array(2,$Permission)) ? "checked" : "" ?>> <span>Create</span>
-                    </div>
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="3" <?=(in_array(3,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
-                    </div>
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="4" <?=(in_array(4,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="panel panel-primary">
-                  <div class="panel-heading">Product Category</div>
-                  <div class="panel-body">
-                   
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="5" <?=(in_array(5,$Permission)) ? "checked" : "" ?>> <span>View List</span>
-                    </div>
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="6" <?=(in_array(6,$Permission)) ? "checked" : "" ?>> <span>Create</span>
-                    </div>
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="7" <?=(in_array(7,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
-                    </div>
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="8" <?=(in_array(8,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="panel panel-primary">
-                  <div class="panel-heading">Products</div>
-                  <div class="panel-body">
-                    
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="9" <?=(in_array(9,$Permission)) ? "checked" : "" ?>> <span>View List</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="10" <?=(in_array(10,$Permission)) ? "checked" : "" ?>> <span>Create</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="11" <?=(in_array(11,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="12" <?=(in_array(12,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
-                      </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="panel panel-primary">
-                  <div class="panel-heading">Services</div>
-                  <div class="panel-body">
-                    
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="25" <?=(in_array(25,$Permission)) ? "checked" : "" ?>> <span>View List</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="26" <?=(in_array(26,$Permission)) ? "checked" : "" ?>> <span>Create</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="27" <?=(in_array(27,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="28" <?=(in_array(28,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
-                      </div>
-
                   </div>
                 </div>
               </div>
@@ -161,40 +87,68 @@
                 <div class="panel panel-primary">
                   <div class="panel-heading">Orders</div>
                   <div class="panel-body">
-                    
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="13" <?=(in_array(13,$Permission)) ? "checked" : "" ?>> <span>View List</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="14" <?=(in_array(14,$Permission)) ? "checked" : "" ?>> <span>Create</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="15" <?=(in_array(15,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
-                      </div>
-                      <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="16" <?=(in_array(16,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
-                      </div>
-
+                    <div class="col-md-3">
+                      <input type="checkbox" name="roleUser[]" value="2.1" <?=(in_array(2.1,$Permission)) ? "checked" : "" ?>> <span>View List</span>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="checkbox" name="roleUser[]" value="2.2" <?=(in_array(2.2,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="panel panel-primary">
-                  <div class="panel-heading">Payment Method</div>
+                  <div class="panel-heading">Master Record</div>
                   <div class="panel-body">
                     
                       <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="17" <?=(in_array(17,$Permission)) ? "checked" : "" ?>> <span>View List</span>
+                        <input type="checkbox" name="roleUser[]" value="3.1" <?=(in_array(3.1,$Permission)) ? "checked" : "" ?>> <span>View</span>
                       </div>
                       <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="18" <?=(in_array(18,$Permission)) ? "checked" : "" ?>> <span>Create</span>
+                        <input type="checkbox" name="roleUser[]" value="3.2" <?=(in_array(3.2,$Permission)) ? "checked" : "" ?>> <span>Create</span>
                       </div>
                       <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="19" <?=(in_array(19,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
+                        <input type="checkbox" name="roleUser[]" value="3.3" <?=(in_array(3.3,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
                       </div>
                       <div class="col-md-3">
-                        <input type="checkbox" name="roleUser[]" value="20" <?=(in_array(20,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
+                        <input type="checkbox" name="roleUser[]" value="3.4" <?=(in_array(3.4,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Payment Methods</div>
+                  <div class="panel-body">
+                    
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="4.1" <?=(in_array(4.1,$Permission)) ? "checked" : "" ?>> <span>View</span>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="4.2" <?=(in_array(4.2,$Permission)) ? "checked" : "" ?>> <span>Save</span>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Content Management</div>
+                  <div class="panel-body">
+                    
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="5.1" <?=(in_array(5.1,$Permission)) ? "checked" : "" ?>> <span>View</span>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="5.2" <?=(in_array(5.2,$Permission)) ? "checked" : "" ?>> <span>Add</span>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="5.3" <?=(in_array(5.3,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="5.4" <?=(in_array(5.4,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
                       </div>
 
                   </div>
@@ -205,27 +159,62 @@
                 <div class="panel panel-primary">
                   <div class="panel-heading">Users</div>
                   <div class="panel-body">
+                    
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="6.1" <?=(in_array(6.1,$Permission)) ? "checked" : "" ?>> <span>View</span>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="6.2" <?=(in_array(6.2,$Permission)) ? "checked" : "" ?>> <span>Create</span>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="6.3" <?=(in_array(6.3,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="checkbox" name="roleUser[]" value="6.4" <?=(in_array(6.4,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Settings</div>
+                  <div class="panel-body">
 
                     <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="21" <?=(in_array(21,$Permission)) ? "checked" : "" ?>> <span>View List</span>
+                      <input type="checkbox" name="roleUser[]" value="7.1" <?=(in_array(7.1,$Permission)) ? "checked" : "" ?>> <span>View</span>
                     </div>
                     <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="22" <?=(in_array(22,$Permission)) ? "checked" : "" ?>> <span>Create</span>
+                      <input type="checkbox" name="roleUser[]" value="7.2" <?=(in_array(7.2,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
                     </div>
                     <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="23" <?=(in_array(23,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
-                    </div>
-                    <div class="col-md-3">
-                      <input type="checkbox" name="roleUser[]" value="24" <?=(in_array(24,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
+                      <input type="checkbox" name="roleUser[]" value="7.3" <?=(in_array(7.3,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
                     </div>
 
                   </div>
                 </div>
               </div>
 
-              
+              <div class="col-md-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Subscriber</div>
+                  <div class="panel-body">
 
-             
+                    <div class="col-md-3">
+                      <input type="checkbox" name="roleUser[]" value="8.1" <?=(in_array(8.1,$Permission)) ? "checked" : "" ?>> <span>View</span>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="checkbox" name="roleUser[]" value="8.2" <?=(in_array(8.2,$Permission)) ? "checked" : "" ?>> <span>Edit</span>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="checkbox" name="roleUser[]" value="8.3" <?=(in_array(8.3,$Permission)) ? "checked" : "" ?>> <span>Delete</span>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div> 
 
@@ -234,7 +223,9 @@
         <!-- /.box-body -->
 
         <div class="box-footer text-right">
+          @if(in_array(6.3, $myPermit))
           <button type="submit" class="btn btn-gold"><i class="fa fa-save"></i> Save</button>
+          @endif
           <a href="{!! URL::action('Admin\RoleController@index') !!}"><button type="button" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</button></a>
         </div>
       

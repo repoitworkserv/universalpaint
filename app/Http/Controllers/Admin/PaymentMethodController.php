@@ -23,9 +23,13 @@ class PaymentMethodController extends Controller
     * PaymentMethodController constructor
     * @params \App\PaymentMethod $paymentMethod
     */
+
+    public $moduleIndex = 4.1;
+
     public function __construct(PaymentMethod $paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
+        $this->middleware('uac:'.$this->moduleIndex);
     }
 
     /**

@@ -14,6 +14,15 @@ use Validator;
 
 class RoleController extends Controller
 {
+
+    public $moduleIndex = 6.1;
+
+	public function __construct()
+	{
+			//check permission
+			$this->middleware('uac:'.$this->moduleIndex);
+	}
+    
     /**
      * Display a listing of the resource.
      *
@@ -89,7 +98,6 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $id = Auth::id();
         $uimage = UserImages::where('user_id',$id)->with('ImageData')->get();
         if(!empty(Auth::user()->permission)){
             $RoleID = Role::find($id);
@@ -116,6 +124,7 @@ class RoleController extends Controller
         $validator = Validator::make($request->all(), [
             'role_name' => 'required',
         ]);
+        $permissions = $request->roleUser ? implode(",",$request->roleUser) : "";
         if($validator->fails()){
             $message = '';
             foreach($validator->errors()->all() as $error){
@@ -124,6 +133,7 @@ class RoleController extends Controller
         } else {
         	$myrole = Role::find($id);
 			$myrole->role_name       = trim($request->role_name);
+            $myrole->permission      = $permissions;
             $myrole->updated_at = date('Y-m-d h:i:s'); 
             if($myrole->save()){                    
                $message = 'Existing Role Updated.';

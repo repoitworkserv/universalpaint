@@ -16,6 +16,15 @@ use App\Supplier;
 
 class SupplierController extends Controller
 {
+
+    public $moduleIndex = 3.1;
+    
+    public function __construct()
+    {
+        //check permission
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
+
     public function index()
     {
         $Supplier  = Supplier::paginate(10);

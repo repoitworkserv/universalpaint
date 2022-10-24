@@ -14,6 +14,15 @@ use Validator;
 
 class UserTypesController extends Controller
 {
+
+    public $moduleIndex = 6.1;
+
+	public function __construct()
+	{
+			//check permission
+			$this->middleware('uac:'.$this->moduleIndex);
+	}
+    
     /**
      * Display a list of User
      *

@@ -15,10 +15,13 @@ use App\Variable;
 use App\Attribute;
 class AttributeController extends Controller
 {
+
+    public $moduleIndex = 3.1;
+    
     public function __construct()
     {
         //check permission
-   
+        $this->middleware('uac:'.$this->moduleIndex);
  
     	//sidebar session
 		session(['getpage' => 'attribute']); 

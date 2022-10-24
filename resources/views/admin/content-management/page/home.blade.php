@@ -1,5 +1,8 @@
 <div class="row" id="cms-home">
    {!! csrf_field() !!}
+   <?php 
+    $myPermit = explode(",",Auth::user()->permission);
+   ?>
    <div class="col-lg-12">
       {{-- 
       <div class="box-group" id="accordion">
@@ -11,7 +14,9 @@
                      <h3 class="box-title">Banner</h3>
                      <div class="pull-right">
                         <input type="hidden" name="banner-array-meta" value="{!! $Page->GetMetaData('banner', 'post')['meta_value']; !!}" class="banner-array-meta">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addBanner"><span class="fa fa-plus"></span></button>
+                        @if(in_array(5.2, $myPermit))
+                           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addBanner"><span class="fa fa-plus"></span></button>
+                        @endif
                      </div>
                   </div>
                   <div class="box-body">
@@ -36,9 +41,11 @@
                            foreach(explode(',', $Page->GetMetaData('banner', 'post')['meta_value']) as $banner) {
                            @endphp
                            <div class="item {{ $x == 0 ? 'active' : '' }}">
+                              @if(in_array(5.4, $myPermit))
                               <div class="post-admin-btn">
                                  <a href="{{ url('admin/item-delete/'.\App\Post::findOrFail($banner)->id).'/banner' }}" id="alert{{\App\Post::findOrFail($banner)->name}}" onclick="return confirm('Are You Sure to delete this entry?')" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                               </div>
+                              @endif
                               <div class="bnnr-img-cntnr" style="background: url({!! asset('img/post/') !!}/{!! \App\Post::findOrFail($banner)->featured_banner; !!});"></div>
                            </div>
                            @php
@@ -63,7 +70,9 @@
                      <h3 class="box-title">Featured Products</h3>
                      <div class="pull-right">
                         <input type="hidden" name="featured-product-array-meta" value="{!! $Page->GetMetaData('featured_products', 'product')['meta_value']; !!}" class="featured-product-array-meta">
+                        @if(in_array(5.2, $myPermit))
                         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#addFeaturedProducts"><span class="fa fa-plus"></span> Add</button>
+                        @endif
                      </div>
                   </div>
                   <div class="box-body">
@@ -88,9 +97,11 @@
                            foreach(explode(',', $Page->GetMetaData('featured_products', 'product')['meta_value']) as $product) {
                            @endphp
                            <div class="item {{ $x == 0 ? 'active' : '' }}">
+                              @if(in_array(5.4, $myPermit))
                               <div class="post-admin-btn">
                                  <a href="{{ url('admin/item-delete/'.\App\Product::findOrFail($product)->id).'/featuredProducts' }}" id="alert{{\App\Product::findOrFail($product)->name}}" onclick="return confirm('Are You Sure to delete this entry?')" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                               </div>
+                              @endif
                               <div class="row">
                                  <div class="col-lg-5">
                                     <div class="dls-img-cntnr" style="background: url({!! asset('img/products/') !!}/{!! \App\Product::findOrFail($product)->featured_image; !!});"></div>
@@ -126,7 +137,9 @@
                          @if(isset($Page->GetMetaData('social_media_icons', 'post')['meta_value']))
                         <input type="hidden" name="social-media-icon-array-meta" value="{!! $Page->GetMetaData('social_media_icons', 'post')['meta_value']; !!}" class="social-media-icon-array-meta">
                         @endif
+                        @if(in_array(5.2, $myPermit))
                         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#addSocialMediaIcons"><span class="fa fa-plus"></span> Add</button>
+                        @endif
                      </div>
                   </div>
                   <div class="box-body">
@@ -151,9 +164,11 @@
                            foreach(explode(',', $Page->GetMetaData('social_media_icons', 'post')['meta_value']) as $icon) {
                            @endphp
                            <div class="item {{ $x == 0 ? 'active' : '' }}">
+                              @if(in_array(5.4, $myPermit))
                               <div class="post-admin-btn">
                                  <a href="{{ url('admin/item-delete/'.\App\Post::findOrFail($icon)->id).'/social_media_icons' }}" id="alert{{\App\Post::findOrFail($icon)->name}}" onclick="return confirm('Are You Sure to delete this entry?')" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                               </div>
+                              @endif
                               <div class="row">
                                  <div class="col-lg-12">
                                     <div class="dls-img-cntnr" style="background: url({!! asset('img/post/') !!}/{!! \App\Post::findOrFail($icon)->featured_image; !!});"></div>
@@ -182,7 +197,9 @@
                      <h3 class="box-title">Product Categories</h3>
                      <div class="pull-right">
                         <input type="hidden" name="deals-array-meta" value="{!! $Page->GetMetaData('product_category', 'category')['meta_value']; !!}" class="product-categories-array-meta">
+                        @if(in_array(5.2, $myPermit))
                         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#addProductCategories"><span class="fa fa-plus"></span> Add</button>
+                        @endif
                      </div>
                   </div>
                   <div class="box-body">
@@ -207,9 +224,11 @@
                            foreach(explode(',', $Page->GetMetaData('product_category', 'category')['meta_value']) as $category) {
                            @endphp
                            <div class="item {{ $x == 0 ? 'active' : '' }}">
+                              @if(in_array(5.4, $myPermit))
                               <div class="post-admin-btn">
                                  <a href="{{ url('admin/item-delete/'.\App\Category::findOrFail($category)->id).'/productCategory' }}" id="alert{{\App\Category::findOrFail($category)->name}}" onclick="return confirm('Are You Sure to delete this entry?')" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
                               </div>
+                              @endif
                               <div class="row">
                                  <div class="col-lg-12">
                                     <div class="dls-img-cntnr" style="background: url({!! asset('img/category/') !!}/{!! \App\Category::findOrFail($category)->featured_img; !!});"></div>
