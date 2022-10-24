@@ -30,10 +30,13 @@ use App\Attribute;
 
 class ProductController extends Controller
 {
+
+   public $moduleIndex = 3.1;
+
    public function __construct()
     {
         //check permission
-   
+        $this->middleware('uac:'.$this->moduleIndex);
  
     	//sidebar session
 		session(['getpage' => 'product']); 
@@ -49,6 +52,7 @@ class ProductController extends Controller
 		$search_item = ($request->search_item) ? $request->search_item : '';
 		$search_brand = ($request->search_brand) ? $request->search_brand : '';
 		$productlist = Product::with('ProductOverview')->where('parent_id',0)->orderby('id','desc')->paginate(10);
+		
  
 		$terms = explode(" ", $search_item);
 		$brand_id = Brand::get();
@@ -282,6 +286,8 @@ class ProductController extends Controller
 					$newproduct->technical_path  = $technical_new_filename;
 				}
 
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
+
 				if($newproduct->save()){  
 					//product category saving
 					$category = $request->categorylist;
@@ -397,19 +403,27 @@ class ProductController extends Controller
 					}
 				}
 				
-				$newproduct->quantity 		 = $request->parent_product_qty;
-				$newproduct->price 			 = $request->parent_product_price;
-				$newproduct->discount		 = $request->parent_product_dscnt;
+				$newproduct->quantity 		   = $request->parent_product_qty;
+				$newproduct->price 			     = $request->parent_product_price;
+				$newproduct->discount		     = $request->parent_product_dscnt;
 				$newproduct->discount_type	 = $request->parent_product_dscnt_type;
-				$newproduct->is_sale 		 = !empty($request->parent_product_issale) ? $request->parent_product_issale : 0;
-				$newproduct->sale_price 	 = $request->parent_product_saleprice;
-				$newproduct->promo_start 	 = !empty($request->parent_product_promofrom) ? date('Y-m-d', strtotime($request->parent_product_promofrom)) : '0000-00-00';
-				$newproduct->promo_end 		 = !empty($request->parent_product_promoto) ? date('Y-m-d', strtotime($request->parent_product_promoto)) : '0000-00-00';
+				$newproduct->where_to_use    = $request->parent_where_to_use;
+				$newproduct->area            = $request->parent_product_area;
+				$newproduct->best_used_for   = $request->parent_product_best_used_for;
+				$newproduct->features        = $request->parent_product_features;
+				$newproduct->coverage        = $request->parent_product_coverage;
+				$newproduct->finish          = $request->parent_product_finish;
+				$newproduct->application     = $request->parent_product_application;
+				$newproduct->packaging       = $request->parent_product_packaging;
+				$newproduct->is_sale 		     = !empty($request->parent_product_issale) ? $request->parent_product_issale : 0;
+				$newproduct->sale_price 	   = $request->parent_product_saleprice;
+				$newproduct->promo_start 	   = !empty($request->parent_product_promofrom) ? date('Y-m-d', strtotime($request->parent_product_promofrom)) : '0000-00-00';
+				$newproduct->promo_end 		   = !empty($request->parent_product_promoto) ? date('Y-m-d', strtotime($request->parent_product_promoto)) : '0000-00-00';
 				$newproduct->shipping_width  = $request->parent_shipping_width;
 				$newproduct->shipping_length = $request->parent_shipping_length;
 				$newproduct->shipping_weight = $request->parent_shipping_weight;
 				$newproduct->shipping_height = $request->parent_shipping_height;
-				$newproduct->keywords		 = $request->parent_keywords;
+				$newproduct->keywords	    	 = $request->parent_keywords;
 				
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
@@ -426,10 +440,9 @@ class ProductController extends Controller
 				if(!empty($technical_new_filename)){
 					$newproduct->technical_path  = $technical_new_filename;
 				}
+
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
 				// end for parent saving
-			
-				
-				
 				
 				if($count_product > 0){ 
 					if($newproduct->save()){
@@ -848,6 +861,8 @@ class ProductController extends Controller
 				if(!empty($technical_new_filename)){
 					$newproduct->technical_path  = $technical_new_filename;
 				}
+
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
 				if($newproduct->save()){  
 					//product category saving
 					$category = $request->categorylist;
@@ -979,21 +994,29 @@ class ProductController extends Controller
 						}	
 					}
 				}
-				$brand_slugname = Brand::where('id',$request->prod_brandname)->first()['slug_name'];
-				$newproduct->slug_name  = $brand_slugname.'-'.preg_replace('~[\\\\/:*?"<>|]~','',$parent_slug);
-				$newproduct->quantity 		 = $request->parent_product_qty;
-				$newproduct->price 			 = $request->parent_product_price;
-				$newproduct->discount		 = $request->parent_product_dscnt;
+				$brand_slugname              = Brand::where('id',$request->prod_brandname)->first()['slug_name'];
+				$newproduct->slug_name       = $brand_slugname.'-'.preg_replace('~[\\\\/:*?"<>|]~','',$parent_slug);
+				$newproduct->quantity 	  	 = $request->parent_product_qty;
+				$newproduct->price 		    	 = $request->parent_product_price;
+				$newproduct->discount	    	 = $request->parent_product_dscnt;
 				$newproduct->discount_type	 = $request->parent_product_dscnt_type;
-				$newproduct->is_sale 		 = !empty($request->parent_product_issale) ? $request->parent_product_issale : 0;
-				$newproduct->sale_price 	 = $request->parent_product_saleprice;
-				$newproduct->promo_start 	 = !empty($request->parent_product_promofrom) ? date('Y-m-d', strtotime($request->parent_product_promofrom)) : '0000-00-00';
-				$newproduct->promo_end 		 = !empty($request->parent_product_promoto) ? date('Y-m-d', strtotime($request->parent_product_promoto)) : '0000-00-00';
+				$newproduct->where_to_use    = $request->parent_where_to_use;
+				$newproduct->area            = $request->parent_product_area;
+				$newproduct->best_used_for   = $request->parent_product_best_used_for;
+				$newproduct->features        = $request->parent_product_features;
+				$newproduct->coverage        = $request->parent_product_coverage;
+				$newproduct->finish          = $request->parent_product_finish;
+				$newproduct->application     = $request->parent_product_application;
+				$newproduct->packaging       = $request->parent_product_packaging;
+				$newproduct->is_sale 		     = !empty($request->parent_product_issale) ? $request->parent_product_issale : 0;
+				$newproduct->sale_price 	   = $request->parent_product_saleprice;
+				$newproduct->promo_start 	   = !empty($request->parent_product_promofrom) ? date('Y-m-d', strtotime($request->parent_product_promofrom)) : '0000-00-00';
+				$newproduct->promo_end 		   = !empty($request->parent_product_promoto) ? date('Y-m-d', strtotime($request->parent_product_promoto)) : '0000-00-00';
 				$newproduct->shipping_width  = $request->parent_shipping_width;
 				$newproduct->shipping_length = $request->parent_shipping_length;
 				$newproduct->shipping_weight = $request->parent_shipping_weight;
 				$newproduct->shipping_height = $request->parent_shipping_height;
-				$newproduct->keywords		 = $request->parent_keywords;
+				$newproduct->keywords		     = $request->parent_keywords;
 				if(!empty($new_filename)){
 					$newproduct->featured_image  = $new_filename;
 				}
@@ -1008,6 +1031,8 @@ class ProductController extends Controller
 				if(!empty($technical_new_filename)){
 					$newproduct->technical_path  = $technical_new_filename;
 				}
+
+				$newproduct->is_featured = isset($request->is_featured) ? true : false;
 				// end for parent saving
 				
 				if($count_product > 0){ 

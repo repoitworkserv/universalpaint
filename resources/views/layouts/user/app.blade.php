@@ -43,12 +43,31 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="shortcut icon" href="{{ URL::asset('img/favicon.jpg') }}" title="Favicon">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+    <script type="text/javascript" src="{!! URL::asset('js/jspdf.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! URL::asset('js/html2canvas.js') !!}"></script>
 
     @yield('css')
     <script>
         var base_url = "{{URL::to('/')}}";
     </script>
+    @if(config('app.env') !== 'local')
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CPQZKG0HGQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-CPQZKG0HGQ');
+    </script>"
+    @endif
+
+    @if(config('app.env') !== 'local' && (\Request::route()->getName() == "cod.return" || \Request::route()->getName() == "dragonpay.return" ))
+    <!-- Event snippet for Universal Paint Home_Page view conversion page -->
+     <script> 
+        gtag('event', 'conversion', {'send_to': 'AW-413103693/sP5DCMWQy44DEM3s_cQB'}); 
+    </script>
+    @endif
 </head>
 
 <body id="app-layout">
@@ -115,6 +134,9 @@
                                                         @endforeach
                                                 </div>
                                                 @endif -->
+                                                @php 
+                                                $brands = \App\Brand::where('hide_brand',0)->get();
+                                                @endphp 
                                                 @if(!empty($brands))
                                                 <div class="row">
                                                 <hr>
@@ -128,7 +150,7 @@
                                                 </div>
                                                 @endif
                                             </div> 
-                                            <div class="col-lg-4 seventh-column-dropdown">
+                                            <div class="col-lg-4 seventh-column-dropdown" @if(Request::is('cart')) style="margin-top: 70px !important;" @endif >
                                                 @if(!empty($brands))
                                                 <div class="row">
                                                 @for ($i = 0; $i < sizeof($brands); $i++)
@@ -153,6 +175,28 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/contact-us/">Contact us</a>
                                 </li>
+                                <li class="nav-item">
+                                    @php  $cart_count = 0; @endphp
+                                    @if(Session::has('gocart'))
+                                    @php 
+                                        $cart_items = Session::get('gocart');
+                                        foreach($cart_items as $item) {
+                                            $cart_count += count($item['product_details']);
+                                        }
+                                    @endphp 
+                                    @endif
+                                    <a class="nav-link cart-icon-link" href="/cart">Cart
+
+                                    @if($cart_count > 0  && !Request::is('checkout'))
+                                        ({{ $cart_count }})
+                                    @endif
+                                    
+                                    </a>
+                                    <a class="nav-link cart-icon-img" href="/cart"> <img class="cart-icon" src="{!! asset('img/cart-icon.png') !!}"> @if($cart_count > 0 && !Request::is('checkout'))
+                                            ({{ $cart_count }})
+                                            
+                                            @endif</a>
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -161,7 +205,7 @@
         </header>        
         @yield('content')
         <!-- Sixth Section -->
-        <div id="sixth-section" style="background-image: url('{{ url('img/getHelp.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
+        <div id="sixth-section" style="background-image: url('{{ url('img/footer_img.png') }}'); background-size: cover; background-repeat: no-repeat; background-position: top center;">
             <div class="container">
                 <div class="heading-bx">
                     <div class="thumbnail-desc">Get expert help</div>

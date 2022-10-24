@@ -18,6 +18,10 @@
         </div>
     @endif
 
+    <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   	?>  
+
   </section><br>
 
     <div class="col-md-8">
@@ -26,141 +30,48 @@
 
         <ul class="nav nav-tabs">
           <li class="active">
-            <a href="#tab_1" data-toggle="tab" aria-expanded="true">
-              <i class="fa fa-credit-card-alt"></i> eGHL
+            <a href="#tab_1" data-toggle="tab" aria-expanded="false">
+              <i class="fa fa-money"></i> Cash On Delivery
             </a>
-          </li>
+          </li>   
           <li class="">
             <a href="#tab_2" data-toggle="tab" aria-expanded="false">
-              <i class="fa fa-paypal"></i> Paypal
-            </a>
-          </li>
-          <li class="">
-            <a href="#tab_3" data-toggle="tab" aria-expanded="false">
               <i class="fa fa-money"></i> Dragonpay
             </a>
-          </li>
-          <li class="">
-            <a href="#tab_4" data-toggle="tab" aria-expanded="false">
-              <i class="fa fa-bank"></i> Bank Deposit
-            </a>
-          </li>        
+          </li>   
         </ul>
 
         <div class="tab-content">
+          <!-- /.tab-pane -->
+
 
           <div class="tab-pane active" id="tab_1">
+
             <form action="{{ URL::action('Admin\PaymentMethodController@store') }}" method="post" accept-charset="UTF-8">  
 
               {{ csrf_field() }}
 
-              <input type="hidden" id="method" name="method" value="eghl">
+              <input type="hidden" id="method" name="method" value="cashondelivery">
 
               <div class="form-group">
                   <label for="name">Enable</label>
                   @php
                     $myStatus = '';
-                    if(isset($paymentMethod['eghl']['sandbox'])) {
+                    if(isset($paymentMethod['cashondelivery']['enable'])){
                         $myStatus = 'checked';
                     }
                   @endphp
                   <input {{ $myStatus }} data-toggle="toggle" type="checkbox" id="enable" name="enable" value="1" data-size="mini" data-onstyle="primary">
               </div>
-
-              <div class="form-group">
-                  <label for="name">Sandbox</label>
-                  @php
-                    $myStatus = '';
-                    if(isset($paymentMethod['eghl']['sandbox'])) {
-                        $myStatus = 'checked';
-                    }
-                  @endphp
-                  <input {{ $myStatus }} data-toggle="toggle" type="checkbox" id="sandbox" name="sandbox" value="1" data-size="mini" data-onstyle="primary">
-              </div>
-              <div class="box box-gold"> 
-                <h4 class="box-title text-blue">Sandbox</h4>
-                <div class="form-group">
-                    <label for="merchant_id">Merchant ID</label>
-                    <input id="merchant_id" name="merchant_id_sandbox" class="form-control" placeholder="Merchant ID" type="text" required="" value="<?php echo  isset($paymentMethod['eghl']['merchant_id_sandbox']) ? $paymentMethod['eghl']['merchant_id_sandbox'] : '' ; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="stocks">Password/Key</label>
-                    <input id="password" name="password_sandbox" class="form-control" placeholder="Password/Key" type="text" required="" value="<?php echo  isset($paymentMethod['eghl']['password_sandbox']) ? $paymentMethod['eghl']['password_sandbox'] : '' ; ?>">
-                </div>
-              </div>
-              <div class="box box-gold"> 
-                <h4 class="box-title text-blue">Live</h4>
-                <div class="form-group">
-                    <label for="merchant_id">Merchant ID</label>
-                    <input id="merchant_id" name="merchant_id_live" class="form-control" placeholder="Merchant ID" type="text" required="" value="<?php echo  isset($paymentMethod['eghl']['merchant_id_live']) ? $paymentMethod['eghl']['merchant_id_live'] : '' ; ?>">
-                </div>
-
-                <div class="form-group">
-                    <label for="stocks">Password/Key</label>
-                    <input id="password" name="password_live" class="form-control" placeholder="Password/Key" type="text" required="" value="<?php echo  isset($paymentMethod['eghl']['password_live']) ? $paymentMethod['eghl']['password_live'] : '' ; ?>">
-                </div>
-              </div>
-              <div class="box box-gold">
-                <br>
-                <div class="form-group">
-                  <label for="" >Success Message</label>
-                  <textarea id="eghl-success-editor" name="success_message" required class="form-control"><?php echo  isset($paymentMethod['eghl']['success_message']) ? $paymentMethod['eghl']['success_message'] : '' ; ?></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="">Fail Message</label>
-                  <textarea id="eghl-fail-editor" name="fail_message" required class="form-control"><?php echo  isset($paymentMethod['eghl']['fail_message']) ? $paymentMethod['eghl']['fail_message'] : '' ; ?></textarea>
-                </div> 
-              </div>
+              @if(in_array(4.2, $myPermit))
               <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+              @endif
             </form>
-          </div>
-          
-          <!-- /.tab-pane -->
 
+          </div>
+          <!-- /.tab-pane -->
 
           <div class="tab-pane" id="tab_2">
-
-            <form action="{{ URL::action('Admin\PaymentMethodController@store') }}" method="post" accept-charset="UTF-8">  
-
-              {{ csrf_field() }}
-
-              <input type="hidden" id="method" name="method" value="paypal">
-
-              <div class="form-group">
-                  <label for="name">Enable</label>
-                  @php
-                    $myStatus = '';
-                    if(isset($paymentMethod['paypal']['enable'])){
-                        $myStatus = 'checked';
-                    }
-                  @endphp
-                  <input {{ $myStatus }} data-toggle="toggle" type="checkbox" id="enable" name="enable" value="1" data-size="mini" data-onstyle="primary">
-              </div>
-              
-              <div class="form-group">
-                  <label for="name">Sandbox</label>
-                  @php
-                    $myStatus = '';
-                    if(isset($paymentMethod['paypal']['sandbox'])){
-                        $myStatus = 'checked';
-                    }
-                  @endphp
-                  <input {{ $myStatus }} data-toggle="toggle" type="checkbox" id="sandbox" name="sandbox" value="1" data-size="mini" data-onstyle="primary">
-              </div>
-
-              <div class="form-group">
-                  <label for="email">Email </label>
-                  <input id="email" name="email" class="form-control" placeholder="Paypal Email" type="email" required="" value="<?php echo  isset($paymentMethod['paypal']['email']) ? $paymentMethod['paypal']['email'] : '' ; ?>">
-              </div>
-
-              <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-
-            </form>
-
-          </div>
-          <!-- /.tab-pane -->
-
-          <div class="tab-pane" id="tab_3">
 
             <form action="{{ URL::action('Admin\PaymentMethodController@store') }}" method="post" accept-charset="UTF-8">  
 
@@ -172,7 +83,7 @@
                   <label for="name">Enable</label>
                   @php
                     $myStatus = '';
-                    if(isset($paymentMethod['dragonpay']['sandbox'])){
+                    if(isset($paymentMethod['dragonpay']['enable'])){
                         $myStatus = 'checked';
                     }
                   @endphp
@@ -224,20 +135,9 @@
               </div>
             </div>
 
-            <div class="box box-gold">
-              <br>
-               <div class="form-group">
-                <label for="" >Success Message</label>
-                  <textarea id="dragon-success-editor" name="success_message" required class="form-control"><?php echo  isset($paymentMethod['dragonpay']['success_message']) ? $paymentMethod['dragonpay']['success_message'] : '' ; ?></textarea>
-                </div>
-
-                <div class="form-group">
-                  <label for="">Fail Message</label>
-                  <textarea id="dragon-fail-editor" name="fail_message" required class="form-control"><?php echo  isset($paymentMethod['dragonpay']['fail_message']) ? $paymentMethod['dragonpay']['fail_message'] : '' ; ?></textarea>
-                </div> 
-            </div>
-
+              @if(in_array(4.2, $myPermit))
               <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+              @endif
 
             </form>
 
@@ -266,8 +166,9 @@
               <label for="" >Bank Details</label>
                 <textarea id="bank-editor" name="details" required class="form-control"><?php echo  isset($paymentMethod['bank_deposit']['details']) ? $paymentMethod['bank_deposit']['details'] : '' ; ?></textarea>
               </div>
-
+                @if(in_array(4.2, $myPermit))
                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+               @endif
             </form>
           </div>
 

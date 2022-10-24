@@ -20,6 +20,14 @@ use App\Images;
 
 class UserController extends Controller
 {
+	
+	public $moduleIndex = 6.1;
+
+	public function __construct()
+	{
+			//check permission
+			$this->middleware('uac:'.$this->moduleIndex);
+	}
 
     /**
      * Display a list of User
@@ -55,7 +63,7 @@ class UserController extends Controller
             $role_list = Role::lists('role_name', 'id');
 			$utype_list = UserTypes::lists('name', 'id');
 			$brandlist 	    = Brand::get();			
-            return view('admin.user.create', compact('uimage	', 'role_list','utype_list','brandlist'));
+            return view('admin.user.create', compact('uimage', 'role_list','utype_list','brandlist'));
         } else {
             return redirect('admin/signin');
         }
@@ -88,7 +96,6 @@ class UserController extends Controller
                 'password' 		=> 'required|min:8',
                 'confpassword' 	=> 'required_with:password|same:password|min:8',
                 'role_id' 		=> 'required',
-                'usertypes_id' 	=> 'required',
             ]);
 
             if($validator->fails()){
@@ -102,8 +109,8 @@ class UserController extends Controller
                 $myuser = new User;
 
                 $myuser->role_id        = $request->role_id;
-				$myuser->users_type_id  = $request->usertypes_id;
-                $myuser->customer_id    = 'EZD'.
+								$myuser->users_type_id  = 'admin';
+                $myuser->customer_id    = 'UP'.
                 $myuser->name           = trim($request->name);
                 $myuser->email          = trim($request->emailadd);
                /* $myuser->phonenum       = trim($request->phonenum);
@@ -130,14 +137,16 @@ class UserController extends Controller
 						$uprofile->save();
 						//setup brands
                     	$brands = $request->user_brandlist;
-                    	if(count($brands) > 0){
-                    		for($x=0;$x<count($brands); $x++){
-                    			$ubrands = new UserBrands;
-								$ubrands->brand_id = $brands[$x];
-								$ubrands->user_id = $myuser->id;
-								$ubrands->save(); 
-                    		}
-                    	}
+											if($brands) {
+												if(count($brands) > 0){
+													for($x=0;$x<count($brands); $x++){
+														$ubrands = new UserBrands;
+														$ubrands->brand_id = $brands[$x];
+														$ubrands->user_id = $myuser->id;
+														$ubrands->save(); 
+													}
+												}
+											}
 						
                         $message = 'User '.$request->name.' has been added!';
                         return redirect()->action('Admin\UserController@index')->with('status', $message);
@@ -198,7 +207,6 @@ class UserController extends Controller
 
         $message = 'User Edit failed to save!';
         $arr_validator = array('role_id'       => 'required',
-				                'usertypes_id' 	=> 'required',
 				                'name'          => 'required',
 				                'emailadd'      => 'required|email', );
 		if(!empty($passwd) && !empty($confpasswd)){
@@ -219,17 +227,16 @@ class UserController extends Controller
 
             $user = User::find($id);
 			
-			if($user->role_id == 0 && $user->users_type_id == 0){
-				$RoleCode = $this->codeGen($request->role_id,2);
-                $UserID = $this->codeGen($user->id, 2);
-                $CustomerCode = "EZD".$RoleCode.$UserID;
-                $user->customer_id = trim($CustomerCode);
-			}
+						if($user->role_id == 0 && $user->users_type_id == 0){
+							$RoleCode = $this->codeGen($request->role_id,2);
+											$UserID = $this->codeGen($user->id, 2);
+											$CustomerCode = "EZD".$RoleCode.$UserID;
+											$user->customer_id = trim($CustomerCode);
+						}
 
             $user->role_id      = trim($request->role_id);
-			$user->users_type_id  = $request->usertypes_id;
             $user->name         = trim($request->name);
-			//$user->mobnum         = trim($request->mobnum);
+						//$user->mobnum         = trim($request->mobnum);
             $user->email        = trim($request->emailadd);
             $user->updated_at   = date('Y-m-d h:i:s');
 			
@@ -390,12 +397,16 @@ class UserController extends Controller
 	public function update_profile(Request $request,$id)
     {
 		$message = 'User Edit failed to save!';
-        $arr_validator = array('role_id'       => 'required',
-				                'usertypes_id' 	=> 'required',
-				                // 'name'          => 'required',
-				                'first_name'          => 'required',
-				                'last_name'          => 'required',
-				                'emailadd'      => 'required|email', );
+    $arr_validator = array('role_id'       => 'required',
+													'usertypes_id' 	 => 'required',
+													// 'name'          => 'required',
+													'first_name'     => 'required',
+													'last_name'      => 'required',
+													'emailadd'       => 'required|email', );
+
+		$passwd  = $request->password;
+		$confpasswd = $request->confpassword;
+
 		if(!empty($passwd) && !empty($confpasswd)){
 			$arr_merger = array(
 							'password'      => 'required|min:8',
@@ -422,8 +433,7 @@ class UserController extends Controller
 
             if(!empty($passwd) && !empty($confpasswd)){
                 $user->password   = bcrypt($request->password);
-            }            
-
+            }          
             if($user->save()){
                 //success on save
                 $uid = Auth::user()->id;

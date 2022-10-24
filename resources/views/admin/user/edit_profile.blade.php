@@ -237,7 +237,7 @@
 						</div> 
 					</div> 
 					
-					
+					@if(auth()->user()->role_id == 1)
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="role">Role</label>
@@ -248,6 +248,7 @@
 							</select>
 						</div>
 					</div>
+					@endif
 					<div class="text-right form-group">
 						<button type="submit" class="btn btn-gold"><i class="fa fa-save"></i> Save</button>
 						<a href="{!! URL::action('Admin\UserController@index') !!}"><button type="button" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</button></a>

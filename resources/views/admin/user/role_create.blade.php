@@ -18,6 +18,9 @@
         </div>
     @endif
 
+    <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+    ?>
   </section>
 
   <div class="col-md-8 content">
@@ -41,7 +44,7 @@
             <div class="col-lg-8">
               <div class="form-group">
                 <label for="name">Role Name</label>
-                <input id="role_name" name="role_name" value="{{old('role_name')}}" class="form-control" placeholder="Enter Dis" type="text" required>
+                <input id="role_name" name="role_name" value="{{old('role_name')}}" class="form-control" placeholder="Enter Role" type="text" required>
               </div>
             </div>
           </div>
@@ -51,7 +54,9 @@
         <!-- /.box-body -->
 
         <div class="box-footer text-right">
+          @if(in_array(6.2, $myPermit))
           <button type="submit" class="btn btn-gold"><i class="fa fa-save"></i> Save</button>
+          @endif
           <a href="{!! URL::action('Admin\RoleController@index') !!}"><button type="button" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</button></a>
         </div>
       

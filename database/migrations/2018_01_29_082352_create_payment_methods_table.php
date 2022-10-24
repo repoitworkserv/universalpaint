@@ -18,7 +18,7 @@ class CreatePaymentMethodsTable extends Migration
     {         
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('method', ['ipay88', 'paypal', 'bank_deposit']);
+            $table->enum('method', ['dragonpay', 'paypal', 'bank_deposit','cashondelivery']);
             $table->string('key');
             $table->string('value');
             $table->timestamps();

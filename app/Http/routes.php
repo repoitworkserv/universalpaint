@@ -55,7 +55,7 @@ Route::get('/email_user', 'User\HomePageController@email_request');
 Route::post('/email_user_pdf', 'User\HomePageController@email_request_pdf');
 
 //login
-Route::get('/', 'User\HomePageController@index');
+Route::get('/', 'User\HomePageController@index')->name('home');
 Route::post('login', 'Auth\AuthController@postAjaxLogin');
 Route::post('register-customer', 'User\RegisterController@register_customer');
 
@@ -70,6 +70,12 @@ Route::post('/subproduct-variance','User\ProductPageController@getSubProductVari
 Route::post('/get-colordetails','User\ProductPageController@getColorDetails');
 Route::post('/get-subproductdetails','User\ProductPageController@getSubProductDetails');
 Route::post('/get-productattrib','User\ProductPageController@getProductAttrib');
+Route::post('/get-colors','User\ProductPageController@getColors');
+Route::post('/get-full-colors','User\ProductPageController@getFullColors');
+Route::post('/get-color-css','User\ProductPageController@getColorCss');
+Route::post('/get-liters','User\ProductPageController@getLiters');
+Route::post('/get-variation-details','User\ProductPageController@getVariationDetails');
+Route::post('/get-liters-nocolors','User\ProductPageController@getLitersNoColors');
 // Route::post('color-swatches/colorcompress', 'User\ProductController@colorcompress')->name('autocomplete.getcolor');
 //Exterior
 // Route::get('/product-category/exterior', 'User\ExteriorPageController@index');
@@ -87,6 +93,7 @@ Route::post('/product-view', 'User\ProductPageController@productview');
 Route::post('/add-cart', 'User\CartController@addcart');
 Route::post('/color-add-cart', 'User\CartController@coloraddtocart');
 Route::post('/color-swatches-add-cart', 'User\CartController@colorSwatchesAddToCart');
+Route::post('/addtocart-from-listing','User\CartController@addToCartFromListing');
 Route::post('/remove-cart', 'User\CartController@removecart');
 Route::post('/check-cart', 'User\CartController@checkcart');
 Route::get('/get-shipping-rate', 'User\CartController@get_shipping');
@@ -97,13 +104,13 @@ Route::group(['middleware' => ['auth']], function () {
 }); 
 Route::post('/checkout-details', 'User\CheckoutController@send_checkoutDetails');
 Route::post('/checkout-dragonpay','User\CheckoutController@payment_dragonpay');
-Route::get('/checkout-dragonpayreturn','User\CheckoutController@payment_dragonpay_return');
+Route::get('/checkout-dragonpayreturn','User\CheckoutController@payment_dragonpay_return')->name('dragonpay.return');
 Route::post('/fetch-shipping-rate', 'User\CheckoutController@fetch_shipping_rate');
 // Route::post('/checkout-validate', 'User\CheckoutController@validate_customer_detail');
 Route::post('/checkout-paypal-create', 'User\CheckoutController@payment_paypal_create');
 Route::post('/checkout-paypal-execute', 'User\CheckoutController@payment_paypal_execute');
 Route::post('/order-cod', 'User\CheckoutController@cod_order');
-Route::get('/cod-return', 'User\CheckoutController@cod_return');
+Route::get('/cod-return', 'User\CheckoutController@cod_return')->name('cod.return');
 
 Route::get('/delfilt/{type}/{filter}/{name}', 'User\ProductPageController@removeFilters');
 Route::get('/putfilt/{type}/{filter}/{name}', 'User\ProductPageController@putFilters');
@@ -204,7 +211,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
     Route::resource('users', 'Admin\UserController');
 	Route::get('profile', [
 			'uses'=>'Admin\UserController@profile'
-	]);
+	])->name('admin_profile');
 	Route::post('update_profile/{id}', [
 			'uses'=>'Admin\UserController@update_profile'
 	]);

@@ -22,6 +22,7 @@ use App\User;
 use App\Settings;
 use Validator;
 use App\ShippingGngRates;
+use App\PaymentMethod;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,18 +32,39 @@ class CheckoutController extends Controller
 {
     private $paypal_client;
     private $paypal_secret;
+    private $paymentMethod;
 
-    public function __construct()
+    public function __construct(PaymentMethod $paymentMethod)
     {
         $this->paypal_client = 'AQx4nYSe8-ns0vEQpVjc97102A9w0edR1AmIR-A31oPU0VM4o00ANROaBxTWWlMNkLZwUXcpG4Mx-GZF';
         $this->paypal_secret = 'EFC077SStQNqmAgyocKGkaHSQAqwlz31PCdiBYDEZh7re_ZNU__0JGDm83nOgcyefZwCSTZRK4GbyBpm';
+        $paymentMethodAll    = $paymentMethod::all();
+        $this->paymentMethod = array();
+        foreach ($paymentMethodAll as $key => $value) {
+            switch ($value['method']) {
+                case 'cashondelivery':
+                    $this->paymentMethod['cashondelivery'][$value['key']] = $value['value'];
+                    break;
+                case 'dragonpay':
+                    $this->paymentMethod['dragonpay'][$value['key']] = $value['value'];
+                    break;
+                case 'paypal':
+                    $this->paymentMethod['paypal'][$value['key']] = $value['value'];
+                    break;
+                case 'bank_deposit':
+                    $this->paymentMethod['bank_deposit'][$value['key']] = $value['value'];
+                    break;
+            }    
+        }
     }
 
     public function index(Request $request)
     {
         $shipping_location = ShippingGngRates::all();
-        $cart = $request->session()->get('gocart');
-        $message = 'Shop now';
+        $cart              = $request->session()->get('gocart');
+        $message           = 'Shop now';
+        $paymentMethod     =  $this->paymentMethod;
+
         if(empty($cart)){
             return redirect('cart')->with('error', $message);
         }
@@ -64,8 +86,8 @@ class CheckoutController extends Controller
             }
             $total = $sub_total + $shipping_fee - $discount;
         }
-        //dd($cart);
-        return view('user.product.checkout', compact('sub_total', 'total','discount','shipping_fee','shipping_weight','shipping_location','cart' ));
+
+        return view('user.product.checkout', compact('sub_total', 'total','discount','shipping_fee','shipping_weight','shipping_location','cart','paymentMethod'));
     }
 
     public function send_checkoutDetails(Request $request)
@@ -191,7 +213,7 @@ class CheckoutController extends Controller
             ' Shipping: ' . $shipping_rate . 
             ' Total Amount: '. $total;
             $parameters = array(
-                'merchantid' =>  env("DG_MERCHANT_ID", ""),
+                'merchantid' =>  isset($this->paymentMethod['dragonpay']['sandbox']) ? $this->paymentMethod['dragonpay']['merchant_id_sandbox'] :  $this->paymentMethod['dragonpay']['merchant_id_live'],
                 'txnid' => $order_id,
                 'amount' => $total,
                 'ccy' => 'PHP',
@@ -200,11 +222,11 @@ class CheckoutController extends Controller
             );
             $request->session()->put('checkout_details',$request->all());
                 
-            $parameters['key'] = env("DG_MERCHANT_PASSWORD", "");
+            $parameters['key'] =isset($this->paymentMethod['dragonpay']['sandbox']) && $this->paymentMethod['dragonpay']['sandbox'] == "1" ? $this->paymentMethod['dragonpay']['password_sandbox'] :  $this->paymentMethod['dragonpay']['password_live'];
             $digest_string = implode(':', $parameters);
             unset($parameters['key']);
             $parameters['digest'] = sha1($digest_string);
-            $url = App::environment('local') ||  App::environment('staging')  ? 'http://test.dragonpay.ph/Pay.aspx?' : 'http://dragonpay.ph/Pay.aspx?';
+            $url = isset($this->paymentMethod['dragonpay']['sandbox']) && $this->paymentMethod['dragonpay']['sandbox'] == "1" ? env("DG_SANDBOX_URL", "") : env("DG_LIVE_URL", "");
             $url .= http_build_query($parameters, '', '&');  
             $message = $url;
             $status = true;
@@ -260,7 +282,7 @@ class CheckoutController extends Controller
             if($check_order_code > 0 ) {
                 return redirect('/checkout')->with('error','Error! Order Code already exists! Please try reloading the page!');
             }
-            $process_result = $this->processsOrder($request,$checkout_details,$order_code,$payment_type);
+            $process_result = $this->processsOrder($request,$checkout_details,$order_code,$payment_type,$refno);
             if($process_result['status']) {
                 $customer_name = $checkout_details['first_name'] .' '. $checkout_details['last_name'];
                 $data = array(
@@ -694,7 +716,7 @@ class CheckoutController extends Controller
         }
     }
 
-    private function processsOrder($orig_request,$request,$order_id,$payment_type) {
+    private function processsOrder($orig_request,$request,$order_id,$payment_type,$refno = "") {
         $usermail               = isset($request->email_add) ? $request->email_add : $request['email_add'] ;
         $uadd                   = isset($request->complete_add) ? $request->complete_add :  $request['complete_add'];
         $shipping_address       = isset($request->complete_add) ? $request->complete_add :  $request['complete_add'];
@@ -716,6 +738,7 @@ class CheckoutController extends Controller
         $location               = $shipping_city;
         $order                          = new Order;
         $order->order_code              = $order_id; 
+        $order->ref_no                  = $refno;
         $order->customer_id             = 0;
         $order->payment_type            = $payment_type; 
         $order->invoice_no              = '';

@@ -14,6 +14,9 @@
       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('msg') }}
    </div>
    @endif
+   <?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   ?>
 </section>
 <section class="content">
    <div class="row">
@@ -70,19 +73,33 @@
                            @php
                            $interior_checked = 'checked';
                            @endphp	
-                           @elseif($productdetails->exterior == 1)										
+                           @endif
+                           @if($productdetails->exterior == 1)										
                            @php
                            $exterior_checked = 'checked';
                            @endphp	
-                           @elseif($productdetails->surface_preparation == 1)	
+                           @endif
+                           @if($productdetails->surface_preparation == 1)	
                            @php
                            $surface_preparation_checked = 'checked';
                            @endphp	
-                           @elseif($productdetails->industrial == 1)
+                           @endif
+                           @if($productdetails->industrial == 1)
                            @php
                            $industrial_checked = 'checked';
                            @endphp	
                            @endif
+
+                           @php 
+                           $is_featured = $productdetails->is_featured ? 'checked' : "";
+                           @endphp
+                           <div class="form-group">
+                              <div class="row">
+                                 <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" {{$is_featured}} name="is_featured" value="{{$productdetails->is_featured}}" /> <strong>Feature Product</strong> 
+                                 </div>
+                              </div>
+                           </div>
                            <div class="form-group">
                               <label for="prodname">Product Parent Category</label><br />
                               <div class="row">
@@ -172,60 +189,60 @@
                                           </select>
                                        </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="where_to_use">Where to use</label>
-                                          <input id="where_to_use" name="single_where_to_use" required class="form-control" type="text"  value="{{$productdetails->where_to_use}}">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="area">Area</label>
-                                          <input id="area" name="single_area" required class="form-control" type="text"  value="{{$productdetails->area}}">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="best_used_for">Best Used For</label>
-                                          <input id="best_used_for" name="single_best_used_for" required class="form-control" type="text"  value="{{$productdetails->best_used_for}}">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="features">Features</label>
-                                          <input id="features" name="single_features" required class="form-control" type="text"  value="{{$productdetails->features}}">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="coverage">Coverage per 4L</label>
-                                          <input id="coverage" name="single_coverage" required class="form-control" type="text"  value="{{$productdetails->coverage}}">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="finish">Finish</label>
-                                          <input id="finish" name="single_finish" required class="form-control" type="text"  value="{{$productdetails->finish}}">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="application">Application</label>
-                                          <input id="application" name="single_application" required class="form-control" type="text"  value="{{$productdetails->application}}">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-sm-12">
-                                       <div class="form-group">
-                                          <label for="packaging">Packaging</label>
-                                          <input id="packaging" name="single_packaging" required class="form-control" type="text"  value="{{$productdetails->packaging}}">
-                                       </div>
-                                    </div>
                                     <div class="col-md-3 col-sm-3 col-sm-12 saleprice_div">
                                        <div class="form-group">
                                           <label for="prodsaleprice">Sale Price</label>
                                           <input id="prodsaleprice" name="single_product_saleprice" class="form-control" type="text" readonly="readonly"  value="{{$productdetails->sale_price}}">
                                        </div>
                                     </div>
+                                    <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="where_to_use">Where to use</label>
+                                             <input id="where_to_use" name="single_where_to_use" required class="form-control" type="text"  value="{{$productdetails->where_to_use}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="area">Area</label>
+                                             <input id="area" name="single_area" required class="form-control" type="text"  value="{{$productdetails->area}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="best_used_for">Best Used For</label>
+                                             <input id="best_used_for" name="single_best_used_for" required class="form-control" type="text"  value="{{$productdetails->best_used_for}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="features">Features</label>
+                                             <input id="features" name="single_features" required class="form-control" type="text"  value="{{$productdetails->features}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="coverage">Coverage per 4L</label>
+                                             <input id="coverage" name="single_coverage" required class="form-control" type="text"  value="{{$productdetails->coverage}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="finish">Finish</label>
+                                             <input id="finish" name="single_finish" required class="form-control" type="text"  value="{{$productdetails->finish}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="application">Application</label>
+                                             <input id="application" name="single_application" required class="form-control" type="text"  value="{{$productdetails->application}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="packaging">Packaging</label>
+                                             <input id="packaging" name="single_packaging" required class="form-control" type="text"  value="{{$productdetails->packaging}}">
+                                          </div>
+                                       </div>
                                     <div class="col-md-3 col-sm-3 col-sm-12">
                                        <div class="form-group">
                                           <label for="prodissale">Is Sale?</label>
@@ -332,6 +349,54 @@
                                              <option {{($productdetails->discount_type == $dt) ? 'selected' : ''}} value="{{$dt}}">{{$dt_val}}</option>
                                              @endforeach
                                              </select>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="where_to_use">Where to use</label>
+                                             <input id="where_to_use" name="parent_where_to_use" required class="form-control" type="text"  value="{{$productdetails->where_to_use}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="area">Area</label>
+                                             <input id="area" name="parent_product_area" required class="form-control" type="text"  value="{{$productdetails->area}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="best_used_for">Best Used For</label>
+                                             <input id="best_used_for" name="parent_product_best_used_for" required class="form-control" type="text"  value="{{$productdetails->best_used_for}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="features">Features</label>
+                                             <input id="features" name="parent_product_features" required class="form-control" type="text"  value="{{$productdetails->features}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="coverage">Coverage per 4L</label>
+                                             <input id="coverage" name="parent_product_coverage" required class="form-control" type="text"  value="{{$productdetails->coverage}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="finish">Finish</label>
+                                             <input id="finish" name="parent_product_finish" required class="form-control" type="text"  value="{{$productdetails->finish}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="application">Application</label>
+                                             <input id="application" name="parent_product_application" required class="form-control" type="text"  value="{{$productdetails->application}}">
+                                          </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6 col-sm-12">
+                                          <div class="form-group">
+                                             <label for="packaging">Packaging</label>
+                                             <input id="packaging" name="parent_product_packaging" required class="form-control" type="text"  value="{{$productdetails->packaging}}">
                                           </div>
                                        </div>
                                        <div class="col-md-3 col-sm-3 col-sm-12 saleprice_div">
@@ -556,7 +621,8 @@
                                                             <div class="col-md-3 col-sm-3 col-sm-12">
                                                                <div class="form-group">
                                                                   <label >Is Sale?</label>
-                                                                  <input  name="variation_product_issale[]" class="" type="checkbox" {{$sp->is_sale == 1 ? 'checked' : ''}}  value="1">
+                                                                  <input name="variation_product_issale_input[]" class="is_sale_checkbox" type="checkbox" {{$sp->is_sale == 1 ? 'checked' : '' }}  value="1">
+																						<input type="hidden" name="variation_product_issale[]" value="{{$sp->is_sale}}">
                                                                </div>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3 col-sm-12">
@@ -705,7 +771,9 @@
                            </div>
                            <div class="form-group text-right">
                               <!--<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: {{($productdetails->product_type == 'multiple') && ($subproduct->count() > 0) ? 'inline' : 'none'}};">Save Product</button>-->
+                              @if(in_array(3.3, $myPermit))
                               <button class="btn btn-gold btn-md btn_saveprod" type="button" >Save Product</button>        
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -1070,6 +1138,9 @@
                data: {_token : Token,variable_id :arr_push},
                success: function (data) {
                   product_variation(data,1,reccounter);
+                  $('html, body').animate({
+                     scrollTop: $(".add_variation").offset().top
+                  }, 100);
                }, error: function (e) {
                    console.log(e.responseText);
                }
@@ -1235,6 +1306,7 @@
    	                							'<div class="form-group">'+
    					            					'<label >Is Sale?</label>'+
    					            					'<input  name="variation_product_issale[]" class="" type="checkbox"  value="1">'+
+                                             '<input type="hidden" name="variation_product_issale[]" value="1">' +
    									           ' </div>'+
    	                						'</div>'+
    	                						'<div class="col-md-3 col-sm-3 col-sm-12">'+
@@ -1536,5 +1608,15 @@
    		// Do nothing!
    	}
     	});
+
+       $('.is_sale_checkbox').change( function() {
+		var input_hidden = $(this).next();
+         if($(this).is(':checked')) {
+            input_hidden.val(1);
+         } else {
+            input_hidden.val(0);
+         }
+      });
+
 </script>
 @stop

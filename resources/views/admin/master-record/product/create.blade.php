@@ -11,8 +11,9 @@
 	    </h1>
 	
 		@include('flash-message')
-	    
-	
+		<?php 
+      $myPermit = explode(",",Auth::user()->permission);
+   	?>  
 	  </section>
 	  <section class="content">
       <div class="row">
@@ -46,7 +47,7 @@
                 					<div class="form-group">
 		            					<label for="prodname">Brand Name</label>
 		            					<select class="form-control" name="prod_brandname" required>
-		            						<option value="0">--- Select Brand ---</option>
+		            						<option value="">--- Select Brand ---</option>
 		            						@foreach($brandlist as $bl)
 							            		<option value="{{$bl->id}}">{{$bl->name}}</option>
 							            	@endforeach
@@ -60,6 +61,13 @@
 	            					<input id="prodname" name="prodname" required class="form-control" type="text"  value="{!! old('prodname') !!}">
 					            </div>								
 				            </div>
+										<div class="form-group">
+											<div class="row">
+													<div class="col-md-3 col-sm-6 col-xs-12">
+														<input type="checkbox" name="is_featured" value="" /> <strong>Feature Product</strong> 
+													</div>
+											</div>
+										</div>
 							<div class="form-group">
 								<label for="prodname">Product Parent Category</label><br />
 								<div class="row">
@@ -298,14 +306,62 @@
 	                						</div>
 	                						<div class="col-md-3 col-sm-3 col-sm-12 dscnt_div">
 	                							<div class="form-group">
-					            					<label for="parent_proddscnt_type">Discount Type</label>
-					            					<select id="parent_proddscnt_type" name="parent_product_dscnt_type" class="form-control trig_saleprice1">
+					            						<label for="parent_proddscnt_type">Discount Type</label>
+					            						<select id="parent_proddscnt_type" name="parent_product_dscnt_type" class="form-control trig_saleprice1">
 					            						@foreach($discount_type as $dt =>$dt_val)
 					            							<option value="{{$dt}}">{{$dt_val}}</option>
 					            						@endforeach
-					            					</select>
-									            </div>
+					            						</select>
+									            	</div>
 	                						</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="where_to_use">Where to use</label>
+																		<input id="where_to_use" name="parent_where_to_use" required class="form-control" type="text"  value="">
+																</div>
+															</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="area">Area</label>
+																		<input id="area" name="parent_product_area" required class="form-control" type="text"  value="">
+																</div>
+															</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="best_used_for">Best Used For</label>
+																		<input id="best_used_for" name="parent_product_best_used_for" required class="form-control" type="text"  value="">
+																</div>
+															</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="features">Features</label>
+																		<input id="features" name="parent_product_features" required class="form-control" type="text"  value="">
+																</div>
+															</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="coverage">Coverage per 4L</label>
+																		<input id="coverage" name="parent_product_coverage" required class="form-control" type="text"  value="">
+																</div>
+															</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="finish">Finish</label>
+																		<input id="finish" name="parent_product_finish" required class="form-control" type="text"  value="">
+																</div>
+															</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="application">Application</label>
+																		<input id="application" name="parent_product_application" required class="form-control" type="text"  value="">
+																</div>
+															</div>
+															<div class="col-md-6 col-sm-6 col-sm-12">
+																<div class="form-group">
+																		<label for="packaging">Packaging</label>
+																		<input id="packaging" name="parent_product_packaging" required class="form-control" type="text"  value="">
+																</div>
+															</div>
 	                						<div class="col-md-3 col-sm-3 col-sm-12 saleprice_div">
 	                							<div class="form-group">
 					            					<label for="prodsaleprice">Sale Price</label>
@@ -534,7 +590,9 @@
                 			
                 			
 			                <div class="form-group text-right">
-			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: none;">Save Product</button>    
+											@if(in_array(3.2, $myPermit))
+			            		<button class="btn btn-gold btn-md btn_saveprod" type="button" style="display: none;">Save Product</button>
+											@endif
 			                </div>
 				                
 				        
@@ -871,6 +929,9 @@
 	            data: {_token : Token,variable_id :arr_push},
 	            success: function (data) {
 	               product_variation(data,1,reccounter);
+								 $('html, body').animate({
+                     scrollTop: $(".add_variation").offset().top
+                  }, 500);
 	            }, error: function (e) {
 	                console.log(e.responseText);
 	            }

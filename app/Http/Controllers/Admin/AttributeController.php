@@ -15,10 +15,13 @@ use App\Variable;
 use App\Attribute;
 class AttributeController extends Controller
 {
+
+    public $moduleIndex = 3.1;
+    
     public function __construct()
     {
         //check permission
-   
+        $this->middleware('uac:'.$this->moduleIndex);
  
     	//sidebar session
 		session(['getpage' => 'attribute']); 
@@ -35,6 +38,7 @@ class AttributeController extends Controller
 
 	   $attributelist       = Attribute::where(function($q) use($request){
 				$q->where('name','like', '%'.$request->search_item);
+                $q->orWhere('cat_color','like','%'.$request->search_item);
         })->paginate(10);
         $id = Auth::id();
        $search_item = ($request->search_item) ? $request->search_item : '';

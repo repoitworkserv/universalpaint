@@ -21,14 +21,6 @@ use App\UserImages;
 
 class DashboardController extends Controller
 {
-
-    public $moduleIndex = 1;
-
-    public function __construct() 
-    {   
-        $this->middleware('uac:'.$this->moduleIndex);
-    }
-
     public function index()
     {
     	$id = Auth::id();

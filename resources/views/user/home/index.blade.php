@@ -38,7 +38,7 @@
             <div class="banner-slide banner-{{$x}}" style="background-image: url('img/post/{{\App\Post::findOrFail($banner)->featured_banner}}'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
                 <div class="container">
                     <div class="widget-box" style="background-color: {{ \App\Post::findOrFail($banner)->background_color}} !important">
-                        <div class="heading">{{\App\Post::findOrFail($banner)->post_title}}</div>
+                        <div class="heading" style="font-size: 28px!important">{{\App\Post::findOrFail($banner)->post_title}}</div>
                         <div class="desc">
                           {!! \App\Post::findOrFail($banner)->post_content !!}
                         </div>
@@ -264,7 +264,7 @@
     padding-bottom: 12px;"><h4 class="modal-title">Enter Email Info</h4></div>
                 <div class="panel-body" style="background: #fff;
     padding-top: 26px;
-    padding-left: 26px;"> 
+    padding-left: 26px; padding-right: 26px;"> 
                 	<div class="row">      
                                   		
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -288,8 +288,9 @@
     padding-top: 12px;
     padding-bottom: 12px;">
                     <div class="button-group">
-                        <button type="submit" class="btn btn-warning">Request</button>                        
-                        <a href="#" class="btn" data-dismiss="modal" >CLOSE</a>                        
+                        <button type="submit" class="btn btn-warning" style="
+    margin-right: 20px;">Request</button>                        
+                        <button id="button_close" class="btn btn-warning" data-dismiss="modal" >Close</button>                        
                     </div>
                 </div>
             </form>
@@ -302,6 +303,10 @@
 
 <script>
     $(document).ready(function() {
+        $('#button_close').click(function() {
+            $('#broc_fullname').val("");
+            $('#broc_email').val("");
+        });
         $('.download_pdf').click(function() {
             var product_id = $(this).data('id');
             $('#broc_product').val(product_id);
@@ -325,6 +330,8 @@
                 method: "POST",
                 data: data,
                 success: function (data,status,xhr) {   // success callback function
+                    $('#broc_fullname').val("");
+                    $('#broc_email').val("");
                    $('#emailRequestModal').modal('hide');
                    alert("Thank you for providing your name and email. The brochure will now start downloading...");
                    window.location = data.url;

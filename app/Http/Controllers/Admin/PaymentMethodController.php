@@ -23,9 +23,13 @@ class PaymentMethodController extends Controller
     * PaymentMethodController constructor
     * @params \App\PaymentMethod $paymentMethod
     */
+
+    public $moduleIndex = 4.1;
+
     public function __construct(PaymentMethod $paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
+        $this->middleware('uac:'.$this->moduleIndex);
     }
 
     /**
@@ -41,14 +45,14 @@ class PaymentMethodController extends Controller
         $paymentMethod = array();
         foreach ($paymentMethodAll as $key => $value) {
             switch ($value['method']) {
-                case 'eghl':
-                    $paymentMethod['eghl'][$value['key']] = $value['value'];
-                    break;
-                case 'paypal':
-                    $paymentMethod['paypal'][$value['key']] = $value['value'];
+                case 'cashondelivery':
+                    $paymentMethod['cashondelivery'][$value['key']] = $value['value'];
                     break;
                 case 'dragonpay':
                     $paymentMethod['dragonpay'][$value['key']] = $value['value'];
+                    break;
+                case 'paypal':
+                    $paymentMethod['paypal'][$value['key']] = $value['value'];
                     break;
                 case 'bank_deposit':
                     $paymentMethod['bank_deposit'][$value['key']] = $value['value'];

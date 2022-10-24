@@ -344,6 +344,10 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
         }
 
+        if($(this).attr('max') !== undefined && parseInt($(this).attr('max')) < $(this).val()) {
+            $(this).val($(this).attr('max'));
+        }
+
         check_qty();
 
     })
@@ -464,37 +468,40 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
         var Token = $('input[name="_token"]').val();
 
-        $.ajax({
+        if(confirm("Are you sure you want to remove?")) {
+            $.ajax({
 
-            url: '/remove-cart',
+                url: '/remove-cart',
 
-            method: "post",
+                method: "post",
 
-            dataType: "json",
+                dataType: "json",
 
-            data: {
+                data: {
 
-                cart_id: cart_id,
+                    cart_id: cart_id,
 
-                _token: Token
+                    _token: Token
 
-            },
+                },
 
-            success: function (data) {
+                success: function (data) {
 
-                console.log('ok');
+                    console.log('ok');
 
-                location.reload();
+                    location.reload();
 
-            },
+                },
 
-            error: function(){
+                error: function(){
 
-                console.log('error');
+                    console.log('error');
 
-            }
+                }
 
-        });
+            });
+
+        }
 
     })
 
@@ -502,21 +509,31 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
     function check_existing_qty(classcntnt) {
 
-        var Token = $('input[name="_token"]').val();
+        var _token = $('input[name="_token"]').val();
 
-        var cart_id = $(classcntnt).data('index');
+        var cart_index = $(classcntnt).data('index');
 
-        var qty = $(classcntnt).val();
+        var newqty = $(classcntnt).val();
 
-        var newqty = $(classcntnt);
+        var color =  $(classcntnt).data('color');
 
-        var price_container = newqty.parent('td').prev();
+        var liter = $(classcntnt).data('liter');
 
-        var price = price_container.children('.latest-price').html().replace(/[^\d.-]/g, '');
+        var price =  $(classcntnt).data('price');
 
-        var totalme = 0;
+        var totalsubtotal = $('.subtotal').text().replace('P','').replace(',','').trim();
 
-        // var price = parseFloat(newqty.parent('td').prev().find('span').html());
+        var data  = {
+            _token,
+            cart_index,
+            newqty, 
+            liter,
+            color,
+            price,
+            totalsubtotal
+        }
+
+        console.log(data);
 
         $.ajax({
 
@@ -526,56 +543,13 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
             dataType: "json",
 
-            data: {
-
-                cart_id: cart_id,
-
-                qty: qty,
-
-                _token: Token
-
-            },
+            data,
 
             success: function (data) {
-
-                // console.log(data);
-
-                if (parseInt(qty) > parseInt(data.quantity)) {
-
-                    newqty.val(data.quantity);
-
-
-
-                    // newqty.parent('td').next().html('&#8369; ' + (price * parseFloat(data.quantity)).toFixed(2));
-
-                    newqty.parent('td').next().html(format2((price * parseFloat(data.quantity)), '&#8369; '));
-
-
-
-                } else {
-
-                    // newqty.parent('td').next().html('&#8369; ' + (price * parseFloat(qty)).toFixed(2));
-
-                    newqty.parent('td').next().html(format2((price * parseFloat(qty)), '&#8369; '));
-
-                    
-
-                    for(var carts = 0; carts < $('table.cart-table:eq(0) tbody tr').length; carts++){
-
-                        totalme += parseFloat($('table.cart-table:eq(0) tbody').find('tr').eq(carts).find('td').eq(5).html().replace(/[^0-9.]/gi,''));
-
-                    }
-
-                    $('.sub-total').val((totalme));
-
-                    $('table.cart-table:eq(1) tbody tr td:eq(1)').html('&#8369; '+(totalme));
-
-                    
-
-                }
-
-                $('#shipping-location').trigger('change');
-
+                var new_subtotal_price = data.subtotal;
+                var new_total_subtotal = data.subtotal_total;
+                $('.list-price-'+cart_index).text('P'+new_subtotal_price); 
+                $('.subtotal').text('P '+new_total_subtotal);
             }
 
         });
@@ -584,15 +558,14 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
 
 
-    $('.cart-qty-cntn .cart-qty').on('change keyup', function () {
-
+    $('#cart .cart-qty').on('change keyup', function () {
         check_existing_qty($(this));
 
     })
 
     
 
-    $('.cart-qty-cntn .qty-minus').on('click', function () {
+    $('#cart .qty-minus').on('click', function () {
 
         var item_qty = $(this).prev().val();
 
@@ -610,7 +583,7 @@ setTimeout(function(){$('#shipping-location').trigger("change");}, 1000)
 
     
 
-    $('.cart-qty-cntn .qty-plus').on('click', function () {
+    $('#cart .qty-plus').on('click', function () {
 
         var item_qty = $(this).next().val();
 
@@ -1288,18 +1261,21 @@ $('.sharebtn').on('click',function(){
         function computePerLiter() {
             let surfaceCondition = $("#surface-condition").text();
             let perLiter;
+            let sqmDivisor;
 
             if (surfaceCondition === "NEW PAINT") {
-                perLiter = 6.25;
+                sqmDivisor = 25;
             } else {
-                perLiter = 7.5;
+                sqmDivisor = 30;
             }
+            
+            perLiter = 4;
 
             let liter;
             let sqm = $("#area-in-sqm").val();
 
             if (isFinite(sqm)) {
-                liter = Math.ceil(sqm / perLiter);
+                liter = Math.ceil((sqm /sqmDivisor) * perLiter);
             }
 
             $(".liter").text(liter);
@@ -1429,4 +1405,396 @@ $('.sharebtn').on('click',function(){
                 });
             }
         }
+
+        var showColorsDropdown = function(item_id,token,dropdown) 
+        {
+            let url   = `/get-colors`;
+
+            $.ajax({
+                url,
+                type: 'POST',
+                data: {
+                    product_id : item_id,
+                    _token     : token
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    dropdown.attr('readonly',true);
+                },
+                success: function (response) {
+                    dropdown.html('<option value=""> Select Color </option>');
+                    dropdown.attr('readonly',false);
+                    for (const [key, value] of Object.entries(response)) {
+                        dropdown.append(`<option value="${key}">${value}</option>`);     
+                    }
+
+                },        
+                error: function () {        
+                    alert("Error retrieving colors!");
+                    dropdown.html('<option value=""> Select Color </option>');
+                    dropdown.attr('readonly',false);
+                }
+            });
+
+        }
+
+        var showFullColors = function(product_id,container,dropdown,dropdown_liter,token) 
+        {
+            let url       = `/get-full-colors`;
+            const whites  = container.find('#White');
+            const greys   = container.find('#Grey');
+            const browns  = container.find('#Brown');
+            const purples = container.find('#Purple');
+            const blues   = container.find('#Blue');
+            const greens  = container.find('#Green');
+            const yellows = container.find('#Yellow');
+            const oranges = container.find('#Orange');
+            const reds    = container.find('#Red');
+            const regs    = container.find('#Regular-Colors');
+            let html      = '';
+
+            $.ajax({
+                url,
+                type: 'POST',
+                data: {
+                    product_id : product_id,
+                    _token     : token
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    whites.children().children().html('');
+                    greys.children().children().html('');
+                    browns.children().children().html('');
+                    purples.children().children().html('');
+                    blues.children().children().html('');
+                    greens.children().children().html('');
+                    yellows.children().children().html('');
+                    oranges.children().children().html('');
+                    reds.children().children().html('');
+                    regs.children().children().html('');
+                },
+                success: function (response) {
+                    response.forEach(function(item) {
+                        if(item.attribute_data !== null) {
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "white" ) {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                whites.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "gray") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                greys.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "brown") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                browns.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "purple") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                purples.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "blue") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                blues.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "green") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                greens.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "yellow") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                yellows.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "orange") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                oranges.children().children().append(html);
+                            }
+                            if(item.attribute_data.cat_color.trim().toLowerCase() == "red") {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                reds.children().children().append(html);
+                            }
+                            if(item.attribute_data.best_selling) {
+                                html = '<div class="color-box box color-modal" data-id="'+ item.attribute_data.id +'" data-name="'+ item.attribute_data.name +'" data-rcolor="'+ item.attribute_data.r_attr +'" data-gcolor="'+ item.attribute_data.g_attr +'" data-bcolor="'+ item.attribute_data.b_attr +'" data-parent-id="'+ product_id +'" data-product-id="'+ product_id +'" style="';
+                                if(item.attribute_data.cat_color != null && (item.attribute_data.cat_color == "White" && item.attribute_data.cat_color == "OFF WHITES" ) ) {
+                                    html += 'color: #848484;';
+                                }
+                                html += 'background-color:rgb('+ item.attribute_data.r_attr +', '+ item.attribute_data.g_attr +', ' + item.attribute_data.b_attr +');"><div class="title">'+ item.attribute_data.name +'</div></div>';
+                                regs.children().children().append(html);
+                            }
+                        }
+                        jQuery('#view-all-colors').trigger('click');
+                    });
+
+                    jQuery('.color-modal').click(function() {
+                        const color = jQuery(this).data('name');
+                        $(this).addClass('color-selected');
+                        dropdown.append(`<option value="${color}" selected>${color}</option>`);
+                        jQuery('#colorSwatchesModal').modal('toggle');
+                        dropdown_liter.attr('disabled',false);
+                        showLitersDropdown(product_id,color,token,dropdown_liter);
+                    })
+
+                },        
+                error: function () {        
+                    alert("Error retrieving colors!");
+                    dropdown.html('<option value=""> Select Color </option>');
+                    dropdown.attr('readonly',false);
+                }
+            });
+
+        }
+
+        var showLitersDropdown = function(product_id,selected_color,_token,dropdown) 
+        {
+            let url = `/get-liters`;
+
+            $.ajax({
+                url,
+                type: 'POST',
+                data: {
+                    product_id,
+                    selected_color,
+                    _token
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    dropdown.attr('readonly',true);
+                },
+                success: function (response) {
+                    dropdown.html('<option value=""> Select Liter </option>');
+                    dropdown.attr('readonly',false);
+
+                    for (const [key, value] of Object.entries(response)) {
+                        dropdown.append(`<option value="${key}">${value}</option>`);     
+                    }
+
+                    let url = `/get-color-css`;
+
+                    $.ajax({
+                        url,
+                        type: 'POST',
+                        data: {
+                            product_id,
+                            selected_color,
+                            _token
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            var rgb = `rgb(${response.attributes_data[0].r_attr},${response.attributes_data[0].g_attr},${response.attributes_data[0].b_attr})`;
+                            dropdown.parent().parent().parent().find('input[name="colorCss"]').val(rgb);
+        
+                        },        
+                        error: function () {        
+                            alert("Error retrieving Colors!");
+                        }
+                    });
+
+
+                },        
+                error: function () {        
+                    alert("Error retrieving Liters!");
+                    dropdown.html('<option value=""> Select Liter </option>');
+                    dropdown.attr('readonly',false);
+                }
+            });
+
+        }
+
+        var showVariationDetails = function(product_id,subproduct_id,qty_input,_token) 
+        {
+            let url = `/get-variation-details`;
+
+            $.ajax({
+                url,
+                type: 'POST',
+                data: {
+                    product_id,
+                    subproduct_id,
+                    _token
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    jQuery('.gotocart').hide();
+                    jQuery('.loading_cart_product_list').show();
+                },
+                success: function (response) {
+                    jQuery('.loading_cart_product_list').hide();
+                    jQuery('.gotocart').show();
+                    var error_message = qty_input.parent().parent().parent().find('span.error_message_listing');
+                    var qty           = response.quantity;
+
+                    qty_input.parent().parent().parent().parent().find('input[name="subProductId"]').val(response.id);
+                    qty_input.attr('max', qty);
+                    
+                    if(qty > 0) {
+                        qty_input.attr('min', 1);
+                        qty_input.val(1);
+                        error_message.css('visibility','hidden');
+                    } else {
+                        qty_input.attr('min', 0);
+                        qty_input.val(0);
+                        error_message.css('visibility','visible');
+                    }
+                },        
+                error: function () {     
+                    jQuery('.loading_cart_product_list').hide();   
+                    alert("Error retrieving Liters!");
+                }
+            });
+        }
+
+        jQuery('.productattri_list').on('mousedown', function(e) {
+            var item_id        = $(this).parent().parent().parent().find('input[name="productId"]').val();
+            var token          = $(this).parent().parent().parent().find('input[name="_token"]').val();
+            var color_count    = $(this).parent().parent().parent().find('input[name="colorCount"]').val().trim();
+            var dropdown_liter = jQuery(this).parent().parent().parent().find('.product_liters_list');
+            var dropdown       = $(this);
+            var color_swatches = $('#color-swatches');
+
+            if(color_count > 20) {
+                e.preventDefault();
+                this.blur();
+                window.focus();
+                jQuery('#colorSwatchesModal').modal('toggle');
+                showFullColors(item_id,color_swatches,dropdown, dropdown_liter,token);
+
+            } else {
+                if(item_id !== null && item_id !== undefined && dropdown.val() == "") {
+                    showColorsDropdown(item_id,token,dropdown)
+                }
+            }
+        });
+
+        jQuery('.productattri_list').on('change', function() 
+        {
+           var selected_color = jQuery(this).val();
+           var product_id     = $(this).parent().parent().parent().find('input[name="productId"]').val();
+           var color_choose   = $(this).parent().parent().parent().find('input[name="colorChoose"]');
+           var dropdown_liter = jQuery(this).parent().parent().parent().find('.product_liters_list');
+           var token          = $(this).parent().parent().parent().find('input[name="_token"]').val();
+           if(selected_color != "") {
+               dropdown_liter.attr('disabled',false);
+               showLitersDropdown(product_id,selected_color,token,dropdown_liter);
+               color_choose.val(selected_color);
+           } else {
+            dropdown_liter.attr('disabled',true);
+           }
+        });
+
+        jQuery('.product_liters_list').on('change', function() 
+        {
+            var product_id      = $(this).parent().parent().parent().find('input[name="productId"]').val();
+            var token           = $(this).parent().parent().parent().find('input[name="_token"]').val();
+            var subproduct_id   = $(this).val();
+            var qty_input       = $(this).parent().parent().parent().next().find('.prod_qty');
+
+            showVariationDetails(product_id,subproduct_id,qty_input,token);
+            
+        });
+
+        jQuery('.addtocart_from_listing').click(function(e) 
+        {
+            e.preventDefault();
+            var button        = $(this);
+            var quantity      = $(this).parent().parent().parent().find('input.prod_qty').val();
+            var productId     = $(this).parent().parent().parent().prev().find('input[name="subProductId"]').val();
+            var productName   = $(this).parent().parent().parent().prev().find('input[name="productName"]').val();
+            var colorNameP    = $(this).parent().parent().parent().prev().find('select[name="colorNameP"]').val();
+            var colorChoose   = $(this).parent().parent().parent().prev().find('input[name="colorChoose"]').val();
+            var colorCss      = $(this).parent().parent().parent().prev().find('input[name="colorCss"]').val();
+            var productLiters = $(this).parent().parent().parent().prev().find('select.product_liters_list option:selected').text();
+            var _token        = $(this).parent().parent().parent().prev().find('input[name="_token"]').val();
+            var url           = `/addtocart-from-listing`;
+
+            if(quantity > 0 && productId != "" && productName != "" && colorNameP !="" && productLiters.trim() != "Select Liter") {
+                $.ajax({
+                    url,
+                    type: 'POST',
+                    data: {
+                        productId,
+                        productName,
+                        colorNameP,
+                        colorChoose,
+                        colorCss,
+                        productLiters,
+                        quantity,
+                        _token
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        button.attr('disabled',true);
+                    },
+                    success: function (response) {
+                        if(response.status == "success") {
+                            if(response.cart > 0) {
+                                $('.cart-icon-img').html(`<img class="cart-icon" src="/img/cart-icon.png">(${response.cart})`);
+                                $('.error_message_listing').html(response.msg);
+                                $('.error_message_listing').show();
+                                $('.error_message_listing').css('visibility','visible');
+                                setTimeout(function() {
+                                    $('.error_message_listing').hide();
+                                    $('.error_message_listing').css('visibility','hidden');
+                                },5000);
+                            }
+                        } else {
+                            alert("Error adding to cart! Sorry for the inconvenience.Please try again later.");
+                        }
+                        button.attr('disabled',false);
+                    },        
+                    error: function () {        
+                        alert("Error adding to cart! Sorry for the inconvenience.Please try again later.");
+                        button.attr('disabled',false);
+                    }
+                });
+            } else {
+                if(quantity <= 0) {
+                    alert('Please check quantity before adding to cart!');
+                } else if(colorNameP  == "") {
+                    alert('Please select Color');
+                } else if(productLiters.trim() == "Select Liter") {
+                    alert('Please select Liter');
+                }
+                else {
+                    alert("Error adding to cart! Sorry for the inconvenience.Please try again later.");
+                }
+            }
+
+
+        });
+
     });

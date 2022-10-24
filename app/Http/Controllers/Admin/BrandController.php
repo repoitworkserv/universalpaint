@@ -19,6 +19,12 @@ use App\PostMetaData;
 
 class BrandController extends Controller
 {
+    public $moduleIndex = 3.1;
+
+    public function __construct() 
+    {   
+        $this->middleware('uac:'.$this->moduleIndex);
+    }
     public function index(Request $request)
     {
         $search_item = ($request->search_item) ? $request->search_item : '';
@@ -194,7 +200,7 @@ class BrandController extends Controller
     {
         //$delete =  Brand::find($id)->delete();
         $data = PostMetaData::where('meta_key','official_brands')->orWhere('meta_value', $id)->first();
-        $product_data = Product::where('brand_id', $id)->first()['brand_id'];
+        $product_data = Product::where('brand_id', $id)->first();
         $brand_name = Brand::where('id', $id)->first()['name'];
         $brands_data = explode(',',$data->meta_value);
         //DB::table('product')->where('brand_id', $id)->delete();
@@ -204,12 +210,12 @@ class BrandController extends Controller
                 $message = 'Banner are already use Please delete first in Home Page located in Official Brands';
                 break;
 
-            case($product_data == $id):
+            case(isset($product_data['brand_id']) && $product_data['brand_id'] == $id):
                 $status = 'info';
-                $message = $brand_name.' '.'already exists';
+                $message = $brand_name.' '.'already exists! Please change the products under the selected brand before deleting!';
                 break;
             default:
-                //$delete =  Brand::find($id)->delete();
+                $delete =  Brand::find($id)->delete();
                 $status = 'success';
                 $message = 'Brand successfully deleted!';
         }

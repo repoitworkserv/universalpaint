@@ -20,6 +20,7 @@
                                 $proddesc = '';
                                 $howtouse = '';
                                 $delvry_opt = '';
+                                $color_count = 0;
                                 $sub_cat = implode( ", ", $sub_category );
                             @endphp                            
                             @foreach($product as $key)  
@@ -129,7 +130,19 @@
                                         </div>
                                         <div class="flex-txt">
                                             <div class="sml-ttl">Color</div>
-                                            <div class="sml-desc">Available in {{ $key->UsedAttribute->count() }} color {{$key->UsedAttribute->count() > 1 ? 's':'' }}</div>
+                                            @foreach($key->UsedVariables as $list)
+                                                @if(strtolower($list->VariableData['name']) == 'color')
+                                                    @foreach($key->UsedAttribute as $attri)
+                                                        @if($attri->AttributeData['variable_id'] == $list->VariableData['id'])
+                                                            @php 
+                                                                $color_count++;
+                                                            @endphp 
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                            <div class="sml-desc"> @if($color_count >= 1) available in {{ $color_count }} color{{$color_count > 1 ? 's':'' }} 
+                                            @else no available colors @endif</div>
                                         </div>
                                         <div class="flex-txt">
                                             <div class="sml-ttl">Application</div>
@@ -167,57 +180,51 @@
                                                                     </div>
 
                                                                     @php    
-                                                                    $parent_id   = $product_id;
-                                                                    $subproducts = \App\Product::where('parent_id','=',$parent_id)->get();
+                                                                    $paintTypesliters  = [['product_id' => "", 'variation' => "Select" ]];
+                                                                    $parent_id         = $product_id;
 
-                                                                    foreach($subproducts as $subproduct) {
-                                                                        
-                                                                        $prod_attr_data   = \App\ProductAttribute::where('product_id','=',$subproduct->id)->where('attribute_id','=',$color_data->id)->first();
-                                                                        if($prod_attr_data !== null && !empty($prod_attr_data)) {
-                                                                            break;
+                                                                    $search_subproduct = DB::table('product')
+                                                                        ->select('product.id')
+                                                                        ->join('product_attribute','product_attribute.product_id', '=','product.id')
+                                                                        ->join('attribute','attribute.id', '=','product_attribute.attribute_id')
+                                                                        ->where('product.parent_id',$parent_id)
+                                                                        ->where(function($query) use($color_name) {
+                                                                                $query->orwhere('attribute.name', '=', $color_name);
+                                                                        })->get();
+                                                                        $subproduct_data = collect($search_subproduct)->map(function($x){ return (array) $x; })->toArray(); 
+                                                                        $subproducts = \App\Product::where('parent_id',$parent_id)
+                                                                        ->whereIn('id',$subproduct_data)
+                                                                            ->with('ProductVariableData')
+                                                                            ->with('ProductAttributeData')
+                                                                            ->with('ProductUserPrice')->get();
+
+                                                                        foreach($subproducts as $subproduct) {
+                                                                            $attributes = "";
+                                                                            foreach($subproduct->ProductAttributeData as $variation) {
+                                                                                $attrib = \App\Attribute::find($variation->attribute_id);
+
+                                                                                $attributes .= isset($attrib->name) && !empty($attrib->name) && $attrib->name !== $color_name  ? $attrib->name .' ' : '';
+                                                                            }
+                                                                            if(!empty($attributes)) {
+                                                                                array_push($paintTypesliters, ["attrib_id" => $color_data->id, "product_id" => $subproduct->id, "variation" => $attributes]);
+                                                                            }
                                                                         }
-
-                                                                    }
-
-                                                                    $attr_id     = $color_data->id;
-                                                                    $prod_id     = $prod_attr_data->product_id;
-                                                                    $liters      = [];
-
-                                                                    $variations  = \DB::table('product AS p')
-                                                                                    ->join('product_attribute AS pa','pa.product_id','=','p.id')
-                                                                                    ->join('attribute AS a','a.id','=','pa.attribute_id')
-                                                                                    ->join('variable AS v','v.id','=','a.variable_id')
-                                                                                    ->selectRaw("p.id,p.price,p.quantity,a.name")
-                                                                                    ->where('p.id','=',$prod_id)
-                                                                                    ->where('v.name','=','Liters')
-                                                                                    ->get();
-
-                                                                    foreach($variations as $variation) {
-                                                                        $prod_attrs = \DB::table('product_attribute AS pa')
-                                                                                        ->join('attribute AS a','pa.attribute_id','=','a.id')
-                                                                                        ->selectRaw('pa.*,a.*')
-                                                                                        ->where('pa.product_id','=',$variation->id)
-                                                                                        ->get();
-
-                                                                        if($prod_attrs[0]->attribute_id  == $attr_id) {
-                                                                            array_push($liters, ["attrib_id" => $attr_id, "product_id" => $variation->id, "liters" => $prod_attrs[1]->name]);
-                                                                        }
-                                                                    }
-
+                                                                                                                            
                                                                     @endphp
+
                                                 
                                                                     <div class="option-field">
                                                                         <input type="hidden" name="product_liters[]" class="product_liters" value="" />
                                                                         <input type="hidden" name="product_prices[]" class="product_price" value="" />
-                                                                        @if(!empty($liters))
-                                                                        <select id="product_liters" class="product_liters form-control">
-                                                                            <option value="">Select </option>
-                                                                            @foreach($liters as $liter) 
-                                                                            <option value="{{$liter['product_id']}}">{{ $liter['liters']}} </option>
+                                                                        @if(!empty($paintTypesliters))
+                                                                        <select id="product_liters" class="product_liters form-control" required>
+                                                                            @foreach($paintTypesliters as $typeLiter) 
+                                                                            <option value="{{$typeLiter['product_id']}}">{{ $typeLiter['variation']}} </option>
                                                                             @endforeach
                                                                         <select>        
                                                                         @endif                                                                                                
                                                                     </div>
+
                                                                     <div id="quantity_id_multiple" class="quantity-select">    
                                                                         <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]">                                                    
                                                                     </div>
@@ -256,7 +263,7 @@
                                                 <div class="option-field mt-2">
                                                     <input type="hidden" name="product_liters[]" class="product_liters_single" value="" />
                                                     <input type="hidden" name="product_prices[]" class="product_price_single" value="" />
-                                                    <select id="product_liters" class="form-control">
+                                                    <select id="product_liters" class="form-control" required>
                                                         <option value="">Select </option>
                                                     <select>                                                                                                        
                                                 </div>
@@ -328,13 +335,19 @@
                                             <div class="sml-ttl sml-ttl-fifteen">
                                                 <input type="hidden" id="var-count" value="{{count($key->UsedVariables)}}">
                                                 <div id="quantity_id" class="quantity-select">                                                    
-                                                    <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]">                                                    
+                                                    <!-- <input type="number"  class="prod_qty numbers-only" min="1" data-cartid="cart_id" value="1" name="quantity[]"> -->
+                                                    <input type="number" class="prod_qty numbers-only" max="{{$key->quantity}}" min="@if($key->quantity > 0){{'1'}}@else{{'0'}}@endif" data-cartid="cart_id" value="@if($key->quantity > 0){{'1'}}@else{{'0'}}@endif" name="quantity" required>                                                           
                                                 </div>
                                             </div>
                                             @endif
-                                                <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                <div class="option-list col-lg-10 col-md-10 col-sm-10 col-xs-10 pt-2">
                                                     <div class="flex-txt">
-                                                        <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">PROCEED TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
+                                                        @if($key->quantity <= 0)		
+                                                            <span class="error_message_listing" style="visibility: visible">OUT OF STOCK!</span>   
+                                                        @else
+                                                            <button type="submit" class="button gotocart" tabindex="-1" id="gotocart">ADD TO CART &nbsp;<i class="fas fa-shopping-bag"></i></button>
+                                                            <span class="error_message_listing">OUT OF STOCK!</span>       
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -399,8 +412,11 @@
         var color_name = $("option:selected", this).text();
         var color_id = 0;
         var _token = $('input[name=_token').val();
+        var product_id = $('#product_id').val();
         var data = {
             prod_attr_id,
+            color_name,
+            product_id, 
             _token
         }
 
@@ -467,9 +483,11 @@
                                         if(data.quantity == 0) {
                                             $('.prod_qty').val(data.quantity);
                                             alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+                                            $('#gotocart').hide();
                                         } else {
                                             $('.prod_qty').attr('max',data.quantity);
                                             $('.product_price_single').val(data.price);
+                                            $('#gotocart').show();
                                         }
                                     }
                                 },
@@ -508,9 +526,11 @@
                     if(data.quantity == 0) {
                         $('.prod_qty').val(data.quantity);
                         alert('Sorry! Selected Variation is out of stock! Please contact customer service for assistance!');
+                        $('#gotocart').hide();
                     } else {
                         dropdown.parent().next().find('.prod_qty').attr('max',data.quantity);
                         dropdown.parent().find('input[name="product_prices[]"]').val(data.price);
+                        $('#gotocart').show();
                     }
                 }
             },

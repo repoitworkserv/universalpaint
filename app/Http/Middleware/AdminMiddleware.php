@@ -6,6 +6,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
+use App\Role;
+
 class AdminMiddleware
 {
     /**
@@ -22,8 +24,9 @@ class AdminMiddleware
         $this->auth = $auth;
     }
     public function handle($request, Closure $next)
-    { 
-    	 if ($this->auth->getUser()->role_id !== 1) {
+    {
+        $role = Role::find($this->auth->getUser()->role_id);
+    	 if (strtolower($role->role_name) == "customer") {
     	 	\Session::flush();
     	 	\Auth::logout();
 			return redirect('admin/signin')->with('status', 'These credentials is not allowed to access this site.');

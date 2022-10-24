@@ -14,6 +14,9 @@
 	      Attribute
 	    </h1>
 	    @include('flash-message')
+			<?php 
+        $myPermit = explode(",",Auth::user()->permission);
+    	?>
 	  </section>
 	  <section class="content">
       <div class="row">
@@ -103,7 +106,9 @@
 									</div>
                             </div>
 			                <div class="form-group text-right">
-			            		<button class="btn btn-gold btn-md" type="submit">Add Attribute</button>    
+											@if(in_array(3.2, $myPermit))
+			            		<button class="btn btn-gold btn-md" type="submit">Add Attribute</button>
+											@endif    
 			                </div>
 				                
 				        
@@ -142,7 +147,7 @@
 							<td>{{ $att->cat_color }}</td>
                         	<td>{{ $att->name }}</td>
                         	<td>{{ $att->description }}</td>
-                        	<td>{{ $att->VariableData['name'] }}</td>
+                        	<td>{{ isset($att->VariableData['name']) ?  $att->VariableData['name'] : '' }}</td>
                         	<td>
                         		<a class="badge bg-orange edit-attrb" 
 								data-attrb_varid="{{ $att->variable_id }}" 
@@ -154,13 +159,14 @@
 								data-battr="{{ $att->b_attr }}" 
 								data-attrbdesc = "{{ $att->description }}" 
 								data-attrbbestselling = "{{ $att->best_selling }}" 
-								data-variabletype="{{ $att->VariableData['name'] }}" ><i class="	fa fa-pencil-square-o"></i> Edit</a>
-
+								data-variabletype="{{ isset($att->VariableData['name']) ?  $att->VariableData['name'] : '' }}" ><i class="	fa fa-pencil-square-o"></i> View</a>
+								@if(in_array(3.4, $myPermit))
 								<form action="{{ URL::action('Admin\AttributeController@destroy', $att->id) }}" method="POST">
 										<input type="hidden" name="_method" value="POST">
 										<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 										<a id="alert{{$att->id}}" class="badge bg-red"><span class="fa fa-trash"></span> Delete</a>
 								</form>
+								@endif
                         	</td>
                         </tr>
                         <tr>
@@ -248,7 +254,9 @@
 	                
 	                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
 	                  <input id="edit_attrb_id" name="edit_attrb_id" class="form-control" type="hidden"  value="">
+										@if(in_array(3.3, $myPermit))
 	                  <button type="submit" class="btn btn-primary">Update</button>
+										@endif
 	                  <button type="button" class="btn btn-default modcancel" data-dismiss="modal">Cancel</button>
 	                </div>
 	              </div>
