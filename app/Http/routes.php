@@ -25,6 +25,10 @@ Route::get('/product-category/{category}/{sub_category}', 'User\ProductPageContr
 
 Route::get('/color-swatches', 'User\ProductPageController@color_swatches');
 
+Route::get('/product-brochures', function () {
+    return view('user.product-brochures.index');
+});
+
 Route::get('/contact-us', function () {
 	return view('user.contact-us.index');
 });
@@ -53,6 +57,7 @@ Route::get('/under-maintenance', function () {
 //Email To User
 Route::get('/email_user', 'User\HomePageController@email_request');
 Route::post('/email_user_pdf', 'User\HomePageController@email_request_pdf');
+Route::post('/product-brochures/email', 'User\HomePageController@product_brochures_email');
 
 //login
 Route::get('/', 'User\HomePageController@index')->name('home');
@@ -276,6 +281,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin']], function (
 	Route::post('/how-to-paint/update-content','Admin\HowToPaintController@update_content');
 	Route::delete('/how-to-paint/destroy/{id}','Admin\HowToPaintController@destroy');
 	Route::delete('/how-to-paint/destroy-content/{id}','Admin\HowToPaintController@destroy_content');
+	Route::post('/product-brochures/content/update','Admin\ProductBrochuresController@update_content');
+	Route::post('/product-brochures/store','Admin\ProductBrochuresController@store');
+	Route::delete('/product-brochures/destroy/{id}','Admin\ProductBrochuresController@destroy');
 	
 });
 

@@ -1462,7 +1462,8 @@ a.btn.white {
 
 /* Contact Us*/
 
-#contact-us {
+#contact-us,
+#brochures {
     margin-top: 87px;
 }
 
@@ -1609,6 +1610,185 @@ a.btn.white {
     height: 335px;
     width: 100%;
 }
+
+/* Product Brochures*/
+#brochures {}
+
+#brochures .brochures_herodrop {
+    position: relative;
+}
+
+#brochures .brochures_herodrop::after {
+    content: '';
+    display: block;
+    padding-top: 30%;
+}
+
+#brochures .brochures_herodrop .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    padding: 0;
+}
+
+#brochures .brochures_herodrop .herodrop-txt {
+    width: 65%;
+    margin-left: auto;
+}
+
+#brochures .brochures_herodrop .herodrop-txt p.herodrop-txt_ttl {
+    display: block;
+    background-color: #DD2032;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding: 15px;
+    text-align: center;
+}
+
+#brochures .brochures_herodrop .herodrop-txt .herodrop-txt_desc {
+    color: #474C50;
+    font-size: 15px;
+}
+
+#brochures .brochures_body .container {
+    padding: 50px 0;
+}
+
+#brochures .brochures_body .contain-brochures {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#brochures .contain-brochures .brochure_solo {
+    width: calc(20% - 24px);
+    margin-right: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#brochures .contain-brochures .brochure_solo:nth-child(5n) {
+    margin-right: 0;
+}
+
+#brochures .brochure_solo .brochure_solo-img {
+    margin-bottom: 18px;
+}
+
+#brochures .brochure_solo .brochure_solo-img::after {
+    content: '';
+    display: block;
+    padding-top: 139%;
+}
+
+#brochures .brochure_solo p.brochure_solo-ttl {
+    color: #474C50;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 18px;
+}
+
+#brochures .brochure_solo a.brochure_solo-link {
+    display: block;
+    background-color: #FFC10E;
+    color: #034DA1;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px;
+}
+
+#brochures .brochures_popup {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgb(0 0 0 / 35%);
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+#brochures .brochures_popup .container {
+    width: calc(96% - 30px);
+    max-width: 600px;
+    position: relative;
+    background-color: #FFF;
+    box-shadow: 0px 30px 20px #00000063;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+#brochures .brochures_popup .contain-popup {
+    border: 1px solid #707070;
+    border-radius: 10px;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+#brochures .contain-popup img.popup_img {
+    margin-bottom: 25px;
+}
+
+#brochures .contain-popup .popup_desc {
+    color: #474C50;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+#brochures .contain-popup .popup_form {}
+
+#brochures .popup_form .form-entry {}
+
+#brochures .popup_form .form-entry .label-top {
+    color: #4E4E4E;
+    font-weight: 700;
+}
+
+#brochures .popup_form .form-entry .label-top span {
+    color: #FF1111;
+    margin-left: 3px;
+}
+
+#brochures .popup_form .form-entry input[type=text] {
+    width: calc(100% - 30px);
+    border: 1px solid #CCCCCC;
+    background-color: #F5F5F5;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    margin: 3px auto 18px;
+    padding: 8px 16px;
+    text-align: center;
+}
+
+#brochures .popup_form .form-entry button[type=submit] {
+    background-color: #94978C;
+    border: 0;
+    border-radius: 5px;
+    color: #FFF;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 12px;
+    padding: 8px 18px;
+}
+
+#brochures .contain-popup img.popup_close {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    cursor: pointer;
+}
+
 
 /* Request a Qoute*/
 

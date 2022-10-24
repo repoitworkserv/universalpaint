@@ -21,6 +21,8 @@
              	@include('admin.content-management.page.footerlinks')
             @elseif($Page->post_title == 'Contact Us')
              	@include('admin.content-management.page.contactus')
+            @elseif($Page->post_title == 'Product Brochure')
+             	@include('admin.content-management.page.productbrochure')
             @endif
         </div>
     </div>

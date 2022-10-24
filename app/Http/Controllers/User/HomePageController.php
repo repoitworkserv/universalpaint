@@ -113,6 +113,29 @@ class HomePageController extends Controller
         return Response::json(array('url' => $url));
 
     }
+
+
+    public function product_brochures_email(Request $request)
+    {        
+        $fullname       = $request->fname;
+        $email          = $request->eadd;
+        $contact_number = $request->eadd;
+
+        $data = array(
+		'fullname' => $fullname,
+		'email' => $email,
+        'contact_number' => $contact_number
+        );
+        
+        Mail::send('user.email-request', compact('data'), function ($message) {
+                $message->sender(env('MAIL_USERNAME',''));
+                $message->to(env('MAIL_SALES',''))->subject('Customer Info'); //Change this to Universal Email
+            });      
+
+        return Response::json(array('msg' => 'success'));
+
+    }
+
     public function email_request(Request $request)
     {        
         $filePath = $request->filename;
